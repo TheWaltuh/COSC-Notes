@@ -1,0 +1,11 @@
+These notes are taken after class, because I could not get into my github account in class because I didn't bring my phone. 
+
+We went over data types. It was just the basic stuff.
+
+The only thing of value we went over in class was some built in functions of python:
+- .split() method of strings, returns a list of strings, seperated on the character passed into the method.
+- "XXX".join() method of lists, returns a string, joined with the character/string passed put between every element of that list.
+- .replace("a","b") method of strings, returns a string with all "a" replaced by "b"
+- Don't forget about the typecasting functions. If you make a string a list it will be a list of every individual character. 
+
+Day's Challenges:
