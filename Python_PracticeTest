@@ -69,3 +69,10 @@ def q1(numlist):
         if num < 0:
             return False
     return True
+    
+    
+    
+    
+    return min(len(x) for x in str.split())
+    
+    
