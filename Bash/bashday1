@@ -1,0 +1,225 @@
+
+
+------------BASH DAY 1 NOTES-------------
+
+curl --> transfer data to or from a server (curl cht.sh) #a man page
+
+BRACE EXPANSION-----------------------------
+
+#When using a command you can use {} to do multiple things in one command
+#As well as you can include patterns in front of {}
+
+---see example at bottom in challenges
+
+HOT KEYS-----------------------------
+
+ctrl p (history, goes to previous command)
+
+history -- !<number> #pull up that command	!! #previous command
+
+ctrl e -- end of line
+
+ctrl u -- delete everything in line
+
+ctrl l -- clear screen
+
+
+MAN COMMAND-----------------------------
+
+man bash # most extensive
+
+man g or G #start of man page or end of man page
+
+(/ or ? or &)pattern #search forward for matching line, search forward, display only matching
+
+
+RESOURCES:
+
+explainshell.com #explains commands
+
+
+COMMON COMMANDS-----------------------------
+
+> overwrites, >> appends
+
+whereis #shows path 
+
+
+
+space delimination
+
+ex. touch file{1..5}.txt #created 5 text files
+
+
+FILE SYSTEM COMMANDS-----------------------------
+
+rm -rf ./<directory> #forcibly removes directory
+touch #create a file
+mkdir #make directory
+rm #remove
+rmdir #remove directory
+ls -lisa #print list off contents
+cd #change directory
+touch -t [[CC]YY]MMDDhhmm[.ss] #create with time stamp
+file #find out what kind of file 
+
+
+PROCESSES and MEMORY-----------------------------
+
+ps --forest #list of processes
+kill -9 <PID>
+killall
+
+VIEWING FILES-----------------------------
+
+cat - entire file
+more - tells you have much of the file is shown
+less - tab through file
+tail - shows end of the file
+
+FINDING FILES AND DIRS-----------------------------
+
+which - parse through past directories
+locate - searches file system for file with name in it
+find -iname *.txt - noncase sensitive looking for all text files
+ex.  find -mtime <days>
+
+ex2. find -executable -exec wc -l {} \; #when using -exec it executes the found executable and
+puts the results inside of the {} when using -exec you need to end the command with \;
+
+ex3. find -empty -printf "%i\n"
+
+ex4. find -path $HOME -empty
+
+grep - print lines matching a pattern #--help for man page
+
+ex. grep -in <" "> #non case sensitive and line number
+
+ex2. grep -i -C5 <" "> #5 lines before and afer
+
+ex3. egrep "student|root|steve" /ect/passwd #you can search for patterns as well as using regex
+
+CUT COMMAND-----------------------------
+
+cut #remove lines from files
+
+ex. tail passwd | cut -d: -f1,6 #cut by fields can inclube multiple with commas
+
+
+CHALLENGES FOR DAY 1-----------------------------
+
+tip: 2>/dev/null #removes error messages
+
+
+
+1. Activity: Using Brace-Expansion, create the following directories within the $HOME directory:
+
+    1123
+    1134
+    1145
+    1156
+
+mkdir 11{23,34,45,56}
+
+
+1.2. Activity:--------------------------------
+
+Use Brace-Expansion to create the following files within the $HOME/1123 directory. You may need to create the $HOME/1123 directory. Make the following files, but utilze Brace Expansion to make all nine files with one touch command.
+
+touch ~/1123/{1..5}.txt {6..9}~.txt
+
+
+1.3. Activity:--------------------------------
+
+Using the find command, list all files in $HOME/1123 that end in .txt.
+
+
+find ~/1123/*.txt
+
+
+1.3. Challenge Activity::--------------------------------
+
+List all files in $HOME/1123 that end in .txt. Omit the files containing a tilde (~) character.
+
+find ~/1123/*.txt | grep -v '~'
+or
+find ~1123/*[^~].txt
+
+
+2. Activity::--------------------------------
+
+Copy all files in the $HOME/1123 directory, that end in ".txt", and omit files containing a tilde "~" character, to directory $HOME/CUT.
+
+find ~/1123/ -name '[^~].txt' -exec cp {} ~/CUT \;
+
+
+3. Activity:::--------------------------------
+
+Using ONLY the find command, find all empty files/directories in directory /var and print out ONLY the filename (not absolute path), and the inode number, separated by newlines.
+
+find /var -empty -printf "%i %f\n"
+
+
+4. Activity::::--------------------------------
+
+Using ONLY the find command, find all files on the system with inode 4026532575 and print only the filename to the screen, not the absolute path to the file, separating each filename with a newline. Ensure unneeded output is not visible.
+
+find / -inum 4026532575 -printf "%f\n"
+
+
+5. Activity:
+
+    Using only the ls -l and cut Commands, write a BASH script that shows all filenames with extensions ie: 1.txt, etc., but no directories, in $HOME/CUT.
+    Write those to a text file called names in $HOME/CUT directory.
+    Omit the names filename from your output.
+
+
+ls -l ~/CUT | cut -d. -f1- -s | cut -d: -f2 | cut -d' ' -f2 > ~/CUT/names
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
