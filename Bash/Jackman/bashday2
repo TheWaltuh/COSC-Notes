@@ -1,0 +1,262 @@
+
+
+--------------- BASH DAY 2 ------------------
+
+
+
+-------- COMMANDS ---------
+
+- alias #view all aliases
+- alias <command>= ' '
+- unalias <command>
+- \<command> #runs without alias "escaped"
+
+
+- sort       #sort according to position on the ASCII table
+- sort -n    #sort numerically
+- sort -u    #sort uniquely
+- sort -nr   #numerically reverse
+- sort -t'+' #specify field separator/delimiter
+
+
+- uniq    #select content uniquely (must already be sorted)
+- uniq -c #select content select content uniquely with a count reading
+- uniq -u #display only unique lines (lines without duplicates)
+- uniq -d #display only duplicated lines
+(
+
+- awk syntax
+	awk [options] 'selection _criteria {action }' input-file > output-file
+- awk -F: {print $1}' #displays 1st field delimited by a ":"
+- awk '{print $2}'    #displays 2nd field; delimited automatically by white space
+- awk -F '/root/{print $1}' /etc/passwd (/pattern/)
+
+** date | awk '{print $2,$3,$NF}'
+*$NF #gives last field, represent number of fields in current record
+*$(NF-1)} #able to go back from last field
+*OFS #output field separator 'OFS=" "{}  
+** nmap localhost | awk 'NF==3{print}' #only prints fields with 3 lines
+** awk -F '/games/,/news/{print $1}' /etc/passwd #prints everything between those patterns as well
+** egrep "/bin/false|/bin/bash" /etc/passwd | awk -F: '(($7!="/bin/false")){print}' #if field 7 in /etc/passwd is not bin false then print
+** echo "Python is better than Bash | awk '{$1="Rock"};$5="Rap";$6= "adding a new field";print $6,$5,$1}'
+
+'''How to import AWK variable'''
+
+SUBJECT=Leaders
+VERB=inspire
+OBJECT=people
+
+echo "Managers manage equipment" | awk -v ss=$SUBJECT -v vv=$VERB -v oo=$OBJECT '{$1=ss;$2=vv;$3=oo;print}' #-v before every variable imported and then the name can be whatever you want 
+
+
+- sed 's/abc'123/                #replace first occurence of abc in every line with 123
+- sed 's/abc/123/g'              #replace evey occurence ofc abc in every line with 123
+- sed 'sus/d'                    #delete the sus lines, output everything else
+- sed -i                         #makes change permanent, need sed to be first command
+** sed -i expression file path
+**            | sed 's/instructor/Hackerman/g;s/1001/1337/g' #using multiple sed arguments split with ;
+** head /etc/passwd | cat -n | sed -n '/root/,/sys/p'
+
+#if you use "/" in your sed command you need to escape it with "\"
+#you can use any character when substituting instead of escaping with sed "/"
+
+
+***make backups***
+
+cp /etc/passwd passwd.bak 
+
+
+------------- CONDITIONALS -------------
+
+-e  #file exists?
+-f  #file exists and is  a regular file?
+-d  #file exists and is a directory 
+==  #strings, is equal to strings
+-eq #numbers, is equal to 
+!=  #strings, is NOT equal to
+
+ex.
+
+FILE=fakenews
+if [[ -f $FILE ]]; then echo "$FILE exists";else echo "$FILE does not exist";fi
+
+output = fakenews does not exist
+
+syntax for if
+
+if [[ condition ]]; then
+	commands
+elif [[ condition ]]; then
+	commands
+else
+	commands
+fi
+
+** when to use what symbols (opposite) **
+
+- if it's letters use symbols (= or !=)
+- if it's numbers use letters (-eq, -ne)
+
+
+
+
+------------- COMMAND SUBSTITUTION -------------
+
+
+basic syntax: 
+
+VAR=$(command) or VAR=$(command | command | command..)
+command $(command)
+VAR=`command` Legacy way using backticks
+
+examples:
+
+proc=$(ps -elf)          #assign the output of the ps -elf to the variable $proc
+echo "Today is $(date)"  #Substitue output of data command into echo
+
+
+
+------------- CHALLENGES -------------
+
+
+6. Activity:
+
+Write a basic bash script that greps ONLY the IP addresses in the text file provided (named StoryHiddenIPs in the current directory); sort them uniquely by number of times they appear.
+
+grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' StoryHiddenIPs | sort | uniq -c | sort -nr
+
+
+7. Activity:
+
+Using ONLY the awk command, write a BASH one-liner script that extracts ONLY the names of all the system   and user accounts that are not UIDs 0-3.
+Only display those that use /bin/bash as their default shell.
+The input file is named $HOME/passwd and is located in the current directory.
+Output the results to a file called $HOME/SED/names.txt
+
+
+awk -F: '$3 >= 3&&/\/bin\/bash/{print $1}' ~/passwd > ~/SED/names.txt
+
+
+8. Activity:
+
+Find all dmesg kernel messages that contain CPU or BIOS (uppercase) in the string, but not usable or reserved (case-insensitive)
+Print only the msg itself, omitting the bracketed numerical expressions ie: [1.132775]
+
+
+dmesg | egrep "CPU|BIOS" | egrep -vi "usable|reserved" | cut -d] -f2-10
+
+
+9. Activity:
+
+Write a Bash script using "Command Substitution" to replace all passwords, using openssl, from the file $HOME/PASS/shadow.txt with the MD5 encrypted password: Password1234, with salt: bad4u
+Output of this command should go to the screen/standard output.
+You are not limited to a particular command, however you must use openssl. Type man openssl passwd for more information.
+
+
+enc=$(openssl passwd -1 -salt bad4u -quiet Password1234)
+cat ~/PASS/shadow.txt | awk -F: -v "awk_var=$enc" '{OFS=":"} {$2=awk_var} {print}'
+
+
+10. Activity:
+
+Using ONLY sed, write all lines from $HOME/passwd into $HOME/PASS/passwd.txt that do not end with either /bin/sh or /bin/false.
+
+
+sed '/$\/bin\/sh/d;/\/bin\/false/d' ~/passwd > ~/PASS/passwd.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- sed -i '<exoression>' file.txt #"sed inplace" to make permanent in file.txt (said needs to be first command when using -i)
+	
