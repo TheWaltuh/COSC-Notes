@@ -89,3 +89,69 @@ sed '/\/bin\/sh/d;/\/bin\/false/d' ~/passwd > ~/PASS/passwd.txt
 ##
 ##
 #               DAY 3
+
+#find all .bin files in $HOME and remove trailing /
+
+find $HOME -name '*.bin' | rev | cut -d/ -f2- | rev | sort -n | uniq
+
+#copy and append the last line of a passwd file and change the passed parameters
+
+file=$1
+
+user=$2
+
+uid=$3
+
+home="/home/$2"
+
+shell="/bin/bash"
+
+tail -1 $file | awk -F: -v "file=$file" -v "user=$user" -v "uid=$uid" -v "home=$home" -v "shell=$shell" '{OFS=":"}{$1=user}{$3=uid}{$4=uid}{$6=home}{$7=shell}{print}' >> $file
+
+#Find and sort the executables in /bin /sbin /usr/sbin isr/bin and return the md5sum of the tenth file
+
+a=$(find /bin /sbin /usr/bin /usr/sbin -type f -executable | sort -n | sed '10q;d')
+md5=$(md5sum $a)
+echo $md5 | awk '{print $1}'
+
+#Sort passwd by the GID and return the hash for the 10th lines $HOME AS A STRING
+
+newa=$(cat /etc/passwd | awk -F: '{print $4":"$6}' | sort -n | sed '10q;d' | awk -F: '{print $2}')
+echo $newa | md5sum | awk '{print $1}'
+
+#Write a script which will find and hash the contents 3 levels deep from each of these directories: /bin /etc /var
+#Your script should:
+#Exclude file type named pipes. These can break your script.
+#Redirect STDOUT and STDERR to separate files.
+#Determine the count of files hashed in the file with hashes.
+#Determine the count of unsuccessfully hashed directories.
+#Have both counts output to the screen with an appropriate title for each count.
+
+find /bin /etc /var -maxdepth 3 \( ! -type p \) 2>/dev/null > templist.txt
+
+cat templist.txt | while read line
+do
+md5sum $line 2>>error.log 1>>output.log
+done
+
+output=$(wc -l output.log | awk '{print $1}')
+error=$(grep -i "directory" error.log | wc -l | awk '{print $1}')
+
+echo "Successfully Hashed Files: $output"
+echo "Unsuccessfully Hashed Directories: $error"
+
+
+##
+##
+##
+##
+##
+#               Day 4
+
+
+
+
+
+
+
+
