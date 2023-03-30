@@ -1,0 +1,78 @@
+Parameters
+Variables can be passed as a parameter
+
+Special parameters
+$# is the number of arguments passed
+$0 is the name of the script
+$2 is the second argument passed
+$* is ALL the arguments passed
+$? Is the exit status of the last command ran
+$_ is the lsat argument of the previous command
+$$ is the PID of the current shell
+$- is the flags that are set
+Functions
+
+The goal of a function is to break your code up into manageable reusable blocks
+
+function start() {			
+echo "Does this function work?"	
+}					
+					
+Start					
+
+
+	
+function getuserchoice() {		
+    	echo "Make a choice [1,2,3]:"	
+    	read userchoice		
+    	case $userchoice in		
+            	(1) echo one ;;		
+            	(2) echo two ;;		
+            	(3) echo three ;;	
+            	(*) echo other ;;	
+    	Esac				
+}					
+
+Getuserchoice				
+	
+
+
+
+
+
+
+
+function folder() {		
+    	if [ ! -s $1 ]; then	
+            	mkdir $1	
+    	Else			
+            	echo "STOP"	
+            	return 1	
+    	fi }			
+
+folder $1			
+
+Variable Substitution in Functions:
+
+
+function sub1 () {							
+    	name="Joe"							
+    	echo $name                  	#Joe				
+}									
+function sub2 () {							
+    	name="Joe"							
+    	echo "My name is $name"     	#My name is Joe		
+}									
+function sub3 () {							
+    	name="Joe"							
+    	echo 'My name is $name'     	#My name is $name		
+}									
+function sub4 () {							
+    	name="Joe"							
+    	echo "My name is $nameny5"  	#My name is		
+    	echo "My name is ${name}n5" 	#My name is Joen5	
+}									
+function sub5 () {							
+    	name="Joe"							
+    	echo ${name:0:2}            	#Jo				
+}			
