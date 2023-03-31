@@ -1,0 +1,232 @@
+#!/bin/bash
+
+##
+##
+##
+##
+##
+#               DAY 1
+
+# make 4 directories named 1123, 1134, 1145, and 1156
+
+mkdir 11{23,34,45,56}
+
+# make a directory called 1123 and 9 files: 
+#    1.txt
+#    2.txt
+#    3.txt
+#    4.txt
+#    5.txt
+#    6~.txt
+#    7~.txt
+#    8~.txt
+#    9~.txt
+
+mkdir $HOME/1123
+touch ~/1123/{1..5}.txt ~/1123/{6..9}~.txt
+
+#using find find all the files in ~/1123 that end in .txt
+
+find ~/1123/*.txt
+
+#list all the files taht end in .txt but dont include the files that include a tilde
+
+find ~/1123/*.txt | grep -E [^~]".txt"
+find ~/1123/*[^~].txt
+
+#Copy all files in the $HOME/1123 directory, that end in ".txt", and omit files containing a tilde "~" character, to directory $HOME/CUT.
+
+find ~/1123/*[^~].txt -exec cp {} ~/CUT/ \;
+
+#Using ONLY the find command, find all empty files/directories in directory /var and print out ONLY the filename (not absolute path), and the inode number, separated by newlines.
+
+find /var -empty -printf "%i %f\n"
+
+#Using ONLY the find command, find all files on the system with inode 4026532575 and print only the filename to the screen, not the absolute path to the file, separating each filename with a newline. Ensure unneeded output is not visible.
+
+find / -inum 4026532575 2>/dev/null -printf "%f\n"
+
+#using only ls -l and cut write the names of all the files without the paths to a file named names
+
+ls -l ~/CUT/*.* --ignore=names | cut -d" " -f9 | cut -d/ -f3 > ~/CUT/names
+ls -l ~/CUT | cut -d. -f1- -s | cut -d: -f2 | cut -d" " -f2 > ~/CUT/names
+
+##
+##
+##
+##
+##
+#               DAY 2
+
+#grep only IP addresses and sort them by the number of times they uniquely appear
+
+egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' 'StoryHiddenIPs' | sort | uniq -c | sort -nr
+
+#Using awk extract names of users that are not UID 0-3 and only if their default shell is /bin/bash
+
+
+#               couldv'e just used $3>3 && $NF=='/bin/bash'
+awk -F: '(($3 != 0)&&($3 !=1)&&($3 != 2)&&($3 != 3)&&($7 == "/bin/bash")){print $1}' ~/passwd > ~/SED/names.txt
+
+#Find all dmesg kernel messages that contain the strings "CPU" or "BIOS" but not the strings "usable" or "reserved", omit the bracketed numerical expressions
+
+dmesg | egrep "BIOS|CPU" | egrep -vi "usable|reserved" | cut -d"]" -f2-
+
+#    Write a Bash script using "Command Substitution" to replace all passwords, using openssl, from the file $HOME/PASS/shadow.txt with the MD5 encrypted password: Password1234, with salt: bad4u
+#   Output of this command should go to the screen/standard output.
+#   You are not limited to a particular command, however you must use openssl. Type man openssl passwd for more information.
+
+a=openssl passwd -1 -salt bad4u -quiet Password1234
+cat ~/PASS/shadow.txt | awk -F: -v "awk_var=$a" '{OFS=":"} {$2=awk_var} {print}'
+
+#Use sed copy passwd into ~/PASS/passwd.txt but only lines that do not end in /bin/sh or /bin/false
+
+sed '/\/bin\/sh/d;/\/bin\/false/d' ~/passwd > ~/PASS/passwd.txt
+
+##
+##
+##
+##
+##
+#               DAY 3
+
+#find all .bin files in $HOME and remove trailing /
+
+find $HOME -name '*.bin' | rev | cut -d/ -f2- | rev | sort -n | uniq
+
+#copy and append the last line of a passwd file and change the passed parameters
+
+file=$1
+
+user=$2
+
+uid=$3
+
+home="/home/$2"
+
+shell="/bin/bash"
+
+tail -1 $file | awk -F: -v "file=$file" -v "user=$user" -v "uid=$uid" -v "home=$home" -v "shell=$shell" '{OFS=":"}{$1=user}{$3=uid}{$4=uid}{$6=home}{$7=shell}{print}' >> $file
+
+#Find and sort the executables in /bin /sbin /usr/sbin isr/bin and return the md5sum of the tenth file
+
+a=$(find /bin /sbin /usr/bin /usr/sbin -type f -executable | sort -n | sed '10q;d')
+md5=$(md5sum $a)
+echo $md5 | awk '{print $1}'
+
+#Sort passwd by the GID and return the hash for the 10th lines $HOME AS A STRING
+
+newa=$(cat /etc/passwd | awk -F: '{print $4":"$6}' | sort -n | sed '10q;d' | awk -F: '{print $2}')
+echo $newa | md5sum | awk '{print $1}'
+
+#Write a script which will find and hash the contents 3 levels deep from each of these directories: /bin /etc /var
+#Your script should:
+#Exclude file type named pipes. These can break your script.
+#Redirect STDOUT and STDERR to separate files.
+#Determine the count of files hashed in the file with hashes.
+#Determine the count of unsuccessfully hashed directories.
+#Have both counts output to the screen with an appropriate title for each count.
+
+find /bin /etc /var -maxdepth 3 \( ! -type p \) 2>/dev/null > templist.txt
+
+cat templist.txt | while read line
+do
+md5sum $line 2>>error.log 1>>output.log
+done
+
+output=$(wc -l output.log | awk '{print $1}')
+error=$(grep -i "directory" error.log | wc -l | awk '{print $1}')
+
+echo "Successfully Hashed Files: $output"
+echo "Unsuccessfully Hashed Directories: $error"
+
+#wayy more efficient
+
+find /bin /etc /var -maxdepth 3 ! -type p -exec md5sum {} 1>STDOUT.del 2>STDERR.del
+GoodCount=$(cat STDOUT.del | wc -l)
+BadCount(egrep "Is a" STDERR.del | wc -l)
+echo "Successfully Hashed Files: $GoodCount"
+echo "Unsuccessfully Hashed Directories: $BadCount"
+rm *.del
+##
+##
+##
+##
+##
+#               Day 4
+
+#If .ssh exists in the home dir copy all files to $HOME/SSH else print "Run ssh-keygen"
+
+dir=$HOME/.ssh
+if [[ -d $dir ]]; then
+  mkdir $HOME/SSH
+  find $HOME/.ssh/ -exec cp {} $HOME/SSH 2>/dev/null \;
+else
+  echo "Run ssh-keygen"
+fi
+
+#Find the gateway ip, ping it 6 times and return successful if the ping worked and failure if it did not
+
+a=$(ip route | awk '{print $3}' | sed '1q;d')
+b=$(which ping)
+c=$($b -c6 $a)
+if [[ $c =~ 100% ]]; then
+        echo "failure";
+else
+        echo "successful";
+fi
+
+#Create 3 files in home ZIP containing the hashes of strings, zip them, then archive them
+
+mkdir $HOME/ZIP
+echo "12345" | md5sum | awk '{print $1}' > $HOME/ZIP/file1
+echo "6789" | md5sum | awk '{print $1}' > $HOME/ZIP/file2
+echo "abcdef" | md5sum | awk '{print $1}' > $HOME/ZIP/file3
+zip -qj $HOME/ZIP/file.zip $HOME/ZIP/file1 $HOME/ZIP/file2 $HOME/ZIP/file3
+cd $HOME/ZIP
+tar -czf $HOME/ZIP/file.tar.gz file.zip
+
+#Create the users Larry Curly and Moe in the passwd file and create their home dir
+#uid and gid are equal to a file located at $HOME/$name.txt
+#name and home should be the only other changes from the root passwd line
+
+users="LARRY CURLY MOE"
+
+for i in $users
+do
+        mkdir $HOME/$i
+        id=$(cat $HOME/${i}.txt)
+        newline=$(head -1 $HOME/passwd | awk -F: -v "user=$i" -v "id=$id" '{OFS=":"}{$1=user}{$3=id}{$4=id}{$6="$HOME/"user}{print}')
+        echo $newline >> $HOME/passwd
+done
+
+#find the octal values of every file in passwd sort them by <640 and >642 print them sorted uniq and in reverse numerical order
+
+find /etc -type f -exec stat -c '%a' {} \; 2>/dev/null > all.txt
+
+cat all.txt | while read line;
+do
+       if [[ $line -le 640 && $line -gt 0 ]]; then
+                echo $line >> low.txt
+      elif [[ $line -ge 642 ]]; then
+              echo $line >> high.txt
+      fi
+done
+
+
+
+echo "Files w/ OCTAL Perm Values 642+:"
+cat high.txt | sort | uniq -c | sort -nr
+echo ""
+echo "Files w/ OCTAL Perm Values 0-640:"
+cat low.txt | sort | uniq -c | sort -nr
+
+
+rm low.txt
+rm high.txt
+rm all.txt
+
+
+
+
+
