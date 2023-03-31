@@ -1,0 +1,333 @@
+
+
+-------------- BASH NOTES DAY 4 --------------
+
+
+
+-------------- FOR LOOPS --------------
+
+
+- pseudo-code
+
+	for item in [LIST]
+
+	do
+
+	[COMMANDS]
+
+	done
+
+
+-------------- BREAK & CONTINUE --------------
+
+
+break - terminates the current loop and passes program control to the statement tbat follows the terminated statement
+
+continue - statements exits the current iteration of a loop and passes program control to the next iteration
+
+-------------- WHILE AND UNTIL LOOPS --------------
+
+while loop - used to perform a given set of commands an unknown number of times as long as true
+
+until loop - used to execute a given set of commands as long as teh given condition becomes false
+
+((counter++)) - increment by one
+
+while | until 
+do
+
+done
+
+
+-------------- LOOP EXAMPLES --------------
+
+#!/bin/bash
+
+#--Declare Functions
+#--for loops
+# List of names
+
+names () {
+  for NAME in Jackman MacLean Rhodes
+  do
+    echo $NAME
+  done
+}
+
+#Another loop iterating through a variable of items
+
+names2 () {
+  names='Walker Vacca Rudnick'
+  for NAME in $names
+  do
+    echo $NAME
+  done
+
+ }
+
+#Another loop iterating through a command substitution list file
+
+
+get_users () {
+  for uSER in $(awk -F: '{print $1}' /etc/passwd)
+  do
+    echo $uSER
+  done
+
+}
+
+
+#Basic range loop
+
+range () {
+  for NUMBER in {1..5}
+  do
+     echo $NUMBER
+  done
+}
+
+
+#Range loops that counts down
+
+team_rocket () {
+for COUNT in {10..1}
+do
+  echo $COUNT
+  sleep 1
+done
+echo "Team rocket Blasts Off Again!"
+
+}
+
+#For loop w/ counter
+
+countloop () {
+  for ((x=0;x<=5;x++))
+  do
+    echo "\$x is equal to $x"
+  done
+
+}
+
+
+#For loop w/counter w/variables
+
+countloop2 () {
+   start=1
+   end=5
+   for ((i+start;i<=end;i++))
+   do
+     echo $i
+   done
+
+}
+
+
+#---While and Until Loops
+#While loop
+cents_or_dollars () {
+  count=1
+  while [[ $count -le 99 ]]
+  do
+    echo "Current cent counter: $count GySgt Gerwing: Makes sense right?"
+    ((count++))
+  done
+  echo "Current Cent Counter $count Class: No Gunny, it makes a dollar!"
+
+}
+
+#Until loop
+autobots () {
+  count=10
+  until [[ $count -eq 1 ]]
+  do
+    echo $count
+    ((count--))
+  done
+  echo "Optimus Prime: Until that day, till all are one!"
+
+}
+
+
+#----Run the Functions
+#names
+#names2
+#get_users
+#range
+#team_rocket
+#countloop
+#countloop2
+#cents_or_dollars
+#autobots
+           
+
+-------------- ACTIVITIES --------------
+
+
+16. Activity:
+
+Design a script that detects the existence of directory: $HOME/.ssh
+
+    Upon successful detection, copies any and all files from within the directory $HOME/.ssh to directory $HOME/SSH and produce no output. You will need to create $HOME/SSH.
+    Upon un-successful detection, displays the error message "Run ssh-keygen" to the user.
+
+
+
+*** answer 
+
+DIR=$HOME/.ssh
+if [ -d "$DIR" ];
+then 
+    cp -r $HOME/.ssh /$HOME/SSH
+else
+    echo "Run ssh-keygen"
+fi
+
+
+17. Activity:
+
+    Write a script that determines your default gateway ip address. Assign that address to a variable using command substitution.
+        NOTE: Networking on the CTFd is limited for security reasons. ip route and route are emulated. Use either of those with no arguments/switches.
+    Have your script determine the absolute path of the ping application. Assign the absolute path to a variable using command substitution. HINT: man which
+    Have your script send six ping packets to your default gateway, utilizing the path discovered in the previous step, and assign the response to a variable using command substitution.
+    Evaluate the response as being either successful or failure, and print an appropriate message to the screen.
+
+
+
+***answer
+
+defgw=$(ip route | awk 'FNR == 1 {print}' | awk '{print $3}')
+ping=$(which ping)
+var=$($ping -c 6 $defgw)
+if [[ "$var" =~ 100% ]]; then
+    echo "failure"
+else
+    echo "successful"
+fi
+
+
+18. Activity:
+
+    Create the following files in a new directory you create $HOME/ZIP:
+        file1 will contain the md5sum of the text 12345
+        file2 will contain the md5sum of the text 6789
+        file3 will contain the md5sum of the text abcdef
+    Create a zip file containing the three files above, without being stored inside a directory in the zip file. Name the zip file $HOME/ZIP/file.zip
+        HINT: "Junk" the paths
+    Utilize tar on $HOME/ZIP/file.zip to archive it into a file called $HOME/ZIP/file.tar.gz which should not include directories. Use the gzip option in tar, DO NOT use a seperate gzip binary.
+        HINT: You might need an option to change directories first.
+
+
+
+*** answer
+
+mkdir $HOME/ZIP
+echo '12345' | md5sum | cut -d' ' -f1 > $HOME/ZIP/file1
+echo '6789' | md5sum | cut -d' ' -f1 > $HOME/ZIP/file2
+echo 'abcdef' | md5sum | cut -d' ' -f1 > $HOME/ZIP/file3
+cd $HOME/ZIP
+zip -q -j $HOME/ZIP/file.zip file1 file2 file3
+tar -zcf file.tar.gz file.zip
+
+
+
+19. Activity:
+
+Utilize Bash looping to iteratively create each user account and their directories.
+
+    Design a basic FOR Loop that iteratively alters the file system and user entries in a passwd-like file for new users: LARRY, CURLY, and MOE.
+    Each user should have an entry in the $HOME/passwd file
+    The userid and groupid will be the same and can be found as the sole contents of a file with the user's name in the $HOME directory (i.e. $HOME/LARRY.txt might contain 123)
+    The home directory will be a directory with the user's name located under the $HOME directory (i.e. $HOME/LARRY)
+        NOTE: Do NOT use shell expansion when specifying this in the $HOME/passwd file.
+    The default shell will be /bin/bash
+    The other fields in the new entries should match root's entry
+    Users should be created in the order specified
+
+
+*** answer
+
+for uSER in LARRY CURLY MOE
+do
+  mkdir $HOME/$uSER
+  uid=$(head -1 $HOME/$uSER.txt)
+  head -1 /etc/passwd | awk -F: -v "username=$uSER" -v "uid=$uid" -v "home=$uSER" 'OFS=":"{$1=username;$3=uid;
+  $4=uid;$6="$HOME/"home;$7="/bin/bash"}{print}' >> $HOME/passwd
+done
+
+
+20. Activity:
+
+    Write a bash script that will find all the files in the /etc directory, and obtains the octal permission of those files. The stat command will be useful for this task.
+    Depending how you go about your script, you may find writing to the local directory useful. What you must seperate out from the initial results are the octal permissions of 0-640 and those equal to and greater than 642, ie 0-640 goes to low.txt, while 642 is sent to high.txt.
+    Have your script uniquely sort the contents of the two files by count, numerically-reversed, and output the results, with applicable titles, to the screen. An example of the desired output is shown below.
+        NOTE: There is a blank line being printed between the two sections of the output below.
+
+
+*** answer
+
+octvl=$(find /etc -type f 2>/dev/null -exec stat {} -c '%a' \;)
+for i in $octvl
+        do
+                if [[ $i -ge 642 ]]; then echo $i >> high.txt
+                else
+                        echo $i >> low.txt
+                fi
+        done
+
+high=$(cat high.txt)
+low=$(cat low.txt)
+
+echo "Files w/ OCTAL Perm Values 642+:"
+echo "$high" | sort | uniq -c | sort -rn
+echo ""
+echo "Files w/ OCTAL Perm Values 0-640:"
+echo "$low" | sort | uniq -c | sort -rn
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
