@@ -93,6 +93,9 @@ sed '/\/bin\/sh/d;/\/bin\/false/d' ~/passwd > ~/PASS/passwd.txt
 #find all .bin files in $HOME and remove trailing /
 
 find $HOME -name '*.bin' | rev | cut -d/ -f2- | rev | sort -n | uniq
+find $HOME -iname "*.bin" 2>/dev/null | head | awk 'BEGIN{FS=OFS="/"}{NF--;print}'
+find $HOME -name '*.bin' -printf '%h\n' 2>/dev/null | sort | uniq
+find $HOME -name '*.bin' -printf '%h\n' 2>/dev/null | sed "s:/[^/]*$::" | sort -u
 
 #copy and append the last line of a passwd file and change the passed parameters
 
@@ -117,6 +120,8 @@ echo $md5 | awk '{print $1}'
 #Sort passwd by the GID and return the hash for the 10th lines $HOME AS A STRING
 
 newa=$(cat /etc/passwd | awk -F: '{print $4":"$6}' | sort -n | sed '10q;d' | awk -F: '{print $2}')
+                                                              #sed -n p10
+                                                              #head | tail -n1
 echo $newa | md5sum | awk '{print $1}'
 
 #Write a script which will find and hash the contents 3 levels deep from each of these directories: /bin /etc /var
