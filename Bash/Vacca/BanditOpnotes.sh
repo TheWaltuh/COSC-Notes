@@ -100,8 +100,13 @@ Level 19 password - awhqfNnAbc1naukrpqDYcF95h7HoMTrC
 
 Level 20 password - VxCazJaVykI6W36BkBU0mJTCM8rR95XT
 
+using TMUX to multiplex:
+tmux
+(-n to prevent newline?)
+echo -n "password" | nc -l 1234
+ctrl+b+"
+./suconnect 1234
+Level 21 password - VxCazJaVykI6W36BkBU0mJTCM8rR95XT
 
-
-
-
+Level 22 password - 
 
