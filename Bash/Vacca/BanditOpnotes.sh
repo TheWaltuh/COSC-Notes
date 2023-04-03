@@ -106,7 +106,9 @@ tmux
 echo -n "password" | nc -l 1234
 ctrl+b+"
 ./suconnect 1234
-Level 21 password - VxCazJaVykI6W36BkBU0mJTCM8rR95XT
+Level 21 password - NvEJF7oVjkddltPSrdKEFOllh9V1IBcq
 
-Level 22 password - 
+Level 22 password - WdDozAdTM2z9DiFEQ2mGlwngMfj4EZff
+
+Level 23 password - QYw0Y2aiA672PsMmh9puTQuhoz8SyR2G
 
