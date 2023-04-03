@@ -227,7 +227,127 @@ rm low.txt
 rm high.txt
 rm all.txt
 
+##
+##
+##
+##
+##
+#       Practice Exam
 
+#replace all "cat" with "dog" and all "Navy" with "Army" to outfile
+
+function q1()
+{
+  #Valid Variables are:
+  infile=$1
+  outfile=$2
+  sed -i 's/cat/dog/g' $infile
+  cat $infile | sed 's/Navy/Army/g' > $outfile
+
+}
+
+#Print all users from /etc/passwd
+
+function q1()
+{
+  #Valid Variables are:
+  cat /etc/passwd | awk -F: '{print $1}'
+}
+
+#Print all names from passwd file sorted by UID
+
+function q1()
+{
+  #Valid Variables are:
+  filename=$1
+  cat /etc/passwd | awk -F: '{print $3":"$1}' | sort -nu | awk -F: '{print $2}'
+
+}
+
+#Print total number of files in dirname but exclude "." and "..", if it doesnt exist print "Invalid Directory"
+
+function q1()
+{
+  #Valid Variables are:
+  dirname=$1
+  if [[ ! -d $dirname ]]; then
+    echo "Invalid Directory"
+   else
+    echo $(find $dirname -type f | wc -l)
+  fi
+}
+
+#Delete all files and dir in dir dirdel
+
+function q1()
+{
+  #Valid Variables are:
+  dirdel=$1
+  rm -rf $dirdel
+}
+
+#Create a newfile and change the timestamp to $filedate1730
+
+function q1()
+{
+  #Valid Variables are:
+  newfile=$1
+  filedate=$2
+  touch $newfile
+  touch -t ${filedate}1730 $newfile
+}
+
+#Read the file specified by fname and perform an action based on the contents of the file:
+
+    #If contents are 0 to 9, print "single digit" to standard output.
+    #If contents are 10 to 99, print "double digit" to standard output.
+    #If contents are 100 to 999, print "triple digit" to standard output.
+    #Otherwise, print "Error" to standard output.
+
+function q1()
+{
+  #Valid Variables are:
+  fname=$1
+  a=$(cat $fname)
+   if [ ${#a} -eq 1 ]; then
+    echo "single digit"
+    elif [ ${#a} -eq 2 ]; then
+    echo "double digit"
+elif [ ${#a} -eq 3 ]; then
+    echo "triple digit"
+else
+    echo "Error"
+fi
+}
+
+#copy all lines from src that arent in match to dst
+
+function q1()
+{
+  #Valid Variables are:
+  src=$1
+  dst=$2
+  match=$3
+  cat $src | grep -v $match > $dst
+}
+
+#kill procname
+
+function q1()
+{
+  #Valid Variables are:
+  procname=$1
+  pkill $procname
+}
+
+#Create a sorted path list of all files in dirpath
+
+function q1()
+{
+  #Valid Variables are:
+  dirpath=$1
+  find $dirpath -type f -mtime -1 -ls | awk '{print $NF}' | sort
+}
 
 
 
