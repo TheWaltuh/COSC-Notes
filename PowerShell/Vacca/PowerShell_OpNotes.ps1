@@ -98,25 +98,28 @@ $quo = $var1 / $var2
         "var1" + "var2" = "sum"
 
 write-host "$var1" + "$var2" = "$sum"
+"{0} + {1} = {2}" -f $var1,$var2,$sum
 
     Replace the variables in text with their values in the following format:
 
         "var1" - "var2" = "sub"
 
 write-host "$var1" - "$var2" = "$sub"
+"{0} - {1} = {2}" -f $var1,$var2,$sub
 
     Replace the variables in text with their values in the following format:
 
         "var1" * "var2" = "prod"
 
 write-host "$var1" * "$var2" = "$prod"
+"{0} * {1} = {2}" -f $var1,$var2,$prod
 
     Replace the variables in text with their values in the following format:
 
         "var1" / "var2" = "quo"
 
 write-host "$var1" / "$var2" = "$quo"
-
+"{0} / {1} = {2}" -f $var1,$var2,$quo
 
 
 
