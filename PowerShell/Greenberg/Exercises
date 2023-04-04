@@ -34,7 +34,7 @@ Get-Process
 Get-Process "S*"
 
 #3. find cmdlets for aliases
-Get-Alias <alias>
+Get-Alias -Name gal,dir,echo,?,%,ft
 gal -> Get-Alias
 dir -> Get-Childitem
 echo -> Write-Output
