@@ -1,1 +1,378 @@
-Powershell Day 1
+
+command-lets: verb-noun format
+
+HACK -- highlight code and press F8 to execute just that code.
+
+get-command -- will return every command in powershell
+
+get-verb -- gets all the verbs, first part of command. 
+
+Get-Command -Verb Get -- displays all commands with the verb "get"
+Get-Command -Noun "*Apps" -- displays all commands with the noun ending in apps
+
+**windows is case insensitive, unless i tell it to be. 
+**commands are usually singular, not plural, ex: get-command, not get-commands. 
+
+get-process -- gets process list. alias: tasklist
+
+get-alias -- get all the aliases
+get-alias -Name <alias> -- gives command linked to alias
+get-alias -definition <command> -- gives the alias linked to the command
+
+get-childitem alias: -- gives you the contents of the alias virtual drive 
+$alias:dir -- will return "get-childitem"
+
+set-alias edit notepad.exe -- sets an alias so that edit is linked to open notepad.exe
+remove-item alias:edit -- removes the edit item from aliases
+
+get-member -- gets members of objects
+
+get-member -input_object <object> -- gets the members of the object that is the command. Get-member is basically about the command itself, not what its output is.
+get-process | get-member -- gets members of the output of the command string. 
+
+**Powershell uses dot notation because it is object oriented. 
+**make sure that when you refer to a method you have parenteses, but not when you are refering to an atribute.
+ex: "sampleString".gettype().name -- returns "String"
+<command string> | get-member -MemberType <memberType> -- displays just the specified member type for the object that is the output of the command
+
+
+***PIPEPLINE
+** with the | symbol, you can send the output of one command as the input of the next one. 
+
+These go at the end of your command string. Format the output.
+format: <command-string> | format-command [-Property] <property,property2,etc> -- formatted with chosen properties
+most common:
+format-list -- output a list of default properties
+format-table -- output is a table with default properties
+Less common:
+format-custom -- outputs a custom format with default properties 
+format-wide -- output a wide table with default properties.
+
+
+
+-----------FUNCTIONS---------------
+
+function fruit-host {
+    write-host "apple"
+    write-host "orange"
+    write-host "bananna"
+    write-host "pear"
+}
+
+function fruit-output {
+    write-output "apple"
+    write-output "orange"
+    write-output "bananna"
+    write-output "pear"
+}
+
+fruit-host | sort -- these won't get sorted because host goes straight into the terminal
+fruit-output | sort -- output gets piped into the next command, because output doesn't go straight to the commandline.
+
+
+
+----TYPES OF COMMANDS----
+cmdlets: written in C#
+functions: written in Powershell
+workflows: specialized automation framework, don't worry about these.
+External commands: like ping, ipconfig, etc. Doesn't usually have verb-noun syntax
+
+
+----ORDER OF EXECUTION----
+1.  alias
+2.  functions
+3.  cmdlets
+4.  Path environment variable
+
+
+----getting assistance from the documentation---------------------
+
+get-help <command> -detailed -- self explanitory, -detailed is optional. If I add -full it also shows what the inputs and outputs are. Full is the most detailed.
+update-help -force -erroraction silentlycontinue -- updates the documentation for powershell
+
+get-help get-command:  everything with a "-" is an argument, everything with <> is a string following an option, {} means it is an option for the previous parameter
+
+get-help <strings> -- find commands related to your search
+ex: get-help "*process" -- finds commands related to interacting with processes
+
+**Powershell also has documentation about concepts. such as: about_for, about_foreach, about_classes, etc.
+get-help about_* -- lists documentation for powershell concepts. Use -online to get the web version. Use -showwindow to get searchable, resizable window. 
+
+
+
+
+-------PARAMETERS---------
+
+get-childitem
+
+** name parameters, need to be called. -Key <Value>
+ex: -Path C:\Windows
+** switch parameters, on or off
+ex: -Recurse
+** positional parameters, work off of powershell's default expected order of options
+ex: get-childitem C:\Windows    --- is the same as using -Path
+
+
+
+
+----------VARIABLES-------------
+
+python: no $
+Bash: free to use, but to call a var costs $
+Powershell: Microsoft always requires a $
+
+get-variable -- returns all variables
+** only time you don't use the $ is when you're using cmdlet get-variable
+	or
+get-childitem variable: -- does the same thing
+get-childitem variable:<x> -- gets the value of x
+
+$x = 10 -- sets $x to value 10
+$x, $y = Xvalue, Yvalue
+$x = $y = $z = "x y and z are the same value"
+
+test-path -- verifies the path exists. 
+ex: test-path variable:x -- tells me the variable exists.
+
+remove-variable x -- removes a variable. 
+	or
+del variable:x -- removes a variable
+
+
+Variable expansion:
+$name = "John"
+write-host "Hello $name"
+write-host 'Hello $name'
+
+like bash, single quotes is literal, double quotes can use variable expansion.
+
+
+
+-------------DEMO---------------------
+
+figure out the hour of the day
+
+$hour = (get-date).hour  -- returns the attribute of the get-date cmdlet that is hour
+$remain = 24 - $hour  -- math is easy here i guess
+$remain 
+
+
+
+how many days left in year
+
+$day = (get-date).DayofYear -- NOTE I could use .gettype().name here if I wanted to make the variable equal to its type.
+$daysleft = 365 - $day
+$daysleft
+
+
+Important automatic variables:
+$args -- array of undelcared parameters
+$false -- literally means False
+$true  -- literally means True
+$input -- Enumerator of all input passed to a function, iterable
+$matches -- hash table of the current match for a 'match' comparison
+$null  -- black hole, null value
+$profile -- string that contains path to the default powershell profile
+$pwd  -- present working directory
+
+
+
+
+Environmental variables (these are different from automatic variables)
+get-childitem env:  -- gets all of the environmental variables
+
+to call env variables:
+$env:APPDATA  -- beacuse powershell looks at local and automatic variables before environmental ones.
+
+ex:
+cd $env:HOMEPATH  -- sets pwd to home directory
+
+
+
+
+Variable Types:::::
+[string]  	-- fixed length string of unicode characters
+[char]   	-- 16 bit unicode character
+[byte]		-- 8 bit unsigned character
+[int]		-- 32 bit signed integer
+[long]		-- 64 bit signed integer
+[single]	-- 32 bit floating point number
+[double] 	-- 64 bit floating point number
+[float]	-- 32 bit floating point number
+[datetime]	-- date and time
+[array]	-- self-explanitory
+
+
+typecasting:::::::
+([type]value).gettype().name  -- this will return [type]
+
+
+
+
+get input from user:
+$var = read-host; [int]$var
+** everything taken from read-host is initially a string
+
+
+**POWERSHELL ROUNDS TO THE NESREST EVEN INTEGER
+
+
+
+----------------EXERCISES-------------------------
+
+
+
+
+
+    Ensure that you have the latest copy of help by updating your help system.
+
+    Which cmdlets deal with the viewing/manipulating of processes?
+
+    Display a list of services installed on your local computer.
+
+    What cmdlets are used to write or output objects or text to the screen?
+
+    What cmdlets can be used to create, modify, list, and delete variables?
+
+    What cmdlet can be used, other than Get-Help, to find and list other cmdlets?
+
+    Find the cmdlet that is used to prompt the user for input.
+
+
+
+Update-Help
+
+Get-Command -Noun process
+
+Get-Service
+
+get-command -Noun Output
+
+get-command -noun Variable
+
+get-command -Noun command
+
+Read-Host -Prompt "Input"
+	or
+get-command -verb read -- gets me to the same answer
+
+
+
+
+
+
+
+
+
+
+
+    Display a list of running processes.
+
+    Display a list of all running processes that start with the letter "s".
+
+    Find the cmdlet and its purpose for the following aliases:
+
+        gal
+
+        dir
+
+        echo
+
+        ?
+
+        %
+
+        ft
+
+    Display a list of Windows Firewall Rules.
+
+    Create a new alias called "gh" for the cmdlet "Get-Help"
+
+Get-Process
+get-process -Name "s*"
+get-alias -name gal,dir,echo,?,%,ft
+get-netfirewallrule
+set-alias gh get-help
+
+
+
+
+
+
+
+
+
+    Create a variable called "var1" that holds a random number between 25-50.
+
+    Create a variable called "var2" that holds a random number between 1-10.
+
+    Create a variable called "sum" that holds the sum of var1 and var2.
+
+    Create a variable called "sub" that holds the difference of var1 and var2.
+
+    Create a variable called "prod" that holds the product of var1 and var2.
+
+    Create a variable called "quo" that holds the quotient of var1 and var2.
+
+    Replace the variables in text with their values in the following format:
+
+        "var1" + "var2" = "sum"
+
+    Replace the variables in text with their values in the following format:
+
+        "var1" - "var2" = "sub"
+
+    Replace the variables in text with their values in the following format:
+
+        "var1" * "var2" = "prod"
+
+    Replace the variables in text with their values in the following format:
+
+        "var1" / "var2" = "quo"
+
+
+$var1 = get-random -minimum 25 -Maximum 50
+$var2 = get-random -Minimum 1 -Maximum 10
+$sum = $var1 + $var2
+$sub = $var1 - $var2
+$prod = $var1 * $var2
+$quo = $var1 / $var2
+
+Write-Host "$var1 + $var2 = $sum"
+Write-Host "$var1 - $var2 = $sub"
+Write-Host "$var1 * $var2 = $prod"
+Write-Host "$var1 / $var2 = $quo"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
