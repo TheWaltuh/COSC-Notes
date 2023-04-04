@@ -1,3 +1,5 @@
+#####Day 1
+__________________________________________________________________
 ####Find Cmdlets
 #1. update help system
 Update-Help -Force -ErrorAction SilentlyContinue
