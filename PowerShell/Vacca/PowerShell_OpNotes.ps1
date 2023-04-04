@@ -7,6 +7,8 @@ update-help -Force -ErrorAction silentlycontinue
 
     Which cmdlets deal with the viewing/manipulating of processes?
 
+get-command *process*
+get-help *process*
 get-process
 
     Display a list of services installed on your local computer.
