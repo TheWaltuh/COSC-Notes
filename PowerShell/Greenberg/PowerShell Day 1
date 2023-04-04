@@ -4,27 +4,27 @@ case-insenstive unless specified
 
 xfreerdp /u:<username> /v:<winops> +glyph-cache +clipboard +dynamic-resolution
 
-Get-Command #Gets all available commands in PowerShell
-Get-Verb #Displays all verbs for PowerShell commands
-Get-Command -Verb <verb> #Displays all PowerShell commands that have the verb <verb>
+Get-Command                #Gets all available commands in PowerShell
+Get-Verb                   #Displays all verbs for PowerShell commands
+Get-Command -Verb <verb>   #Displays all PowerShell commands that have the verb <verb>
 Get-Command -Noun <string> #Displays all PowerShell commands that have the noun <string>
-Get-Process and Tasklist #Displays all process that are running
-- #means it is a paramter
-<> #means it is an argument
-[] #accepts multiple values
-{} #options for that parameter
+Get-Process and Tasklist   #Displays all process that are running
+-                          #means it is a paramter
+<>                         #means it is an argument
+[]                         #accepts multiple values
+{}                         #options for that parameter
 
 ####Get-Help Cmdlet
 
 Update-Help -Force -ErrorAction silentlyContinue #Update the documentation for PowerShell
 Get-Help
-Get-Help <command> -Examples #Shows examples of command in use
-Get-Help <command> -Detailed #Shows syntax, description, parameter info, and examples of command
-Get-Help <command> -Full #Full documentation for command
-Get-Help <string> #Finds commands usig documentation
-Get-Help about_* #Lists documentation for PowerShell concepts
-Get-Help <command> -Online #Opens documentation in web browser
-Get-Help <command> -Showwindow #Opens documentation in a searchable window
+Get-Help <command> -Examples                     #Shows examples of command in use
+Get-Help <command> -Detailed                     #Shows syntax, description, parameter info, and examples of command
+Get-Help <command> -Full                         #Full documentation for command
+Get-Help <string>                                #Finds commands usig documentation
+Get-Help about_*                                 #Lists documentation for PowerShell concepts
+Get-Help <command> -Online                       #Opens documentation in web browser
+Get-Help <command> -Showwindow                   #Opens documentation in a searchable window
 __________________________________________________
 
 ####Different Types of Commands
@@ -51,27 +51,27 @@ Get-Childitem
 ##Switch Parameters
 -Recurse #If parameter is there, switch is on
 ##Positional Parameters
-c:\Windows #Get-Childitem expects -Path first
-           #Cmdlets expect defualt parameter order, and parameter value can be given without name
+c:\Windows       #Get-Childitem expects -Path first
+                 #Cmdlets expect defualt parameter order, and parameter value can be given without name
 ____________________________________________________
 
 ####Alias
 
-Get-Alias -Name <alias> #Gives command that is linked to alias
+Get-Alias -Name <alias>         #Gives command that is linked to alias
 Get-Alias -Definition <command> #Gives aliases that are linked to command
-Get-Childitem alias: #Lists contents of alias PSDrive
-$alias:<alias> #Displays command links to alias
-Set-Alias <name> <definition> #Creats new alias
-Any aliases that a currently made are deleted as soon as that instance of PowerShell is gone
-Remove-Item alias:<name> #Deletes alias
+Get-Childitem alias:            #Lists contents of alias PSDrive
+$alias:<alias>                  #Displays command links to alias
+Set-Alias <name> <definition>   #Creats new alias
+*Any aliases that a currently made are deleted as soon as that instance of PowerShell is gone*
+Remove-Item alias:<name>        #Deletes alias
 _____________________________________________________
 
 ####Objects: Methods and Properties
 
 (<command> <defintion>).<method>().<property>
-Get-Member #Get members of an object
-<command string> | Get-Member #Gets the embers of the output of the command string
-Get-Member -InputObject <command> #Gets the members of the object that is the command
+Get-Member                                              #Get members of an object
+<command string> | Get-Member                           #Gets the embers of the output of the command string
+Get-Member -InputObject <command>                       #Gets the members of the object that is the command
 <command string> | Get-Member -MemberType <member type> #Displays just the specified member type for the object 
                                                         #that is the output of the command string
 ______________________________________________________
@@ -80,31 +80,70 @@ ______________________________________________________
 
 ##Format Pipeline Output
 Get-Command -verb format
-  <command string> | Format-Custom #Output a custom format with default properties
-  <command string> | Format-List #Output a list with default properties
-  <command string> | Format-Table #Output a table with default properties
-  <command string> | Format-Wide #Output a wide table with default properties
+  <command string> | Format-Custom             #Output a custom format with default properties
+  <command string> | Format-List               #Output a list with default properties
+  <command string> | Format-Table              #Output a table with default properties
+  <command string> | Format-Wide               #Output a wide table with default properties
 Format-<style> -property <property>,<property> #Formatted output with chosen properties
 _______________________________________________________
 
-Write-Host #Writes to the host
+Write-Host   #Writes to the host
 Write-Output #Writes to the pipeline
 
 ####Variables
 
-Get-Variable #Lists all variables
-Get-Variable <variable> #Gives name and value of variable
+Get-Variable                                       #Lists all variables
+Get-Variable <variable>                            #Gives name and value of variable
 
-Get-Childitem variable: #Lists content of variable PSDrive
-Get-Childitem variable:<variable> #Give name and value of variable
+Get-Childitem variable:                            #Lists content of variable PSDrive
+Get-Childitem variable:<variable>                  #Give name and value of variable
 
 $var1, $var2, $var3 = <value1>, <value2>, <value3> #Sets variable to their respective values
-$var1 = $var2 = $var3 = <value> #Sets all variables to same value
+$var1 = $var2 = $var3 = <value>                    #Sets all variables to same value
 
-Test-Path <path> #Verifies path exists
-Test-Path varibale:<varaible> #Verifies path exists 
+Test-Path <path>                                   #Verifies path exists
+Test-Path varibale:<varaible>                      #Verifies path exists 
 
 ##Variable Expansion
 $name = "Madi"
-Write-Host "Hello $name" #Expands varaible when writing the string
-Write-Host 'Hello $name' #Writes string literally
+Write-Host "Hello $name"  #Expands varaible when writing the string
+Write-Host 'Hello $name'  #Writes string literally
+
+$hour = (Get-Date).Hour
+$remain = 24 - $hour
+$remain
+
+$day = (Get-Date).DayofYear
+$daysleft = 265 - $day
+$daysleft
+
+##Automatic Variables
+$args    #Array of undeclared parameters 
+$false   #False
+$true    #True
+$input   #Enumerator of all input passed to a function
+$matches #Hashtable of the current match for a 'match' comaprison
+$null    #Black hole
+$profile #String that contains the path to the default PowerShell profiles
+$PWD     #Current working directory
+
+##Environmental Variables
+Get-Childitem env: #Lists all environmental variables from the env PSDrive
+cd $env:HOMEDRIVE  #In this examples, uses cd to o to the env:HOMEDRIVE path
+
+##Variable Types
+[string]                       #Fixed-length string of unicode characters
+[char]                         #16-bit unicode character
+[byte]                         #8-bit unsigned charcter
+[int]                          #32-bit signed integer
+[long]                         #64-bit signed integer
+[single]                       #32-bit floating point number
+[double]                       #64-bit floating point number
+[float]                        #32-bit floating point number
+[daytime]                      #Date and Time
+[array]                        #A list
+
+([float]86.225).GetType().name #Works because number is converted to float, then type is retrieved
+
+$var = Read-Host; [int]$var    #Takes input from user, then typecasts it to integer for math
+*PowerShell rounds to the nearest even number when converting '.5' floats to integer*
