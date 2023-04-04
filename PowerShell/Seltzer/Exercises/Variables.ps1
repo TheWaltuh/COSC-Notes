@@ -1,7 +1,8 @@
 Practical Exercise: Variables
 
 1. Create a variable called "var1" that holds a random number between 25-50.
-$var1 = get-random -minimum 25 -maximum 50
+$var1 = get-random -minimum 25 -maximum 50 #once run the num will always be the same
+					   #when setting $var1 is the only time the get-random is run (same goes for below command)
 
 2. Create a variable called "var2" that holds a random number between 1-10.
 $var2 = get-random -minimum 1 -maximum 10
