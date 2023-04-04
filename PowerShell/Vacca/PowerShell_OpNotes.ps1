@@ -47,6 +47,8 @@ Get-Process
 Get-Process -name "S*"
 
     Find the cmdlet and its purpose for the following aliases:
+    
+    get-alias -name gal,dir,echo,?,%,ft
 
         gal     get-alias
 
