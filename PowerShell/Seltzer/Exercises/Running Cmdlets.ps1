@@ -28,7 +28,8 @@ get-process s*
 		Alias           ft -> Format-Table   
 
 4. Display a list of Windows Firewall Rules.
-show-netfirewallrule
-
+show-netfirewallrule	 #shows all existing ipsec rules and associated objects in a fully expanded view
+get-netfirewallrule 	 #retireves firewall rules from target computer
+			 #get would be the better choice for this queston
 5. Create a new alias called "gh" for the cmdlet "Get-Help"
 Set-Alias gh Get-Help
