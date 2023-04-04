@@ -344,8 +344,8 @@ Write-Host "$var1 * $var2 = $prod"
 Write-Host "$var1 / $var2 = $quo"
 
 
-
-
+	or
+"{0} + {1} = {2}" -f $var1,$var2,$sum
 
 
 
