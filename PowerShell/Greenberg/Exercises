@@ -43,9 +43,9 @@ echo -> Write-Output
 ft -> Format-Table
 
 #4.windows firewall rules
-Show-NetFirewallRule
-or
 Get-NetFirewallRule
+or
+Show-NetFirewallRule (not preferred because it doesn't have as many options?)
 
 #5.create alias gh for Get-Help
 New-Alias gh Get-help
