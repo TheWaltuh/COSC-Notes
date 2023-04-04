@@ -1,0 +1,51 @@
+Windows PowerShell ISE (Integrated Scripting Environment)
+underthewire.tech
+
+####Commands
+
+Invoke-Command #Runs commands on local and remote computers
+Invoke-Expression #Runs a specified string as a command and returns the result of the expression or command
+                  #Without this the value of that expression or command remains unchanged
+Get-Content #Gets the content of the item at the location, such as the text in a file
+Get-Variable #Gets the variables in the current console
+ForEach-Object #Performs an operation on each item in a collection of input objects
+Compare-Obejct #Compares two sets of objects
+Read-Host #Reads a line of input from the console, a way to prompt for user input
+
+
+####Types of Loops
+##For Loop
+##ForEach Loop
+##Do..While Loop
+##While Loop
+
+####Variables
+
+##User-Created
+  created and managed by the users
+##Automatic
+  created and maintained by PowerShell
+##Preference
+  created by PowerShell and assigned with default values
+  
+$ARGS #declares undeclared parameters
+$$ #denotes the last token
+$ERROR #denotes most recent errors
+$HOME #denotes the full path to the home directory of the current user
+$FALSE #false
+$NLL #null or nothing
+$TRUE #true
+$HOST #denotes current host application of PowerShell
+
+####Operators
+
+##Arithmetic
+  + - * / %
+##Assignment
+  += -= *= /= %= =
+##Comparison
+  -le -ne -gt -lt -eq -ge
+##Logical
+  -or -xor -and -not !
+##Type
+  -isnot -is -as
