@@ -1,3 +1,6 @@
+xfreerdp /u:student /v:10.50.63.163 +glyph-cache +clipboard +dynamic-resolution #runs gui to be able to do powershell in student workstation
+
+######################################################################################################################
 get-command #gets all commands avalable to you in powershell
 
 get-verb #displays all verbs for powershell commands
@@ -87,3 +90,34 @@ get-childitem               #directory listing
 ("string").GetType().Name   #gets the name o the data type hta is in the first set of ()
 
 ###pipeline
+
+
+###Format Pipeline Output
+<command string> | Format-Table  #output a table with default properties (used more ofthen)
+<command string> | Format-List   #outputs a list with default properties (used more often)
+<command string> | Format-Wide   #outputs a wide table with default properties
+<command string> | Format-Custom #outputs a custom format with deault properties
+<command string> | Format-Table -Property <property>,<property> #formatted output with chosen properties
+            Get-Process | Format-table -Property Name,id # displays output of get-process as a table only showing the name and id properties
+
+#property is something about an object
+#method is something the object can do
+
+
+###Functions
+function fruit-host {
+    Write-Host "Apple"
+    Write-Host "Orange"
+    Write-Host "Banana"
+    Write-Host "Pear"
+}
+
+function fruit-output {
+    Write-Output "Apple"
+    Write-Output "Orange"
+    Write-Output "Banana"
+    Write-Output "Pear"
+}
+
+fruit-host | sort   #doesnt sort because written to the console so cannot pipe write host
+fruit-output | sort #only sorted because written to output of the cmdlet
