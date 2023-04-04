@@ -1,0 +1,61 @@
+#$PSVersionTable.PSVersion - displauys a table of powershell version
+#Get-ExecutionPolicy to see what you're allowed to do
+#Set-ExecutionPolicy RemoteSigned - to run personal scripts
+
+#Powershell ISE is used to make scripts
+
+Write-Host "Hello World!"       #Hello World!
+#Comments are made with pound sign also
+
+Write-Host "Hello" -NoNewline
+Write-Host " World!"            # Hello World!
+
+Get-Command -CommandTyper Cmdlet #To get a list of all cmdlets
+Get-Help [cmdlet]               #To get info on a cmdlet
+
+Command-1 | Command-2 #cmdlet piping syntax
+"May the force be with you!" | Out-File forcewithwho.txt
+#Outputs the string into a new file called forcewithwho.txt
+#ls and cat work as alias
+
+#Variables are are set using $
+$FavCharacter = "Spongebob"
+$FavCharacter                   #Spongebob
+Multiple Data Types
+
+$FavCharacter.GetType()         #String
+
+$FavCharacter = 5.5
+$FavCharacter.GetType()         #Double
+
+$FavCharacter = $true           #booleans are $true or $false
+$FavCharacter.GetType()         #Boolean
+
+#ARITHMETIC
+easy in powershell
+$x = 5
+$y = 3
+$x + $y                         #8
+#could use * or /
+
+$FavCharacter = "spongebob"
+$FavCharacter.Length
+$FavCharacter | Select-Object -Proprty *        #strings only have a len
+
+Get-Member -InputObject $FavCharacter
+#returns all the methods that can be done to an object
+
+#Arrays
+$jedi = @('Obi-Wan Kenobi','Luke','Yoda','Mace')
+$jedi                   #returns each item on a newline
+
+$jedi.GetType()                 #Object[]
+
+$jedi[0]                #Obi-Wan Kenobi
+$jedi[1].length         #4 (length of element)
+
+$jedi += "Wui-Gon"              #adds him to an array
+
+PowerShell Hash Tables
+
+fellowship = @{key1 = "item1"; key2 = "item2"}
