@@ -1,14 +1,3 @@
-Find CMDLETS
-
-1. ensure you have latest copy of help by updating your help system
-
-update-help -force -erroraction SilentlyContinue
-
-2.which cmdlets deal with viewing/manipulating processes
-
-get-Process
-
-
 Practical Exercise: Find Cmdlets
 
 1. Ensure that you have the latest copy of help by updating your help system.
@@ -33,3 +22,9 @@ $<var>
 new-variable
 set-variable
 remove-variable
+
+6. What cmdlet can be used, other than Get-Help, to find and list other cmdlets?
+
+
+7. Find the cmdlet that is used to prompt the user for input.
+read-host
