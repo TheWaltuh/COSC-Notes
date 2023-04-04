@@ -60,9 +60,13 @@ $prod = $var1 * $var2
 $quo = $var1 / $var2
 #7. return them in text
 Write-Host "$var1" + "$var2" = "$sum"
+"{0} + {1} = {2}" -f $var1,$var2,$sum
 #8.
 Write-Host "$var1" - "$var2" = "$sub"
+"{0} - {1} = {2}" -f $var1,$var2,$sub
 #9.
 Write-Host "$var1" * "$var2" = "$prod"
+"{0} * {1} = {2}" -f $var1,$var2,$prod
 #10.
 Write-Host "$var1" / "$var2" = "$quo"
+"{0} / {1} = {2}" -f $var1,$var2,$quo
