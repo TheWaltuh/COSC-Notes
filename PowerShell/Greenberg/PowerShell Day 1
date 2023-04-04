@@ -84,6 +84,8 @@ Get-Command -verb format
   <command string> | Format-List #Output a list with default properties
   <command string> | Format-Table #Output a table with default properties
   <command string> | Format-Wide #Output a wide table with default properties
-<command string> | Format-List * #Lists all of the properties
-Format-List -property
-  
+Format-<style> -property <property>,<property> #Formatted output with chosen properties
+_______________________________________________________
+
+Write-Host #Writes to the host
+Write-Output #Writes to the pipeline
