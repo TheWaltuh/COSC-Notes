@@ -24,7 +24,7 @@ set-variable
 remove-variable
 
 6. What cmdlet can be used, other than Get-Help, to find and list other cmdlets?
-
+get-process
 
 7. Find the cmdlet that is used to prompt the user for input.
 read-host
