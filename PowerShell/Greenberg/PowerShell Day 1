@@ -89,3 +89,22 @@ _______________________________________________________
 
 Write-Host #Writes to the host
 Write-Output #Writes to the pipeline
+
+####Variables
+
+Get-Variable #Lists all variables
+Get-Variable <variable> #Gives name and value of variable
+
+Get-Childitem variable: #Lists content of variable PSDrive
+Get-Childitem variable:<variable> #Give name and value of variable
+
+$var1, $var2, $var3 = <value1>, <value2>, <value3> #Sets variable to their respective values
+$var1 = $var2 = $var3 = <value> #Sets all variables to same value
+
+Test-Path <path> #Verifies path exists
+Test-Path varibale:<varaible> #Verifies path exists 
+
+##Variable Expansion
+$name = "Madi"
+Write-Host "Hello $name" #Expands varaible when writing the string
+Write-Host 'Hello $name' #Writes string literally
