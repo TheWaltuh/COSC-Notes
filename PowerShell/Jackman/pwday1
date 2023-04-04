@@ -1,1 +1,249 @@
 
+
+
+----------------- POWER SHELL DAY 1 -----------------
+
+
+---- COMMANDS ----
+
+
+** cmdlets: written in C#
+
+** Functions: written in PoSh
+
+** Workflows: automation framework
+
+** exit: commands ping ipconfig
+
+** power shell cmdlets are in a verb noun format
+
+- get-command #gets all available commands in powershell
+
+- get-verb #getds all available verbs in power shell for commands
+
+- get-command -verb <verb> #displays all powershell commands that have that verb
+
+- get-command -noun <string> #displays all powershell command that have the string 
+
+
+<#
+Order of PoSh cmd search order execution
+1.Aliases
+2.Functions
+3.Cmdlet
+4.Path environment variable
+#>
+
+
+- get-help #command assistance
+
+- update-help -Force -ErrorAction silentcontinue #updates the documentation for powershell
+
+- get-help <command> #remarks at botton are important, "-" comes before an argument, "<>" contains a string following option, "{}" option for previous parameter
+
+- get-help <command> -examples (-detailed or -full) extra info
+
+- get-help <string> #find commands using strings ex. get-help "*process"
+
+- get-help about_* #shows PoSh documentation for concepts
+
+- get-help <command> -online or -showwindow
+
+- get-alias -name <alias> #shows command linked to that alias
+
+- get-alias -definition <command> #shows all aliases for that command
+
+- $alias:dir # returns "get-childitem"
+
+- <command> alias: #lists content of alias psdrive
+
+- set-alias <name> <value> #how to set an alias
+
+- remove-item alias:<name> #removes alias from alias psdrive
+
+- get-member #gets members of an object
+
+	<command string> | get-member #gets the members of the output of the command string
+	get-member -input object <command> #gets the members of the object that is the command
+
+- ("string").gettype().name #you do not need "()" for property
+
+- <command string> | get-member -membertype <member type> #shows the specigic member type for the object 
+							    #that is the output of the command 
+							    
+*** PIPELINE
+
+** format pipeline output
+
+- <command> | format-table #output a table with default properties
+
+- <command> | format-list #output a list with default properties
+
+- <command> | format-wide #output a wide table with default properties
+
+- <command> | format-custom #output a custom format with default properties
+
+ex. get-process | format-table -property <property #can be comma separated>
+
+---- PARAMETERS ----
+
+
+- get-childitem
+
+** named parameters
+
+  -path C:\windows  #come in key/value pair
+ 
+** switch parameters
+
+  -recurse    #if parameter is there, switch is on
+  
+** positional parameters
+
+  C:\windows  #cmdlets expect default -path first
+    
+
+
+------------- FUNCTIONS -------------
+
+
+function fruit-host {
+	write-host "Apple"
+	write-host "Orange"
+	write-host "Banana"
+	write-host "Pear"
+
+function fruit-output {
+	write-ouput "Apple"
+	write-ouput "Orange"
+	write-output "Banana"
+	write-output "Pear"
+
+}
+
+fruit-host | sort
+fruit-output | sort
+
+
+--- host is already sorted, good for trouble shooting
+
+--- output is for going through a process and allows it to be in a pipeline
+
+
+------------- VARIABLES -------------
+
+pthon no $
+
+linux $ when calling
+
+PoSh always use $
+
+
+- get-variable #lists all the variables 
+
+- get-childitem variable: #lists contents of variable PSdrive
+
+
+- $<var name> = <value>
+
+- get-variable <var name no $> #gives name and value
+- get-childitem variable:<var name> #
+
+ex. $x, $y, $z = <value>,<value2>,<value3> value assigned to respective variable
+
+ex. $x = $y = $z = <value> #sets all variables to one value
+
+
+- test-path <path> #verifies path exists
+
+- test-path variable:<value>
+
+- remove-variable <variable> #self explanatory
+
+- del variable:<var name> #deletes variable from variable PSdrive
+
+
+*** variable expansion
+
+$name = "John"
+write-host "hello $name" #expands variable when writing the string
+write-host 'hello $name' #writes string literlly
+
+ex.
+
+$hour = (get-date).hour
+$remain = 24 - $hour
+$remain
+
+ex.
+
+$day = (get-date).dayofyear
+$dayleft =365
+$days                  
+
+
+*** automatic variables
+
+$args		#array of undeclared parameters
+$false		#false
+$true		#true
+$input		#eneumerator of all input passed to a function
+$matches	#hashtable of the current match for a 'match' comparison 
+$null		#black hole
+$profie	#string that contains to the default PoSh
+$pwd		#current working directory
+
+
+*** environmental variables
+
+get-childitem env:	#lists all environmetal  variables from the enemy PSDrive
+
+cd $env:HOMEDRIVE	#in this example, uses 'cd' alias set-location to go the env:HOMEDRIVE path.
+
+
+*** variable types
+[string]	#mixed-length string of unicode characters
+[char]		#16-bit unicode character 
+[byte]		#8-bit unsigned characters
+[int]		#32-bit signed integer
+[long]		#64-bit signed integer
+[single]	#32-bit floating point number
+[double]	#64-bit floating point number
+[float]	#32-bit floating point number
+[datetime]	#date and time
+[array]	#self-explanatory
+
+type casting in []
+ex. ([float]86.225).gettype().name
+
+
+$var = read-host;  [int]$var	#takes input from user, then typecasts it for math.
+
+[int]5.5
+[int]6.6
+
+ouput:			#number ending in '.5' rounds to the nearest even number 
+
+6
+6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
