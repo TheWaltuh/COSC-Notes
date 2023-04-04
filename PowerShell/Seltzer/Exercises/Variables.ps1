@@ -23,18 +23,23 @@ $quo = $var1 / $var2
 
 	a. "var1" + "var2" = "sum"
 	write-host $var1 + $var2 = $sum
+	#write-output also works for this
 
 8. Replace the variables in text with their values in the following format:
 
 	a. "var1" - "var2" = "sub"
 	write-host $var1 - $var2 = $sub
+	#write-output also works for this
 
 9. Replace the variables in text with their values in the following format:
 
 	a. "var1" * "var2" = "prod"
 	write-host $var1 * $var2 = $prod
+	#write-output also works for this
 
 10. Replace the variables in text with their values in the following format:
 
 	a. "var1" / "var2" = "quo"
 	write-host $var1 / $var2 = $quo
+	#write-output also works for this
+
