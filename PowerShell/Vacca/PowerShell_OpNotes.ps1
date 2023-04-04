@@ -63,6 +63,8 @@ Get-Process -name "S*"
         ft      Format-Table
 
     Display a list of Windows Firewall Rules.
+    
+    get-command -ver "Get" -noun "*firewall*"
 
 Get-NetFirewallRule
 
