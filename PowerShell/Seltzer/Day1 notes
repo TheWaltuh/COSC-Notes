@@ -1,0 +1,89 @@
+get-command #gets all commands avalable to you in powershell
+
+get-verb #displays all verbs for powershell commands
+
+get-command -verb <verb> #displays all commands that have the verb that comes after -verb
+
+get-command -noun <string> #displays all powershell commands that have the noun <string> 
+
+Get-process #displays all processes currently running on the machine (does same as tasklist and can use tasklist)
+
+get-help <cmdlet> #does as it says
+
+update-help -force -erroraction SilentlyContinue #updates the documentation for powershell
+
+get-help <command> -Examples #shows examples of command in use
+
+get-help <command> -Detailed #shows syntax, description, parameter ino, and examples of command
+
+get-help <command> -Full #full documentation or command
+
+get-help <string> #finds commands
+
+Get-Help about_* #shows documentation for powershell concepts (aliases, functions, etc)
+
+get-help <command> -Online #opens documentation in web browser
+
+Get-Help <command> -ShowWindow #open documentation in searchable window
+
+
+#################################################################################################################
+##parameters
+
+Get-ChildItem
+
+#named parameters
+                -path C:\Windows   #comes in Key/value pair
+#switch parameters
+                -recurse   #if parameter s there switch is on
+#positional paramters
+                C:\Windows #get-childitem expects -path first
+                           #cmdlets expect default parameter order, and parameter values can be given without naming parameters for those
+
+#################################################################################################################
+#aliases
+get-alias #gets list of all aliases
+
+get-aslias -name <alias> #gives command that is linked to alias
+Get-Alias -Definition <command> #gives all alsiases that are linked to command
+
+Get-ChildItem alias: #lists content of aslias PSDrive
+$alias:<alias> #displays command links to alias
+
+
+Set-Alias <name> <definition> #creates aliases (all ones user created auto del at closing of session)
+Remove-Item alias:<name> #deletes alias
+
+
+#################################################################################################################
+<#
+Order of Powershell Cmd Search Order Execution
+1.Aliases
+2.Functions
+3.Cmdlets
+4.Path Environment Variable
+
+#>
+
+#########################################################################################
+
+Get-Member #gets members of an object
+
+<command string> | Get-Member #gets the members of the output of the command string
+<command string> | Get-Member -MemberType <member type> #displays just the specificified member type for the object
+                                                        #that is the output of the command string
+
+
+Get-Member -InputObject <command> #gets the members of the object
+
+
+
+Get-process                 #displays all processes currently running on the machine
+(get-process).processname   #displays only processnames from get-process (can use for diferent fields then just name obviously)
+Get-Process notepad.exe     #displays all process info for notepad.exe
+
+get-childitem               #directory listing
+
+("string").GetType().Name   #gets the name o the data type hta is in the first set of ()
+
+###pipeline
