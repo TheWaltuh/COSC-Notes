@@ -1,0 +1,39 @@
+####Script Blocks
+
+$myblock = { Get-Service | Format-Table Name, Status}
+& $myblock
+*Curly braces make the function a script block and allow the output to change as oppose to paranthesis*
+___________________________________________________
+
+####Sort
+
+Get-Childitem | Sort-Object -Property Length -Decending                            #List file size from largest to smallest
+Get-Childitem | Sort-Object -Property Extension | Format-Table -Groupby Extenstion #Groups files in directory based off extension
+Get-Childitem | Group_object {$_.Length -lt 1KB}                                   #Returns a count-of files with a size of less then 1KB
+Get-Childitem | Sort-Object {$_.Length -lt 1KB}                                    #Shows all files with a size of less then 1KB
+Get-Childitem *.txt | Where-Object{$_.Lenth -gt 100}                               #Only shows text documents that have a size greater than 100
+
+Get-Service | Sort-Object -Decending status                                        #Sort services by running status
+Get-Service | Where-Object{$_.Status -eq 'running'}                                #Only shows running processes
+
+Get-Process | Select-Object -First 10                                              #List first 10 lines in the get-process cmdlet
+Get-Process | Group-Object {$_.Name.Substring(0,1).ToUpper()} | ForEach-Object{($_.Name + "") *7; "=========="; $_.Group}
+                                                                                   #List process by group of first letter, capatzlizing it, for each one it
+                                                                                   #lists the the letter 7 time followed by a line of = signs
+                                                                                   #the ; makes the newline character                                                                                   
+Get-Process | Where-Object {$_.Company -like 'micro*'} | Format-Table Name, Description, Company
+                                                                                   #Get process of comapnies that start with Micro
+Get-Process | Where-Object {$_.Name -notlike 'powershell*'} | Sort-Object id -Decending
+
+<cmdlet> | Select-Object -ExtendProperty <property>                                #Anytime there is an ... this expands that information
+<cmdlet> | Format-Table -Autosize                                                  #Displays command output in full
+*Where-Object filters objects*
+*Select-Object selects certain objects or properties*
+*Get-Uniq returns only one instance of each item* *Sort-Object needs to precede the Get-Uniq cmdlet*
+
+Get-Childitem | Measure-Object | Select-Object -ExpandProperty count               #Gives you all of the items with-in a directory
+Get-Childitem | Measure-Object Length | Select-Object -ExpandProperty count        #Gives you all of the files with-in a directory
+(Get-Childitem).count                                                              #Gives you all of the items with-in a directory
+
+
+
