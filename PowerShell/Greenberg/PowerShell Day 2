@@ -76,6 +76,24 @@ Start-Service -Name Webclient
 New-PSDrive -Name Z -PSProvider FileSystem -Root \\live.sysinternals.com\tools     #makes a drive connect to a website
 
 ####Basics for Comparison Operators
--eq, -ieq, -ceq  ##Eq -c means case-sensitive and -i means case-insensitive
+-eq, -ieq, -ceq  #Eq -c means case-sensitive and -i means case-insensitive
+is               #return true if both object are the same time
+contains         #used for a collection of items
+
+<collection> -<operator> <single_item>
+-eq              #Has to be exact match, no regex
+-like            #wildcare comparison
+
+$text = 'Here is the model number: MO5364'
+$pattern = 'MO(\d{3})'
+$text -match $pattern
+Output: True     #beacuse MO5364 matches up to MO536 because 3 digits
+$matches shows all things your pattern matched on
+
+
+
+
+
+
 
 
