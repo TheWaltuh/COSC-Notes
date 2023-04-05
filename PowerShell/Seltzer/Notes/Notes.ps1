@@ -256,12 +256,128 @@ get-childitem |                                         #known what this does
 
 1,7,10,8,2,3 | Sort-Object                              #returns numbers in ascending order
 
-<command string> | sort-object processname | select-object -first <n>             #sorts by the processname and then returns first N objects from output piped into selet-object command
 
 get-process | group-object {$_.name.substring(0,1).ToUpper()} |                                                               #groups output piped in by name of the process and cause o substring(0,1) takes first letter
                                                                                                                               #to upper just capitalizes it
+                                                                                                                              #substring the 0 says skip 0 letters and 1 says grab 1 letter
                                                                 foreach-object{($_.name + " ") *7; "=========="; $_.Group}    #then prints the letter from output 7 times and returns "==========" below, bewfore finally under that grouping process by the letter
                                                                                                                               #final processes are returned under the letter that they start with
+
+###Expanding properties
+
+get-process | select-object Name, ID                                             #returns only the name and id from the get-process command
+
+<command string> | sort-object processname | select-object -first <n>            #sorts by the processname and then returns first N objects from output piped into selet-object command
+
+Get-Service | Select-Object -ExpandProperty displayname                          #fully displays command output of the option given (can only show one option at a time this way)
+
+get-service | format-table -autosize                                             #displays command output in full
+
+###filtering of results
+where-object                      #filtering command
+select-object                     #to grab certian either objects or properties
+
+Get-Service |Where-Object{$_.Status -eq 'running'}                              #displays only the output from irst command that has a status of running
+
+get-childitem *.txt | Where-object{$_.Length -gt 100}                           #first part gets anything in currend working directory that ends in .txt
+                                                                                #second filters out returning only those with a length greather than 100
+get-process | Where-object {$_.Company -like "micro*"} | format-table name, description, Company
+                                                                                #where-object filters returning only objects from piped output that were made by a company that starts with micro
+                                                                                #displays sorted output in a table with the name, description and company displayed
+                                                                                #company is a script property, wheich just means that company is running a script to get a property in this case the creating company
+get-process | where-object {$_.name -notlike 'powershell*' | sort-object id -decsending
+                                                                                #gets all processes, sorts removing all that have powershell at beginning or as name
+                                                                                #then sorts those processes on id and returns then greatest to least
+
+get-process | where-object processname -ne "idle" | sort-object starttime | select-object -last 10 | format-table processname, starttime
+
+###more commands
+
+1,2,3,1,2,3,1,2,3,1,2,3,1,2,3 | sort-object | get-unique                        #sorts the list and then returns each character but only once so in this case returns 123
+                                                                                #returns only unique characters
+                                                                                #items must be sorted to use get-unique
+
+get-childitem | measure-object                                                  #returns with count of items in current working directory, and has spots to get average, sum, maximum, minimum and property
+
+get-childitem | measure-object Length                                           #returns a count of how many files are in the current working directory
+                                                                                #does now show directories, and depending if no iles where you are it will return an error
+                                                                                
+get-childitem | measure-object -line                                            #returns number of directories and files in current working directory
+
+(get-childitem).count                                                           #returns a count of how many items returned by get-childitem (in this case all files and directories)
+
+get-PSProvide                                                                   #gets information about specified powershell provider
+
+get-PSDrive                                                                     #gets information on what ps drives are avalable to you
+new-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS                     #creates a new PSDrive with provider being Registry and the root being HKEY_USERS
+get-childitem <PSDRIVE>:                                                        #how to read/view the drives in PSDrive
+
+new-PSDrive -name Z -PSProvider FileSystem -root \\live.sysinternals.com\tools  #another way to create a new PSDrive
+start-service -Name WebClient                                                   #enables webclient to allow browsing of the file system
+
+
+###Arrays
+#basically is a list but
+
+$array = 1, 2, 3, 4, 5                                                           #creates an array called $array
+$sum = 0                                                                         #creates a empty variable named sum
+$array | foreach-object { $sum += $_ }                                           #goes through each item of the array and adds it to sum
+$sum                                                                             #returns sum (so would be sum of all items in the array
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+'what is the answer to life, the universe, and everything?' > text.txt
+$before = get-childitem
+
+'42' > test.txt
+$after = get-childitem
+
+compare-object $before $after -property Length, Name      #compairs the $before to $after
+                                                          #in this case is the get-childitem with test.txt befre the change to get-childitem with test.txt after the change
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+###Objects
+
+$MyTruck = New-Object Object                              #creates a new object named MyTruck
+
+###Properties
+add-member -membertype NoteProperty -name Color -value Red -inputObject $MyTruck
+                                                          #adds m emeber to $MyTruck object
+                                                          #name of member is Color, and the value of it is Red
+                                                          #the member type is NoteProperty (use NoteProperty for custom made objects cause they uses arbirtary data)
+                                                              #not .net data being uses so need NoteProperty
+add-member -membertype NoteProperty -name Make -value Ford -inputObject $MyTruck
+                                                          #Same deal as above just new memeber Name being make and value being Ford
+        #to change a property set the >Object>.<property want to change> = <what you want to change it to>
+        $MyTruck.model="F-250"
+
+$MyTruck | add-member NoteProperty Cab SuperCrew          #alternate way of making members for an object by piping it in
+
+<object>.psobject.properties.remove('<property ro remove>')   #how to remove properties from a object
+
+###Methods
+
+add-member -membertype ScriptMethod -inputobject $MyTruck -name Drive -value { "Going on a road trip" }
+                                                          #adds a method named Drive with a calue of "Going on a road trip" to $MyTruck
+
+add-member -inputobject $MyTruck ScriptMethod Accelerate { "Skinny Pedal on the Right" }
+                                                          #alternate way to add method
+
+###Creating custom objects
+
+$Marine = new-object -typename PSCustomObject             #creates custom object named marine
+                                                          #adding properties and methods works the exact same as above
+
+#Below is another way to make a custom object
+#@{} make it so anthing written inside the {} is written to a hash table of the pscustom object
+$soldier = [PSCustomObject]@{
+     "Firstname"      = "Joe"
+     "LastName"       = "ShitBird"
+     "MilitaryRank"   = "SSGT"
+     "MOS"            = "17c"
+     "Position"       = "Host Analyst"
+}
+$soldier
 
 
 
