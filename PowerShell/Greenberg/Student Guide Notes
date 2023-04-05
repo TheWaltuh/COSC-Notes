@@ -32,7 +32,7 @@ _________________________________________________
 ####Comparison Operators
 
 -contains 
--replac
+-replace
 -is
 -match
 -like
@@ -110,17 +110,3 @@ while($x -lt 10) {
   if ($x -eq 5) {continue}
   Write-Output $x
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
