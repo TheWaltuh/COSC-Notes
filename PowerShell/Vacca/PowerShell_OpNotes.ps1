@@ -129,9 +129,53 @@ write-host "$var1" / "$var2" = "$quo"
 
 
 
+Practical Exercise: The Pipeline
+
+    Display the start time of the earliest and latest running processes
+
+        (Get-Process).StartTime | sort-object |Select-Object -First 1 -Last 1
+
+    Identify a cmdlet that returns the current date and time then using this cmdlet and Select-object, display only the current day of the week
+
+        get-date | Select-Object -Property DayOfWeek
+
+    Identify a cmdlet that displays a list of installed hotfixes.
+
+        Get-Hotfix
+
+    Extend the expression to sort the list by install date, and display only the install date and hotfix ID.
+
+        get-hotfix | Select-Object -Property InstalledOn,HotfixID | sort-object -property InstalledOn
+
+    Extend the expression further, but this time sort by description, include description, hotfix ID, and install Date.
+
+        get-hotfix | Select-Object -Property Description,InstalledOn,HotfixID | Sort-Object -Property Description
 
 
+Practical Exercise: Custom Object
 
+    Create a custom object that contains information about the host system using the following:
+
+        Win32_ComputerSystem
+
+        Win32_BIOS
+
+        Win32_OperatingSystem
+
+        Win32_LogicalDisk
+        
+
+
+    Use the cmdlet Get-WmiObject to obtain the needed information
+
+
+$SystemInformationlol = [PSCustomObject]@{
+"ComputerName" = (Get-WmiObject -Class win32_computersystem | select-object -ExpandProperty Name)
+"Operating System" =  ((Get-WmiObject win32_operatingsystem).name)
+"Version" = ((Get-WmiObject win32_operatingsystem).version)
+"Manufacturer" = ((Get-WmiObject win32_operatingsystem).manufacturer)
+"Disks" =  (Get-WmiObject -Class win32_logicaldisk).__Path
+}
 
 
 
