@@ -6,13 +6,13 @@
     
     write-host "Get-Help!"
 
-Get-Command #Gets all available commands in powershell
+Get-Command                         #Gets all available commands in powershell
 
-Get-Verb    #Gets all available verbs that can be got
+Get-Verb                            #Gets all available verbs that can be got
 
-Get-Command -verb <verb>     #Displays all verbs that have the verb <verb>
+Get-Command -verb <verb>            #Displays all verbs that have the verb <verb>
   
-Get-Command -Noun <noun>  #Displays all of the commands that have noun <noun>
+Get-Command -Noun <noun>            #Displays all of the commands that have noun <noun>
 
 update-help -Force -ErrorAction silentlycontinue  #updates help documentation
 Get-Help <cmdlet>                   #self-explanatory
@@ -22,8 +22,8 @@ Get-Help <cmdlet>                   #self-explanatory
                     -online         opens documentation online
                     -ShowWindow     opens documentation in a searchable window
 #>
-Get-help "<string>"                   #Find command
-Get-help about_*                      #Information about CONCEPTS (ie functions, For, While, if)
+Get-help "<string>"                 #Find command
+Get-help about_*                    #Information about CONCEPTS (ie functions, For, While, if)
 
 #-------------------------------------------------------------------------------------------------------------
     
@@ -83,6 +83,7 @@ get-childitem | out-default
 <cmd string> | Fortmat-List
   #outputs a list with default properties
 <cmd string> | Format-Table
+  #                         -autosize
   #outputs a table with default properties
 <cmd string> | Format-Wide
   #outputs a wide table with default properties
@@ -236,14 +237,95 @@ Get-Childitem | Group-Object -Property Mode         #Will create a group for eac
 
 Get-Process | select-object -First 10               #Returns only the first 10 processes
 
-Get-Process | Group-Object {$_.Namme.Substring(0,1).ToIpper()} | ForEach-Object{($_.Name + " ")} *7; "======="; $_.Group
+Get-Process | Group-Object {$_.Namme.Substring(0,1).ToIpper()} | ForEach-Object{($_.Name + " ") *7; "======="; $_.Group}
+<#
+this line gets a listing of all processes and groups them by the first letter and makes the group names all capitals
+then for each group it changes the name to be that letter repeated 7 times with a space inbetween and then 7 "=" on a new line before displaying the group
+
+
+#>
+
+
 
 #-------------------------------------------------------------------------------------------------------------
-    write-host ""
+    write-host "Filtering"
+    
+<cmdlet> | where-object{$_.<property> -<comparison operator> <string to match>}
+
+Get-Service | where-object{$_.status -eq 'running'}         #gets only running services
+    
+get-childitem *.txt | where-object {$_.length -gt 100}      #list txt docs with len greater than 100
+
+get-process | where-object {$_.Company -like 'micro*'} | format-table Name, Description, Company
+#                                      -like uses REGEX
+
+get-process | where-object processname -ne "Idle" | sort-object starttime | select-object -last 10 | format-table processname, starttime
+
+get-childitem | measure-object | select-object -expandproperty count    #counts the number of ITEMS in a directory and returns it as an integer
+(get-childitem).count
+
+get-childitem | measure-object length | select-object -expandproperty count    #counts the number of files (because only files have a length property) and returns it as an integer
+
+
 #-------------------------------------------------------------------------------------------------------------
+    write-host "Arrays"
+    
+$array = 1,2,3,4,5
+$sum = 0
+$array | foreach-object { $sum += $_ }
+$sum
+
+#-------------------------------------------------------------------------------------------------------------
+    write-host "Comparing Strings"
+Compare-Object <string> <string>
+
+"Hello World!" > HelloWorld.txt
+$before=(get-content HelloWorld.txt)
+"Goodbye world :'(" > HelloWorld.txt
+$after=(get-content HelloWorld.txt)
+
+Compare-Object $before $after
+
+#-------------------------------------------------------------------------------------------------------------
+    write-host "Creating a custom object"
+    
+<name>=New-Object object
+
+Add-Member -MemberType NoteProperty -Name <name> -value <Value> -TnputObject <object>
+#                        Must use NoteProperty for custom objects
+#to change the value of a property
+
+<object>.<property>=<new value>
+
+
+Add-member -MemberType ScriptMethod -InputObject <object> -name <method> -value {"Going on a roadtrip"}
+
+#shorter way of doing it
+$marine = [PSCustomObject]@{
+"First" = "Joe"
+"Last" = "Mama"
+"Rank" = "SSgt"
+"MOS" = "1721"
+"Position" = "EA"
+}
+
+#-------------------------------------------------------------------------------------------------------------
+    write-host "PSProviders"
+
+Get-PSProvider 
+Get-PSDrive
+
+New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS
+#adds the registry hive HKU as a PSdrive so it can now be accessed on Powershell
+
+start-service -name WebClient
+New-PSDrive -Name Z -PSProvider FileSystem -Root \\live.sysinternals.com\tools
 
 #-------------------------------------------------------------------------------------------------------------
 
+
+
+#-------------------------------------------------------------------------------------------------------------
 
 
 
