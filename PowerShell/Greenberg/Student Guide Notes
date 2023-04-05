@@ -1,0 +1,126 @@
+####Variables
+
+dir variable   #Same as Get-Variable
+dir env        #Lists environmental variables
+______________________________________________
+
+####Arrays
+
+$myarray = 'What', 15, (Get-Childitem), $False. 22.1
+$my.array.count 5                   #returns amount of items in array
+$myarray[0]     What                #Shows value at index 0
+$myarray += 'addition'              #Adds a new item to the array
+
+##Multidimensional Arrays
+$multiarray = @((1,2,3,4)(5,6,7,8))
+$multiarray[0][1]                   #Specifies index 1 of index 0 array
+$multiarray[1][-1]                  #Specifies the last index of index 1 array
+________________________________________________
+
+####Pipeline
+
+Compare-Object     #Comapres two objects and marks their differences
+ConvertTo-HTML     #Converts object into HTML
+Export-Csv         #Saves object in a csv ile
+Out-File           #Writes to a file
+Out-Host           #Outputs results to console
+Out-Null           #Deletes results
+Out-String         #Converts results to plain text
+Tee-Object         #Copies the pipeline's contents and saes to a file and/or variable
+_________________________________________________
+
+####Comparison Operators
+
+-contains 
+-replac
+-is
+-match
+-like
+-in
+__________________________________________________
+
+####Loops
+
+##While Loop
+$x = 0
+while($x -le 10) {
+  Write-Host $x
+  $x++
+}
+Output: 1..10 all on a new line
+
+##Do While Loop
+$x = 0
+Do {
+  Write-Host $x 
+  $x++
+}while($x -le 10)  
+Output: 1..10 all on a new line
+
+##Do Until Loop
+$x = 0
+Do {
+  Write-Host $x
+  $x++
+}until($x -gt 10)
+Output: 1..10 all on a new line
+
+##For Each Loop
+$baseball = "Dogers", "Yankees", "Braves", "Cubs"
+ForEach($team in $baseball){
+  $team.insert(0, "MLB ")
+  }
+Output: MLB <team> all on a new line
+
+##ForEach-Object
+Get-Childitem | ForEach-Object -process {$_.Length /1024}
+Output: The size of each file divided by 1024
+___________________________________________________
+
+####Conditional Statements
+
+##If/Else
+if ($x -le 5) {
+  Write-Host "Less than 5"
+}  else {
+  Write-Host "Greater than 5"
+}
+
+##If/Elseif/Else
+if ($x -lt 5) {
+  Write-host "Less than 5"
+} elseif ($x -eq 5) {
+  Write-Host "It is 5"
+} else {
+  Write-Host "Greater then 5"
+}
+
+####Flow Control
+
+##Break
+while($x -lt 10) {
+  $x += 1
+  if($x -eq 5) {break}
+  Write-Output $x
+}
+
+##Continue
+while($x -lt 10) {
+  $x += 1
+  if ($x -eq 5) {continue}
+  Write-Output $x
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
