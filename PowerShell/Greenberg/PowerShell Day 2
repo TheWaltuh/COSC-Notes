@@ -35,5 +35,32 @@ Get-Childitem | Measure-Object | Select-Object -ExpandProperty count            
 Get-Childitem | Measure-Object Length | Select-Object -ExpandProperty count        #Gives you all of the files with-in a directory
 (Get-Childitem).count                                                              #Gives you all of the items with-in a directory
 
+####ForEach-Object
+
+$array = 1, 2, 3, 4, 5
+$sum = 0
+$array | ForEach-Object { $sum += $_ }
+$sum                                                                               #sum of all the numbers in the array
+
+'text' > text.txt 
+$before=(Get-Content ./text.txt)
+'new text' > text,txt
+$after=(Get-Content ./text.txt)
+Compare-Object $before $after                                                      #compare the file values before and after re-writing it
+
+$MyTruck = New-Object Object                                                       #creates a new object
+Add-Member -MemberType NoteProperty -Name Color -Value Blue -InputObject $MyTruck  #creates a new property for $MyTruck
+Add-Member -Me NoteProperty -in $MyTruck -Na Make -Value Ford                                     |
+Add-Member -in $MyTruck NoteProperty Model "F-150"                                                |
+$Mytruck | Add-Member NoteProperty Cab Bench                                                      V 
+$Mytruck.make                                                                      #will call out specific properties
+$MyTruck.model='newvalue'                                                          #changes the value of the property
+$MyTruck.PSObject.Properties.Remove('model')                                       #removes a property from an object
+Add-Member -MemberType ScriptMethod -InputObject $MyTruck -Name Drive -Value { "Going on a roadtrip" }
+                                                                                   #creating new methods for $MyTruck
+Add-Member -InputObject $MYTRuck ScriptMethod Accelerate { "Skinny pedal on the right" }          |
+$MyTruck | Add-Memeber ScriptMethod Park { "Finding a spot" }                                     V
+
+
 
 
