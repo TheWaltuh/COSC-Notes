@@ -71,6 +71,9 @@ Get-Member                          #gets members of an object (properties and m
 get-member -InputObject <object>    #Gets the members of the object
 
 <cmd string> | get-member -MemberType <member type>         #displays specified member type
+
+
+ | Format-list -Property *          #displays all properties for an item and their values
   
 #-------------------------------------------------------------------------------------------------------------
 
