@@ -75,6 +75,7 @@ New-PSDrive -Name Z -PSProvider FileSystem -Root
 Start-Service -Name Webclient
 New-PSDrive -Name Z -PSProvider FileSystem -Root \\live.sysinternals.com\tools     #makes a drive connect to a website
 
-
+####Basics for Comparison Operators
+-eq, -ieq, -ceq  ##Eq -c means case-sensitive and -i means case-insensitive
 
 
