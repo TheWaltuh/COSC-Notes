@@ -379,5 +379,70 @@ $soldier = [PSCustomObject]@{
 }
 $soldier
 
+###Compairison operatiors
+-eq, -ieq, -ceq #Equals
+5,6,7,3 -eq 3 #when compairing multiple to one will rreturn the mathcing if no matching will return nothing
+              #can be done on strings
+              #no wildcard with equal has to be exact
+              
+-ne, -ine, -cne #Not equals
+              #same deal as eq but opposite so when compairing multiple wll only return those that dont match
+              #can be done on strings
+              #no wildcard useable to try and cheat 
+              
+-gt, -igt, -cgt #greater than
+"Cows" -gt "Cats" #returns true b/c goes pice by piece seeing which lettter is gt , stops when inds non equal value letters
+
+-lt, -ilt, -clt #Less Than
+                  #same deal as greater than
+
+-ge, -ige, -cge #greater than or equal to
+
+-le, -ile, -cle #Less Than or equal
+
+-like, -ilike, -clike #string matches wildcard pattern
+"cat" -like "C*"  #returns true b/c is any word that starts with c and cat starts with c
+                  #like eq but can use regex and wildcards
+                  #lists return only those that match
+
+-notlike, -inotlike, -cnotlike #string does not match wildcard pattern
+                  #like not equal but can use regex and wildcards
+                  #lists return only those that dont match
+
+-match, -imatch, -cmatch #string matches regex pattern
+$text = 'Here is the model number; Mo5364'
+$patterb = 'Mo(\d{3})'
+$text -match $pattern
+                  #script shows that if text has pattern(Mo followed by 3 digits (nums)) in it
+                  #since it has Mo5364 (3 or more numbers following Mo it matches
+
+-notmatch, -inotmatch, -cnotmatch #string does not match regex pattern
+
+-replace, -ireplace, -creplace #replaces strings with a matching regex pattern
+
+-contains, -icontains, -ccontains #contains (used for a collection of items)
+$fruit = "Apples", "Oranges", "Peaches", "Pears", "Plumbs"
+$fruit -contains "Plumb"
+                 #script will return true because Plub is in the array of fruits
+
+-notcontains, -inotcontains, -cnotcontains # collection does not contain a value
+
+-in #returns true when a value is contained within a collection
+
+-notin #value is not in a collection
+
+-is #returns true if both objects are the same type
+
+-isnot #returns true if the objects are not the same type
+
+###Regex
+the * #wildcard matches zero or more characters
+the ? #ill match a single character
+[a-z] #will match a range of characters from a-z
+\d    #any digit 0-9
+
+
+
+
 
 
