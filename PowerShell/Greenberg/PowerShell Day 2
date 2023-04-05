@@ -3,7 +3,7 @@
 $myblock = { Get-Service | Format-Table Name, Status}
 & $myblock
 *Curly braces make the function a script block and allow the output to change as oppose to paranthesis*
-___________________________________________________
+____________________________________________________
 
 ####Sort
 
@@ -34,6 +34,7 @@ Get-Process | Where-Object {$_.Name -notlike 'powershell*'} | Sort-Object id -De
 Get-Childitem | Measure-Object | Select-Object -ExpandProperty count               #Gives you all of the items with-in a directory
 Get-Childitem | Measure-Object Length | Select-Object -ExpandProperty count        #Gives you all of the files with-in a directory
 (Get-Childitem).count                                                              #Gives you all of the items with-in a directory
+______________________________________________________
 
 ####ForEach-Object
 
@@ -41,12 +42,15 @@ $array = 1, 2, 3, 4, 5
 $sum = 0
 $array | ForEach-Object { $sum += $_ }
 $sum                                                                               #sum of all the numbers in the array
+_______________________________________________________
 
 'text' > text.txt 
 $before=(Get-Content ./text.txt)
 'new text' > text,txt
 $after=(Get-Content ./text.txt)
 Compare-Object $before $after                                                      #compare the file values before and after re-writing it
+
+####Making a custom object
 
 $MyTruck = New-Object Object                                                       #creates a new object
 Add-Member -MemberType NoteProperty -Name Color -Value Blue -InputObject $MyTruck  #creates a new property for $MyTruck
@@ -60,6 +64,16 @@ Add-Member -MemberType ScriptMethod -InputObject $MyTruck -Name Drive -Value { "
                                                                                    #creating new methods for $MyTruck
 Add-Member -InputObject $MYTRuck ScriptMethod Accelerate { "Skinny pedal on the right" }          |
 $MyTruck | Add-Memeber ScriptMethod Park { "Finding a spot" }                                     V
+________________________________________________________
+
+Get-PSProvider                                                                     #information about the specified Powershell Provider
+Get-PSDrive                                                                        #gets drives in current session
+New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS                        #adds a mew registry Hive to your drives
+                                                                                   #-Root puts you at the very beginning of HKEY_USERS
+New-PSDrive -Name Z -PSProvider FileSystem -Root 
+
+Start-Service -Name Webclient
+New-PSDrive -Name Z -PSProvider FileSystem -Root \\live.sysinternals.com\tools     #makes a drive connect to a website
 
 
 
