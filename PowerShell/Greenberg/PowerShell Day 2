@@ -90,6 +90,13 @@ $text -match $pattern
 Output: True     #beacuse MO5364 matches up to MO536 because 3 digits
 $matches shows all things your pattern matched on
 
+$choice = read-host("Please choose a number between 1 nad 3")
+Switch($choice) {
+  1 {"Powershell is the bestest"}
+  2 {"Bash is more better"}
+  3 {"Um Actually, Python is the bestest"}
+}
+*switch function allows the variable or comparison run through multiple options*
 
 
 
