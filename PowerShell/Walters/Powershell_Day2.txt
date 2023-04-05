@@ -1,0 +1,525 @@
+
+
+Powershell Day 2
+
+
+---------CODE BLOCK-------------
+
+code block -- enclosed in {}
+Doesn't store the output of code, it stores the actual code.
+call a code block by '& $VarName'
+
+
+
+----------Sorting---------------
+
+get-childitem | sort-object -- will sort alphabetically on process name by default.
+-property length -- now it will sort on the size of the file. 
+-descending -- now it's reversed. 
+
+get-childitem | sort-object -property extension | format-table -groupby extension -- will make seperate table for each extenison, sort by extension. You need to sort first so they're next to each other so group works.
+
+another example:
+get-service | sort-object status
+
+
+get-childitem | group-object {$_.length -lt 1k}  -- $_ will iterate and it will group up everything that's less than 1kn
+
+
+1..10 | sort-object -property {get-random}  -- will randomize the list of # from 1-10
+
+get-process | select-object -first 10  -- will get the first 10 lines. -last also exists.
+
+(get-process -name csrss|select -first 1).name | get-member  -- this ends up just getting the methods and atributes of strings, because the name is a string. 
+
+Get-Process | Group-Object {$_.Name.Substring(0,1).toUpper()} | ForEach-Object{($_.Name + " ")*7; "==========="; $_.group}
+^^^ This command gets processes, groups them by first letter, and for each group, it prints the first letter neatly. 
+
+get-process | select-object Name,ID  -- will get the processes and only display their name and ID
+
+get-service | format-table -autosize  -- will format the table with the right sizes. 
+
+
+
+
+-----------------FILTERING RESULTS-----------------------
+
+
+get-service | where-object{$_.status -eq "running"}  -- lists only the running processes.
+
+get-childitem *.txt | where-object{$_.length -gt 100}  -- list txt documents. 
+
+Get-Process | Where-Object {$_.Company -like "*micro*"} | Format-Table Name, Description, Company  -- only return proceses that are belong to companies that match *micro*
+** -like could also be -notlike to get the opposite results.
+
+Get-Process | Where-Object ProcessName -NE "Idle" | Sort-Object StartTime | Select-Object -Last 10 | Format-Table processname,starttime
+-- get processes, only get non idle processes, sort them by starttime, only show the last 10, then format them  into a table with only the name and starttime.
+
+** where-object is filetering and running a comparison, but select-object is just pulling out a whole category, you already know what you're looking for.
+
+**get-unique will only show unique instances of an object
+1,2,3,1,2,3,1,2,3,1,2,3 | sort-object | get-unique
+**must be sorted to use get-unique
+
+get-childitem | measure-object length  -- returns the length of the output of the get-childitem command. Equals the number of files in the PWD. list the amount of total objects, gets the number of files with the length attribute. 
+** won't include directories in its count of files in the directory because directories don't have a length attribute. 
+
+(get-childitem).count  -- gets the total # of objects in the output of the command. 
+
+**example of adding in a for loop and saving that to a variable. 
+$array = 1..5
+$sum = 0
+$array | foreach-object {$sum += $_}
+$sum
+
+
+$before = get-childitem
+'42' > test.txt
+$after = get-childitem
+compare-object $before $after -property length, name
+** will give you a comparison between the two variables.
+
+
+
+-----------------CREATING OUR OWN OBJECTS--------------------
+
+
+$myTruck = new-object object  
+add-member -membertype NoteProperty -Name color -value red -inputobject $mytruck
+			       
+
+$mytruck = New-Object object  							-- creates new objects
+										        -- new we just need to add attributes and properties
+Add-Member -MemberType property -Name color -value red -InputObject $mytruck		-- This is how to add an attribute
+add-member -M NoteProperty -in $mytruck -Na Make -Va Ford				-- This is the same thing but shorthand
+
+$myTruck | add-member -Membertype Noteproperty -name model -value "F-150 Raptor"
+
+** change a property this way:
+$mytruck.model = "F-250"
+
+$mytruck.psobject.properties.remove(<property to remove>)  -- this is how to remove a property. 
+
+**adding a method:
+$mytruck | add-member Scriptmethod Park {<code to execute here>}
+** when you call it you need the parentheses, like this:
+$mytruck.park()
+
+
+EXAMPLE
+
+$Marine = New-Object -TypeName pscustomobject
+$Marine | Add-Member -MemberType NoteProperty -Name "FirstName" -Value "Andrew"
+$Marine | Add-Member -MemberType NoteProperty -Name "LastName" -Value "Walters"
+$Marine | Add-Member -MemberType NoteProperty -Name "Rank" -Value "LCpl"
+**OR
+$Marine = [PSCustomObject]@{
+    "firstname" = "Andrew"
+    "Lastname" = "Walters"
+    "Rank" = "LCpl"
+}
+
+
+
+Get-PSProvider  -- gives you access to data you normally would not have access to. Lists all PS-providers for the current session of PS
+Get-PSDrive  -- gets the psdrive
+
+new-PSDrive -name HKU -PSProvider Registry -Root HKEY_USERS -- make a drive from a provider? 
+
+
+new-psdrive -name Z -psprovider filesystem -root \\live.sysinternals.com\tools
+start-service -name webclient  -- enables webclient to allow browsing of filesystems
+
+
+
+-------------COMPARISON/LOGICAL OPERATORS--------------------
+
+-eq -- equals, can compare anything, strings, ints, etc... no wildcards.
+-ne -- Not equal. Can return every object in a collection that isn't equal to value.
+-gt -- greater than
+-lt -- less than
+-ge -- greater or equal
+-le -- less than or equal
+-like -- string matches wildcard pattern
+-notlike -- string dies not match wildcard pattern
+-match -- string matches regex pattern
+-notmatch -- string does not match regex pattern
+-replace -- replaces strings matching a regex pattern
+-contains -- used to see if something is in a collection of items. collection contains value.
+-in -- returns true when value is contained within a collection. Same thing as contains, but the roles are reversed. value in collection.
+-notin -- returns true when value is not in collection.
+-is -- returns true if both objects are the same type. 
+-isnot -- returns true if both objects are not the same type. 
+
+preceding c means  -- case sensitive
+preceding i means  -- case insensitive, this is the default though.
+
+don't forget about -and, -or
+
+
+
+Flow Control: 
+
+
+if (<condition>){
+	<CODE BLOCK>
+}
+elseif ($x -eq 2){
+	<CODE BLOCK>
+}
+else{
+	<CODE BLOCK>
+}
+
+
+Switch(10){
+
+(9+1){
+    write-Host "Correct"
+}
+(10+1){
+    write-host "wrong"
+}
+{$_ -le 15} {
+    write-host "10 is less than 15"
+}
+}
+
+**This checks every case, unlike an elif which doesn't trigger if one earlier does. 
+**use {} if you want a comparison operator in the case. 
+**use "default" as an "else" type of case.
+
+
+
+
+
+$nums = 1,2,3,4,5
+$nums | forEach-object{$_ * 2}
+2,4,6,8,10
+
+**You can just pipe in an array to the cmdlet. 
+
+
+
+
+
+
+foreach ($item in gci C:\ -recurse){$item.name}
+**just another way to initialize a foreach.
+**Main difference, foreach-object does the operation in real time. Normal foreach only outputs once the full command is complete. 
+
+
+
+
+
+
+
+while ($var -ne "Marines) {
+	$var = read-host "What is the best military branch?"
+}
+**break ends the loop alltogether
+** the ++ operator works in Powershell.
+
+
+$num=0
+do{
+$num
+$num++
+} while($num -lt 3)
+
+$num=0
+do{
+$num
+$num++
+} until($num -gt 3)
+
+
+
+for($i = 0; $i -le 255; $i++){
+	write-host 192.168.0.$i
+}
+**like the c for loop but don't have to say int and you have different logical operators. 
+
+
+
+
+------------------FILE IO------------------------------
+
+set-content -path .\example.txt -value "A string"
+get-content .\example.txt
+
+add-content -path .\example.txt -value "append a string"
+get-content .\example.txt
+
+
+
+-----------------------HASH TABLES---------------------------
+
+
+Hashtables come in key-value pairs.
+$mylist = @{First = "John"; Last = "Doe"; Age = 35}
+
+
+to call values:
+$mylist.last
+	or
+$mylist["last"]
+
+
+$mylist.keys  -- gets all of your keys
+$mylist.values -- gets all of your values
+
+
+to append/edit to hash table:
+$mylist.middle = "Bon"
+	or
+$mylist["middle"] = "Bon"
+
+
+
+
+
+------------------EXERCISESSS-------------------------
+
+
+
+
+Create an array containing a range with a random starting and stopping point. The starting point will be a random number from -10 through 0. The ending point will be a random number from 1 through 20.
+Create a variable that contains the contents of the array in reverse
+
+	$top = Get-Random -Minimum 1 -Maximum 20
+	$bottom = Get-Random -Minimum -10 -Maximum 0
+
+	Write-Host ($bottom..$top)
+	Write-Host ($top..$bottom)
+
+
+
+
+
+
+
+Create two empty hash tables with the following names:
+    employee1
+    employee2
+
+Using the following table of key-value pairs, apply each key-value to the empty hash tables.
+Table 1. keys and values 	First 		Last 		ID 		Job
+				Mary		Hopper		001		Software Developer
+				John		Williams	002		Web Developer
+	
+The keys on the first row of the table while the values are on the first column of the table
+Now add a new key called Username which holds a contraction of the employee’s first initial then last name then ID. (i.e. mhopper001).
+Mary got promoted to "Software Lead" so the job key for Mary needs to be changed to "Software Lead"
+
+Create a new hash table called "employee3" that contains the following values with the respective keys.
+Table 2. 
+employee3 	First 	Last 	ID 	Job
+		Alex	Moran	003	Software Developer
+
+Add a new key called "Status" that holds the values:
+Table 3. Status Mary 		John 		Alex
+		Management	Intermediate	Entry Level
+	
+Make sure you use both dot notation and square brackets to manipulate your hash tables.
+
+
+	$employee1 = @{
+	First = "Mary"; 
+	Last = "Hopper"; 
+	ID = "001"; 
+	Job = "Software Developer"
+	}
+
+	$employee2 = @{
+	First = "John"; 
+	Last = "Williams"; 
+	ID = "002"; 
+	Job = "Web Developer"
+	}
+
+	$employee1["Username"] = $employee1.first.Substring(0,1) + $employee1.last + $employee1.ID
+	$employee2["Username"] = $employee2.first.Substring(0,1) + $employee2.last + $employee2.ID
+
+	$employee1.Job = "Software Lead"
+
+	$employee3 = @{
+	First = "Alex"; 
+	Last = "Moran"; 
+	ID = "003"; 
+	Job = "Software Developer"
+	}
+
+	$employee1.status = "Management"
+	$employee2.status = "Intermediate"
+	$employee3.status = "Entry Level"
+
+
+
+
+
+
+Display the start time of the earliest and latest running processes
+
+Identify a cmdlet that returns the current date and time then using this cmdlet and Select-object, display only the current day of the week
+
+Identify a cmdlet that displays a list of installed hotfixes.
+
+Extend the expression to sort the list by install date, and display only the install date and hotfix ID.
+
+Extend the expression further, but this time sort by description, include description, hotfix ID, and install Date.
+
+
+	Get-Process | Select-Object name,StartTime | where-object {$_.Name -ne 'Idle'} | sort-object -Property Starttime | Select-Object -first 1 -last 1
+	Get-Date | Select-Object -Property DayOfWeek
+	get-hotfix
+	get-hotfix | Sort-Object -Property InstalledOn | Select-Object InstalledOn,HotfixID
+	get-hotfix | Sort-Object -Property description | Select-Object description,InstalledOn,HotfixID
+
+
+
+
+
+
+Create a custom object that contains information about the host system using the following:
+Win32_ComputerSystem
+Win32_BIOS
+Win32_OperatingSystem
+Win32_LogicalDisk
+
+Use the cmdlet Get-WmiObject to obtain the needed information
+
+
+	$myObject = new-object -TypeName PSCustomObject
+
+	$myObject | Add-Member -MemberType NoteProperty -Name "ComputerSystem" -Value (Get-WmiObject Win32_ComputerSystem)
+	$myObject | Add-Member -MemberType NoteProperty -Name "BIOS" -Value (Get-WmiObject Win32_BIOS)
+	$myObject | Add-Member -MemberType NoteProperty -Name "OperatingSystem" -Value (Get-WmiObject Win32_operatingSystem)
+	$myObject | Add-Member -MemberType NoteProperty -Name "LogicalDisk" -Value (Get-WmiObject win32_LogicalDisk)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Find and extract the model number from the provided lines of text. If there isn’t a model number then display to the user that a model number wasn’t found
+
+Check both lines for model numbers and report individually the line and model number if found.
+
+Use the following variables for your script
+
+$line1 = "Do you have model number: MT5437 for john.doe@sharklasers.com?"
+$line2 = "What model number for john.doe@sharklasers.com?"
+
+	$line1 = "Do you have model number: MT5437 for john.doe@sharklasers.com?"
+	$line2 = "What model number for john.doe@sharklasers.com?"
+	$pattern = "MT[\d]{4}"
+
+	if ($line1 -match $pattern) {
+	    Write-Host "line1 contains" $matches.values
+	}
+	else {
+	    Write-Host "No number found."
+	}
+
+	if ($line2 -match $pattern) {
+	    Write-Host "line2 contains" $matches.values
+	}
+	else {
+	    Write-Host "No number found."
+	}
+
+
+
+
+
+
+
+
+
+Part 1
+
+Use an array to iterate and open the following
+Notepad
+MS Edge
+MSpaint
+Query the processes
+Kill the processes from PowerShell
+
+
+Part 2
+
+Use an array to iterate and open the following
+Notepad
+MS Edge
+MSpaint
+Query the processes
+Save the ProcessIDs to a text file called procs.txt
+Iterate through the ProcessIDs in the text file and kill them
+
+
+Part 3
+
+Use an array to iterate and open the following
+Notepad
+MS Edge
+MSpaint
+Query the processes and display only the following information in order by process ID
+Process ID
+Process Name
+The time the process started
+The amount of time the process has spent on the processor
+The amount of memory assigned to the process
+
+
+	$myList = "notepad", "msedge", "mspaint"
+
+	$myList | ForEach-Object {Start-Process $_}
+	Start-Sleep -Seconds 3
+	$mylist | ForEach-Object {get-process "$_*"}
+	$mylist | ForEach-Object {(get-process "*$_*").Kill()}
+
+
+	$myList | ForEach-Object {Start-Process $_}
+	Start-Sleep -Seconds 3
+	$mylist | ForEach-Object {(get-process "$_*").Id} > procs.txt
+	Get-Content -Path procs.txt | ForEach-Object {stop-process $_}
+
+
+	$myList | ForEach-Object {Start-Process $_}
+	Start-Sleep -Seconds 3
+	$mylist | ForEach-Object {get-process "$_*"} | Sort-Object -Property Id | Select-Object Id,Name,StartTime,TotalProcessorTime,PrivateMemorySize
+	$mylist | ForEach-Object {(get-process "*$_*").Kill()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
