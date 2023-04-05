@@ -1,6 +1,5 @@
-##
-##
-##
+#------------------------------------------------------------------------------------------------------------
+
     write-host "PowerShell Day 1!"
     
 #------------------------------------------------------------------------------------------------------------    
@@ -208,6 +207,42 @@ write-host "Numbers ending in .5 always round to the nearest even integer"
 
 #-------------------------------------------------------------------------------------------------------------
 
+    write-host "PowerShell Day 2!"
+    
+#-------------------------------------------------------------------------------------------------------------
+    write-host "Script Block"
+    
+$myblock = { Get-Service | Format-Table Name,Service }
+
+$myblock                                            #Get-Service | Format-Table Name,Service
+& $myblock                                          #runs the block of everytime you call it
+
+#-------------------------------------------------------------------------------------------------------------
+    write-host "Sorting"
+
+Get-Childitem | Sort-Object                         #By default sorts alphabetically
+<#                          -Property               (length)
+                            -Descending             (reverse)
+                            -Unique
+#>
+
+Get-Childitem | Sort-Object -Property Extension | Format-Table -GroupBy Extension
+                                                    #Sorts all files by extension
+1, 7, 10, 8, 2, 3 | sort-object                     #sorts the numbers low to high
+
+
+Get-Childitem | Group-Object {$_.Length -lt 1kb}    #Will create a group for objects that are less than 1kb and those that are not
+Get-Childitem | Group-Object -Property Mode         #Will create a group for each type of mode and the members of thosegroups are the files in the dir
+
+Get-Process | select-object -First 10               #Returns only the first 10 processes
+
+Get-Process | Group-Object {$_.Namme.Substring(0,1).ToIpper()} | ForEach-Object{($_.Name + " ")} *7; "======="; $_.Group
+
+#-------------------------------------------------------------------------------------------------------------
+    write-host ""
+#-------------------------------------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------------------------------------
 
 
 
