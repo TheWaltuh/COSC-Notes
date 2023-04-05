@@ -234,16 +234,34 @@ $myblock = { Get-service | format-table name, status }  #gets list of services a
  
 $<script block name> = { <commands to be in block> }    #basic syntax
 
+###Sorting
+
+get-childitem | Sort-object                             #sorts present working directory alphabetically 
+                                    -descendin          #high to low (this case/order would be largest file to smallest)
+                            length                      #size of file
 
 
 
+get-childitem |                                                                           #lists present working directory
+                sort-object -property Extension |                                         #sorts output of cmdlet piped into it by the extension that the file is (.dll,.txt,etc)
+                                                  format-table -groupby Extention         #presents output of cmdlet piped ino it as a table groupng by extension
+
+get-service | sort-object status                        #sorts the output of get service by the status of the service
 
 
+get-childitem |                                         #known what this does
+                group-object {$_.Length -lt 1kb}        #outputs only those that are less then 1 kb
+                                                        #$_ variable that refers to value that is going through the pipeline ($psitem is same thing)
+                                                        #sort-object will display the files that are lt 1kb not just how many
 
+1,7,10,8,2,3 | Sort-Object                              #returns numbers in ascending order
 
+<command string> | sort-object processname | select-object -first <n>             #sorts by the processname and then returns first N objects from output piped into selet-object command
 
-
-
+get-process | group-object {$_.name.substring(0,1).ToUpper()} |                                                               #groups output piped in by name of the process and cause o substring(0,1) takes first letter
+                                                                                                                              #to upper just capitalizes it
+                                                                foreach-object{($_.name + " ") *7; "=========="; $_.Group}    #then prints the letter from output 7 times and returns "==========" below, bewfore finally under that grouping process by the letter
+                                                                                                                              #final processes are returned under the letter that they start with
 
 
 
