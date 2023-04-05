@@ -277,6 +277,7 @@ get-service | format-table -autosize                                            
 where-object                      #filtering command
 select-object                     #to grab certian either objects or properties
 
+
 Get-Service |Where-Object{$_.Status -eq 'running'}                              #displays only the output from irst command that has a status of running
 
 get-childitem *.txt | Where-object{$_.Length -gt 100}                           #first part gets anything in currend working directory that ends in .txt
@@ -314,6 +315,13 @@ get-childitem <PSDRIVE>:                                                        
 
 new-PSDrive -name Z -PSProvider FileSystem -root \\live.sysinternals.com\tools  #another way to create a new PSDrive
 start-service -Name WebClient                                                   #enables webclient to allow browsing of the file system
+
+set-content -path .\example.txt -value "a string"                               #write content to a file
+get-content .\example.txt
+
+add-content-path .\example.txt -value "an additional string"                    #append content to a file
+get-content .\example.txt
+
 
 
 ###Arrays
@@ -442,7 +450,109 @@ the ? #ill match a single character
 \d    #any digit 0-9
 
 
+###If Statements
+#elseif not elif
+
+$x=5
+i ($x -gt 10){"$x is greater than 10"}
+
+if ($x -eq 5){
+    write-host "Conditon is true - x is equal to 5" -ForegroundColor Red
+}
 
 
+
+###Switches
+#used to test more then one value
+#unlike if statements will go through all options before quitting
+
+$choice = read-host("Please choose a number between 1 and 3")
+switch($choice){
+  1{"Powershell is the bestest"}
+  2{"Bash is more better"}
+  3{"Um actually, Python is the best"}
+}
+
+Switch(10)
+{
+    (1 + 9) {
+        "Congrats you did adds right"
+        }
+    (1 + 10) {
+        "Congrats you did adds wrong"
+        }
+    (10 - 1) {
+        "Congrats you did subs right"
+        }
+    (10 - 2) {
+        "Congrats you did subs wrong"
+        }
+}
+
+$val = "Meg"
+switch($val){
+    Peter {"Thats the father!"}
+    Lois  {"Thats the mother"}
+    Chris {"Thats the retard brother"}
+    Brian {"Thats the dog"}
+    default {"Nobody cares about you $val"}\
+    
+}
+          #for this switch since it doesnt match any of them it will return the default switch
+          
+
+###for loops
+
+for($i=0; $i -le 255; $i++) {
+    write-host "192.168.0.$i"
+}
+
+$nums = 1,2,3,4,5
+$nums | ForEach-Object{$_ * 2}
+    #outputs 2,4,6,8,10
+    
+ForEach ($item in gci C:\ -recurse){$item.name}
+    #for each loops must complete the whole expression before moving to the condition
+    
+
+###while loops
+$var = ""
+while($var -ne "Marines") {
+    $var = Read-host "Which branch be the best"
+}
+
+$num=0
+do {
+  $num
+  $num++
+}while($num -lt 3)
+
+$num=0
+do {
+  $num
+  $num++
+}until($num -lt 3)
+    #difference between until and while is that until will include three cause it returns the value it ended on
+
+###Flow Control
+$num = 0
+while($num -lt 10) {
+    $num += 1
+    if ($num -eq 5) {
+        break
+    }}
+$num
+
+###Hash Tables
+#can have arrays inside as a value for a key in a hash table
+#below creates a hash table
+$mylist = @{First = "John"; Last = "Doe"; mid = "Bon"; Age = "35"}
+#to call them 
+$mylist.First
+$mylist["Last"]
+
+$mylist.Keys  #gives you all the keys you have to call on
+
+$mylist.values  #gives you all the values you could call for
 
 
