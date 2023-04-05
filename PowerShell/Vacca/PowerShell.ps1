@@ -408,22 +408,135 @@ $num =5
 $num =5
 (($num -gt 5)) -and (($num -lt 6))  #False
 
-#-------------------------------------------------------------------------------------------------------------
-
-
-
 
 #-------------------------------------------------------------------------------------------------------------
+    write-host "If statements"
+
+if((<condition>) -or (<condition>)){
+<commands to execute>
+}
+elseif ((<consition>) -and (<condition>)) {
+<commands to execute>
+}
+elseif ((<condition>) -xor (<condition>)) {
+<commands to execute>
+}
+else {
+<"catch all" commands to execute>
+}
+
+
+if($x -gt 10){"$x is greater than 10"} elseif ($x -lt 10){"$x is less than 10"} else {"10 is equal to 10"}
+
+if (($x -ge 1) -xor ($x -ge 10)) {"One condition is true"} else {"More than one was true"}
+#-------------------------------------------------------------------------------------------------------------
+    write-host "Switch statements"
+    
+switch(<value>) {
+
+{<condition>} {<commands>}
+
+<value> {<commands>}
+
+{ ((<condition>) -and (<condition>)) } {<commands>}
+
+(<condition>) {<commands>}
+
+default {<commands for "catch all"> <#will only execute if nothing else did #>}
+}
+
+switch(10)
+{
+    (1+9){
+    "Correct"
+    }
+    (1+10){
+    "False"
+    }
+    (11-1){
+    "Correct"
+    }
+    (1-11){
+    "False"
+    }
+}
+#like an if statement but even if one is true it still tries the other conditions
+
+#-------------------------------------------------------------------------------------------------------------
+write-host "Loops"
+
+$nums = 1,2,3,4,5
+$nums | ForEach-Object{$_ * 2}
+<#  2
+    4
+    6
+    8
+    10
+#>  
+
+$list = 'a','b','c','d'
+$list | ForEach-Object{$_.toupper()}
+
+foreach ($item in gci C:\users\student){$item.name}
+    #for each will wait til the command fully executes to change the output while foreach-object will do it in live time
+    
+    
+    
+while(<condition>) {
+<commands>
+}
+
+$ans = Read-Host -Prompt "Who is the best:"
+while(($ans = Read-Host -Prompt "Who is the best:") -ne "Vacca") {
+    switch($ans){
+    "Maclean" {"Nope"; break}
+    "Beatty" {"No"; break}
+    default {"definitely not"; break}
+    }
+}                                   #Asks who the best is over and over until user enters Vacca
+
+For($i = 0; $i -le 255; i++) {
+    write-host "192.168.0.$i"
+}                                   #every IP 192.168.0.0-192.168.0.255
+
+$num = 0
+while($num -lt 10) {
+    $num += 1
+    if($num -eq 5){
+    break
+    }
+}
+$num                    #5
+
+$world = 'USA','Russia','Spain','Germany','Brazil'
+$rand = $world | get-random
+$world
+$closing = "never"
+$ans = Read-Host "Where is the world is Maclean?"
+do {
+    if($ans -eq $rand) {
+    write-host "FOUND HIM" -Foregroundcolor Green
+    break
+    }
+    write-host "YOU LOSE" -ForegroundColor Red
+    $closing = "y"
+} until ($closing -eq "y")
+
 
 
 
 #-------------------------------------------------------------------------------------------------------------
+    write-host "Hash Table"
+    
+ <name> = @{<key> = <value>; <key2> = <value2>}
+ 
+ <name>.<key>     #value
+ <name>.<key> = <value>     #add or change value in hashtable
+ <name>.remove(<key>)       #removes key from hash table
+    
+ $mylist = @{First="John"; LAST = "Doe"; MID = "Bon"; AGE = 35}
 
-
-
-#-------------------------------------------------------------------------------------------------------------
-
-
+ $list = @{ element1 = 5; array1 = 1..5; array2 = 6, 7, 8}
 
 #-------------------------------------------------------------------------------------------------------------
 
@@ -436,9 +549,10 @@ $num =5
 
 <#
 Order of PoSh Cmdlet
-1. Alias
+1.Alias
 2.Functions
 3.cmdlets
 4.Path Enviroment Variables
 #>
 
+-ForegroundColor
