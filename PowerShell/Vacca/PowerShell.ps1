@@ -322,11 +322,114 @@ start-service -name WebClient
 New-PSDrive -Name Z -PSProvider FileSystem -Root \\live.sysinternals.com\tools
 
 #-------------------------------------------------------------------------------------------------------------
+    write-host "Comparison Operators"
+    
+-eq -ieq -ceq                       #equals
+-ne -ine -cne                       #not equal
+
+    "car" -eq "car"                     #True
+    "cars" -eq "car*"                   #False (no wildcards)
+    "car","truck","van" -eq "car"       #car
+
+    "car" -neq "caro"                   #True
+    "cars" -neq "car*"                  #True (no wildcards)
+    "car","truck","van" -eq "car"       #truck
+    #                                    van
+
+-gt -igt -cgt                       #greater than
+-ge -ige -cge                       #greater than or equal to
+
+    5 -gt 8                             #False
+    8 -gt 5                             #True
+    15,6,12,4 -gt 8                     #15
+    #                                    12
+
+    "A" -gt "B"                         #False
+    "C" -gt "B"                         #True       (ASCII order)
+
+-lt -ilt -clt                       #less than
+-le -ile -cle                       #less than or equal to
+
+    5 -lt 8                             #True
+    8 -lt 5                             #False
+    15,6,12,4 -lt 8                     #6
+    #                                    4
+
+-like -ilike -clike                 #string matches wildcard pattern
+-notlike -inotlike -cnotlike        #string doesn't match wildcard pattern
+
+    "Goodbye" -like "Go*"               #True
+                    <# *            any # of any characters
+                       ?            any single character
+                       [1, 2, 3]    any of the characters in like list
+                    
+                    #>
+
+    "Powershell", "Server" -notlike "*shell"    #server
+
+
+-match -imatch -cmatch              #matches REGEX pattern
+-notmatch -inotmatch -cnotmatch     #does not contain regex pattern
+
+    $text = 'Here is the model number: MO5364'
+    $pattern = 'MO(\s[3])'
+    $text -match $patter                #True because the string in $text contain MO followed by 3 digits
+
+-replace -ireplace -creplace        #replaces strings matching REGEX pattern
+
+-contains -icontains -ccontains     #used for a collection of items
+-notcontains -inotcontains -cnotcontains    #Collection does not contain a value
+
+    $fruit = 'apple','orange','pear','tomato'
+    $fruit -contains "pear"                     #True
+
+
+-in                                 #returns true when value is contained in collection
+-notin                              #value is not in a collection
+    
+    $nums = 1..34
+    8 -in $nums                     #True
+
+
+-is                                 #returns true if both objects are the same type
+-isnot                              #returns false if both objects are the same type
+
+    write-host "Combining Operators"
+
+$num =5
+(($num -gt 1)) -and (($num -lt 4))  #False
+
+$num =5
+(($num -gt 1)) -and (($num -lt 6))  #True
+
+$num =5
+(($num -gt 1)) -or (($num -lt 4))  #True
+
+$num =5
+(($num -gt 5)) -and (($num -lt 6))  #False
+
+#-------------------------------------------------------------------------------------------------------------
+
 
 
 
 #-------------------------------------------------------------------------------------------------------------
 
+
+
+#-------------------------------------------------------------------------------------------------------------
+
+
+
+#-------------------------------------------------------------------------------------------------------------
+
+
+
+#-------------------------------------------------------------------------------------------------------------
+
+
+
+#-------------------------------------------------------------------------------------------------------------
 
 
 ##############################################################################################################
