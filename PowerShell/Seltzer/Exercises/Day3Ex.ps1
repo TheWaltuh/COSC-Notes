@@ -85,7 +85,7 @@ Function personal {
     $lbs = ([Float]$Is_You_Tubby)
     $kgs = $lbs / 2.2
 
-    $data = [PSCustomObject]@{
+    $data = [ordered] @{
     "First"      = $First_Name
     "Last"       = $Last_Name
     "Age"        = $Your_Age
@@ -99,10 +99,37 @@ Practical Exercise: Advanced Functions
 
 1. Create an advanced function using Begin, Process, and End, that takes two(2) arguments. The first argument being an array of at least ten(10) integers and the second argument being a single integer. Search the array argument for every occurrence of the single integer argument then return the sum of all elements in the array excluding every occurrence of the single integer argument.
 
+Function get-multisum($var1,$var2) {
+Begin{
+$sum = 0
+}
+Process{
+ForEach ($i in $var1) {if ($i -ne $var2) {$sum = $sum + $i}}
+}
+End{
+$sum
+}
+}
 
 2. Create an advanced function using Begin, Process, End, that prompts the user to enter the names of three(3) U.S. States then returns the names of the states in the order of longest name to shortest name and the amount of characters in each name
 
-
-
-
-
+Function Get-LongestName {
+    param(
+    [Parameter(Mandatory=$true)]
+    $state1,
+    [Parameter(Mandatory=$true)]
+    $state2,
+    [Parameter(Mandatory=$true)]
+    $state3
+    )
+    Begin{
+    $a = ($state1).Length
+    $b = ($state2).Length
+    $c = ($state3).Length
+    }
+    Process{
+    }
+    End{
+    ("$state1 : $a","$state2 : $b","$state3 : $c") | Sort-Object -Property Length -Descending
+    }
+}
