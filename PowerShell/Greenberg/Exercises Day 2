@@ -24,16 +24,17 @@ $hostsystem = [PSCustomObject]@{
 $hostsystem
 
 ###Compasion and Condition
-#1.extract model number from the lines of text. If it isn't found display that it wasn't found
 $line1 = "Do you have model number: MT5437 for john.doe@sharklasers.com?"
 $line2 = "What model number for john.doe@sharklasers.com?"
 $pattern = 'MT(\d{4})'
 $match = ($matches.0)
 switch($pattern) {
-    {$line1 -match $_}{Write-Host 'Model Number was found on $line1';break }
-    {$line2 -match $_}{Write-Host 'Model Number was found on $line2';break }
-    default {Write-Host "Model Number wasn't found"}
+    {$line1 -match $_}{Write-Host 'Model Number was found on $line1';}
+    {$line2 -match $_}{Write-Host 'Model Number was found on $line2'}
+    {$line1 -notmatch $_}{Write-Host 'Model Number was not found on $line1'}
+    {$line2 -notmatch $_}{Write-Host 'Model Number was not found on $line2'}
 }
+
 ###Looping and Iteration
 #1. use and array to create,query, and kill process
 $applications = ‘Notepad’, ‘MSEdge’, ‘MSPaint’
