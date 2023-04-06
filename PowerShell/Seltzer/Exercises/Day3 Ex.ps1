@@ -118,11 +118,11 @@ $sum
 
 Function Get-LongestName {
     param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$true, HelpMessage = "Enter a US State")]
     $state1,
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$true, HelpMessage = "Enter a US State")]
     $state2,
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$true, HelpMessage = "Enter a US State")]
     $state3
     )
     Begin{
