@@ -288,7 +288,7 @@ Stop-Process -id $i
 
 foreach ($item in $appstoopen) {
 Start-Process $item
-Get-Process -Name $item | Select-Object -Property id,name,StartTime,TotalProcessorTime,VirtualMemorySize64
+Get-Process -Name $item | Select-Object -Property id,name,StartTime,TotalProcessorTime,WorkingSet64
 Stop-Process -name $item
 }
  
