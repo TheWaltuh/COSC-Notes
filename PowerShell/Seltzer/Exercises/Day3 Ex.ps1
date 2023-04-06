@@ -123,13 +123,14 @@ Function Get-LongestName {
     $state3
     )
     Begin{
+    }
+    Process{
     $a = ($state1 -replace '\s',"").Length
     $b = ($state2 -replace '\s',"").Length
     $c = ($state3 -replace '\s',"").Length
-    }
-    Process{
+    $ret = ("$state1 : $a","$state2 : $b","$state3 : $c") | Sort-Object -Property Length -Descending
     }
     End{
-    ("$state1 : $a","$state2 : $b","$state3 : $c") | Sort-Object -Property Length -Descending
+    $ret
     }
 }
