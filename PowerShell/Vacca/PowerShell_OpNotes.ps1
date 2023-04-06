@@ -1,52 +1,54 @@
+#---------------------------------------------------------------------------------------------
 
-Practical Exercise: Find Cmdlets
+#Practical Exercise: Find Cmdlets
 
-    Ensure that you have the latest copy of help by updating your help system.
+#    Ensure that you have the latest copy of help by updating your help system.
 
 update-help -Force -ErrorAction silentlycontinue
 
-    Which cmdlets deal with the viewing/manipulating of processes?
+#    Which cmdlets deal with the viewing/manipulating of processes?
 
 get-command *process*
 get-help *process*
 get-process
 
-    Display a list of services installed on your local computer.
+#    Display a list of services installed on your local computer.
 
 Get-Service
 
-    What cmdlets are used to write or output objects or text to the screen?
+#    What cmdlets are used to write or output objects or text to the screen?
 
 write-host
 write-output
 
-    What cmdlets can be used to create, modify, list, and delete variables?
+#    What cmdlets can be used to create, modify, list, and delete variables?
 
 New-Variable
 Set-Variable
 Get-Variable
 Remove-Variable
 
-    What cmdlet can be used, other than Get-Help, to find and list other cmdlets?
+#    What cmdlet can be used, other than Get-Help, to find and list other cmdlets?
 
 Get-Command
 
-    Find the cmdlet that is used to prompt the user for input.
+#    Find the cmdlet that is used to prompt the user for input.
 
 Read-Host
 
+#---------------------------------------------------------------------------------------------
 
-Practical Exercise: Running Cmdlets
+#Practical Exercise: Running Cmdlets
 
-    Display a list of running processes.
+#    Display a list of running processes.
     
 Get-Process
 
-    Display a list of all running processes that start with the letter "s".
+#    Display a list of all running processes that start with the letter "s".
 
 Get-Process -name "S*"
 
-    Find the cmdlet and its purpose for the following aliases:
+#    Find the cmdlet and its purpose for the following aliases:
     
     get-alias -name gal,dir,echo,?,%,ft
 
@@ -62,111 +64,112 @@ Get-Process -name "S*"
 
         ft      Format-Table
 
-    Display a list of Windows Firewall Rules.
+#    Display a list of Windows Firewall Rules.
     
     get-command -ver "Get" -noun "*firewall*"
 
 Get-NetFirewallRule
 
-    Create a new alias called "gh" for the cmdlet "Get-Help"
+#    Create a new alias called "gh" for the cmdlet "Get-Help"
 
 set-alias gh get-help
 
+#---------------------------------------------------------------------------------------------
 
-Practical Exercise: Variables
+#Practical Exercise: Variables
 
-    Create a variable called "var1" that holds a random number between 25-50.
+#    Create a variable called "var1" that holds a random number between 25-50.
 
 $var1 = (Get-Random -minimum 25 -maximum 50)
 
-    Create a variable called "var2" that holds a random number between 1-10.
+#    Create a variable called "var2" that holds a random number between 1-10.
 
 $var1 = (Get-Random -minimum 1 -maximum 10)
 
-    Create a variable called "sum" that holds the sum of var1 and var2.
+#    Create a variable called "sum" that holds the sum of var1 and var2.
 
 $sum = $var1 + $var2
 
-    Create a variable called "sub" that holds the difference of var1 and var2.
+#    Create a variable called "sub" that holds the difference of var1 and var2.
 
 $sub = $var1 - $var2
 
-    Create a variable called "prod" that holds the product of var1 and var2.
+#    Create a variable called "prod" that holds the product of var1 and var2.
 
 $prod = $var1 * $var2
 
-    Create a variable called "quo" that holds the quotient of var1 and var2.
+#    Create a variable called "quo" that holds the quotient of var1 and var2.
 
 $quo = $var1 / $var2
 
-    Replace the variables in text with their values in the following format:
+#    Replace the variables in text with their values in the following format:
 
         "var1" + "var2" = "sum"
 
 write-host "$var1" + "$var2" = "$sum"
 "{0} + {1} = {2}" -f $var1,$var2,$sum
 
-    Replace the variables in text with their values in the following format:
+#    Replace the variables in text with their values in the following format:
 
         "var1" - "var2" = "sub"
 
 write-host "$var1" - "$var2" = "$sub"
 "{0} - {1} = {2}" -f $var1,$var2,$sub
 
-    Replace the variables in text with their values in the following format:
+#    Replace the variables in text with their values in the following format:
 
         "var1" * "var2" = "prod"
 
 write-host "$var1" * "$var2" = "$prod"
 "{0} * {1} = {2}" -f $var1,$var2,$prod
 
-    Replace the variables in text with their values in the following format:
+#    Replace the variables in text with their values in the following format:
 
         "var1" / "var2" = "quo"
 
 write-host "$var1" / "$var2" = "$quo"
 "{0} / {1} = {2}" -f $var1,$var2,$quo
 
+#---------------------------------------------------------------------------------------------
 
+#Practical Exercise: The Pipeline
 
-Practical Exercise: The Pipeline
-
-    Display the start time of the earliest and latest running processes
+#    Display the start time of the earliest and latest running processes
 
         (Get-Process).StartTime | sort-object |Select-Object -First 1 -Last 1
 
-    Identify a cmdlet that returns the current date and time then using this cmdlet and Select-object, display only the current day of the week
+#    Identify a cmdlet that returns the current date and time then using this cmdlet and Select-object, display only the current day of the week
 
         get-date | Select-Object -Property DayOfWeek
 
-    Identify a cmdlet that displays a list of installed hotfixes.
+#    Identify a cmdlet that displays a list of installed hotfixes.
 
         Get-Hotfix
 
-    Extend the expression to sort the list by install date, and display only the install date and hotfix ID.
+#    Extend the expression to sort the list by install date, and display only the install date and hotfix ID.
 
         get-hotfix | Select-Object -Property InstalledOn,HotfixID | sort-object -property InstalledOn
 
-    Extend the expression further, but this time sort by description, include description, hotfix ID, and install Date.
+#    Extend the expression further, but this time sort by description, include description, hotfix ID, and install Date.
 
         get-hotfix | Select-Object -Property Description,InstalledOn,HotfixID | Sort-Object -Property Description
 
 
-Practical Exercise: Custom Object
+#Practical Exercise: Custom Object
 
-    Create a custom object that contains information about the host system using the following:
+#    Create a custom object that contains information about the host system using the following:
 
-        Win32_ComputerSystem
+#        Win32_ComputerSystem
 
-        Win32_BIOS
+#        Win32_BIOS
 
-        Win32_OperatingSystem
+#        Win32_OperatingSystem
 
-        Win32_LogicalDisk
+#        Win32_LogicalDisk
         
 
 
-    Use the cmdlet Get-WmiObject to obtain the needed information
+#    Use the cmdlet Get-WmiObject to obtain the needed information
 
 
 $SystemInformationlol = [PSCustomObject]@{
@@ -177,23 +180,45 @@ $SystemInformationlol = [PSCustomObject]@{
 "Disks" =  (Get-WmiObject -Class win32_logicaldisk).__Path
 }
 
+#---------------------------------------------------------------------------------------------
+
+#Practical Exercise: Comparison and Condition
+
+#    Find and extract the model number from the provided lines of text. If there isn’t a model number then display to the user that a model number wasn’t found
+
+#    Check both lines for model numbers and report individually the line and model number if found.
+
+$line1 = "Do you have model number: MT5437 for john.doe@sharklasers.com?"
+$line2 = "What model number for john.doe@sharklasers.com?"
+switch($papttern){
+    {$line1 -match $_ | out-null} {
+        }
+    {$line2 -match $_ | out-null} {
+        }
+    {$line1 -notmatch $_} {
+        }
+    {$line2 -notmatch $_} {
+        }
+}
 
 
-Practical Exercise: Looping & Iteration
+#---------------------------------------------------------------------------------------------
 
-    Part 1
+#Practical Exercise: Looping & Iteration
 
-        Use an array to iterate and open the following
+#    Part 1
 
-            Notepad
+#        Use an array to iterate and open the following
 
-            MS Edge
+#            Notepad
 
-            MSpaint
+#            MS Edge
 
-        Query the processes
+#            MSpaint
 
-        Kill the processes from PowerShell
+#        Query the processes
+
+#        Kill the processes from PowerShell
 
 $appstoopen='Notepad','MSEdge','MSpaint'
 
@@ -205,21 +230,21 @@ Stop-Process -name $item
 
 
 
-    Part 2
+#   Part 2
 
-        Use an array to iterate and open the following
+#        Use an array to iterate and open the following
 
-            Notepad
+#            Notepad
 
-            MS Edge
+#            MS Edge
 
-            MSpaint
+#            MSpaint
 
-        Query the processes
+#        Query the processes
 
-        Save the ProcessIDs to a text file called procs.txt
+#        Save the ProcessIDs to a text file called procs.txt
 
-        Iterate through the ProcessIDs in the text file and kill them
+#        Iterate through the ProcessIDs in the text file and kill them
 
 $appstoopen='Notepad','MSEdge','MSpaint'
 
@@ -237,27 +262,27 @@ Stop-Process -id $i
 
 
 
-    Part 3
+#    Part 3
 
-        Use an array to iterate and open the following
+#        Use an array to iterate and open the following
 
-            Notepad
+#            Notepad
 
-            MS Edge
+#            MS Edge
 
-            MSpaint
+#            MSpaint
 
-        Query the processes and display only the following information in order by process ID
+#        Query the processes and display only the following information in order by process ID
 
-            Process ID
+#            Process ID
 
-            Process Name
+#            Process Name
 
-            The time the process started
+#            The time the process started
 
-            The amount of time the process has spent on the processor
+#            The amount of time the process has spent on the processor
 
-            The amount of memory assigned to the process
+#            The amount of memory assigned to the process
 
  $appstoopen='Notepad','MSEdge','MSpaint'
 
