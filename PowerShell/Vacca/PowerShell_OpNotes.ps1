@@ -179,6 +179,96 @@ $SystemInformationlol = [PSCustomObject]@{
 
 
 
+Practical Exercise: Looping & Iteration
+
+    Part 1
+
+        Use an array to iterate and open the following
+
+            Notepad
+
+            MS Edge
+
+            MSpaint
+
+        Query the processes
+
+        Kill the processes from PowerShell
+
+$appstoopen='Notepad','MSEdge','MSpaint'
+
+foreach ($item in $appstoopen) {
+Start-Process $item
+Get-Process $item
+Stop-Process -name $item
+} 
+
+
+
+    Part 2
+
+        Use an array to iterate and open the following
+
+            Notepad
+
+            MS Edge
+
+            MSpaint
+
+        Query the processes
+
+        Save the ProcessIDs to a text file called procs.txt
+
+        Iterate through the ProcessIDs in the text file and kill them
+
+$appstoopen='Notepad','MSEdge','MSpaint'
+
+foreach ($item in $appstoopen) {
+Start-Process $item
+Get-Process $item
+(Get-Process $item).id | Where-Object {$item.name -ne "Idle"} >> procs.txt
+}
+
+$a=(get-content .\procs.txt)
+
+foreach ($i in $a) {
+Stop-Process -id $i
+} 
+
+
+
+    Part 3
+
+        Use an array to iterate and open the following
+
+            Notepad
+
+            MS Edge
+
+            MSpaint
+
+        Query the processes and display only the following information in order by process ID
+
+            Process ID
+
+            Process Name
+
+            The time the process started
+
+            The amount of time the process has spent on the processor
+
+            The amount of memory assigned to the process
+
+ $appstoopen='Notepad','MSEdge','MSpaint'
+
+foreach ($item in $appstoopen) {
+Start-Process $item
+Get-Process -Name $item | Select-Object -Property id,name,StartTime,TotalProcessorTime,VirtualMemorySize64
+Stop-Process -name $item
+}
+ 
+ 
+
 
 
 
