@@ -278,6 +278,12 @@ $sum = 0
 $array | foreach-object { $sum += $_ }
 $sum
 
+$array=((get-random -Minimum -10 -Maximum 0)..(Get-Random -Minimum 1 -Maximum 20))
+$array2=$array.clone()
+[array]::reverse($array2) 
+
+
+
 #-------------------------------------------------------------------------------------------------------------
     write-host "Comparing Strings"
 Compare-Object <string> <string>
