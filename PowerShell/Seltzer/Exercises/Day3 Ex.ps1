@@ -123,6 +123,7 @@ Function Get-LongestName {
     $state3
     )
     Begin{
+    Write-Output "Organized States by Order`n~~~~~~~~~~~~~~~~~~~~~~~~~"
     }
     Process{
     $a = ($state1 -replace '\s',"").Length
