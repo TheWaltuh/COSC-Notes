@@ -399,3 +399,23 @@ end{
     $LongestToShortest
 }
 }
+#same question but using a hash table
+function Get-LongestName{
+    param(
+    $a,
+    $b,
+    $c
+    )
+begin{
+    $statehash=@{}
+    $statearr=$a,$b,$c
+    
+}
+process{
+    $statearr | %{$statehash.$_=$_.length}
+    $statehash = $statehash.GetEnumerator() | Sort-Object -Property value -Descending
+}
+end{
+    $statehash | %{($_.name) + ": " + $($_.value)}
+}
+}
