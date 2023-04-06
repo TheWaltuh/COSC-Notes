@@ -353,7 +353,7 @@ function person {
         $Age,
         [Parameter(Mandatory)]
         [int]$Weight )
-    $kilos = ($weight * 0.453)
+    $kilos = [MATH]::Round($weight * 0.453)
     
     $data = @{
     "First" = $FirstName
