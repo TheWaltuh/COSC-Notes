@@ -559,6 +559,7 @@ $mylist.Keys  #gives you all the keys you have to call on
 
 $mylist.values  #gives you all the values you could call for
 
+$mylist.<new key> = <new value>   #how to add on items to a hash table post creation
 
 ##########################################################################################################################################################
 
