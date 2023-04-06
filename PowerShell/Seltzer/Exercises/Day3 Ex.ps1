@@ -2,8 +2,11 @@ Practical Exercise: Create Functions
 
 1. Write a function that returns the Ordinal date of the current date.
 function Get-OriginalDate {
-    $var = Get-Date
-    $var
+    $day = (Get-Date).day
+    $month = (Get-Date).month
+    $year = (Get-Date).year
+    $ord = "$month/$day/$year"
+    $ord
 }
 
 2. Create a function that takes a number(n) as an argument and returns the square(n^2) of the number.
