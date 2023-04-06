@@ -1,0 +1,115 @@
+
+DAY3 EXERCISES:
+
+1) Write a function that returns the Ordinal date of the current date.
+      function get-ordinal {
+                $a=(get-date).DayOfYear
+                $b=get-date | Select-Object -ExpandProperty year
+               "$b-$a"
+           }
+
+2) Create a function that takes a number(n) as an argument and returns the square(n^2) of the number.
+       function get-square($n) {
+                 $a = $n * $n
+                write-output $a
+        }
+
+3) Create a function that takes three (3) arguments and returns the product of the arguments.
+       function get-product($n) {
+                 $a = $n * $n * $n
+                 $a
+        }
+
+
+ FUNCTION PARAMETERS:
+1) Create a function that takes two(2) integer values, $a and $b, that are the lengths of two(2) legs of a right triangle and returns     the length of the hypotenuse.
+   function get-area($a,$b) {
+          $asquare = $a * $a
+          $bsquare = $b * $b
+         $absquare = $asquare + $bsquare
+         $c = [math]::Sqrt($absquare)
+         $c
+   }
+
+2) Create a function that takes two(2) values, $a and $b, as two(2) angles in degrees of a triangle. Return the value of the missing angle.
+        function get-angle($a,$b) {
+              $sum = $a + $b
+              $diff = 180 - $sum
+              $diff
+       }
+
+3) 
+
+    Create a function that takes the following as mandatory parameters:
+
+        First Name
+
+        Last Name
+
+        Age
+
+        Weight in pounds(lbs)
+
+and returns the information in a hash table using the keys: first, last, age, and weight with the weight value converted to kilograms(kg) rounded to the nearest whole number
+function get-paras {
+param(
+       [parameter(mandatory=$true)]
+       $fname,
+       [parameter(mandatory=$true)]
+       $lname,
+       [parameter(mandatory=$true)]
+       $age,
+       [parameter(mandatory=$true)]
+       $weightlbs
+)
+$kg = $weightlbs / 2.2
+$hashweight = [pscustomobject]@{
+"firstname" = $fname
+"lastname" = $lname
+"age" = $age
+"weight" = "{0:n0}" -f $kg
+}
+write-output $hashweight
+}
+
+
+ADVANCED FUNCTIONS:
+1)Create an advanced function using Begin, Process, and End, that takes two(2) arguments. The first argument being an array of at least ten(10) integers and the second argument being a single integer. Search the array argument for every occurrence of the single integer argument then return the sum of all elements in the array excluding every occurrence of the single integer argument.
+
+function get-multisum {
+    param( 
+      [parameter(mandatory=$true)]
+      [validatecount(10,1000)]
+      [array]$array,
+      [parameter(mandatory=$true)]
+      [int]$int
+      )
+    Begin { 
+    $val=0
+    }
+    Process {
+    foreach($item in $array){
+    if($item -ne $int) {$val += $item}
+    }
+    }
+    end {
+    $val
+    }
+
+
+2) Create an advanced function using Begin, Process, End, that prompts the user to enter the names of three(3) U.S. States then returns the names of the states in the order of longest name to shortest name and the amount of characters in each name.
+
+function get-states {
+    param(
+    [parameter(mandatory=$true)]
+    $state1,
+    [parameter(mandatory=$true)]
+    $state2,
+    [parameter(mandatory=$true)]
+    $state3
+    )
+$a=$state1.length
+$b=$state2.length
+$c=$state3.length
+("$state1 : $a","$state2 : $b","$state3 : $c") | Sort-Object -Property Length -Descending
+}
