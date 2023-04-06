@@ -397,6 +397,12 @@ Use the cmdlet Get-WmiObject to obtain the needed information
 	$myObject | Add-Member -MemberType NoteProperty -Name "OperatingSystem" -Value (Get-WmiObject Win32_operatingSystem)
 	$myObject | Add-Member -MemberType NoteProperty -Name "LogicalDisk" -Value (Get-WmiObject win32_LogicalDisk)
 
+		OR
+		
+	$obj = [PSCustomObject]@{
+		'computername' = (get-wmiobject win32_computersystem).name
+		<then the rest of the commands. The important thing is that you put everything in as a hashtable.>
+	}
 
 
 
@@ -417,6 +423,7 @@ Use the following variables for your script
 
 $line1 = "Do you have model number: MT5437 for john.doe@sharklasers.com?"
 $line2 = "What model number for john.doe@sharklasers.com?"
+
 
 	$line1 = "Do you have model number: MT5437 for john.doe@sharklasers.com?"
 	$line2 = "What model number for john.doe@sharklasers.com?"
@@ -497,29 +504,4 @@ The amount of memory assigned to the process
 	Start-Sleep -Seconds 3
 	$mylist | ForEach-Object {get-process "$_*"} | Sort-Object -Property Id | Select-Object Id,Name,StartTime,TotalProcessorTime,PrivateMemorySize
 	$mylist | ForEach-Object {(get-process "*$_*").Kill()}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
