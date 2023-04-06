@@ -346,14 +346,53 @@ function eq180 ($a, $b) {
 function person {
     param(
         [Parameter(Mandatory)]
-        $FirstName,$LastName,$Age,$Weight )
-    $PersonHash = @{
-    First = $FirstName
-    Last = $LastName
-    Age = $Age
-    Weight = [int]($weight * 0.453)
+        $FirstName,
+        [Parameter(Mandatory)]
+        $LastName,
+        [Parameter(Mandatory)]
+        $Age,
+        [Parameter(Mandatory)]
+        [int]$Weight )
+    $kilos = ($weight * 0.453)
+    
+    $data = @{
+    "First" = $FirstName
+    "Last" = $LastName
+    "Age" = $Age
+    "Lbs" = $weight
+    "Kilos" = $kilos
+    }
+    $data
 }
 
+#Practical Exercise: Advanced Functions
 
+#    Create an advanced function using Begin, Process, and End, that takes two(2) arguments. The first argument being an array of at least ten(10) integers and the second argument being a single integer. Search the array argument for every occurrence of the single integer argument then return the sum of all elements in the array excluding every occurrence of the single integer argument.
 
+function get-multisum ($arg1,$arg2){
+begin{
+$sum=0
+}
+process{
+foreach ($i in $arg1) {if ($i -ne $arg2 ){$sum += [int]$i }}
+}
+end{
+$sum
+}
+}
 
+#Create an advanced function using Begin, Process, End, that prompts the user to enter the names of three(3) U.S. States then returns the names of the states in the order of longest name to shortest name and the amount of characters in each name.
+
+function Get-LongestName{
+begin{
+    $state1=(read-host -prompt "Enter the name of a state")
+    $state2=(read-host -prompt "Enter the name of another state")
+    $state3=(read-host -prompt "Enter the name of another state")
+    $states = ($state1, $state2, $state3)
+}
+process{
+}
+end{
+    ("$state1`: $($state1 | Select-Object -ExpandProperty Length)","$state2`: $($state2 | Select-Object -ExpandProperty Length)","$state3`: $($state3 | Select-Object -ExpandProperty Length)") | Sort-Object -Property Length -Descending
+}
+}
