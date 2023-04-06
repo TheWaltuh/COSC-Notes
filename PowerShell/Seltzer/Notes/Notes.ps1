@@ -322,7 +322,7 @@ get-content .\example.txt
 add-content-path .\example.txt -value "an additional string"                    #append content to a file
 get-content .\example.txt
 
-
+<Command string> | Format-List *                                                #view everything that is there when command string is run (includes hidden shit)
 
 ###Arrays
 #basically is a list but
