@@ -699,7 +699,63 @@ function convert-todollars {
 
 #-------------------------------------------------------------------------------------------------------------
 
+    write-host "Advanced Functions"
+    
+function <name> {
+Begin{
+    <code>          #set enviremonet for process block (create variables). If this one exists end block is required
+}
+Process{
+    <code>          #functionaly equivalent to a foreach-object loop
+}
+End{
+    <code>          #Usually gives the output of the function
+}
+}
 
+function add-nums {
+    param(
+        [Parameter(Mandatory)]
+        [int]$var1,
+        [Parameter(Mandatory)]
+        [int]$var2
+    )
+    begin {
+        $sum=0
+    }
+    process {
+        $sum = $var1 + $var2
+    }
+    End {
+        $sum
+    }
+}
+
+function show-args{
+    $args[0]
+    $args[1]
+    $args[2]
+}
+
+function enum-input{
+    $input | foreach-object{$_ * 4}
+}
+
+
+
+
+function process-input{
+    begin{
+    $counter=0
+    }
+    process{
+    $_ * 4
+    $counter++
+    }
+    end {
+    $counter
+    }
+}
 
 ##############################################################################################################
 
