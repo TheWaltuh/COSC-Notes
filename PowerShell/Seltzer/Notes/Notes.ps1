@@ -175,7 +175,11 @@ $PWD       #current working directory
 
 
 while($true) #needs $true not just true for PoSH
-
+foreach($item in $arr) {
+start-process $item
+get-process $item | Sort-object ID | format-table -property ID, ProcessName,Starttime,TotalProcessorTime,VirtualMemorySize,Workingset64
+stop-process -name $item
+}
 ##Environmental Variables
 
 Get-ChildItem env:    #lists all environmental variables
@@ -554,5 +558,87 @@ $mylist["Last"]
 $mylist.Keys  #gives you all the keys you have to call on
 
 $mylist.values  #gives you all the values you could call for
+
+
+##########################################################################################################################################################
+
+                                                                        #Day 3#
+
+##########################################################################################################################################################
+
+###String Manipulation
+
+$text1 = "One Terabyte is $(1TB / 1GB) Gigabytes"         #double quotes allow you to do the math shit inside and return the end value
+
+##Special Characters
+`n      #Newline Character
+`t      #tabulator (tab)
+`b      #Backspace Character
+`'      #Single Quotation Mark
+`"      #Double Quotation Mark
+`0      #Null
+ ``     #Backtick character
+
+##String Operators
+
+
+"{0:n3}" -f 123.45678         #takes the 123.45678 and then returns it with only 3 decemal places
+
+"{0:d5}" -f 123               #00123 (pads with 0s to make 5 digits)
+
+get-service | select-object -first 10 | foreach-object{"The Service is call '{1}': {2}"-f $_.name, $_.Displayname, $_.status}
+      #takes output from get-service, shos first 10 lines, and then takes those 10 and outputs "The Service is call <display name>: <Status>"
+get-process | select-object -first 5 | foreach-object{"Process {1} is {0}" -f $_.Name, $_.sessionid}
+      #takes the output from get-process, shows only first ive, then takes those first five and returns "Process <sessionid> is <Name>"
+
+
+#with replace you put what your replacing first then what its eig replaced with second
+"Hello John" -replace "John", "World"                                         #"Hello World"
+'[        Jon           Bon         Doe       ]' -replace '\s+', " "          #[ Jon Bon Doe ]
+
+
+
+##split
+
+$profile -split '\.'                                      #splits $profile on the . character
+##Output of above
+C:\Users\student\Documents\WindowsPowerShell\Microsoft
+PowerShellISE_profile
+ps1
+
+$profile -split '(?=\.)'                                  #(?=\.) tells it to keep the . after splitting on it
+##Output of above
+C:\Users\student\Documents\WindowsPowerShell\Microsoft
+.PowerShellISE_profile
+.ps1
+
+'GetHostByName' -csplit '(?<=[a-z])(?=[A-Z])'             #splits on case sensitive
+##Output of above
+Get
+Host
+By
+Name
+
+
+###Join
+"cat","dog","mouse" -join " "                             #cat dog mouse (joined the strings into one with a space in between each
+
+$env:username, '@', $env:computername, ".", $env:userdomain -join ""      #student@WIN-OPS.WIN-OPS
+
+.ToUpper()
+.ToLower()
+.split()
+.join()
+.startswith()
+.endswith()
+
+if ("10.12.14.300" -as [ipaddress]){"This is an IP Address"}              #as [ipaddress] tests to see if input is a valid ip address and if no return it is invalid
+
+if ("10.12.14.155" -as [ipaddress]){"This is an IP Address"}              #returns "This is an IP Address" cause is valid ip unlike first
+
+
+
+
+
 
 
