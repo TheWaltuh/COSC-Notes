@@ -12,9 +12,11 @@ Part 1
 
    - Kill the processes from PowerShell
 
-$arr = (& notepad), (& msedge), (& mspaint)
-for ($i=0, $i -lt $arr.length, $i++) {
-    get-process | where-object -filtertype {$_.ProcessName -eq $arr[$i]} | stop-process -name $_
+$arr = ("notepad", "MSEdge", "MSpaint")
+for ($i=0; $i -lt $arr.length; $i++) {
+    start-process $arr[$i]
+    get-process | select-object $arr[$i]
+    stop-process -name $arr[$i]
 }
 
 Part 2
@@ -32,6 +34,14 @@ Part 2
    - Save the ProcessIDs to a text file called procs.txt
 
    - Iterate through the ProcessIDs in the text file and kill them
+   
+
+$arr = ("notepad", "MSEdge", "MSpaint")
+for ($i=0; $i -lt $arr.length; $i++) {
+    start-process $arr[$i]
+    get-process | Where-Object -FilterScript {$_.ProcessName -eq $array[$i]} | Select-Object Id | Out-File -FilePath C:\Users\student\Desktop\test.txt -Append
+    stop-process -name $arr[$i]
+}
 
 Part 3
 
@@ -54,3 +64,10 @@ Part 3
    - The amount of time the process has spent on the processor
 
    - The amount of memory assigned to the process
+
+$arr = ("notepad", "MSEdge", "MSpaint")
+for ($i=0; $i -lt $arr.length; $i++) {
+      start-process $arr[$i]
+      get-process | Where-Object -FilterScript {$_.ProcessName -eq $array[$i]} | Select-Object Id,ProcessName,StartTime,TotalProcessorTime,PageMemorySize
+}
+
