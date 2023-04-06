@@ -549,9 +549,156 @@ do {
 
 #-------------------------------------------------------------------------------------------------------------
 
+    write-host "PowerShell Day 3"
+    
+#-------------------------------------------------------------------------------------------------------------
 
+    write-host "Special Characters"
+    
+`n                      #Newline
+`t                      #Tab
+`b                      #Backspace
+`''                     #Single Quote
+`""                     #Double Quote
+`0                      #Null
+``                      #Backtick character
+
+ write-host "The date is $(get-date)"                 #Would print the output of the date command
+ write-host "The date is `$(get-date)"                #Would print $(get-date)
+    
 
 #-------------------------------------------------------------------------------------------------------------
+
+    write-host "Format Operators"
+    
+ "{0:n3}" -f 123.45678                              #123.456
+ 
+ "{0:d5}" -f 123                                    #00123
+    
+    
+ Get-service | Select-Object -First 10 | Foreach-object "The service {0} is call '{1}': {2}" -f $_name, $_.displayname, $_.status }
+ 
+    write-host "Replace"
+    
+"Hello Joe" -replace "Joe", "World"                 #Hello World
+
+'server1,server2,server3' -replace '[,]',';'        #server1;server2;server3
+
+'[   jon   bon   doe   ]' -replace '\s+',' '        #[ jon bon doe ]
+
+'192.168.0.1' -replace '\d{1,3}$','255'             #192.168.0.255
+
+    write-host "Split"
+    
+$profile -split '\.'                                #splits the string in $profile on . and prints each on a newline
+    
+$profile -split '(?=\.)'                            #Same as above but keeps the . in the output
+
+'GetHostByName' -csplit '(?<=[a-z])(?=[A-Z])'       #Splits where lowercase meets uppercase
+    
+    write-host "Join"
+    
+"Cat","Dog" -join ""                                #catdog
+
+$env:username, '@', $env:computername, '.', $env:userdomain -join ""
+
+    write-host "Other Methods"
+    
+.ToUpper()
+.ToLower()
+.split()
+.join()
+.startswith()
+.endswith()
+
+
+<string> -as [ipaddress]                                     #tests the string <string> to see if it could be a valid ip, returns True or False
+
+if((Read-Host -Prompt "Enter an IP:") -as [ipaddress]){write-host "That is an ip"} else {"Not a valid IP"}
+
+#-------------------------------------------------------------------------------------------------------------
+
+    write-host "Functions"
+    
+function <function-name>($arg1, $arg2) {
+  <code to execute>                                         #Syntax
+}
+<function-name> $arg1 $arg2
+
+function testit($arg) {
+  if($arg){write-host "True" -Foregroundcolor Green} else {write-host "False" -ForegroundColor Red}                                        
+}
+testit $arg
+
+    write-host "Parameters"
+function <name>{
+    param(
+        <param variable>, <param variable>
+    )
+    <code to execute>
+}
+
+function test-func{
+    param(
+    $param1='Default Value 1', $param2='Default value 2'            #will print default values unless arguments are passed
+    )
+    "You entered $param1 and $param2"
+}
+
+function <name> {
+    param(
+        [Switch]
+        <param variable>
+    )
+    <code to execute>
+}
+
+
+
+function Do-Switch {
+    param(
+        [switch]
+        $DoSwitch
+    )
+    if ($DoSwitch) {
+        "Switch is done"
+    }
+    else {
+        "Switch is off"
+    }
+}
+
+Do-Switch                        #Switch is off
+Do-Switch -DoSwitch              #Switch is Done
+
+
+function <name> {
+    param(
+        [Parameter(Mandatory=$true)]
+        <param name>
+    )
+    <code to execute>
+}
+
+function test-mandatoryparam {
+    param (
+        [Parameter(Mandatory=$true, HelpMessage="What is your name?")]
+        $name
+    )
+    "Your name is $name"
+}
+
+function convert-todollars {
+    param(
+        [Parameter(Mandatory, HelpMessage="Enter a number of Euros.")]
+        [Double]$euro
+    )
+    $dollar = $euro * 1.09
+    "$euro's is "{0:n2}" -f $dollar's"
+}
+
+#-------------------------------------------------------------------------------------------------------------
+
 
 
 ##############################################################################################################
