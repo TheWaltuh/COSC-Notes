@@ -1,0 +1,317 @@
+
+------------------Powershell_Day3-----------------
+
+
+------------------STRING MANIPULATION------------------------
+
+special characters in "strings":
+
+`n -- newline
+`t -- tab
+`b -- backspace
+`' -- single quotation mark
+`" -- single double quote
+`0 -- null
+`` -- literal backtick
+** the backtick can escape any character in double quotes.
+
+@"
+use these symbols to make a multiline block of text. It's called a "Here-String"
+"@
+
+
+"{0:n3}" -f 123.45678
+
+
+'Server1,Server2,Server3' -replace '[,]', ';'  -- will replace , with ;
+
+'[        John        Bon        Doe     ]' -replace '\s+', ' '  -- will replace many spaces with one.
+
+(qprocess) -replace '\s{2,}', ', ' | select -first 10
+
+MANIPULATING AN IP ADDRESS::::::::::::::::::
+'192.168.0.1' -replace '\d{1,3}$', '255'  -- This will replace the last octet with 255
+
+
+$variable -split '\.'  -- will split on that character
+$variable -split '?=\.'  -- will split on that character and keep the character. 
+
+'GetHostByName' -csplit '(?<=[a-z])(?=[A-Z])'  -- will split 
+
+
+
+"cat","dog" -join " "  -- join the strings with the specified string, or an empty string.
+
+
+Two methods of strings:
+.tolower()
+.toupper()
+
+
+"10.10.14.125" -as [ipaddress]
+
+**FOR LATER REFRENCE!!!
+https://www.redbubble.com/i/sticker/Brainlet-Microwave-by-WillowNix/68234311.EJUG5
+
+
+
+-------------FUNCTIONS----------------------
+
+syntax:
+function <name> (*optional-- arguments) {
+	<code block>
+}
+
+
+Example:
+function test-it ($value) {
+	if ($value -eq 1337) {
+		write-output "Hello, World!"
+	}
+}
+** if value == 1337, output hello world.
+
+call a function:
+test-it positionalArgument
+
+
+function with Parameters:
+
+**Note the difference between parameters and arguments: Function parameters are the names listed in the function's definition. 
+  Function arguments are the real values passed to the function. 
+  Parameters are initialized to the values of the arguments supplied.
+
+
+function <name> {
+	param(
+		<param variable>,<param variable>
+	)
+}
+
+function test-func {
+	param(
+		[I could put 'switch' here to turn these into switch parameters.]
+		$param1='default value 1', $param2='Default value 2'
+	)
+	"you entered $param1 and $param2"
+}
+
+
+switch parameters --  put [switch] above the parameters. To turn them on you use them as an option when calling the function. 
+			myFunction -mySwitch
+
+** you can put [Parameter(Mandatory=$true), Helpmessage="You must include blah blah"] before the parameters to make the parameters mandatory. 
+** you can typecast a parameter:
+
+function euro-test {
+	param(
+		[Parameter(Mandatory, HelpMessage="Please enter a number of Euros")]
+		[Double]$euro
+	)	
+	$dollar = $euro * 1.09
+	"{0:n2}" -f $dollar
+}
+
+
+Advanced Functions::::::::::::::::::::::::
+function <name> {
+Begin{					-- create variables and set the environment. If this exists, the end block is required. 
+	<code>
+}
+Process{				-- basically a foreach loop
+	<code>
+}
+End{					-- give the output after all of the pipeline objects have been processed
+
+}
+}
+
+
+
+
+==================EXERCISES====================
+
+with a function:
+get the ordinal date and year.
+find the power of a number
+multiply three ints
+
+	function getOrdDate {
+	    write-host (get-date).Year-(get-date).DayOfYear
+	}
+
+	function dopower ($base) {
+	 return $base * $base
+	}
+
+	function domul ($one, $two, $three) {
+	    return $one * $two * $three
+	}
+
+
+
+
+
+
+
+
+
+
+Create a function that takes two(2) integer values, $a and $b, that are the lengths of two(2) legs of a right triangle and returns the length of the hypotenuse.
+
+Use the Pythagorean Theorem (a2 + b2 = c2) to find the value of the hypotenuse.
+
+Create a function that takes two(2) values, $a and $b, as two(2) angles in degrees of a triangle. Return the value of the missing angle.
+All angles of a triangle add up to be 180 degrees
+
+Create a function that takes the following as mandatory parameters:
+First Name
+Last Name
+Age
+Weight in pounds(lbs)
+and returns the information in a hash table using the keys: first, last, age, and weight with the weight value converted to kilograms(kg) rounded to the nearest whole number
+One(1) Kilogram(Kg) = 2.2 pounds(lbs)
+
+
+	function pythag ($a, $b) {
+	    $leg1 = [math]::Pow($a,2)
+	    $leg2 = [math]::Pow($b,2)
+	    $hypot = $leg1 + $leg2
+	    return [math]::Sqrt($hypot)
+	}
+
+	function angles ($a, $b) {
+	    return 180 - $a - $b
+	}
+
+	function info {
+	    param(
+		[Parameter(Mandatory=$true)]
+		$First,
+		[Parameter(Mandatory=$true)]
+		$Last,
+		[Parameter(Mandatory=$true)]
+		$Age,
+		[Parameter(Mandatory=$true)]
+		$Pounds
+	    )    
+	    $kilos = $Pounds / 2.2
+	    $myTable = @{
+		first = $First
+		last = $Last
+		age = $age
+		weight = [int]$kilos
+	    }
+	    $myTable
+	}
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create an advanced function using Begin, Process, and End, that takes two(2) arguments. The first argument being an array of at least ten(10) integers and the second argument being a single integer. Search the array argument for every occurrence of the single integer argument then return the sum of all elements in the array excluding every occurrence of the single integer argument.
+
+Example:
+PS> get-multisum @(1,2,3,4,5,6,7,8,9,10) 5
+50
+
+Create an advanced function using Begin, Process, End, that prompts the user to enter the names of three(3) U.S. States then returns the names of the states in the order of longest name to shortest name and the amount of characters in each name.
+
+Example:
+PS> Get-LongestName
+Georgia: 7
+Idaho: 5
+Utah: 4
+
+
+	function myfunc ($list, $num) {
+	Begin{
+	    $cleanlist = $list -ne $num
+	    $total = 0
+	}
+	process{
+	    $sum = ($cleanlist | ForEach-Object {$total += $_})
+	}
+	end{
+	    $total
+	}
+	}
+
+	function Get-LongestName {
+	    param(
+	    [Parameter(Mandatory=$true)]
+	    $s1,
+	    [Parameter(Mandatory=$true)]
+	    $s2,
+	    [Parameter(Mandatory=$true)]
+	    $s3
+	    )
+	Begin{
+	    $1len, $2len, $3len = $s1.length, $s2.length, $s3.length
+	}
+	process{
+	    $mylist = $s1,$s2,$s3
+	    $newlist = $mylist | Sort-Object -Property Length -Descending
+	}
+	end{
+	    $newlist | ForEach-Object {Write-Host $_ : $_.length}
+	}
+	}
+
+
+	$info = ipconfig  
+	[regex]$regex = "([\d]{1,3}\.){3}[\d]{1,3}" 
+
+	for ($i = 0; $i -le 2; $i++){
+	    if ($i -eq 0) {
+		write-host IP: $regex.Matches($info)[0]
+	    }
+	    if ($i -eq 1) {
+		Write-Host SNM: $regex.Matches($info)[1]
+	    }
+	    if ($i -eq 2) {
+		Write-Host Gateway: $regex.Matches($info)[2]
+	    }
+	}
+
+
+
+	Write-Output " www.devildog.com " " www.google.com " " this is not a url" > dns.txt
+	$info = get-content dns.txt
+	[regex]$regex = "[w]{3}\.[\w]*\.com"
+	#$regex.matches($info) | ForEach-Object {Write-Host $_.values}
+	(Select-String -Path dns.txt -Pattern "[w]{3}\.[\w]*\.com").Matches.value
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
