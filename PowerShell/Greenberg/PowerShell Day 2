@@ -98,7 +98,7 @@ Switch($choice) {
 }
 *switch function allows the variable or comparison run through multiple options*
 
-
+<cmdlet> | Format-List *          #Catch all to find all of the properties
 
 
 
