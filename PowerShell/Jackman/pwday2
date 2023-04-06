@@ -1,0 +1,416 @@
+
+
+----------- POWERSHELL DAY 2 -----------
+
+where-object filtering cmdlet select-object you know what you're looking for
+
+---- CODE BLOCK ----
+
+
+- code block is stored in {}
+- call the code block in the variable with &   #only the code is stored not the ouput of the code
+
+
+---- SORTING ----
+
+- get-childitem | sort-object -property length -descending #sort files from largest to smallest
+
+- get-childitem | sort-object -property extension | fromat-table -groupby extension #groups files based off of extension
+
+- get-service | get-member #see what you are able to sort by 
+
+- get-childitem | group-object {$_.length -lt 1kb} #$_ is a variable of whatever object is going through the pipeline
+
+
+- doesn't have to be a command to sort ex. 1, 7, 10, 8, 2, 4 | sort -object
+
+- get-process | sort-object processname | select-object -first 10   #sort process names/list first 20 lines in the get process
+
+- get-process | group-object {$_.name.substring(0,1).toupper()} | for-each{($_.name + " ") *7; "========="; $_.group}
+	#lists process by group of first letter process and changes to uppercase for each lists the letter 7 times creates a delination of# 	 # ======== and groups process by first letter #
+ 	#(0, 1) 0 is saying skip no letters and 1 is saying grab the first one
+ 
+- get-process | select-object name,id
+
+- get-service | format-table -autosize #makes it so you can see output in full
+
+- get-service | where-object{$_.status -eq 'running'} #lists running processes
+
+-getprocess | where-object {$_.company -like 'micro*'} | format-table -autosize name, description, company 
+#gets process of companies like micro* and list them in a table
+
+- get-process | where-object {$_.name -notlike 'powershell*'} sort-object id -descending #sorts processes based on 
+   #id descending that do not have powershell
+
+
+- get-process | where-object processname -ne "idle" | sort-object starttime | select-object -last 10 | format-table processname, startime
+
+- sort-object | get-unique #only shows one of each 
+
+
+- get-childitem | measure-object length | select-object -expandproperty count  #counts the amount of files in the current directory
+
+- (get-childitem).count #counts everything in the directory and that value can be compared to something else
+
+
+------- ARRAYS -------
+
+$array = 1, 2, 3, 4, 5
+$sum = 0
+$array | foreach-object { $sum += $_}
+$sum
+
+	#shows sum of all the numbers in the array
+
+
+'what is the answer to life, the universe, and everything?' > test.file
+$before = get-childitem
+'42' > test.txt
+$after = get-childitem
+
+compare-object $before $after -property length, name
+
+
+------- CREATING OBJECTS -------
+
+
+$MyTruck = new-object <object>   #create new object
+
+add-member -membertype noteproperty -name color -value red -inputobject $MyTruck #adding property 
+
+add-member -M noteproperty -in $Mytruck -make -va ford   #shorthand version 
+
+$MyTruck | add-member noteproperty cab super crew   #another way of setting properties
+
+
+$MyTruck.make       #way of calling certain property 
+
+$MyTruck.<property>='value you want to change to'       #you can change property value after it's been set
+
+$MyTruck.psobject.properties.remove('<property>')  	  #remove poperty
+
+
+add-member -membertype -inputtype $mytruck -name drive -value { "Going on a roadtrip" }   #assigning method 
+
+add-member -inputobject $mytruck scriptmethod accelerate { "skinny pedal on the right" }  #alternative way of assigning method
+
+$mytruck | add-member scriptmethod park { "finding a spot" }
+
+$mytruck.park()	 #calling the method 
+
+--------- CREATING CUSTOM OBJECTS
+
+$Marine = New-Object -typename pscustomobject
+
+$Marine | add-member -membertype noteproperty -name "firstname" -value "john"  #another way of creating an objectpscustom adding member to your set customobject
+
+
+
+
+$marine = [PSCustomObject]@{
+	"Firstname"	= "Joe"
+	"Lastname"	= "snuffy"
+	"Militaryrank   = "SSG"
+	"MOS"		= "17c"
+	"Position"     = "Host Analyst"
+}
+$marine
+
+
+
+------- PSDRIVE -------
+
+
+new-psdrive -name -psprovider registry -root hkey_users
+
+new-psdrive -name Z -psprovider filesystem -root \\live.sysinternals.com\tools
+start-service -name webclient #enables webclient to allow browsing of a filesystem
+
+
+------- COMPARISON OPERATORS -------
+
+-eq	equals
+-ne	not equal
+-gt	greater than
+-lt	less than
+-ge	greater than or equal to
+-le	less than or equal to
+
+-like		string matches wildcard pattern		#the wilcard operator
+-notlike	string does not match wild card pattern
+-match		string matches regex pattern
+-nomatch	string does not match regex pattern
+-replace	replaces strings matching a regex pattern
+
+
+-contains 	contains (used for collection of items)
+-notcontains	collection does not contain a certain value
+-in		returns true when value is contained within a collection
+-notin		value is not in a collection
+
+-is		returns true if both objects are the same type
+-isnot		the objects are not the same type
+
+
+#if you put "c" in front of any of these commands it's case sensitive, i for insensitive even though that's default
+
+4,5,4 -eq 25	#can compare strings as well
+
+#collection has to be on left side of operator
+#when comparing with a collection it returns values not true or false
+
+
+the *		wildcard matches zero or more characters
+the ?		will match a single character
+[a-z]		will match a range of characters from a to z
+
+---------------------------------------------------
+
+*** match always returns true or false
+
+$text = 'Here is the model number:MO5364'
+
+$pattern = 'MO(\d{3})'		#matches if there are 3 digits after 'MO'
+
+$text -match $pattern
+
+returns true
+
+--------------------------------------------------
+
+*** contains looks into collections
+
+
+$fruit = 'apple', 'orange', 'pear', 'tomato'
+
+$fruit -contains 'pear'
+
+returns true
+
+--------------------------------------------------
+
+*** array uses in
+
+$cat = 1..34
+
+$cat -contains 8
+
+8 -in $cat
+
+returns true
+
+------------------------------------------------
+
+$num = 5
+
+(($num -gt 1 ) -and ($num -lt 10))
+returns true
+
+$num = 5
+
+(($num -gt 1) -or ($num -lt 6))
+
+returns true
+
+
+--------- IF STATEMENTS ----------
+
+$var = < >
+
+if ($var <operator> < >) {
+	command
+}
+elseif ($var <operator> < >) {
+	command
+}
+else {
+	command
+}
+
+
+*** switch checks multiple conditions (equivalent of a series of if statements)
+
+Switch (<test-expression>)
+{
+    <result1-to-be-matched> {<action>}
+    <result2-to-be-matched> {<action>}
+}
+
+
+The equivalent if statements are:
+
+if (<result1-to-be-matched> -eq (<test-expression>)) {<action>}
+if (<result2-to-be-matched> -eq (<test-expression>)) {<action>}
+
+
+#you can use a default value that uses the variable looking to be matched
+
+ex. switch($var) {
+
+	default { " $var" }
+}
+
+
+
+-------- FOREACH LOOP --------
+
+ex. 
+
+$nums = 1,2,3,4,5
+$nums | ForEach-Obect{$_ *2}
+
+2
+4
+6
+8
+10
+
+
+ex.2
+
+$list = 'a', 'b', 'c', 'd'
+$list | foreach-object{$_.toupper()}
+A
+B
+C
+D
+
+
+foreach ( )	#gives you output after command is over, foreach-object gives output as it runs
+
+
+
+-------- WHILE LOOP --------
+
+ex.
+
+$var = ""
+
+while($var <operator>) {
+	$var = read-host "which brand of the military is the best"
+
+}
+
+*** break ends the loop completely
+
+
+$num = 0
+
+do {
+    $num 
+    $num++
+}while($num -gt 3)
+
+0
+1
+2
+3
+
+
+-------- FOR LOOP --------
+
+ex.
+
+for($i = 0; $i -le 255; $i++) {
+	write-host 192.168.0.$i
+	
+}
+
+
+** } until ( )   #closes a loop
+
+
+
+--------- PUTTING CONTENT INTO A FILE ---------
+
+set-content -path .\example.txt -value "A string"
+get-content .\example.txt
+
+
+add-content -path .\example
+
+
+
+
+--------- HASH TABLE ---------
+
+key = "value"
+
+ex.
+
+$mylist = @{First = "John"; Last = "Doe"; Mid = "Bon"; Age = 35}
+
+$mylist["<key>"]
+
+or
+
+$mylist.<key>
+
+$mylist.Keys	#returns list of all keys
+$mylist.values #returns list of all values
+
+
+
+
+$list = @{ element = 5; array1 = 1..5; array2 = 6, 7, 8}
+	#puts arrays inside of a hash table
+	
+	
+*** replacing or adding keys inside a hash table
+	   <key>        <value>
+$mylist["location"] = "germany"
+$mylist.location
+
+*** remove
+
+$mylist.remove(<key>)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
