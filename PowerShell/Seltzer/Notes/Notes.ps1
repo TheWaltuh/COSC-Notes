@@ -747,6 +747,64 @@ function Convert-ToDollars{
 
       #basic function that will convert a number of euros into its equivilant in dollars
 
+##Advanced Functions
+
+Function <name> {       #basic syntax for an advanced function
+Begin{
+  <code>                #Creates Variables and set the environment for a process block.  If this one exists end block is req
+}
+Process{
+  <code>                #process block is functionally equivilant to a foreach-object loop
+}
+End{
+  <code>                #usually gives the output of the function after all pipeline objects have been processed
+}
+}
+
+function add-nums {
+    param(
+        [Parameter(Mandatory=$true)]
+        [int]$var1,
+        [Parameter(Mandatory=$true)]
+        [int]$var2
+    )
+    Begin{
+      $sum = 0
+    }
+    Process{
+      $sum = $var1 + $var2
+    }
+    End{
+      $sum
+    }
+}
+
+###Function Review
+
+Function Show-Args{
+    $args[0]
+    $args[1]
+    $args[2]
+}
+
+Function enum-input{
+    $input | foreach-object{$_ * 4}
+}
+### pipe data into function to run
+
+Function process-input{
+Begin{
+    $counter = 0
+}
+Process{
+    $_ * 4
+    $counter++
+}
+End{
+    $counter
+}
+}
+
 
 
 
