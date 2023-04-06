@@ -388,11 +388,13 @@ begin{
     $state1=(read-host -prompt "Enter the name of a state")
     $state2=(read-host -prompt "Enter the name of another state")
     $state3=(read-host -prompt "Enter the name of another state")
-    $states = ($state1, $state2, $state3)
 }
 process{
+    $state1Len=("$state1`: " + $(($state1 -replace '\s',"").length))
+    $state2Len=("$state2`: " + $(($state2 -replace '\s',"").length))
+    $state3Len=("$state3`: " + $(($state3 -replace '\s',"").length))
 }
 end{
-    ("$state1`: $($state1 | Select-Object -ExpandProperty Length)","$state2`: $($state2 | Select-Object -ExpandProperty Length)","$state3`: $($state3 | Select-Object -ExpandProperty Length)") | Sort-Object -Property Length -Descending
+    ($state1Len,$state2Len,$state3Len) | Sort-Object -Property Length -Descending
 }
 }
