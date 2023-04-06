@@ -48,8 +48,8 @@ ForEach($app in $applications){
 	Start-Process $app
 	Get-Process $app
 	(Get-Process $app).Id | Where-Object {$item.name -ne “Idle”} >> procs.txt
-$item = (Get-Content .\procs.txt)
 }
+$item = (Get-Content .\procs.txt)
 ForEach($line in $item){
 	Stop-Process -Id $line
 	}
