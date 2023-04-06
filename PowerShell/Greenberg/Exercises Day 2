@@ -56,5 +56,5 @@ ForEach($line in $item){
 #3. display a table with each of the listed properties
 ForEach($app in $applications){
 	Start-Process $app
-	Get-Process $app | Format-list -Property Id,Name,StartTime, TotalProcessorTime,VirtualMemorySize64
+	Get-Process $app | Format-list -Property Id,Name,StartTime,TotalProcessorTime,WorkingSet64
 }
