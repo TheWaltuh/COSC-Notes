@@ -1,0 +1,55 @@
+###The Pipeline 
+#1.start time of earliest and latest running processes
+(Get-Process).StartTime | Sort-Object | Select-Object -First 1 -Last 1
+#2. cmdlet that reutrns current date and time display only current say of the week
+Get-Date).DayOfWeek
+#3. cmdlet that displays list of installed hotfixes
+Get-HotFix
+#4. to sort by install date and displa only tyhe install date and hostfix id
+Get-HotFix | Sort-Object -Property InstalledOn | Format-Table InstalledOn, HotFixID
+#5. sort by description display only description, hotfix id, and install date
+Get-HotFix | Sort-Object -Property Description | Format-Table Description, HotfixId, InstalledOn
+###Custom Object
+#1.create a custom object that contains info about the host system
+$hostsystem = [PSCustomObject]@{
+    "ComputerName"          = (Get-WmiObject -Class Win32_ComputerSystem | Select-Object -ExpandProperty Name)
+    "OperatingSystem"       = (Get-WmiObject -Class Win32_BIOS | Select-Object -ExpandProperty SMBIOSBIOSVersion)
+    "Version"               = (Get-WmiObject -Class Win32_OperatingSystem | Select-Object -ExpandProperty Version)
+    "Manufacturer"          = (Get-WmiObject -Class Win32_ComputerSystem | Select-Object -ExpandProperty Manufacturer)
+    "Disks"                 = ((Get-WmiObject -Class Win32_LogicalDisk).__Path)
+}
+$hostsystem
+###Compasion and Condition
+#1.extract model number from the lines of text. If it isn't found display that it wasn't found
+$line1 = "Do you have model number: MT5437 for john.doe@sharklasers.com?"
+$line2 = "What model number for john.doe@sharklasers.com?"
+$pattern = 'MT(\d{4})'
+$match = ($matches.0)
+switch($pattern) {
+    {$line1 -match $_}{Write-Host 'Model Number was found on $line1';break }
+    {$line2 -match $_}{Write-Host 'Model Number was found on $line2';break }
+    default {Write-Host "Model Number wasn't found"}
+}
+###Looping and Iteration
+#1. use and array to create,query, and kill process
+$applications = ‘Notepad’, ‘MSEdge’, ‘MSPaint’
+ForEach($app in $applications){
+	Start-Process $app
+	Get-Process $app
+	Stop-Process -Name $app
+}
+#2. opened each process and killed it by process id
+ForEach($app in $applications){
+	Start-Process $app
+	Get-Process $app
+	(Get-Process $app).Id | Where-Object {$item.name -ne “Idle”} >> procs.txt
+$item = (Get-Content .\procs.txt)
+}
+ForEach($line in $item){
+	Stop-Process -Id $line
+	}
+#3. display a table with each of the listed properties
+ForEach($app in $applications){
+	Start-Process $app
+	Get-Process $app | Format-list -Property Id,Name,StartTime, TotalProcessorTime,VirtualMemorySize64
+}
