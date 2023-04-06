@@ -636,6 +636,117 @@ if ("10.12.14.300" -as [ipaddress]){"This is an IP Address"}              #as [i
 
 if ("10.12.14.155" -as [ipaddress]){"This is an IP Address"}              #returns "This is an IP Address" cause is valid ip unlike first
 
+if ((Read-Host -prompt  "Please enter an IP Address") -as [ipaddress]){"This is an IP Address"} else {"This ain't an IP"}
+      #script to take an inputed ip and tell if it is valid
+
+###Functions
+
+function <name> {
+      <code to execute>                           #Basic Function Syntax
+}
+
+function test-it {
+    write-output "Hello World"
+}
+test-it                                          #calling function
+
+
+function <name>(<arguments>){
+    <code to execute>                            #basic syntax for function that takes specific arguments
+}
+
+function test-it2($value){
+    if ($value) {
+      write-host -foregroundcolor Cyan "True"
+    }
+    else{
+      write-host -foregroundcolor Red "False"
+    }
+}
+            #function so that if just run will return false in red, but if run like (test-it2 <some shit>) will return True in cyan
+            
+function <name>{
+    param(
+      <param variable>,<param variable>
+    )                                              #Basic syntax for a function that takes parameters
+    <code to execute>
+}
+
+
+
+function test-func{
+  param(
+      $param1='Default Value 1', $param2='Default Value 2'
+  )
+  "You Entered $param1 and $param2"
+}
+          #will return "You Entered Default Value 1 and Default Value 2" unless you give it something when calling the function
+
+
+function <name>{
+    param(
+        [switch]
+        <param variable>
+    )                                              #Basic syntax for a function with switch parameter
+    <code to execute>
+}
+
+
+function Do-Switch{
+    param(
+      [switch]
+      $DoSwitch
+    )
+    if ($DoSwitch) {
+        "Switch is Done"
+    }
+    else {
+        "Switch is Off"
+    }
+}
+
+Do-Switch -DoSwitch                                #how to run with switch on (calling the switch parameter with -DOSwitch)
+Do-Switch                                          #will return switch is off cause not using switch parameter
+
+function <Name> {
+    param(
+      [Parameter(Mandatory=$true)]
+      <param name>
+    )                                              #basic syntax of a function with a mandatory parameter
+    <code to execute>
+}
+
+function test-mandatoryparam {
+  param(
+    [Parameter(Mandatory=$true)]
+    $name
+  )
+  "Your Name is $name"
+}
+      #if try to run without giving value once enter is hit it will prompt you saying need to enter and then once entered it will continue
+
+function test-mandatoryhelp {
+  param(
+    [Parameter(Mandatory=$true, helpmessage="What is your name?")]
+    $name
+  )
+  "Your Name is $name"
+}
+
+      #now if try to run without value it wll give a prompt for how to get help message if need help
+      
+function Convert-ToDollars{
+    param(
+      [Parameter(Mandatory=$true, HelpMessage="Please enter a number of euros")]
+      [Double]$euro
+    )
+    $dollar = $euro * 1.09
+    "{0:n2}" -f $dollar
+}
+
+      #basic function that will convert a number of euros into its equivilant in dollars
+
+
 
 
 
