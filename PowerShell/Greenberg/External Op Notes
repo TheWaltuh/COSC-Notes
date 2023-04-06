@@ -1,0 +1,31 @@
+###Arrays and Tables
+#1. creating and adding to hash tables
+$employee1 = @{
+    "First"    = "Mary"
+    "Last"     = "Hopper"
+    "ID"       = "001"
+    "Job"      = "Softwware Developer"
+}
+$employee1
+$employee2 = @{
+    "First"    = "John"
+    "Last"     = "Williams"
+    "ID"       = "002"
+    "Job"      = "Web Developer"
+}
+$employee2
+$a=($employee1.First.Substring(0,1).ToLower(),$employee1.Last.ToLower(),$employee1.Id -join "")
+$employee1.Username="$a"
+$b=($employee2.First.Substring(0,1).ToLower(),$employee2.Last.ToLower(),$employee2.Id -join "")
+$employee2.Username="$b"
+$employee1.Job="Software Lead"
+$employee3 = @{
+    "First"    = "Alex"
+    "Last"     = "Moran"
+    "ID"       = "003"
+    "Job"      = "Software Developer"
+}
+$employee3
+$employee1.Status="Management"
+$employee2.Status="Intermediate"
+$employee3.Status="Entry Level"
