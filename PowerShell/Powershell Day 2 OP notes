@@ -1,0 +1,214 @@
+FIND CMDLETS
+   1) Ensure that you have the latest copy of help by updating your help system.
+              update-help -force -erroraction silentlycontinue #updates the documentation for powershell
+   2) Which cmdlets deal with the viewing/manipulating of processes?
+               get-process
+   3)  Display a list of services installed on your local computer.
+              get-service
+   4)  What cmdlets are used to write or output objects or text to the screen?
+               write-output
+   5)  What cmdlets can be used to create, modify, list, and delete variables?
+             get-variable
+   6)  What cmdlet can be used, other than Get-Help, to find and list other cmdlets?
+               get-command
+   7)  Find the cmdlet that is used to prompt the user for input.
+               read-host
+
+RUNNING CMDLETS
+
+   1)  Display a list of running processes.
+                    get-process
+    2) Display a list of all running processes that start with the letter "s".
+                     get-process -name s*
+    3) Find the cmdlet and its purpose for the following aliases:
+
+        gal     get-alias   #gets an alias 
+
+        dir      get-childitem     #lists contents
+
+        echo     write-output    #prints something to screen
+
+        ?            where-object       #selects objects from a collection based on their property values
+ 
+        %         foreach-object      #performs an operation against each item in a collection of input objects
+
+        ft          format-table         #formats the output results into a table
+
+    4) Display a list of Windows Firewall Rules.
+                get-netfirewallrules
+    5) Create a new alias called "gh" for the cmdlet "Get-Help"
+                      new-alias -name "gh" get-help  
+ 
+
+VARIABLES
+
+    1) Create a variable called "var1" that holds a random number between 25-50.
+                 $var1 = Get-random -minimum 25 -maximum 50
+    2) Create a variable called "var2" that holds a random number between 1-10.
+                $var2 = get-random -minimum 1 -maximum 10
+    3) Create a variable called "sum" that holds the sum of var1 and var2.
+               $sum = $var1 + $var2
+    4) Create a variable called "sub" that holds the difference of var1 and var2.
+              $sub = $var1 - $var2
+    5) Create a variable called "prod" that holds the product of var1 and var2.
+               $prod = $var1 * $var2
+    6) Create a variable called "quo" that holds the quotient of var1 and var2.
+                  $quo = $var1 / $var2
+    7) Replace the variables in text with their values in the following format:
+   
+        "var1" + "var2" = "sum"    write-host "$var1 + $var2 = $sum" 
+
+    8) Replace the variables in text with their values in the following format:
+
+        "var1" - "var2" = "sub"          write-host "$var1 - $var2 = $sub"
+
+    9) Replace the variables in text with their values in the following format:
+
+        "var1" * "var2" = "prod"    write-host "$var1 * $var2 = $prod"
+
+    10) Replace the variables in text with their values in the following format:
+
+        "var1" / "var2" = "quo"         write-host "$var1 / $var2 = $quo"   or "{0} + {1} = {2}" -f $var1,$var2,$sum
+
+
+
+DAYS_2:
+PIPELINE:
+
+    1) Display the start time of the earliest and latest running processes
+                 (Get-Process).StartTime | Sort-Object -Property starttime | Select-Object -first 1 -last 1  
+    2) Identify a cmdlet that returns the current date and time then using this cmdlet and Select-object, display only the current day of the week
+               get-date | select-object dayofweek
+    3) Identify a cmdlet that displays a list of installed hotfixes.
+              get-hotfix
+    4) Extend the expression to sort the list by install date, and display only the install date and hotfix ID.
+                Get-HotFix | select-object -Property installedon,hotfixid | sort-object -Property installedon
+    5) Extend the expression further, but this time sort by description, include description, hotfix ID, and install Date.
+               Get-HotFix | sort-object -Property description | Select-Object description,hotfixid,installedon
+
+
+CUSTOM OBJECT:
+
+    Create a custom object that contains information about the host system using the following:
+
+        Win32_ComputerSystem
+
+        Win32_BIOS
+
+        Win32_OperatingSystem
+
+        Win32_LogicalDisk
+
+    Use the cmdlet Get-WmiObject to obtain the needed information
+
+$obj = [PSCustomobject]@{
+'ComputerName' = (Get-wmiobject win32_computersystem).name
+'OperatingSystem' = (Get-wmiobject win32_operatingsystem).caption
+'version' = (get-wmiobject win32_bios).version
+'manufacturer' = (get-wmiobject win32_bios).manufacturer
+'disks' = (get-wmiobject win32_logicaldisk)._path
+}
+
+##<powershell command> | format-list *  ##     #shows all the extra information of an object
+
+
+COMPARISON AND CONDITION:
+
+    1) Find and extract the model number from the provided lines of text. If there isn’t a model number then display to the user that a model number wasn’t found
+
+    2) Check both lines for model numbers and report individually the line and model number if found.
+
+$line1= "Do you have model number: MT5437 for john.doe@sharklasers.com?"
+$line2 = "What model number for john.doe@sharklasers.com?"
+$pattern = '[A-Za-Z]{2}\d{2,5}'
+
+
+LOOPING AND ITERATING:
+
+
+    Part 1
+
+        Use an array to iterate and open the following
+
+            Notepad
+
+            MS Edge
+
+            MSpaint
+
+        Query the processes
+
+        Kill the processes from PowerShell
+
+    Part 2
+
+        Use an array to iterate and open the following
+
+            Notepad
+
+            MS Edge
+
+            MSpaint
+
+        Query the processes
+
+        Save the ProcessIDs to a text file called procs.txt
+
+        Iterate through the ProcessIDs in the text file and kill them
+
+    Part 3
+
+        Use an array to iterate and open the following
+
+            Notepad
+
+            MS Edge
+
+            MSpaint
+
+        Query the processes and display only the following information in order by process ID
+
+            Process ID
+
+            Process Name
+
+            The time the process started
+
+            The amount of time the process has spent on the processor
+
+            The amount of memory assigned to the process
+
+
+$proc = "notepad", "msedge", "mspaint"
+foreach($item in $proc) {
+start-process $item
+get-process $item
+stop-process -name $item
+}
+
+#############################
+
+$appstoopen='Notepad','MSEdge','MSpaint'
+
+foreach ($item in $appstoopen) {
+Start-Process $item
+Get-Process $item
+(Get-Process $item).id | Where-Object {$item.name -ne "Idle"} >> procs.txt
+}
+
+$a=(get-content .\procs.txt)
+
+foreach ($i in $a) {
+Stop-Process -id $i
+} 
+
+############################
+
+
+ $appstoopen='Notepad','MSEdge','MSpaint'
+
+foreach ($item in $appstoopen) {
+Start-Process $item
+Get-Process -Name $item | Select-Object -Property id,name,StartTime,TotalProcessorTime,VirtualMemorySize64
+Stop-Process -name $item
+}
