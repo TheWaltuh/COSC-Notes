@@ -1,0 +1,91 @@
+###Creat Functions
+#1. returns ordinal date
+function ordinal{
+    (Get-Date).Year, (Get-Date).DayOfYear -join "-"
+}
+ordinal
+#2. squares and input
+function squared{
+    param(
+    [Parameter(Mandatory=$True)]
+    [Int]$num1
+    )
+    $num1*$num1
+}
+#3.a function that takes three arguments
+function arguments($arg1, $arg2, $arg3){
+    $arg1 * $arg2 * $arg3
+}
+###Create Functions
+#1.takes two integer values to represent sides of a triangle and returns  the length of the hypotenuse
+function triangle($side1, $side2){
+    $side3 = (($side1*$side1) + ($side2*$side2))
+    [math]::Sqrt($side3)
+}
+#2.takes two values $a and $b, as two angles and returns the missing angle
+function degrees($a, $b){
+    180 - ($a + $b)
+}
+#3.takes mandatory parameters and returns that in a hash table with weight converted
+function person{
+    param(
+    [Parameter(Mandatory=$True, HelpMessage="What is your first name?")]
+    $firstname,
+    [Parameter(Mandatory=$True, HelpMessage="What is your last name?")]
+    $lastname,
+    [Parameter(Mandatory=$True, HelpMessage="What is your age?")]
+    $age,
+    [Parameter(Mandatory=$True, HelpMessage="What is your weight, in pounds?")]
+    [int]$weightin_lbs
+    )
+    $personalinfo = [ordered]@{
+        "First"  = "$firstname"
+        "Last"   = "$lastname"
+        "Age"    = "$age"
+        "Weight" = [int]($weightin_lbs * 2.2)
+}
+$personalinfo
+}
+###Advanced Function
+#1. takes two arguments. first one being an array of 10 integers and the second beign a single integer. Search the array for every occurence of the second number and reurn the sum of all elements except the second
+function advanced1{
+    param(
+        [Parameter(Mandatory=$true)][ValidateCount(10,100)]
+        [array]$arg1,
+        [Parameter(Mandatory=$true)]
+        [int]$arg2
+    )
+    BEGIN{
+        $sum=0
+    }
+    PROCESS{
+    ForEach($item in $arg1){
+        if ($arg2 -eq $item){
+            continue
+        }
+        else{
+        $sum+=$item
+        }
+    }}
+    END {
+        $sum
+    }
+}
+#2. prompts user to name three U.S States than returns the names of the states in the order of longest to shortest and amount of characters in each name
+function states(){
+    BEGIN{
+        $array=@()
+    }
+    PROCESS{
+        While($array.Length -lt 3){
+            $state = Read-Host -Input "Enter 3 U.S States"
+            $array+=$state
+        }
+    }
+    END{
+        $a = $array | Sort-Object -Property Length -Descending 
+        ForEach($item in $a){
+            "$item `: " + $item.Length
+        }
+    }
+}
