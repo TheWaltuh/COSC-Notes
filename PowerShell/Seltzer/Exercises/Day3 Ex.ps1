@@ -123,9 +123,9 @@ Function Get-LongestName {
     $state3
     )
     Begin{
-    $a = ($state1).Length
-    $b = ($state2).Length
-    $c = ($state3).Length
+    $a = ($state1 -replace '\s',"").Length
+    $b = ($state2 -replace '\s',"").Length
+    $c = ($state3 -replace '\s',"").Length
     }
     Process{
     }
