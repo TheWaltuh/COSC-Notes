@@ -393,8 +393,9 @@ process{
     $state1Len=("$state1`: " + $(($state1 -replace '\s',"").length))
     $state2Len=("$state2`: " + $(($state2 -replace '\s',"").length))
     $state3Len=("$state3`: " + $(($state3 -replace '\s',"").length))
+    $LongestToShortest = (($state1Len,$state2Len,$state3Len) | Sort-Object -Property Length -Descending)
 }
 end{
-    ($state1Len,$state2Len,$state3Len) | Sort-Object -Property Length -Descending
+    $LongestToShortest
 }
 }
