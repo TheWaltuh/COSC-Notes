@@ -1,0 +1,111 @@
+####Stream Manipulation
+
+$text1 = "One Terabyte is $(1TB / 1GB) Gigabytes"      #Returns the value of 1TB divided by 1GB
+`n                                                     #New Line
+`t                                                     #Tabulator (Tab)
+`b                                                     #Backspace
+`'                                                     #Signle Quotation Mark
+`"                                                     #Double Quotation Mark
+`0                                                     #Null
+``                                                     #Backtick Character
+*The backtick chracter is the text escape character*
+
+##-f format
+Get-Service | Select-Object -First 10 | ForEach-Object{"The Service {0} is call '{1}': {2}" -f $_.Name,$_.DisplayName,$_.Status}
+OUTPUT-> The Service AssignedAccessManagerSvc is call 'AssignedAccessManager Service': Stopped
+
+##replace
+"Hello John, John how are you" -replace "John", "World"
+OUTPUT-> Hello World, World how are you
+'Server1,Server2,Server3' -replace '[,]',';'
+OUTPUT-> Server1;Server2;Server3
+'[      Jon     Bon     Doe      ]' -replace '\s+',' '
+OUTPUT-> [ Jon Bon Doe ]
+(qprocess) -replace '\s{2,}', ', ' | Select-Object -First 10
+OUTPUT-> >student, rdp-tcp#0, 2, 6336, startmenuexp...
+
+##Split
+$profile -split '\.'
+OUTPUT-> C:\Users\student\Documents\WindowsPowerShell\Microsoft
+         PowerShellISE_profile
+         ps1
+$profile split '(?=\.)'
+OUTPUT-> C:\Users\student\Documents\WindowsPowerShell\Microsoft
+         .PowerShellISE_profile
+         .ps1
+'StringThatHasCaseWords' -csplit '(?<=[a-z])(?=[A-Z])'
+OUTPUT-> String
+         That
+         Has
+         Case
+         Words
+
+##Join
+"cat","dog" -join " "
+OUTPUT-> cat dog
+$env:username, '@', $env:computername, ".", $env:userdomain -join ""
+OUTPUT-> student@WIN-OPS.WIN-OPS
+
+####REGEX Alternative
+"10.12.14.244" -as [ipaddress]
+OUTPUT-> Address            : 4094561290
+         AddressFamily      : InterNetwork
+         ScopeId            : 
+         IsIPv6Multicast    : False
+         IsIPv6LinkLocal    : False
+         IsIPv6SiteLocal    : False
+         IsIPv6Teredo       : False
+         IsIPv4MappedToIPv6 : False
+         IPAddressToString  : 10.12.14.244
+*If there is any output that means it is true*
+
+####Function
+
+function<name> {
+  <code to execute>                           #Basic syntax for a function
+}
+function test-it {
+  Write-Output "Hello World!"
+}
+test-it
+OUTPUT-> Hello World!
+
+function <name>(<arguments>){
+  <code to execute>                           #Basic syntax for a function that takes specific arguments
+}
+function test-it2($value) {
+  if($value){
+    Write-Host -ForegroundColor Cyan "True"
+  }
+  else{
+    Write-Host -ForegroundColor Red "False"
+  }
+}
+test-it2 "string"
+OUTPUT-> True (In the color Cyan)
+
+function <name> {
+  param(
+    <param variable>,<param variable>
+  )
+  <code to execute>                            #Basic Syntax for function that takes parameters
+}
+function test-func{
+  param(
+    $param1='Default Value 1', $param2='Default Value 2'
+  )
+  "You entered $param1 and $param2"
+}
+test-func new old
+OUTPUT-> You entered new and old
+
+
+
+
+
+
+
+
+
+
+
