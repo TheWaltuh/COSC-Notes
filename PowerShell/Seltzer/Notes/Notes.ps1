@@ -744,6 +744,7 @@ function Convert-ToDollars{
     "{0:n2}" -f $dollar
 }
 
+
       #basic function that will convert a number of euros into its equivilant in dollars
 
 
