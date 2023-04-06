@@ -102,9 +102,74 @@ OUTPUT-> You entered new and old
 
 
 
+####Extra
 
+function <name>{
+         param(
+         [switch]
+         <param variable>
+         )
+         <code to execute>                     #Basic Syntax for function with switch parameter
+}
+function Do-Switch {
+         param(
+                  [switch]
+                  $DoSwitch                    #Creates a function with a swtich parameter called DoSwitch
+         )
+         if ($DoSwitch) {
+             "Switch is done"
+         }
+         else{
+             "Switch is off"
+         }        
+}
+Do-Switch -DoSwitch
+OUTPUT-> Switch is done
 
+function <name> {
+  param(
+    [Parameter(Mandatory=$True)]
+    <param name>
+  )
+  <code to execute>                            #Syntax to create a function with mandatory parameters
+}
+function test-mandatoryparam {
+  param(
+    [Parameter(Mandatory=$true)]
+    $name
+  )
+  "Your name is $name"
+}
+test-mandatoryparam
+OUTPUT-> cmdlet test-mandatoryparam at command pipeline position 1
+         Supply values for the following parameters:
+         name: <enter name>
+         Your name is <name>
+function test-mandatoryhelp {
+  param(
+    [Parameter(Mandatory=$true, HelpMessage="What is your name?")]
+    $name
+  )
+  "Your name is $name"
+}
+test-mandatoryhelp
+OUTPUT-> cmdlet test-mandatoryhelp at command pipeline position 1
+         Supply values for the following parameters:
+         (Type !? for Help.)
+         name: !?
+         What is your name?
+         name:
 
+function convert-todollar {
+  param(
+    [Parameter(Mandatory, HelpMessage="Enter a number of Eros.")]
+    [Double]$euro
+  )
+  
+  $dollar = $euro * 1.09
+  "{0:n2}" -f $dollar
+}
+convert-todollar
 
 
 
