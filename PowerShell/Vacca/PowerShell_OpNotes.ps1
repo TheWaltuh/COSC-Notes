@@ -292,12 +292,67 @@ Get-Process -Name $item | Select-Object -Property id,name,StartTime,TotalProcess
 Stop-Process -name $item
 }
  
- 
+ #Practical Exercise: Create Functions
+
+#   Write a function that returns the Ordinal date of the current date.
+
+function OrdinalDate {
+    $a=(get-date).Year
+    $b=(get-date).DayOfYear
+    $a, $b -join "-"
+}
+
+#   Create a function that takes a number(n) as an argument and returns the square(n^2) of the number.
+
+function Get-SquareNum ($num) {
+   "$($num * $num)" 
+}
+
+#   Create a function that takes three (3) arguments and returns the product of the arguments.
+
+function Get-Product ($num1, $num2, $num3) {
+   "$($num1 * $num2 * $num3)"
+}
+
+#Practical Exercise: Function Parameters
+
+#    Create a function that takes two(2) integer values, $a and $b, that are the lengths of two(2) legs of a right triangle and returns the length of the hypotenuse.
+
+function Pythagorean ($a, $b) {
+   $hypotenuse=[MaTh]::sqrt(($a*$a)+($b*$b))
+   $hypotenuse
+}
+
+#Create a function that takes two(2) values, $a and $b, as two(2) angles in degrees of a triangle. Return the value of the missing angle.
+
+function eq180 ($a, $b) {
+(180 - ($a + $b))
+}
 
 
 
+#    Create a function that takes the following as mandatory parameters:
 
+#        First Name
 
+#        Last Name
+
+#        Age
+
+#        Weight in pounds(lbs)
+
+#and returns the information in a hash table using the keys: first, last, age, and weight with the weight value converted to kilograms(kg) rounded to the nearest whole number
+
+function person {
+    param(
+        [Parameter(Mandatory)]
+        $FirstName,$LastName,$Age,$Weight )
+    $PersonHash = @{
+    First = $FirstName
+    Last = $LastName
+    Age = $Age
+    Weight = [int]($weight * 0.453)
+}
 
 
 
