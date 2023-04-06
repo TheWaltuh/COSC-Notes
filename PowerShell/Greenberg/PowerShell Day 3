@@ -171,6 +171,54 @@ function convert-todollar {
 }
 convert-todollar
 
+function <name> {                         #Basic Syntax for advanced function
+Begin{
+         <code>                           #Create variables and set the environment for process block. If this one exists, end block in req'd
+}
+Process{
+         <code>                           #Process block is functionally equivalent to a ForEach-Object Loop. Where the work is done.
+}
+End{
+         <code>                           #Usually gives the output of te function after all pipeline objects have been processed
+}
+}
+function add-nums {
+         param(
+          [Parameter(Mandatory=$true)]
+          [Int]$var1,
+          [Parameter(Mandatory=$true)]
+          [Int]$var2
+         )
+         Begin {
+          $sum = 0
+         }
+         Process {
+          $sum = $var1 + $var2
+         }
+         End {
+          $sum
+         }}
+         
+add-nums 5 6
+OUTPUT-> 11
 
-
+function show-args {
+  $args[0]
+  $args[1]
+  $args[2]
+}
+function enum-input {
+  $input | ForEach-Object{$_ * 4}
+}
+function process-input{
+BEGIN{
+  $counter=0
+}
+PROCESS{
+  $_ * 4
+  $counter++
+}
+END{
+  $counter
+}}
 
