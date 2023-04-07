@@ -806,6 +806,34 @@ End{
 }
 }
 
+###Arrays
+#an array is a collection of items
+
+$procarr = get-process    #is an array
+$norarr = "Fuck you"      #is not an array
+
+.count                    #can be used to count number if items in an array
+$arr = @()                #Creates empty array
+$arr1 = 1..20             #makes a array containing a list of nums from 1 to 20
+
+$arr1[0]                  #calls element 1 in $arr1 
+$arr1[-1]                 #calls last element in $arr1
+
+[Array]::reverse($arr1)   
+#or                       #two ways to reverse an array
+$arr1[($arr1.Length -1)..0]
+
+$arr2 = "World", "Hello", 4, 5, (Get-date)  #arrays don't have to be all of the same data type
+      #called a polymorphic array
+$arr3 = 1, "Word", (1,2,3), "more word"     #can have an array inside an array
+      #called a jagged array
+$arr3[2][2]     #will call index 2 of index 2 of $arr3 (in this case will return 3)
+                #how to call items from an array that is inside an array
+                
+$arr4 = 2, "Double", (1, 2, ("More Shit", "In Here"), "Base"), 18, "Lightning"
+                #can have even more arrays in arrays and to call keep adding index to end like above
+                
+
 
 
 
