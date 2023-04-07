@@ -1,0 +1,4 @@
+Windows OPstation:
+xfreerdp /u:student /v:10.50.34.144 +glyph-cache +clipboard +dynamic-resolution
+Linux OPstation:
+ssh +X student@10.50.23.0
