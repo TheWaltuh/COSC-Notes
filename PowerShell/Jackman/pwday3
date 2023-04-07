@@ -1,0 +1,81 @@
+
+
+
+---------------- POWERSHELL DAY 3 ----------------
+
+
+********** SPECIAL CHARACTERS **********
+
+`n	newline
+`t	tabulator(tab)
+
+`'	single quotation mark
+
+`"	double quotation mark
+
+`0	null
+
+``	backtick character
+
+ex.
+
+"here is another `nline of text"
+
+$text = @"			#the @ let's you run a script of multiple lines without {} (here-string)
+
+here is some text wit h`"quotes`".
+1TB equals $(1TB / 1GB) GB.
+Variables are resolved
+"$PWD" is your current path
+"@
+
+
+"{0:n3}" -f 123.45678   #number of decimal places in a float n
+
+"{0:d5}" -f 123	#adds padding to the number if there isn't five digits there
+
+***using format with commands (-f)
+
+ex
+
+Get-Object | Select-Object -First 10 | ForEach-Object{"The servive {0} is call {1}: {2}" -f $_.Name, $_.DisplayName, $_.Status}
+
+Get-Process | Select-Object first 5 | ForEach-Object {"process {1} is {0}" -f $_.Name, $_.SessionId}
+
+***using the replace option
+
+ex
+
+"hello john" -replace "john","world"		#replace first then what you're replacing with
+output: "hello world"
+
+'server1,server2,server3' -replace '[,]', ';'
+
+'[	jon	bon	doe	]' -replace '\s+', ' '
+
+(process) -replace '\s{2,}',',' | select -first 10
+
+'192.168.0.1' -replace '\d{1,3}$', '255'
+
+$profile -split '\.'		#splits on period and removes it
+
+$profile -split '(?=\.)'	#splits on period but keeps the period in the output
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
