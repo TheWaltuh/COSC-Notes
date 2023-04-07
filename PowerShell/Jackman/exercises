@@ -1,0 +1,343 @@
+
+
+
+<#
+FIND CMDLETS
+
+1. Ensure that you have the latest copy of help by updating your help system.
+update-help
+
+2. Which cmdlets deal with the viewing/manipulating of processes?
+Get-Process format-<table,list,wide,custom> -property <properties>
+3. Display a list of services installed on your local computer.
+Get-Service
+
+4. What cmdlets are used to write or output objects or text to the screen?
+write-host and Write-Output
+
+5. What cmdlets can be used to create, modify, list, and delete variables?
+Get-Variable get-childitem variable:
+
+6. What cmdlet can be used, other than Get-Help, to find and list other cmdlets?
+Get-Command -<verb or noun> <verb or string>
+7. Find the cmdlet that is used to prompt the user for input.
+Read-Host
+
+
+RUNNING CMDLETS
+
+
+
+1. Display a list of running processes.
+Get-Process format-list
+
+2. Display a list of all running processes that start with the letter "s".
+Get-Process -Name s* | format-list -Property Name
+
+3. Find the cmdlet and its purpose for the following aliases:
+Get-Alias -Name gal,dir,echo,?,%,ft
+    a. gal
+    get-alias 
+    b. dir
+    Get-ChildItem
+    c. echo
+    Write-Output
+    d. ?
+    Where-Object
+    e. %
+    ForEach-Object
+    f. ft
+    Format-Table
+4. Display a list of Windows Firewall Rules.
+Get-NetFirewallRule | format-list
+5. Create a new alias called "gh" for the cmdlet "Get-Help"
+set-alias gh Get-Help
+
+
+
+1. Create a variable called "var1" that holds a random number between 25-50.
+$var1 = Get-Random -Minimum 25 -Maximum 50
+
+2. Create a variable called "var2" that holds a random number between 1-10.
+var2 = Get-Random -Minimum 1 -Maximum 10
+3. Create a variable called "sum" that holds the sum of var1 and var2.
+$sum = $var1 + $var2
+4. Create a variable called "sub" that holds the difference of var1 and var2.
+$sub = $var1 - $var2
+5. Create a variable called "prod" that holds the product of var1 and var2.
+$prod = $var1 * $var2
+6. Create a variable called "quo" that holds the quotient of var1 and var2.
+$quo $var1 / $var2
+7. Replace the variables in text with their values in the following format:
+
+    a. Write-Host "$var1 + $var2 = $sum"
+
+8. Replace the variables in text with their values in the following format:
+
+    a. Write-Host "$var1 - $var2 = $sub"
+
+9. Replace the variables in text with their values in the following format:
+
+    a. Write-Host "$var1 * $var2 = $prod"
+
+10. Replace the variables in text with their values in the following format:
+
+    a. Write-Host "$var1 / $var2 = $quo"
+
+
+    or "{0} + {1} = {2}" -f $var1,$var2,$var3
+#>
+
+
+------- DAY TWO EXERCISES -------
+
+
+
+1. reverse arrays
+
+$var1 = Get-Random -Minimum -10 -Maximum 0
+$var2 = Get-Random -Minimum 1 -Maximum 20
+$MyArray = $var1..$var2
+[array]::Reverse($MyArray)
+
+
+2. arrays and hash tables
+
+$employee1 = @{}
+$employee2 = @{}
+
+
+$employee1 = @{First = "Mary"; Last = "Hopper"; ID = "001"; Job = "Software Developer"}
+$employee2 = @{First = "John"; Last = "Williams"; ID = "002"; Job = "Web Developer"}
+
+$employee1["Username"] = $employee1.first.Substring(0,1) + $employee1.last + $employee1.ID
+$employee2["Username"] = $employee2.first.Substring(0,1) + $employee2.last + $employee2.ID
+
+$employee3 = @{First = "Alex"; Last = "Moran"; ID = "003"; Job = "Software Developer"}
+
+$employee1["Satus"] = "Management"
+$employee2["Satus"] = "Intermediate"
+$employee3["Satus"] = "Entry Level"
+
+
+3. The pipeline
+
+    1.Get-Process | Where-Object{$_.starttime} | Measure-Object -Property starttime -Minimum -Maximum |
+    Select-Object -Property minimum, maximum
+
+    
+    2.Get-Date | Select-Object dayofweek
+
+    3.Get-HotFix
+
+    4.Get-HotFix | Sort-Object InstalledOn | Select-Object HotfixID, InstalledOn
+    
+    5.Get-HotFix | Sort-Object description | Select-Object HotfixID, InstalledOn, description
+
+
+4. Custom Object
+
+    1. $obj = [PSCustomObject]@{
+'Computername' = (Get-WmiObject Win32_ComputerSystem).name
+'OperatingSystem' = (Get-WmiObject Win32_OperatingSystem).caption
+'Version' = (Get-WmiObject Win32_BIOS).version
+'Manufacturer' = (Get-WmiObject Win32_BIOS).manufacturer
+'Disks' = (Get-WmiObject Win32_LogicalDisk).__path
+}
+
+
+5. Comparison and Condition
+
+    1. $line1 = "Do you have model number: MT5437 for john.doe@sharklasers.com?"
+       $line2 = "What model number for john.doe@sharklasers.com?"
+       $model = 'MT[\d]{4}'
+       if ($line1 -match $model) {
+       Write-Host "line1 contains" $Matches.Values
+       }
+       else {
+        Write-Host "model number wasn't found"
+       }
+
+         if ($line2 -match $model) {
+       Write-Host "line2 contains" $Matches.Values
+       }
+       else {
+        Write-Host "model number wasn't found"
+       }
+
+
+6. Looping & Iteration
+
+    1. $array = "notepad", "msedge", "mspaint"
+       $array | ForEach-Object{Start-Process $_}
+       $array | ForEach-Object{Get-Process $_}
+       $array | ForEach-Object{(Get-Process $_*).Kill()}
+
+
+    2. $array = "notepad", "msedge", "mspaint"
+       $array | ForEach-Object{Start-Process $_}
+       Start-Sleep -Seconds 3
+       $array | ForEach-Object{Get-Process $_}
+       $array | ForEach-Object{Get-Process $_ | Select-Object -ExpandProperty id} > procs.txt
+       Get-Content procs.txt | ForEach-Object{Stop-Process -id $_}
+       
+       
+    3. $array = "notepad", "msedge", "mspaint"
+       $array | ForEach-Object{Start-Process $_} 
+       $array | ForEach-Object{Get-Process $_} | Sort-Object -Property id | Select-Object name,starttime,totalprocessortime,virtualmemorysize,workingset64
+
+
+------------ DAY 3 EXERCISES ------------
+
+
+1. Create Functions
+
+#Write a function that returns the Ordinal date of the current date.
+
+function ordinal {
+    (Get-Date).Year, (Get-Date).Dayofyear -join "-"
+}
+
+#Create a function that takes a number(n) as an argument and returns the square(n^2) of the number.
+
+function square($num) {
+    $result = [int]$num * [int]$num
+    return $result
+}
+
+#Create a function that takes three (3) arguments and returns the product of the arguments.
+
+
+function product($num1,$num2,$num3) {
+    $result = [int]$num1 * [int]$num2 * [int]$num3
+    return $result
+}
+    
+
+2. Function Parameters
+
+
+#Create a function that takes two(2) integer values, $a and $b, that are the lengths of two(2) legs of a right triangle and returns the length of the hypotenuse.
+
+function hypotenuse($a, $b){
+    $c = [math]::Pow($a,2) + [math]::Pow($b,2)
+    #[int]$c =([int]$a * [int]$a) + ([int]$b * [int]$b)
+    $result = [math]::Sqrt($c)
+    return "{0:n3}" -f $result
+}
+
+
+#Create a function that takes two(2) values, $a and $b, as two(2) angles in degrees of a triangle. Return the value of the missing angle.
+
+function angle($a, $b){
+    $result = 180 - ([int]$a + [int]$b)
+    return $result
+}
+
+
+<#
+Create a function that takes the following as mandatory parameters:
+
+        First Name
+
+        Last Name
+
+        Age
+
+        Weight in pounds(lbs)
+
+and returns the information in a hash table using the keys: first, last, age, and weight with the weight value converted to kilograms(kg) rounded to the nearest whole number
+#>
+
+
+function info{
+    param(
+        [parameter(mandatory=$true)] #or could've put [parameter(mandatory,position=0)]
+        $first,
+        [parameter(mandatory=$true)]
+        $last,
+        [parameter(mandatory=$true)]
+        $age,
+        [parameter(mandatory=$true)]
+        $weight
+        )        
+$myhash = [ordered]@{ first = $first; last = $last; age = $age; weight = ($weight/2.2)}
+$myhash     
+}
+
+
+3. Advanced Functions
+
+#Create an advanced function using Begin, Process, and End, that takes two(2) arguments. The first argument being an array of at least ten(10) integers and the second argument being a single integer. Search the array argument for every occurrence of the single integer argument then return the sum of all elements in the array excluding every occurrence of the single integer argument.
+
+function advanced {		
+Begin{
+    $1st = 1..10
+    $2nd = 5
+    $sum = 0	
+}		
+Process{
+     $1st -ne $2nd | ForEach-Object{$sum +=$_} 
+}      		
+End{
+    $sum			
+}
+}
+
+
+#Create an advanced function using Begin, Process, End, that prompts the user to enter the names of three(3) U.S. States then returns the names of the states in the order of longest name to shortest name and the amount of characters in each name.
+
+function longestname {		
+Begin{
+    $array = @()
+    $count = 0	
+}		
+Process{
+     $states = Read-Host -Prompt 'Input the name of three different states'
+     $array += $states
+}     
+End{
+     $list = $array | sort -property length -Descending
+     foreach($state in $list){
+     "$state `: " + $state.length
+     }					
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
