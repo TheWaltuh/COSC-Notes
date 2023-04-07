@@ -833,9 +833,9 @@ $arr3[2][2]     #will call index 2 of index 2 of $arr3 (in this case will return
 $arr4 = 2, "Double", (1, 2, ("More Shit", "In Here"), "Base"), 18, "Lightning"
                 #can have even more arrays in arrays and to call keep adding index to end like above
                 
-$arr5 = $arr2 + $arr3
-#or                         #two ways to combine multiple arrays into one array
-$arr6 = $arr2 + @($arr3)
+$arr5 = $arr2 + $arr3       #adds contents of arr3 to arr2 then stores in arr5
+#or                         
+$arr6 = $arr2 + , $arr3    #adds intact arr3 to arr2 then stores in arr6
 
 
 
