@@ -756,6 +756,40 @@ function process-input{
     $counter
     }
 }
+#-------------------------------------------------------------------------------------------------------------
+
+    write-host "Arrays"
+    
+$procarr = get-process
+
+$notarr = "Hello World"
+
+$array = @()                    #Creates an empty array
+
+$array1 = 1,2,3,4
+#or                             Both create an array 1 to 4
+$array1 = 1..4
+
+$array1[0]                      #Selects the first element
+$array1[-1]                     #selects last element
+$array1[$array1.Length -1]      #same as above
+
+[array]::reverse($array)        # Makes the array equal to the array reversed
+$arr[($arr.Length -1)..0]       #Prints the array reversed
+
+
+$array2 = "World","Hello", 5, 10, (Get-Date)    #Polymorphic arrays conatin more than one type of object
+
+$array3 = 1,"Word",(1,2,3),"Other word"         #Jagged array contains another array
+$array3[2][2]                                   #referse to index 2 of the array at index 2 of $array3
+
+$array4=2,"Double", (1,2,("More stuff", "in here"), "Base"), 18, "Lightning"
+$array4[2][2][1]                #in here
+
+#to add an array to another array
+
+$array5 = ,$array2 + , $array3                  #array2 is index 0 and array3 is index 1
+
 
 ##############################################################################################################
 
