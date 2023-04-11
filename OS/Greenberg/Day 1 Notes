@@ -1,4 +1,6 @@
 xfreerdp /u:student /v:10.50.37.177 +glyph-cache +clipboard +dynamic-resolution
+Stack 10
+10.50.24.175
 
 Version Information - Get-Host
 Switch Version - Pwsh  (use exit to leave back to original version)
