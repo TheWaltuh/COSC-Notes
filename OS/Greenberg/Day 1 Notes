@@ -1,2 +1,59 @@
+xfreerdp /u:student /v:10.50.37.177 +glyph-cache +clipboard +dynamic-resolution
+
 Version Information - Get-Host
 Switch Version - Pwsh  (use exit to leave back to original version)
+
+####CIM Classes https://learn.microsoft.com/en-us/previous-versions/windows/desktop/wmi_v2/cim-class-overview
+Get-CimClass                                                        #Lists all CimClasses
+Get-CimInstance -ClassName Win32_LogicaLDisk -Filter "DriveType=3"  #Microsoft is transitioning to using CIM classes
+Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=3"        #Same Output as the command above
+
+####Execution Policy https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.3
+Get-ExecitionPolicy -list
+AllSigned     - requires all files be signed by a trusted publishert
+Bypass        - anything will run
+Default       - restired from windows clients
+RemoteSigned  - Requires a dgiital signature from a trusted publisher
+Restirected   - permits individual command
+Undefined     - 
+Unrestricted  -
+
+####PowerShell Profiles
+Current User, Current Hosts
+Current User, All Host
+All Users, Current Host
+All Users, All Hosts               #Loads up in reverse order
+$PSHome                            #Directory that the profiles are stored in
+$Profile                           #Displays the current profile (Which is probably current user, current host)
+$profile | get-member -Type Noteproperty
+Test-Path -Path $profile
+Test-Path -Path $profile.currentUserAllHosts
+Test-Path -Path $profile.AllUsersAllHosts
+Test-Path -Path $profile.AllUserscurrentHost
+New-Item -ItemType File -Path $profile -Force          #creates a new profile
+New-Alias -Name DemUsers -Value Get-LocalUser          #saves a new-alias in the created profile, anytime the profile gets loaded up it does not need to be redefined
+
+###WQL for WMI for CIM Classes
+Get-CimInstance -ClassName win32_product -Filter 'name like "microsoft%"' #What is the %?
+EXAMPLE 4: Any characters -- or none (%)
+
+The following commands get processes that have names that begin with
+"calc". The % symbol in WQL is equivalent to the asterisk (*) symbol in
+regular expressions.
+
+    $query = "Select * from win32_Process where Name LIKE 'calc%'"
+    Get-WmiObject -Query $query | Select-Object -Property Name, ProcessID
+
+    Name                               ProcessID
+    ----                               ---------
+    calc.exe                                4424
+WQL is the Windows Management Instrumentation (WMI) query language, which is the language used to get information from WMI.
+
+####Windows Remoting
+Get-PSSessionConfiguration    #Gets the registered session configurations on the computer.
+Session Configurations        #determine the users who can connect to the computer remotely and the commands they can run.
+Enable-PSRemoting             #configures the computer to receive PowerShell remote commands that are sent
+Invoke-Command                #runs commands on a local or remote computer and returns all output from the commands, including errors
+
+####Name-Spaces
+([System.Text.Encoding]::GetBytes)
