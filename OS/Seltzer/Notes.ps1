@@ -87,6 +87,35 @@ function Color-Console {
 Color-Console
           #changes your color in powershell
 
+###Namespaces
+[NameSpace.Class]::Method()         #basic syntax to invoke a namespace
+
+###Downlaod a file with powershell
+$url = "http://downloads.volatilityfoundation.org/releases/2.6/volatility_2.6_win64_standalone.zip"
+$output = "$PSScriptRoot\volatility_2.6_win64_standalone.zip"
+$start_time = Get-Date
+        #establishes variables to use for download url for where from, output for where too, start time holds get date
+        
+$wc = New-Object System.Net.WebClient 
+$wc.DownloadFile($url, $output) 
+
+
+(New-Object System.Net.WebClient).DownloadFile($url, $output)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
