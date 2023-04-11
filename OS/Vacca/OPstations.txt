@@ -1,6 +1,6 @@
 Facilitation Guide: https://os.cybbh.io/public/os/latest/index.html
 Windows OPstation: xfreerdp /u:student /v:10.50.34.144 +glyph-cache +clipboard +dynamic-resolution
-  CTFD workstation
+  CTFD
     Stack: 11
     IP: 10.50.30.72
 
