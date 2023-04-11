@@ -34,7 +34,7 @@ get-ciminstance -classname Win32_Product -filter 'name like"microsoft%"'  #gets 
 get-executionpolicy                 #gets the execution polocies for the current session
 get-executionpolicy -list           #same as above just in list format
 
-start-transcript                    #record everything you type
+start-transcript                    #record everything you type/track commands run
 
 ##basic loop revirew (see old notes for more details)
 do {<statement list>} while (<condition>)
