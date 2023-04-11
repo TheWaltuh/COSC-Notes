@@ -10,7 +10,11 @@ get-cimclass              #Newer suppported system information giver for microso
 get-CimInstance           #get an instance of CIM
 get-ciminstance Win32_Process -Filter 'name like "p%"'
 
-get-executionpolicy       
+get-executionpolicy   
+
+$profile | get-member -MemberType NoteProperty | fl      #shows the profiles and their propertys in a list
+#if a profile location is not in its default location then it is an anomoly
+
 
 
 
