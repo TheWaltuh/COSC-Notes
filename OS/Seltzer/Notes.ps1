@@ -107,7 +107,8 @@ $wc.DownloadFile($url, $output)
 
 
 
-
+(1000..1) | % {Expand-Archive .\Omega$_.zip -force -DestinationPath C:\Users\CTF\Documents\ }     #iterates through zip files names omega1000 to omega1
+                                                                                                  #unzips them all, and then 
 
 
 
