@@ -3,7 +3,16 @@
 #
   write-host "Day 1!"
 #-------------------------------------------------------------------------------------------------------------------
-get-host            #enumerates information about the host machine
+get-host                  #enumerates information about the host machine
+
+  "Cim"
+get-cimclass              #Newer suppported system information giver for microsoft (replacced get-wmiobject)
+get-CimInstance           #get an instance of CIM
+get-ciminstance Win32_Process -Filter 'name like "p%"'
+
+get-executionpolicy       
+
+
 
 #-------------------------------------------------------------------------------------------------------------------
 
