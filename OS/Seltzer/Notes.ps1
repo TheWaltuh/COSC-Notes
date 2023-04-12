@@ -232,6 +232,9 @@ Set-Content .\coffee.txt -Value "Horns sicual security number is 123-45-6789" -s
 Get-Item .\coffee.txt -Stream *
             #shows streams of coffee.txt (how to view alternate data streams)
             
+get-item <what checking for ads> -stream * | select-object pspath       #show only the path so easy to see if ads or not
+                                                                        #if not $DATA then is ADS
+
 Get-Content .\coffee.txt -Stream secret.info
             #shows whats inside the alternate data stream of secret.info
 
@@ -245,6 +248,8 @@ get-filehash -algorithm <Parameter>                                             
 
 get-acl                                                                                   #list permissions of a file
 
+ Get-Content <hidden file name> -Stream Hidden                                            #read contents of a hidden document
+ 
 
 
 
