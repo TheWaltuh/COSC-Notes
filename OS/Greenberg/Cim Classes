@@ -1,0 +1,18 @@
+####Overview
+A CIM class is an object oriented abstraction similar to WMI. A class can have 0 or more properties and methods: either defined in itself or in its parent
+class.
+CIM class methods have two groups
+1. Intrinsic versus Extrinsic Methods - Intristic is predefined methods that each class should implement. Extrinisic are user-defined methods implemented
+2. Instance versus Static Methods - Instance are called on an instance of an entity, therefore getting that isntance as an arguemnt. Static are called on
+and can or cannot get a instance as an argument.
+Class declarations are writeen in the Managed Object File (MOF)
+
+##CIM Operations
+Operations that a client can perform on a CIM class. Note: InvokeMethod is the only extrinsic method
+1. Get-CimInstance - specific instance of a cim class
+2. GetQueryInstances - returns the objects instances that match the query
+3. Get-CimAssociatedInstances - enumerates instances
+4. New-CimInstances - creates a new instance of cim class on the server
+5. Set-CimInstance - modifies a instance that already exists on the server
+6. Remove-CimInstance - deletes an existing instance
+7. Invoke-CimMethod - invokes an extrinsic method on the class
