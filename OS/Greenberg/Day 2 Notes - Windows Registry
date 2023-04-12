@@ -54,3 +54,7 @@ New-PSDrive -Name FileServer -PSProvider FileSystem -Root "\\file-server\warrior
 
 
 This PC->Computer->MapNetworkDrive will just add that server file system to your computer
+
+get-item HKLM:\SYSTEM\CURRENTCONTROLSET\ENUM\USBSTOR                 #Checks to see if any USBdrives have been plugged in
+get-childitem "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles"   #find suspciious network activty
+get-childitem "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\"          #find suspciious profiles
