@@ -79,14 +79,31 @@ Get-Content .\words.txt | Select-String -Pattern 'a|z' | Measure-Object -Word
 get-content ($PROFILE).AllUsersAllHosts             #AllUsersAllHosts is read first and then wrote over if another profile exists
 
 
+#Windows_Registry_Basics_12
+
+#What is the value inside of the registry subkey that loads every time the "Student" user logs on?
+
+Get-LocalUser | select name,sid     #find sid for the user
+reg query HKU\S-1-5-21-1204278314-2763755555-735148208-1004\SOFTWARE\Microsoft\windows\currentversion\run
+
+#Windows_Registry_Basics_15
+
+#Figure out the manufacturer's name of the only USB drive that was plugged into this machine.
+
+reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR
+
+#Windows_Registry_Basics_16
+
+#What suspicious user profile, found in the registry, has connected to this machine?
+
+gci 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\'
+
+#Windows_Registry_Basics_17
+
+#What suspicious wireless network, found in the registry, has this system connected to?
 
 
-
-
-
-
-
-
+gci 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\'
 
 
 
