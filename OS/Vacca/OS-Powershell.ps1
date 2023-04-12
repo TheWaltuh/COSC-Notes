@@ -140,11 +140,21 @@ HKEY_CLASSES_ROOT
 
 Get-LocalUser | select name, sid   #will get the sid for all user accounts
 
+#persistence is etablished in:
+HKLM:\Software\Microsoft\Windows\CurrentVersion\Run
+To view: Get-Childitem, Get-Item
 
+New-PSDrive -Name FileServer -PSProvider FileSystem -Root "\\file-server\warrior share"
+#connects Powershell to a network share drive
 
+  write-host "Alternate Data Streams"
+  
+#essentially logical pointers to another data set than what is actually located within a file
+[filename.extension]:[alternate_stream_name]:$DATA
 
-
-
+to view ads:
+  get-item <item> -stream *                 #lists all data streams
+  get-content <item> -stream <streamname>   #Shows the content of the ADS for a file
 
 
 
