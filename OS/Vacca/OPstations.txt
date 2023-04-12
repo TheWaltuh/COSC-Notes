@@ -1,8 +1,5 @@
 Facilitation Guide: https://os.cybbh.io/public/os/latest/index.html
 Windows Admin station: xfreerdp /u:student /v:10.50.30.74 +glyph-cache +clipboard +dynamic-resolution
-  CTFD
-    Stack: 11
-    10.11.0.3
+  Stack: 11 - 10.11.0.x
+  file server: 10.11.0.3
 
-
-Linux OPstation: ssh +X student@10.50.23.0
