@@ -44,3 +44,13 @@ REG_DWORD: 32-bit integer
 REG_LINK: Symbloic Link
 REG_MULTI_SZ: Multi-String Values
 REG_QWORD: 64-bit integer
+
+##PSDrive
+*Only accessed through PowerShell*
+Get-PSDrive  
+    Root- where its going 
+    Provider- type of PSDRIVE
+New-PSDrive -Name FileServer -PSProvider FileSystem -Root "\\file-server\warrior share"
+
+
+This PC->Computer->MapNetworkDrive will just add that server file system to your computer
