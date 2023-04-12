@@ -1,0 +1,195 @@
+
+
+---------- OS NOTES DAY 1 -----------
+
+
+
+- getting the version of powershell
+
+get-host | select-object version
+
+(get-host).version
+
+
+get-ciminstance -class win32_logicaldisk -filter "drivetype=3	#get specific information on a cim class
+
+loop refresh:
+
+do {<statement list>} while {<condition>}
+do {<statement list>} until {<condition>}
+for (<init>; <condition>; <repeat>)
+while (<condition>){<statement list>}
+
+if (<test1>){
+	<commands>
+}
+if (<test1>){
+	<commands>
+}
+else{
+	<commands>
+}
+
+
+
+- executionpolicy #safety feature that determines whether you can load configuration files 
+
+https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.3
+
+
+
+--------- POWERSHELL PORFILES
+					PATHS:
+					
+- all users, all hosts			$PsHome\Profile.ps1
+- all users, current host		$PsHome\Microsoft.PowerShell_profile.ps1
+- current user, all host		$Home\[My]Documents\Profile.ps1
+- current user, current host		$Home\[My ]Documents\WindowsPowerShell\Profile.ps1
+
+
+*** ISE profiles
+
+- current user, current host		$PsHome\Microsoft.PowerShellISE_profile.ps1
+- all users, current host		$Home\[My]Documents\WindowsPowerShell\Microsoft.PowerShellISE_profile.ps1
+
+
+
+$profile	#display current profile
+$profile | get-membertype noteproperty
+
+test-path -path $profile.currentusercurrenthost	#see if path exists
+test-path -path $profile.currentuserallhosts
+test-path -path $profile.allusersallhosts
+test-path -path $profile.alluserscurrenthost
+
+creating a profile:
+
+new-item path $profile -type file -force
+
+set-executionpolicy
+
+ise $profile
+
+function Color-Console {
+  $Host.ui.rawui.backgroundcolor = "black"
+  $Host.ui.rawui.foregroundcolor = "green"
+  $hosttime = (Get-ChildItem -Path $PSHOME\PowerShell.exe).CreationTime
+  $hostversion="$($Host.Version.Major)`.$($Host.Version.Minor)"
+  $Host.UI.RawUI.WindowTitle = "PowerShell $hostversion ($hosttime)"
+  Clear-Host
+}
+Color-Console
+
+
+Get-PSSessionConfiguration                        #displays permissions
+
+
+
+[NameSpace.Class]::Method()
+ex.
+
+[System.Text.Encoding]::GetBytes()	#Text Namespace to Encode or Decode strings of text into various forms
+
+
+Download a File with Powershell:
+
+$url = "http://downloads.volatilityfoundation.org/releases/2.6/volatility_2.6_win64_standalone.zip"
+$output = "$PSScriptRoot\volatility_2.6_win64_standalone.zip"
+$start_time = Get-Date
+
+$wc = New-Object System.Net.WebClient 
+$wc.DownloadFile($url, $output) 
+
+
+(New-Object System.Net.WebClient).DownloadFile($url, $output)
+
+
+
+
+------- TRANSCRIPTS --------
+
+
+start-transcript
+start-transcript | out-null               #pipe to out-null so users don't see that commands are being recorded
+
+
+process:
+
+Start-Transcript C:\MyWork.txt    #starts to log commands into the c:\mywork.txt file
+Get-Service                       #run get-service command and inputs that and the results into the transcript.
+Stop-Transcript                   #end the transcript
+notepad c:\MyWork.txt             #view the contents of the created transcript
+
+
+
+
+---------- EXERCISES -----------
+
+
+compare-object $(get-content new.txt) $(get-content old.txt) -includeequal
+
+
+
+
+
+
+Example 1: Get unique words in a text file
+These commands find the number of unique words in a text file.
+
+PowerShell
+
+Copy
+$A = $( foreach ($line in Get-Content C:\Test1\File1.txt) {
+    $line.tolower().split(" ")
+  }) | Sort-Object | Get-Unique
+$A.count
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
