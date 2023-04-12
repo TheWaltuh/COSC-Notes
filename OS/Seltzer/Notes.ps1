@@ -235,6 +235,17 @@ Get-Item .\coffee.txt -Stream *
 Get-Content .\coffee.txt -Stream secret.info
             #shows whats inside the alternate data stream of secret.info
 
+get-item 'REGISTRY::HKEY_USERS\*\SOFTWARE\microsoft\windows\currentversion\run'           #shows contents of all users key that runs on each login
+
+Get-ChildItem 'HKLM:\Software\microsoft\Windows NT\Currentversion\ProfileList'            #shows profiles on device so can look for sus one
+
+Get-ChildItem 'HKLM:\Software\microsoft\Windows NT\Currentversion\NetworkList\Profiles'   #shows network profiles to see if any sus network connections
+
+get-filehash -algorithm <Parameter>                                                       #show the <parameter> filehash of a file
+
+get-acl                                                                                   #list permissions of a file
+
+
 
 
 
