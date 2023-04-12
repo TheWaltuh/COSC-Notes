@@ -116,8 +116,41 @@ $wc.DownloadFile($url, $output)
                                                                                                   #unzips them all, and then 
 
 #-------------------------------------------------------------------------------------------------------------------
-
+  write-host "Day 2"
 #-------------------------------------------------------------------------------------------------------------------
+
+#Tools to manipulate the registry:
+regedit.exe: GUI, C:\Windows\regedit.exe
+reg.exe: CLI,C:\Windows\System32\reg.exe
+  reg add, reg query, reg delete
+
+HKEY_LOCAL_MACHINE
+#HKLM pertains to the entire computer
+  Hardware
+  SAM
+  Security
+  System
+HKEY_USERS
+#HKU is for all user enviroment settings
+  Symbolic link to 
+HKEY_CURRENT_CONFIG
+#HKCC is a symbolic  link to HKLM\SYSTEM\CURRENTCONTROLSET\'Hardware Profiles'\Current
+HKEY_CLASSES_ROOT
+#HKCR
+
+Get-LocalUser | select name, sid   #will get the sid for all user accounts
+
+
+
+
+
+
+
+
+
+
+
+
 
 #-------------------------------------------------------------------------------------------------------------------
 
