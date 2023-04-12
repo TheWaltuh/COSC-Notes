@@ -1,0 +1,16 @@
+####Alternate Data Streams
+Cannot be dsiabled
+microsofts attempt at implementing dilesystem forms in order to maintain compatilibity
+Stores metadata, like file attributes, icons, etc
+Does not change the MD5 Hash
+[filename.extension]:[alternate_stream_name]::$DATA
+
+##PowerShell
+echo "Coffe runs the world" > coffee.txt
+ls
+Get-Content .\coffee.txt 
+Set-Content .\coffee.txt -value "Horns social security number is 123-45-6789" -stream secret.info
+ls
+Get-Content .\coffee.txt
+Get-Item .\coffee.txt -Stream *
+Get-Content .\coffee.txt -stream secret.info
