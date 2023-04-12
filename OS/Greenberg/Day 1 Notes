@@ -2,16 +2,24 @@ xfreerdp /u:student /v:10.50.37.177 +glyph-cache +clipboard +dynamic-resolution
 Stack 10
 10.50.24.175
 
-Version Information - Get-Host
-Switch Version - Pwsh  (use exit to leave back to original version)
+Version Information - Get-Host | Select-Object version
+Switch Version      - Pwsh  (use exit to leave back to original version)
+Switch Back         - exit
 
 ####CIM Classes https://learn.microsoft.com/en-us/previous-versions/windows/desktop/wmi_v2/cim-class-overview
-Get-CimClass                                                        #Lists all CimClasses
-Get-CimInstance -ClassName Win32_LogicaLDisk -Filter "DriveType=3"  #Microsoft is transitioning to using CIM classes
-Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=3"        #Same Output as the command above
+Common Informational Model(CIM) are objects designed to control a specific windows subsystem
+Windows Management Instrumentation(WMI) are built on CIM Classes
+CIM Class is a placeholder while CIM Instance is an occuring event
+Get-CimClass                                                                   #Lists all CIM Classes
+Get-CimInstance -Namespace <instance> -ClassName <class>                       #lists the class from the instance
+Get-CimInstance -ClassName Win32_LogicaLDisk -Filter "DriveType=3"             #Microsoft is transitioning to using CIM classes
+Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=3"                   #Same Output as the command above
+
 
 ####Execution Policy https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.3
-Get-ExecitionPolicy -list
+Get-ExecitionPolicy -list                                            #Lists all of the Scopes and Execution Policies on the system
+Get-ExecutionPolicy                                                  #Gets the current user's Execution Policy
+Set-ExecutionPolicy -ExecutionPolicy <see below> -Scope CurrentUser #Sets the ExecutionPolicy of the CurrentUser to one listed
 AllSigned     - requires all files be signed by a trusted publishert
 Bypass        - anything will run
 Default       - restired from windows clients
@@ -21,14 +29,16 @@ Undefined     -
 Unrestricted  -
 
 ####PowerShell Profiles
-Current User, Current Hosts
-Current User, All Host
-All Users, Current Host
-All Users, All Hosts               #Loads up in reverse order
-$PSHome                            #Directory that the profiles are stored in
-$Profile                           #Displays the current profile (Which is probably current user, current host)
+A convenient way to store Powershell Configuration information as well as aliases and functions that you want to be persistent in every PowerShell Session
+By default they are not built, the paths are checked with ou open PowerShell
+All Users, All Hosts               #The following list boots up in the order listed              
+All Users, Current Host            
+Current User, All Host             
+Current User, Current Hosts        
+$PSHome                            #Stores installation directory for PowerShell
+$Profile                           #Displays the paths to the profiles that are available in the current session
 $profile | get-member -Type Noteproperty
-Test-Path -Path $profile
+Test-Path -Path $profile                               #Displays the profile values of Names, MemberType, and Paths
 Test-Path -Path $profile.currentUserAllHosts
 Test-Path -Path $profile.AllUsersAllHosts
 Test-Path -Path $profile.AllUserscurrentHost
