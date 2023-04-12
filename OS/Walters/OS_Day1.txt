@@ -1,0 +1,229 @@
+
+===========POWERSHELL===============
+
+get-host | select-object version
+(get-host).version
+	gets powershell version.
+	
+90% of problems can be solved by get-help. 
+
+
+==========CIM and WMI?=============
+
+WMI -- windows management instrumentation  -- it's old and depreciated. It's just one way to work with windows internal processes. 
+
+get-cimclass  --  show all cimclass. 
+get-ciminstance -classname <className> -Filter <"attribute in class">  --  get more information on a specific cim class.
+
+
+
+
+============POWERSHELL LOOPS & BRANCHING===============
+
+
+do {<commands>} while (<condition>)
+do {<commands>} until (<condition>)
+for (<initialize var>; <condition>; $i++) {<commands>}
+while (<condition>) {<commands>}
+
+if (<$test1>){
+	<commands>
+}
+elif (<$test2>){
+	<commands>
+}
+else {
+	<commands>
+}
+
+
+====================ARRAYS===============================
+
+
+$myArray = 1,2,3,4
+$myArray += 5
+$myArray = @(1..5)
+
+(0..9).where{$_ % 2}  -- only prints numbers where their %2 is not zero.
+
+
+
+
+
+
+==============EXECUTION POLICY============================
+
+Execution-policy  --  what you're allowed to run with powershell.
+
+-- MICROSOFT HELP PAGE FOR EXECUTION POLICY
+https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.3
+
+You can set the scope and restriction level. 
+
+
+==================POWERSHELL PROFILES=======================
+
+profile is a collection of scripts to set up your environment.
+Profiles are the first thing that is loaded. 
+They load in this order, from top to bottom.
+
+powershell profiles:
+-All Users, All Hosts			$PsHome\Profile.ps1
+-All Users, Current Host		$PsHome\Microsoft.PowerShell_profile.ps1
+-Current User, All Hosts		$Home\[My]Documents\Profile.ps1
+-Current User, Current Host		$Home\[My ]Documents\WindowsPowerShell\Profile.ps1
+ 
+ise has seperate load order. 
+ISE profiles:
+ -current user, current host
+ -all users, current host
+
+the $profile variable stores the paths to tthe PowerShell profiles that are avalible in the current session. 
+
+**if this variable is different, that is an anomaly that is worth looking into.**
+
+test-path -path <path>  -- tests to see if a path exist
+EXAMPLE:
+test-path -path $profile.currentusercurrenthost
+test-path -path $profile.currentuserallhosts
+test-path -path $profile.allusersallhosts
+test-path -path $profile.alluserscurrenthost
+
+
+
+To create a profile:
+New-Item -ItemType File -Path $profile -Force 	# Creates a $Profile for the CurrentUser. Force is used to ignore any errors.
+ISE $profile                                        	# Opens your newly created $Profile, which is empty
+
+	Building Functions in your PowerShell Profile
+
+	function Color-Console {
+	  $Host.ui.rawui.backgroundcolor = "black"
+	  $Host.ui.rawui.foregroundcolor = "green"
+	  $hosttime = (Get-ChildItem -Path $PSHOME\PowerShell.exe).CreationTime
+	  $hostversion="$($Host.Version.Major)`.$($Host.Version.Minor)"
+	  $Host.UI.RawUI.WindowTitle = "PowerShell $hostversion ($hosttime)"
+	  Clear-Host
+	}
+	Color-Console
+
+
+We can turn on PowerShell transcripts to keep track of commands that have been run.
+
+**Currently the only downfall of transcript is that it does not work with ISE.
+
+start-transcript
+start-transcript | out-null                       # Pipe to out-null so users don't see that commands are being recorded
+
+
+
+Start-Transcript C:\MyWork.txt                    # Starts to log commands into the c:\mywork.txt file. This command will tell you where the transcript is being stored. 
+Get-Service                                       # Run get-service command and inputs that and the results into the transcript.
+Stop-Transcript                                   # End the transcript
+notepad c:\MyWork.txt                             # View the contents of the created transcript
+
+
+
+
+
+
+==============POWERSHELL REMOTING========================
+
+Get-PSSessionConfiguration                        # Displays permissions
+
+-PowerShell Remoting has to be enabled on client workstations, but it is on by default in Windows Server 2012 and newer.
+	-On a client version of Windows that has a public network profile enabled, you will need to use the -SkipNetworkProfileCheck parameter or Enable-PSRemoting will fail.
+		-This will add a firewall rule for public networks that allows remote connections only from hosts in the same local subnet.
+
+Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles'   # Queries current network profiles.
+Network Location Category	Data Value
+Public				0 (ZERO)
+Private			1
+Domain				2
+
+
+-WinRM uses Kerberos for authentication by default.
+	-It also encrypts all communications with a per-session AES-256 symmetric key.
+		-Uses ports 5985 for HTTP by default or 5986 for HTTPS. HTTPS requires extra set-up for SSL certificates.
+		** WinRM is encrypted by default, but HTTPS will also encrypt the packet headers. 
+
+winrm get winrm/config          # Displays the WinRM configuration
+
+
+If you are outside of a Active Directory Domain then you have two options: HTTPS or adding the host to the Trusted Hosts file.
+Trusted Hosts can be used in a workgroup environment or inter-domain.
+
+
+From Don Jones:
+“And be aware that setting TrustedHosts to * is a good override of every security protection Microsoft provides. It’s easy, but it does make it very easy for an attacker to spoof connections, grab your credentials, and do awful stuff. If you’re just using * to test, okay, but be aware that it’s not a very safe configuration.”
+
+
+
+
+====================.NET NAMESPACES===================
+
+Basic Syntax: 
+[NameSpace.class]::Method()
+
+[System.Test.Encoding]::GetBytes()  -- example showing encoding some text.
+
+
+DOWNLOADING A FILE WITH POWERSHELL:::::::::
+
+$url = "http://downloads.volatilityfoundation.org/releases/2.6/volatility_2.6_win64_standalone.zip"
+$output = "$PSScriptRoot\volatility_2.6_win64_standalone.zip"
+$start_time = Get-Date
+
+$wc = New-Object System.Net.WebClient 
+$wc.DownloadFile($url, $output) 
+
+(New-Object System.Net.WebClient).DownloadFile($url, $output)
+
+
+STACK NUMBER:  5
+xfreerdp /u:student /v:<ip> +glyph-cache +clipboard +dynamic-resolution
+10.50.28.125
+
+
+
+
+
+====================================EXERCISES==============================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
