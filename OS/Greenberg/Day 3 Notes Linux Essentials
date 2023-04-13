@@ -1,0 +1,40 @@
+####Commands, Arguments, Help
+##Commands
+hostname -a or uname -a          #name of the host you are currently on
+whoami                           #user you are currently logged in as
+who or w                         #who else is logged in
+ip a                             #configured ip address and network interfaces
+arp or ip neigh                  #ip addresses connected at level two
+ip route or route                #where packets will be routes 
+ss or netstat                    #network connections and listening ports
+sudo -l                          #displays commands that the user may run with elevated permissions
+su                               #switch user
+nft list tables or iptables -L   #view firewall rules
+sudo -u <user>                   #runs a command as another user without switching accounts
+sudo -c <command> <user>         #switching user to run a command; only works if you have their password
+lsblk                            #lisitng block devices
+apropos <string>                 #listins commands relating to that string
+file <filename>                  #tells you what type of file it is
+wc                               #counts lines, characters, words
+which <filename>                 #finds the file path of file specified
+ll                               #runs the -la options for ls -la
+
+
+####Linux Filesystem
+/bin                             #community binaries for commands
+/sbin                            #system binaries
+/usr/bin                         #your specific binaries
+/boot                            #where all the bootup files are stored
+/dev                             #device files, drivers, etc
+/media                           #removable media
+/etc                             #everything configurable
+/home                            #all users home directories
+/lib                             #local repositories, where your operating system can pull information from
+/mnt                             #mounted partitions
+/opt                             #optional programs, if a user gets something from the internet they might put it in there
+/root                            #root's home directory
+/proc                            #contains all linux process id's
+/var/log                         #contains all your logs
+/var/spool                       #contains data which is awaiting some later processing
+
+
