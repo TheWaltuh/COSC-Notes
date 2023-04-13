@@ -63,5 +63,12 @@ sudo chown -R <newowner> <fileorfolder>
 
 #Speical permissions
 Sticky Bit - Keeps people other than the user from deleting the file
-SUID SGID
+sudo chmod 1777 <filename>                 #the filepermissions output as follows drwxrwsrwt
+chmod +t <filename>                        #both this and the output above as a sticky bit
+chmod -t <filename>                        #unset the sticky bit
 
+#SUID SGID
+SUID 4000
+find directory -user root -perm -4000 -exec ls -ldb {} \; ><outputfile_path>          #find all files with the SUID bit set
+SGID 2000
+find / -user root -2000 -exec ls -ldb {} \; ><outputfile_path>                        #find all files with the SGID bit set
