@@ -1,0 +1,260 @@
+
+OS NOTES DAY 2
+
+Today's goal, Enumerate the windows registry, using reg.exe or regedit.exe
+
+registry is a database of configuration data. 
+
+
+regedit.exe:
+	-GUI
+	-Path: C:\Windows\regedit.exe
+
+reg.exe:
+	-cli
+	-Path: C:\Windows\System32\reg.exe
+	-Minimum commands to know:
+		-reg add
+		-reg query
+		-reg delete
+		
+
+You can connect to a network device with regedit by going to file > connect network regustry
+	** Doesn't work on these machines, I'll have to SSH
+	
+You can have an empty entry in the registry. 
+
+
+
+
+reg.exe query HKLM\SOFTWARE\Microsoft\Windwos\currentVersion\Run
+	** this is the command  to query the run key
+
+
+
+
+
+====================REGISTRY STRUCTURE / KEYS=======================
+
+2. Registry structure
+
+The Registry is comprised of Registry Hives which contain Keys, Subkeys and Values.
+
+Keys - are known as Registry Hives and can contain subkeys and values.
+Subkeys - can contain subkeys and values
+Values - contain data in specific formats.
+
+
+Structure of the Registry Link:::::::::::::
+
+
+A registry hive is a group of keys and thier associated values that are loaded when the system is started or a specific user logs in.
+
+There are five Registry Hives:
+
+
+
+	HKEY_LOCAL_MACHINE (HKLM)
+Contains configuration information for the entire computer. Its values are read every time the machine is started regardless of the user who logs in. 
+Its subkeys are :
+HARDWARE - contains a database of installed devices along with their drivers
+SAM - Security Account Manager stores user and group accounts along with NTLM hashes of passwords
+Security - Local Security policy accessed by lsass.exe used to determine rights and permissions for users on the machine
+System - Contains keys pertaining to system startup such as programs started on boot or driver load order.
+
+
+
+
+	HKEY_USERS (HKU)
+Contains all all user profiles on the system. Contains one key per user on the system. Each key is named after the SID(Security Identifier) of the user.
+
+SID values are unique to each user on the machine.
+
+HKEY_USERS contains some of the following information:
+User Environment settings for the desktop
+Shortcuts
+File associations
+
+Some HKEY_USERS are called Well Known SIDs.. They identify default accounts in Windows used for various purposes. Examples include:
+S-1-5-18 refers to LocalSystem account.
+S-1-5-19 refers to LocalService account. It is used to run local services that do not require LocalSystem account.
+S-1-5-20 refers to NetworkService account. It is used to run network services that do not require LocalSystem account.
+S-1-5-21-domain-500 Refers to the built in local administrator account.
+
+
+
+
+
+	HKEY_CURRENT_USER (HKCU)
+HKEY_CURRENT_USER is the copy of the logged in user’s registry key based on thier SID from HKEY_USERS.
+HKEY_USERS (HIVE)
+              └──SID (S-1-5-21-3939661428-3032410992-3449649886-XXXX) (Key)
+HKEY_USERS\S-1-5-21-3939661428-3032410992-3449649886-XXXX
+
+
+
+
+
+HKEY_CURRENT_CONFIG (HKCC)
+HKEY_CURRENT_CONFIG is a symbolic link (pointer or shortcut or alias) to the following registry key:
+
+HKEY_Local_Machine (HIVE)
+              └──SYSTEM (Key)
+                      └──CurrentControlSet (Subkey)
+                                    └── Hardware Profiles (Subkey)
+                                                └── Current (Subkey)
+HKEY_LOCAL_MACHINE\System\CurrentControlSet\Hardware Profiles\Current
+
+
+
+
+
+
+HKEY_CLASSES_ROOT (HKCR)
+HKEY_CURRENT_CONFIG is a symbolic link (pointer or shortcut or alias) to the following registry key:
+
+HKEY_Local_Machine (HIVE)
+              └──Software (Key)
+                      └──Classes (Subkey)
+HKEY_LOCAL_MACHINE\Software\Classes
+
+Contains file name extension associations and COM class registration information such as ProgIDs, CLSIDs, and IIDs.
+It is primarily intended for compatibility with the registry in 16-bit Windows
+
+
+
+
+====================================================================
+
+
+
+**Command to get sid for all users::::::
+get-localuser | select name,sid
+
+Putting something in the run keys is one way an adversary can estasblish persistance
+
+
+Minimum commands to know:::::::::::::::
+
+Query:
+Get-ChildItem cmdlet gets the items in one or more specified locations. Only shows directories/subkeys. Use get-itemproperty to see contents of entries.
+Get-ItemProperty cmdlet gets the items in one or more specified locations.
+**Get-Item cmdlet gets the item at the specified location. It doesn’t get the contents of the item at the location unless you use a wildcard character (*) to request all the contents of the item.
+Get-item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+** reads key values, not subkeys. 
+
+
+Modify:
+Set-ItemProperty cmdlet changes the value of the property of the specified item. example, changing setting to :true or :false.
+Remove-ItemProperty cmdlet to delete registry values and the data that they store.
+
+Create:
+New-Item cmdlet creates a new item and sets its value. In the registry, New-Item creates registry keys and entries.
+**New-Itemproperty cmdlet creates a new property for a specified item and sets its value. Typically, this cmdlet is used to create new registry values, because registry values are properties of a registry key item.
+
+
+Mitre ATT&CK Framework says to check registry keys for malicious activity:
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+
+Another form of persistance is inserting malicious powershell profiles. 
+
+
+
+===================PSDRIVE========================
+
+Example:
+new-psdrive -Name FileServer -PSProvider FileSystem -Root "\\file-server\warrior share"
+new-psdrive -Name HKU -PSProvider Registry -Root 'HKU'`
+**now it's like another logical drive, so I can cd into it
+cd Fileserver:\
+
+
+
+
+
+
+==========================ALTERNATE DATA STREAMS==============================
+
+
+default stream $DATA
+
+an alternate data stream is just another place (output file) that data could be sent from a program/file.
+Alternate Data Streams are impossible to stop with just permissions. However, Windows Defender can catch it.
+
+-Deleted once copies to a fat32
+-cannot be disabled
+-[filename.extension]:[alternate_stream_name]::$DATA
+
+
+DEMO:
+write-host "Coffee runs the world." > coffee.txt
+set-content coffee.txt -value "Social security number 123-45-6789" -stream secret.info
+	** the social security number will go to the stream secret.info.
+	
+
+
+
+
+
+
+get-item .\<example file> -stream *
+	** gets all the streams of a file.
+get-item .\<example file> -stream <exampleStream>
+	** specify one stream in place of the * to get the contents of the stream.
+
+
+Adding an additional stream to a file will not change the file hash. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
