@@ -314,7 +314,9 @@ chmod                       #changer permissions of a file or dir
                             
 chown                       #changes ownership of a file or dir
 
-find
+find -
+
+openssl enc -d <key> <cipher> #enc for encrypted and -d is decrypt
 
 ##string manipulation commands
 grep                        #used to search for given data
@@ -328,6 +330,8 @@ sed
 
 ##Files included in linux
 /usr/bin                    #contains the path to all commands and such
+/bin                        #same as /usr/bin but for single user mode
+/sbin                       #contains binarys only accessable to root user
 /boot                       #contains boot process
 /dev                        #contains device files
 /etc                        #has everything configurable 
