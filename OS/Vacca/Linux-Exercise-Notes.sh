@@ -47,8 +47,7 @@ cat /etc/group | grep lodgeclear
 
 #Find the user with a unique login shell.
 
-""""""""
-
+cat /etc/passwd | awk -F: '{print $NF}' | sort -u
 
 #Linux Basics Users and Groups3
 
@@ -228,9 +227,20 @@ grep python3 paths                            #find flag
 
 #HINT: What characters specifically define a Locally or Universally Administered Unicast MAC Address?
 
+egrep "^([0-9A-Fa-f][02468ACE][:-]){1}([0-9A-Fa-f]{2}[:-]){4}([0-9A-Fa-f]{2})$" ./numbers | wc -l
 
+#Linux Basics Bash Logic3
 
+#FILE: /home/garviel/Inquisition_Targets
 
+#Identify heresy by comparing the Inquisition_Targets file to members of the Guardsmen group.
 
+#HINT: Reformat and clean up the data before it is compared. awk and sort are your best friends!
+
+#The flag is the number of heretics on the system.
+
+cat /etc/group | grep guardsmen > lists.txt
+echo "$(tr , "\n" < lists.txt)" > lists2.txt
+grep -w -Ff "Inquisition_Targets" "lists2.txt"
 
 
