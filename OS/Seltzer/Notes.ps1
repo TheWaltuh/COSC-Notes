@@ -1,5 +1,5 @@
-Stack Number - 16
-admin server - 10.50.22.160
+Stack Number - 20
+admin server - 10.50.35.99
 
 ############################################################################################################################################################
 
@@ -320,6 +320,9 @@ openssl enc -d <key> <cipher> #enc for encrypted and -d is decrypt
 
 find <path to search> -user <username> -perm /u+w             #searches a given dir for the file that given user is the only one to permission to write
                                                               #/u makes so only user
+cat numbers | egrep '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$' | wc -l      #returns a count of ip address like numbers in the file numbers
+                                                                                    #^ means it needs to start with and $ means it needs to end with
+
 
 ##string manipulation commands
 grep                        #used to search for given data
@@ -355,10 +358,14 @@ sed
 #identified by an s in the last set of the user permissions
 
 
+##HOW TO PRINT A RANGE OF LINE NUMBERS USING AWK
+$ cat filename | awk 'NR==M, NR==N'
+
 ###REGEX
 /[\d]{3}-\[d]{2}-\[d]{4}/g        #regex to find social security numbers
 
-
-
-
+^(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])$
+              #regex for a valid ip
+^([0-9a-fA-F]{2}[:-]){5}[0-9a-fA-F]{2}$
+              #regex for an exactly valid mac address
 
