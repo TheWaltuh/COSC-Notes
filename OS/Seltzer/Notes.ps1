@@ -251,14 +251,105 @@ get-acl                                                                         
  Get-Content <hidden file name> -Stream Hidden                                            #read contents of a hidden document
  
 
+##########################################################################################################################################################
+
+                                                                      #Day 3#
+
+##########################################################################################################################################################
+
+###
+
+
+###Linux Commands
+
+!!                          #allows to reuse last run command
+
+pwd                         #print working directory
+
+hostname                    #displays the name of the host you are currently on.
+uname -a                    #displays the name of the host you are currently on.
+
+whoami                      #shows the user you are currently logged in as (useful after gaining access through service exploitation)
+w                           #shows the user you are currently logged in as (useful after gaining access through service exploitation)
+id                          #gives your user,group ids and groups
+
+who                         #shows who else is logged in.
+
+ip addr                     #displays network interfaces and configured IP addresses
+ifconfig                    #displays network interfaces and configured IP addresses
+
+ip neigh                    #displays MAC addresses of devices observed on the network
+arp                         #displays MAC addresses of devices observed on the network
+
+ip route                    #shows where packets will be routed for a particular destination address
+route                       #shows where packets will be routed for a particular destination address
+
+ss -ntlp                    #will show network connections or listening ports
+netstat                     #will show network connections or listening ports
+
+nft list tables             #to view firewall rules
+iptables -L                 #to view firewall rules
+
+sudo -l                     #displays commands the user may run with elevated permissions (envolking command as root user)
+sudo -u <user to run as>    #runs commands as another user
+
+lsblk                       #listing block devices
+
+apropos <search term>       #look up commands that involve search term
+
+file                        #determine type of files
+
+wc -l                       #returns a count of number of lines in specifies area
+
+which                       #gives full path to files or directorys given
+          which passwd      #/usr/bin/passwd
+
+ll                          #by default gives long listing and shows hidden files (better than ls)
+
+top                         #live version on ps command
+
+xxd <binary file>           #how to read a binary file (dont use cat)
+
+chmod                       #changer permissions of a file or dir
+                            
+chown                       #changes ownership of a file or dir
+
+find
+
+##string manipulation commands
+grep                        #used to search for given data
+egrep                       #same as grep -E
+
+awk                         #Find and Replace text
+
+sed
 
 
 
+##Files included in linux
+/usr/bin                    #contains the path to all commands and such
+/boot                       #contains boot process
+/dev                        #contains device files
+/etc                        #has everything configurable 
+/etc/group                  #contains all group information
+/etc/passwd                 #has username, ids, password shit and default shell, etc
+/home                       #all users home directories will be here
+/lib                        #local repositories linux uses to pull information on itself
+/mnt                        #mounted partirons on the drive
+/opt                        #contains optional programs (add on instilations adn software packages)
+/root                       #roots home directory
+/proc                       #contains all linux process ids
+/var                        #contains variables (important in here is 
+/var/logs                   #contains default logs
+/var/spool                  #like a roll of tasks that need to be done (useful for ctfd)
+
+##Special permissions
+#sticky bit makes it so only the user who owns the file can delete it
+#identified by an s in the last set of the user permissions
 
 
-
-
-
+###REGEX
+/[\d]{3}-\[d]{2}-\[d]{4}/g        #regex to find social security numbers
 
 
 
