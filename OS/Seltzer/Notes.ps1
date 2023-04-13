@@ -318,6 +318,9 @@ find -
 
 openssl enc -d <key> <cipher> #enc for encrypted and -d is decrypt
 
+find <path to search> -user <username> -perm /u+w             #searches a given dir for the file that given user is the only one to permission to write
+                                                              #/u makes so only user
+
 ##string manipulation commands
 grep                        #used to search for given data
 egrep                       #same as grep -E
