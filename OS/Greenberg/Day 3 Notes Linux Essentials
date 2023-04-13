@@ -18,6 +18,9 @@ file <filename>                  #tells you what type of file it is
 wc                               #counts lines, characters, words
 which <filename>                 #finds the file path of file specified
 ll                               #runs the -la options for ls -la
+!!                               #redo any command you just ran
+xxd <executable>                 #reading an executable
+id                               #gets current users id, gid, and all groups the user belongs to
 
 
 ####Linux Filesystem
@@ -37,4 +40,28 @@ ll                               #runs the -la options for ls -la
 /var/log                         #contains all your logs
 /var/spool                       #contains data which is awaiting some later processing
 
+##Files and Folders
+Folders are a container for a file
+A file is a container for files
+
+##Users
+Every user has an associated value in /etc/passwd
+
+##Groups
+/etc/group
+
+##Permissions
+U.G.O     User Group Others
+Perm   Relative    Octal
+read      r          4
+write     w          2
+execute   x          1
+
+chmod 460 <filename>
+chmod u=r,g=rw,0=-rwx <filename>
+sudo chown -R <newowner> <fileorfolder>
+
+#Speical permissions
+Sticky Bit - Keeps people other than the user from deleting the file
+SUID SGID
 
