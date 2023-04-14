@@ -369,5 +369,106 @@ $ cat filename | awk 'NR==M, NR==N'
 ^([0-9a-fA-F]{2}[:-]){5}[0-9a-fA-F]{2}$
               #regex for an exactly valid mac address
 
+##########################################################################################################################################################
+
+                                                                    #Day 4#
+
+##########################################################################################################################################################
+#All Starts with Power On Self Test (POST)
+      #pushing power button causes this
+
+###BIOS
+##Pre-Boot Process
+#Master Boot Record (MBR)
+      #active partition identified in partition table
+      #Partition Boot Record on the active partition is loaded
+      #Code in the PBR loads bootmgr
+#Windows Boot Manager (bootmgr)
+      #manages boot process
+#Boot Configuration Data Store (BCD)
+#OS Loader
+      #(winload.exe) or (winresume.exe)
+      #loads kernel (ntoskrnl.exe)
+##Boot Process
+#Boot.ini
+      #Legacy Kernel 5
+#goes to NTOSKRNL
+
+#BCD
+      #Kernel 6+
+#Goees to boot loader
+      #winload.exe/winresume.exe
+#From boot loader goes to NROSKRNL
+
+
+###UEFI (Unified Extensible Firmware Interface)
+##Pre-Boot Process
+#GUID Partition Table (gpt)
+      #used to help format hard drive
+#UEFI Boot Manager(bootmgrfw.eft)
+      #manages the boot process
+#Boot Configuration Data Store (BCD)
+#OS Loader
+      #(winload.efi) or (winresume.efi)
+      #Loads kernel (ntoskrnl.exe)
+
+##Boot Process
+#BCD
+      #Kernel 6+
+#Goees to boot loader
+      #winload.efi/winresume.efi
+#From boot loader goes to NROSKRNL
+
+###Windows Logon Process
+
+                                                        #System (always has PID of 4)
+                                                                      |
+                                                                      v
+                                                                  #SMSS.exe
+                              Session 0 Non-Interactive               |                     Session 1 Interactive
+                                        ---------------------------------------------------------------
+                                        |                                                             |
+                                        v                                                             v
+
+                              #SMSS.exe Session 0                                          #SMSS.exe Session 1
+                                        |                                                             |
+                                        V                                                             v
+                        ------------------------------------                           ------------------------------------
+                        |                                  |                           |                                  |
+                        v                                  v                           v                                  v
+       #CSRSS.exe Session 0                      #WININIT.exe session 0       #CSRSS.exe Session 0             #WININIT.exe Session 1
+                                                            |                                                             |
+                                                            v                                                             v
+                                          ------------------------------------                           ------------------------------------
+                                          |                                  |                           |                                  |
+                                          v                                  v                           v                                  v
+                                #LSASS.exe session 0              #SVCHOST.exe session 0        #LSASS.exe session 1              #SVCHOST.exe session 1
+                                                                                                                                            |
+                                                                                                                                            v
+                                                                                                                                 #explorer.exe session 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
