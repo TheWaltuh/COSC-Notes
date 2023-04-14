@@ -1,0 +1,12 @@
+bcdedit /set {identifier} description "<string>"                    #sets an identifiers description to a string
+bcdedit /export c:\boot_bk                                          #creates a backup
+dir c:\                                                             #check to see if the backup is there
+bcdedit /import c:\boot_bk                                          #import a backup and completely overwrites the file
+
+bcdedit /create {ntldr} /d "Windows Legacy OS Loader"               #creates a new partition identified as ntldr with the description set to that string
+bcdedit /set {ntldr} device "partition=C:"                          #creates a device
+bcdedit /displayorder {ntdlr} /addfirst                             #adds it first in this section
+bcdedit.exe                                                         #a way to view the new partition
+bcdedit /delete {ntldr} /f                                          #foracably deletes that partition
+bcdedit /set {default} safeboot minimal                             #setting the bootsafe option
+bcdedit /deletevalue {default} safeboot                             #deletes safeboot
