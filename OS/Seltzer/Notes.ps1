@@ -501,15 +501,28 @@ bcdedit /displayorder {ntldr} /addfirst                             #adds new pa
 
 bcdedit /delete {ntldr} /f                                          #deletes all partions/the partition running off of ntldr
                                                                     #/f means force
+                                                                    
+bcdedit /set {current} safeboot                                     #sets the {current} to load in safeboot mode
+                                                                    #current in this case refers to default boot loader
+                                                                    #default boot loader is the one that will run if no user selection is made
+                                                                                #when multiple boot loaders present
+                                                                    
+bcdedit.exe /deletevalue {current} safeboot                         #deletes the value that causes {current} to load in safeboot mode
+                                                                    #running only what is needed to start device
+                                                                    #used when suspected malware or problems with device
 
 
+###NTOSKRNL
+#contains Kernel and executive layers of Microsoft NT Kernel
+#responsible for hardware abstraction, process handeling, memory management
 
+##Commands
+reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services                        #querys for all services
+reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services | findstr Spooler      #querys services on windows device and then finds the one called Spooler
+                                                                                      #for windows command line
 
-
-
-
-
-
+sc query spooler                       #another way to query services for Spooler
+sc query                               #Query for all services
 
 
 
