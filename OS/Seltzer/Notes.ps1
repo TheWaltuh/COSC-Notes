@@ -374,52 +374,90 @@ $ cat filename | awk 'NR==M, NR==N'
                                                                     #Day 4#
 
 ##########################################################################################################################################################
-#All Starts with Power On Self Test (POST)
-      #pushing power button causes this
 
-###BIOS
-##Pre-Boot Process
-#Master Boot Record (MBR)
-      #active partition identified in partition table
-      #Partition Boot Record on the active partition is loaded
-      #Code in the PBR loads bootmgr
-#Windows Boot Manager (bootmgr)
-      #manages boot process
-#Boot Configuration Data Store (BCD)
-#OS Loader
-      #(winload.exe) or (winresume.exe)
-      #loads kernel (ntoskrnl.exe)
-##Boot Process
-#Boot.ini
-      #Legacy Kernel 5
-#goes to NTOSKRNL
+                                                    #All Starts with Power On Self Test (POST)
+                                                        #pushing power button causes this
 
-#BCD
-      #Kernel 6+
-#Goees to boot loader
-      #winload.exe/winresume.exe
-#From boot loader goes to NROSKRNL
+                                                                  *~~~~~~~~*
+                                                                  ###BIOS###
+                                                                  *~~~~~~~~*
+                                                             ~~~~~~~~~~~~~~~~~~~~
+                                                             ##Pre-Boot Process##
+                                                             ~~~~~~~~~~~~~~~~~~~~    
+                                                          #Master Boot Record (MBR)#
+                                                #active partition identified in partition table
+                                            #Partition Boot Record on the active partition is loaded
+                                                        #Code in the PBR loads bootmgr
+                                                                      |
+                                                                      v
+                                                       #Windows Boot Manager (bootmgr)#
+                                                           #manages the boot process
+                                                                      |                
+                                                                      v
+                                                       #Boot Configuration Data Store (BCD)
+                                                                      |
+                                                                      v
+                                                                  #OS Loader
+                                                      #(winload.exe) or (winresume.exe)
+                                                         #Loads kernel (ntoskrnl.exe)
+                                                              ~~~~~~~~~~~~~~~~
+                                                              ##Boot Process##
+                                                              ~~~~~~~~~~~~~~~~
 
+                                                           #BCD (Legacy Kernel 5)
+                                                                      |
+                                                                      v
+                                                                  #NTOSKRNL
+                                                                    ~~~~~~
+                                                                    ##OR##
+                                                                    ~~~~~~
+                                                                #BCD (Kernel 6+)
+                                                                      |
+                                                                      v
+                                                                 #Boot Loader
+                                                           #winload.exe/Winresume.exe
+                                                                      |                
+                                                                      v
+                                                                  #NTOSKRNL
 
-###UEFI (Unified Extensible Firmware Interface)
-##Pre-Boot Process
-#GUID Partition Table (gpt)
-      #used to help format hard drive
-#UEFI Boot Manager(bootmgrfw.eft)
-      #manages the boot process
-#Boot Configuration Data Store (BCD)
-#OS Loader
-      #(winload.efi) or (winresume.efi)
-      #Loads kernel (ntoskrnl.exe)
+                                              *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
+                                              ###UEFI (Unified Extensible Firmware Interface)###
+                                              *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
+                                                             ~~~~~~~~~~~~~~~~~~~~
+                                                             ##Pre-Boot Process##
+                                                             ~~~~~~~~~~~~~~~~~~~~
+                                                             
+                                                          #GUID Partition Table (GPT)
+                                                        #used to help format hard drive
+                                                                      |
+                                                                      v
+                                                       #UEFI Boot Manager(bootmgrfw.eft)
+                                                           #manages the boot process
+                                                                      |                
+                                                                      v
+                                                       #Boot Configuration Data Store (BCD)
+                                                                      |
+                                                                      v
+                                                                  #OS Loader
+                                                      #(winload.efi) or (winresume.efi)
+                                                         #Loads kernel (ntoskrnl.exe)
+                                                       
+                                                                ~~~~~~~~~~~~~~~~
+                                                                ##Boot Process##
+                                                                ~~~~~~~~~~~~~~~~
 
-##Boot Process
-#BCD
-      #Kernel 6+
-#Goees to boot loader
-      #winload.efi/winresume.efi
-#From boot loader goes to NROSKRNL
+                                                                #BCD (Kernel 6+)
+                                                                      |
+                                                                      v
+                                                                 #Boot Loader
+                                                           #winload.efi/Winresume.efi
+                                                                      |                
+                                                                      v
+                                                                  #NTOSKRNL
 
-###Windows Logon Process
+                                                          *~~~~~~~~~~~~~~~~~~~~~~~~~*
+                                                          ###Windows Logon Process###
+                                                          *~~~~~~~~~~~~~~~~~~~~~~~~~*
 
                                                         #System (always has PID of 4)
                                                                       |
@@ -447,12 +485,22 @@ $ cat filename | awk 'NR==M, NR==N'
                                                                                                                                             v
                                                                                                                                  #explorer.exe session 1
 
+###BCDEDIT
+#the primary tool for editing boot configuration of Windows devices running Windows Vista and newer
 
+bcdedit.exe                     #Display current Boot Configuration Disk (BCD) config
 
+bcdedit /export C:\SAVEBCD      #Backup BCD Configuration
+bcdedit /import C:\SAVEBCD      #resets BCD Config to originally backed up version/edit of it
 
+bcdedit /create {ntldr} /d "Windows XP Pro SP2 - Tiger Paw"         #Older then 2003 uses ntldr
+                                                                    #newer then 2003 uses bootmgr
+                                                                    #/d means Description
 
+bcdedit /displayorder {ntldr} /addfirst                             #adds new partition to the list of partitions
 
-
+bcdedit /delete {ntldr} /f                                          #deletes all partions/the partition running off of ntldr
+                                                                    #/f means force
 
 
 
