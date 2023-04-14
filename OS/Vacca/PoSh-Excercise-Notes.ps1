@@ -108,54 +108,6 @@ gci 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\'
 
 
 
-#oops
-
-
-#Linux Basics Users and Groups3
-
-#Find the user with a unique login shell.
-
-cat /etc/passwd | awk -F: '{print $NF " ### " $1}' | sort
-
-#Linux Basics Users and Groups4
-
-#Identify the algorithm, the amount of salted characters added, and the length of the hashed password in the file that stores passwords.
-
-#Hint: Research 'padding'...
-
-#Flag format: algorithm,#characters,#length
-
-https://crypto.stackexchange.com/questions/22956/what-is-the-length-field-in-sha-512-padding
-sudo cat /etc/shadow | awk -F: '{print $2}' | sort -u
-
-
-#Linux Basics Permissions1
-
-#Find the directory named Bibliotheca. Enter the absolute path to the directory.
-
-sudo find / -type d  -name Bibliotheca
-
-#Linux Basics Permissions2
-#Identify the number of users with valid login shells, who can list the contents of the Bibliotheca directory.
-
-ll /media     #find perms and group for bibliotheca
-cat /etc/group | grep chapter   #gets users within the group than can access this dir
-
-#Linux Basics Permissions5
-
-#Locate the file within /media/Bibliotheca that is modifiable by the only user that is part of the Chapter group, but not part of the Lodge group.
-
-#Hint: Not the hidden file...
-
-cat /etc/group | egrep -i "chapter|lodge"     #tells us that the user is mephiston
-cat /etc/passwd | grep mephiston              #gets us his UID
-find /media/Bibliotheca/ -user mephiston -perm /u+w   #
-
-
-
-
-
-
 
 
 
