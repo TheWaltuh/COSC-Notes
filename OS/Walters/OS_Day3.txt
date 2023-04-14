@@ -1,0 +1,126 @@
+
+=====================DAY 3 LINUX DAY=====================
+
+
+Minimum linux commands:
+
+uname -a or hostname  -- get hostname of machine.
+-instead of ifconfig, use ip a.
+-arp  -- get names of hosts connected at layer 2.
+-ip neigh  -- displays MAC addresses of devices observed on the network.
+-instead of netstat, use ss
+-su  -- switch to superuser/root
+sudo -u <user> <command>  -- run as another user. use sudo by itself for root.
+ll  -- is alias for ls -la
+lsblk  -- list block devices.
+!!  -- shortcut for last command
+xxd  -- read the contents of an executable file. 
+id  -- get user id
+
+
+help commands:
+apropos  -- search for commands based on keyword. 
+file  -- tells you file type
+
+
+
+
+
+
+=====================FILESYSTEM===========================
+
+/bin  -- contains binaries intended for any user. 
+/boot  -- startup processes
+/dev  -- device files, drivers, IO things
+/media  -- removable media files
+/etc  -- everything configurable
+/home  -- contains all user home directories
+/lib  -- libraries, dependencies and files linux needs. 
+/mnt  -- umounted partitions are in /mnt
+/opt  -- optional programs, user might choose to put programs in there
+/root  -- root's home directory
+/proc  -- contains all process IDs and files. ps or top would pull from here.
+/var  -- contains all logs by default. REMEMBER /var/spool. (a spool is a roll of tasks that need to be done.)
+/usr  -- contains user system resources, commands and executable files. 
+
+
+
+
+
+=========================FILES AND FOLDERS============================
+
+use xxd to get the contents of an executable file. 
+
+/etc/groups  -- has all the user groups and who belongs to them. 
+
+
+Permissions:::::::
+
+U The object’s User/Owner
+G The object’s owning Group
+O Any subject that is not the owning user or group, AKA: "Others"
+
+-UGO is the order of permissions in linux files. 
+-rwxrwxrwx  -- is same as 777
+the order is User/owner, Owning Group, Others
+
+chown <new owner>  <file path> -- command to change ownership of a file.
+
+
+sticky bit: is a t instead of an x in the O part.
+If a user has write access to a directory, they can delete any file from it. That may cause problems though in some directories like /var/tmp. To address this Linux has what is known as the sticky bit. The sticky bit removes the ability to delete files unless the user attempting is the owner of the file.
+
+
+SUID and SGID Special permissions: s instead of x in U or G
+When an executable is ran in Linux, it runs with the permissions of the user who started it. However, SUID and SGID change that to force the executable to run as the owning user or group. These permissions are represented as s in the User or Group field of ls- l.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
