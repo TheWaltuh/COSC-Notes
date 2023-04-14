@@ -474,13 +474,14 @@ $ cat filename | awk 'NR==M, NR==N'
                         ------------------------------------                           ------------------------------------
                         |                                  |                           |                                  |
                         v                                  v                           v                                  v
-       #CSRSS.exe Session 0                      #WININIT.exe session 0       #CSRSS.exe Session 0             #WININIT.exe Session 1
+       #CSRSS.exe Session 0                      #WININIT.exe session 0       #CSRSS.exe Session 0             #WINLOGON.exe Session 1
                                                             |                                                             |
                                                             v                                                             v
                                           ------------------------------------                           ------------------------------------
                                           |                                  |                           |                                  |
                                           v                                  v                           v                                  v
-                                #LSASS.exe session 0              #SVCHOST.exe session 0        #LSASS.exe session 1              #SVCHOST.exe session 1
+                                #LSASS.exe session 0              #SVCHOST.exe session 0        #LogonUI.exe session 1           #SVCHOST.exe session 1
+                                     #services                           #LSASS                                                         #USERINIT
                                                                                                                                             |
                                                                                                                                             v
                                                                                                                                  #explorer.exe session 1
