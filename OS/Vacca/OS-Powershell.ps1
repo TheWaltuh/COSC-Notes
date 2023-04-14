@@ -173,7 +173,12 @@ Get-ChildItem -Filter *.abc -Recurse | Select-String -Pattern '^(?=.*\bword1\b)(
 Get-CimInstance -ClassName win32_service | Where-Object -FilterScript {$_.name -eq "legoland"}
 Compare-Object -ReferenceObject $file -DifferenceObject $file2 -IncludeEqual
 
-  
+5 places for persistence:
+-PoSh Profiles
+-Registry
+-Boot loader
+-Scheduled Tasks
+-Alternate DAata Streams
   
   
   
