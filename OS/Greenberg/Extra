@@ -48,5 +48,21 @@ cat NMAP_all_hosts.txt | awk '/open/ {print "Service: " $3}{for(c=0;c<30;c++) pr
 cat NMAP_all_hosts.txt | egrep 'open' | egrep -v "Warning:" | awk 'NF {print $3}' | sort -u | awk 'NF {print "Service: " $1}{print "=============================="}'
 cat NMAP_all_hosts.txt | egrep 'open' | egrep -v "Warning:" | awk 'NF {print $3}' | sort | uniq -c | awk '{print "Service: " $2,$1}{print "=============================="}'
 ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+192.168.33.206
+cat NMAP_all_hosts.txt | grep '192.168.33.206' -A22
 
 
+
+
+
+
+
+
+
+
+PsuedoCode
+take all services and put them into a file
+take all ipaddresses an put them into a file
+for every ip address in the file
+if that ip address has the name of the service listed
+print the name of the service add one to the count and print the ip_address on a newline
