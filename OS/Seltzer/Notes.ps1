@@ -122,6 +122,8 @@ $wc.DownloadFile($url, $output)
 ##Windows Regestry 
 #regestry is a heirercial database containing info about the entire system (like a roladex)
 
+#cat /etc/profile (way to check for persistance on device)
+
 ##Tools for regestry editing/working
 regedit.exe
     #gui
@@ -608,9 +610,10 @@ sc query                               #Query for all services
 #Init sets the rest of the system processes in motion via pre-configured runlevels
 
 
+##Commands
+systemctl get-default           #gets default target from system running Systemd
 
-
-
+locate                          #locates a file based on its name
 
 
 
