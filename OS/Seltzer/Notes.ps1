@@ -614,12 +614,13 @@ sc query                               #Query for all services
 systemctl get-default           #gets default target from system running Systemd
 
 locate                          #locates a file based on its name
+diff <file1> <file2>            #reutns differences between two files
 
+##########################################################################################################################################################
 
+                                                                            #Day 6#
 
-
-
-
+##########################################################################################################################################################
 
 
 
