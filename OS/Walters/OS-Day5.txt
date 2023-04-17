@@ -1,0 +1,151 @@
+
+========================OS Day 5========================
+
+
+Big Mike Got Killed In Russia:
+BIOS
+MBR
+GRUB
+KERNEL
+INIT
+RUNLEVEL
+
+
+
+SystemD:
+BIOS/UEFI Firmware
+MBR/UEFI Executables
+GRUB(.efi)
+KERNEL
+SystemD
+Targets
+
+
+MBR:
+
+446 bytes, boot loader
+64 bytes, partition table
+2 bytes, magic number
+
+Single partition:
+Partition Flag, Start CHS, Partition Byte, End CHS,
+
+
+
+Hex dump of MBR:
+sudo xxd -l 512 -g 1 /dev/vda
+
+make a copy of the mbr
+sudo dd if=/dev/vda of=MBRCopy bs=512 count=1
+
+
+
+
+GRUB:
+Grand Unified Bootloader
+
+stages 1,1.5,2
+
+config file /boot/grub/menu.lst  -- dynamically configurable
+
+OS Selection screen
+
+
+
+KERNEL:
+
+mounts the root of file system
+kernel id is 0
+executes /sbin/init with pid of 1
+ls -l /sbin/init to determine which Init system you are using
+Establishes memory management, detects cpu type, page tables
+
+
+**GARVIEL uses SYSTEMD
+**Bombadil uses sys5
+
+
+INIT:
+
+/etc/init
+
+scripts with k will get killed off. 
+s means start? like k?
+
+the contents of /etc/rcX.d shows all the startup scripts for that runlevel
+
+
+RUNLEVELS:
+0  -- halt
+1  -- single-user
+2  -- multi-user no networking
+3  -- Full multi-user with networking, text based. 
+4  -- not used / user definable
+5  -- Multi-user mode with networking and GUI
+6  -- reboot.
+
+
+
+
+graphical.target is just runlevel 5 in sysCTL
+System CTL:
+
+systemctl list-dependencies graphical.targer
+
+See all the wants. 
+systemctl show -p Wants graphical.target
+
+Enumerate/query graphical.target
+systemctl cat graphical.target
+
+
+
+
+POST BOOT PROCESS::::::::
+
+initialize environment and do everything else. Mostly user configured.
+
+/etc/profile CAN BE USED FOR PERSISTANCE!!!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
