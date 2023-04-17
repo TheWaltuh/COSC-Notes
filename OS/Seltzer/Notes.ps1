@@ -532,6 +532,8 @@ sc query                               #Query for all services
                                                                       #Day 5#
 
 ##########################################################################################################################################################
+#Garviel box is systemd (run file on /sbin/init to find out)
+#Bombadil is sistem5
 
 ###Order It Boots in
 ##Big Mike Got Killed In Russia
@@ -553,21 +555,50 @@ sc query                               #Query for all services
     #du - disk usage: summarize disk usage of the set of FILEs
     #df - disk free : displays the amount of disk space available on the file system
     #lsblk - lists information about all available - or specified - block devices
-https://os.cybbh.io/-/public/-/jobs/809233/artifacts/os/modules/007_linux_boot_process/pages/5_LinuxBootProcess.html#:~:text=specified%20%2D%20block%20devices-,BIG%20MIKE%20GOT%20KILLED%20IN%20RUSSIA%20(SYSV),options%20are%20sometimes%20configurable%20at%20the%20menu%20with%20the%20%E2%80%98e%E2%80%99%20key,-9 
+
 
 #GRUB
-    #
+    #Dynamically configurable with the capability to make changes during boot
+    #Config File - /boot/grub/menu.lst
+    #OS Selection screen where if no choice is made, default kernel specified in the grub configuration file
+    #Bootloader (GRUB) passes text based kernel parameters
+    #Kernel options are sometimes configurable at the menu with the ‘e’ key
 
 #Kernel
-
+    #Uncompresses itself into RAM
+    #Establishes memory management, detects CPU type, page tables
+    #Mounts the root ‘/ ’ filesystem
+    #kernel is process 0 [kthreadd]
+    #Executes /sbin/init or systemd daemon, the very first process started by the kernel with a process ID (PID) of 1
+    #‘ls -l /sbin/init’ to determine which Init system you are using
 
 #Init (SysV or SystemD)
-
+    #Configures the environment for the system
+      #Looks at the /etc/inittab
+      #Available run levels 0 - 6
+      #Identifies the default 'init' run level from /etc/inittab and uses that to load all the appropriate programs
+      #The entire startup process is handled by scripts
 
 #Runlevels
-
+    #/lib/systemd/system 'ls -l | grep -v wants | grep run’
+      #runlevel0.target - > poweroff.target
+      #runlevel1.target - > rescue.target
+      #runlevel2.target - > multi-user.target
+      #runlevel3.target - > multi-user.target
+      #runlevel4.target - > multi-user.target
+      #runlevel5.target - > graphical.target
+      #runlevel6.target - > reboot.target
 
 ##For SYSV
+    #A runlevel is a software configuration where only a select group of processes exist
+      #0 - halt (Do NOT set initdefault to this)
+      #1 - Single user mode (switched from multi-user)
+      #2 - Multiuser, without networking
+      #3 - Full multiuser mode, with networking
+      #4 - unused
+      #5 - X11 (GUI)
+      #6 - reboot (Do NOT set initdefault to this)
+    #‘ls -l /etc/rc<1-6>.d’ to see different services run in each runlevel
 
 #The machine’s BIOS or boot firmware loads and runs a boot loader.
 #The boot loader(“Grub” located in MBR) finds the kernel image on disk, loads it into memory, and starts it.
