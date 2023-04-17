@@ -1,0 +1,159 @@
+
+OS DAY 4
+
+
+===================WINDOWS BOOT PROCESS======================
+
+
+BIOS (Basic input output system) is the old version of UEFI 
+
+BIOS uses bootmgr, UEFI ises mootmgrfw.efi
+
+BIOS uses MBR, Volume boot sector, into bootloaders (bootmgr.exe, ntldr.exe), boot.ini ()
+
+	BIOS
+Step 1:
+POST - basic turn on maintinance (power on self test)
+Read MBR - telling computer where the boot loader is.
+
+Step 2: 
+both stages of boot loader - boot loader loads the kernel
+
+Step 3:
+NTLDR, NTDETECT, Boot.ini
+
+Step 4:
+Kernel loading
+
+Step 5:
+Starting services
+
+Step 6:
+Checking SAM by LSA
+
+
+	UEFI
+Step 1:
+POST
+GUID partition table - tells computer where the boot loader is. GPT
+
+Step 2:
+Winload.efi
+winresume.efi - both of these load the kernel
+
+Step 3:
+
+
+
+
+**HAL operates between the kernel and the hardware. 
+
+
+========================WINDOWS LOGON PROCESS==============================
+
+System PID 4
+
+SMSS.exe  - session manageer subsystem
+**session 0 is non-interactive, session 1 is interactive.
+
+SMSS.exe session 0 creates CSRSS.exe and WININIT.exe
+WININIT.exe makes LSASS.exe and SVCHOST.exe
+
+SMSS.exe session 1 creates CSRSS.exe and WINLOGON.exe
+WINLOGON.exe creates LOGONUI.exe and UserINIT.exe
+USERINIT.exe creates Explorer.exe 
+Explorer.exe is the desktop and user interface. 
+
+**session 0 is system and high priviege, session 1 is user level. 
+
+CSRSS.exe is the Windows Subsystem Process.
+LSASS.exe is the Local Security Authority Sub System (LSA)
+
+
+======================BCDEDIT==================================
+
+BCDEDIT: allows us to edit the boot configuration file. 
+
+command example:
+bcdedit /set {bootmgr} description "Del Taco"
+**changes the description of Windows Boot Manager.
+
+bcdedit /import C:\boot_bk
+
+bcdedit /create {ntldr} /d "Windows XP Pro SP2 - Tiger Paw"
+
+bcdedit /set {ntldr} device partition=C:
+
+bcdedit /displayorder {ntldr} /addfirst
+
+bcdedit /delete {ntldr} /f
+
+making a safe boot:
+bcdedit /set {default} safeboot minimal
+Undo:
+bcdedit.exe /deletevalue {current} safeboot
+
+
+if there are multiple boot managers, that is something to look into ;)
+
+{current} is the default for the OS if you don't make a selection.
+
+
+==========================SERVICES=================================
+
+You can find suspicious services with sc query or get-service. Once you find it, you can edit it in the registry.
+
+powershell:
+get-service
+
+cmd:
+sc query <service>
+reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services | findstr <service (case sensitive)>
+
+
+
+
+
+system processes in the boot process should not have high pids. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
