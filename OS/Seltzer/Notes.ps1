@@ -527,6 +527,85 @@ sc query                               #Query for all services
 
 
 
+##########################################################################################################################################################
+
+                                                                      #Day 5#
+
+##########################################################################################################################################################
+
+###Order It Boots in
+##Big Mike Got Killed In Russia
+
+#Bios
+    #First program to run on startup (Flash or ROM)
+    #If stored in flash memory → becomes a target for BIOS Rootkits
+    #Performs POST - Power On Self Test
+    #Performs system integrity checks
+    #Builds a device tree (mice, keyboard, hard drive, video cards, etc..)
+    #Reads and executes the first sector on the boot disk (MBR) to load bootloader to memory
+
+#MBR
+    #Located at the very beginning of the bootable disk (512 bytes) and contains the primary bootloader, partition table and MBR validity check
+    #Contains code for GRUB - Grand Unified Boot Loader
+    #(Note: Could also contain LILO - Linux Loader)
+    #First 512 bytes of the HD
+    #Typically the MBR is located on /dev/hda or /dev/sda (/dev/vda)
+    #du - disk usage: summarize disk usage of the set of FILEs
+    #df - disk free : displays the amount of disk space available on the file system
+    #lsblk - lists information about all available - or specified - block devices
+https://os.cybbh.io/-/public/-/jobs/809233/artifacts/os/modules/007_linux_boot_process/pages/5_LinuxBootProcess.html#:~:text=specified%20%2D%20block%20devices-,BIG%20MIKE%20GOT%20KILLED%20IN%20RUSSIA%20(SYSV),options%20are%20sometimes%20configurable%20at%20the%20menu%20with%20the%20%E2%80%98e%E2%80%99%20key,-9 
+
+#GRUB
+    #
+
+#Kernel
+
+
+#Init (SysV or SystemD)
+
+
+#Runlevels
+
+
+##For SYSV
+
+#The machine’s BIOS or boot firmware loads and runs a boot loader.
+#The boot loader(“Grub” located in MBR) finds the kernel image on disk, loads it into memory, and starts it.
+#The kernel initializes the devices and its drivers.
+#The kernel mounts the root filesystem.
+#The kernel starts a program called init with a process ID of 1. This point is the user space start.
+#Init sets the rest of the system processes in motion via pre-configured runlevels
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
