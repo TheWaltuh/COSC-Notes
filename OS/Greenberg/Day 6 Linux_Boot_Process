@@ -1,0 +1,7 @@
+#MBR
+sudo xxd -l 512 -g 1 /dev/vda                #hex dump of the master boot record -l length(stops after the first 512 bytes) -g octets(1 specifices bit mode)
+sudo dd if=/dev/vda of=MBRcopy bs=512 count=1  #copies the MBR to a new file bs(default is 512 bytes) and count(copies only 1 input block)
+
+garviel the terra box is systemd system
+bombadil minas-tirith is a sysv system
+
