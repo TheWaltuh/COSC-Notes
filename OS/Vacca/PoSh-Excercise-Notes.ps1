@@ -107,6 +107,19 @@ gci 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\'
 
 
 
+#Windows_Boot_Remediate_3
+
+#Prevent the system restart using the command line, and then identify persistence mechanisms that are reverting the OS and boot loader configurations.
+
+#The flag is in the same folder as the persistence mechanism.
+
+#HINT: Copy the error message in its entirety to figure out what is happening to the system.
+
+#WARNING: You have 30 seconds to comply.
+
+#Follow these Windows Bootkit Instructions to boot the virtual image
+
+msfinfo     #look for suspicious services
 
 
 
