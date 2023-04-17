@@ -25,6 +25,8 @@ MBR Master Boot Record
   df - disk free
   lsblk - information about block devices
   https://git.cybbh.space/os/public/raw/master/images/mbrPartitionTable.png
+  https://nixhacker.com/explaining-the-magic-of-mbr-and-its/
+  https://en.wikipedia.org/wiki/Master_boot_record
   sudo xxd -l 1 -g 512 /dev/vda
   dd if=/dev/vda of/mbr/copy
 GRUB Grand Unified Boot Loader
