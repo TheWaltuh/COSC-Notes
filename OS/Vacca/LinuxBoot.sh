@@ -92,6 +92,7 @@ Commands for Lin Boot -
   
   sudo xxd -l 1 -g 512 /dev/vda
   dd if=/dev/vda of/mbr/copy
+  dd if=mbroken bs=1 skip=446 count=16 | md5sum
   
   ls -l /sbin/init  #Terra is SystemD
                     #Minas_Tirith is SysV
