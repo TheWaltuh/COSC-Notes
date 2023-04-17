@@ -15,3 +15,6 @@ systemctl show -p Wants graphical.target           # -p shows all Wants properti
 systemctl cat graphical.target
 
 /etc/profile can be used for persistance
+
+dd if=mbroken bs=1 skip=446 count=16 | md5sum         #how to find the hash-value of the first partition
+dd if=/home/bombadil/mbroken bs=1 count=446 | md5sum  #how to find the has-value of the bootstrap
