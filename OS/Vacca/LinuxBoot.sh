@@ -87,8 +87,10 @@ Commands for Lin Boot -
   di - disk usage
   df - disk free
   lsblk - information about block devices
+  
   sudo xxd -l 1 -g 512 /dev/vda
   dd if=/dev/vda of/mbr/copy
+  
   ls -l /sbin/init  #Terra is SystemD
                     #Minas_Tirith is SysV
   cat /etc/inittab
@@ -107,6 +109,9 @@ Commands for Lin Boot -
   ls -l /etc/rc<1-6>.d’ to see different services run in each runlevel
 
 
+  Can be used for persistence:
+  /etc/profile
+  /etc/envirronment
 '
 
 
