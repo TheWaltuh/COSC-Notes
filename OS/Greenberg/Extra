@@ -46,7 +46,7 @@ cat NMAP_all_hosts.txt | egrep 'open|report for'
 
 cat NMAP_all_hosts.txt | awk '/open/ {print "Service: " $3}{for(c=0;c<30;c++) printf "="; printf "\n"}'
 cat NMAP_all_hosts.txt | egrep 'open' | egrep -v "Warning:" | awk 'NF {print $3}' | sort -u | awk 'NF {print "Service: " $1}{print "=============================="}'
-
+cat NMAP_all_hosts.txt | egrep 'open' | egrep -v "Warning:" | awk 'NF {print $3}' | sort | uniq -c | awk '{print "Service: " $2,$1}{print "=============================="}'
 
 
 
