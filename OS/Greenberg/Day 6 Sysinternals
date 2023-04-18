@@ -1,0 +1,35 @@
+####Sysinternals 
+
+##Proman
+monitoring tool that shows real-time file, system, registry, and process/thread activity
+.\Procman.exe -acceptula
+
+##Autoruns
+shows applications automatically started on boot as well as the registry and file system locations
+
+##Procexp
+task manager and system monitor that collects information on running processes 
+shows processes in a tree format color codes process types
+
+##TCPView
+shows detailed listings of all TCP and UDP endpoints on the system, including the local and remote addresses and state of TCP connections
+Graphical representation of the net stat command
+
+##PSLoggedOn
+user currently logged onto the system
+can run against a list of machines
+
+##LogOnSessions
+shows how that user logged on
+lists sessions and processes running under each user
+
+##PsList
+command line tool for gathering process information
+can be run against multiple machines
+
+##PsInfo	
+gathers key information about the local or remote windows system
+
+##Handle
+displays open file references
+determine what a suspicious process is doing based on the dll files the process has a handle to
