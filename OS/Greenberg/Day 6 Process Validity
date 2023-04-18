@@ -1,0 +1,91 @@
+https://www.echotrail.io/    #website that tells you if the process is legitimate or not
+
+####Process Validity
+##What is Process Validity?
+Distinguishing a process as a known good and a possible bad based on its attributes and characteristics.
+Malware typically uses their stealth and obfuscation abilities in order to hide:
+processes
+files
+registry keys
+drivers
+etc.
+Leaving little evidence in their presence by hooking onto legitimate processes and services
+
+##Why is Process Validity Important?
+OCO- offensive operations
+protecting our toolset
+finding any malware that may compromise them
+DCO- defensive operations
+defend our networks and find malware
+making sure we are not compromised 
+
+##Processes, DLLs, and Services
+
+##What are they?
+
+Process
+a program running on the computer; either executed by the user or running in the background
+PowerShell: Get-Process | more
+Get-Ciminstance Win32_Process
+CMD: tasklist
+GUI: Task Manager or Procexp.exe
+
+DLL- Dynamic Link Library
+non-standalone program that can be linked to multiple programs at once
+cannot be directly executed
+allows for minor changes without affecting other parts of the program
+Get-process <procname> | foreach {$a} {$_.modules} | more
+
+Service
+long-running executables that run in their own session
+can be set to auto-start. can be paused or restarted
+do not interact with users
+PowerShell: Get-Service
+Get-Ciminstance Win32_service
+CMD: net start
+sc query type=service
+GUI: services.msc or PsService
+
+##Scheduled Tasks
+
+#What are scheduled tasks?
+schedule the launch of programs or scripts when defined conditions are met:
+Pre-set time
+Boot up
+When a user logs on
+easy way to hide malware
+good way to establish persistence
+
+#How to view Scheduled Tasks
+PowerShell
+Get-ScheduledTask
+CMD
+schtasks /query
+GUI
+Task Scheduler
+Autoruns
+HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM\System\CurrentControlSet\Services
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKU\<sid>\Software\Microsoft\Windows\CurrentVersion\Run
+HKU\<sid>\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM\System\CurrentControlSet\Control\ServiceGroupOrder
+HKLM\CurrentControlSet\Control\GroupOrderList
+Network Connections
+PowerShell
+Get-NetTCPConnection -State Established
+CMD
+net stat /?
+GUI
+TCPView
+
+##Identifying Abnormalities/Suspicious Activity
+Misspelling of process names and descriptions
+if the directory the process is running out of isn’t 
+C:\Windows\System32
+3rd party process will run elsewhere
+non-standard listening ports
+multiple processes with the same name that should be unique
+handles of dlls a process is using
