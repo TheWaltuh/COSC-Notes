@@ -1,0 +1,105 @@
+
+
+=========== OS DAY 5 NOTES ============
+
+***linux boot process
+
+
+big mike got killed in russia (system 5 release 4)
+
+BIOS		basic input/output
+
+--------------------------------------------------------------------------------------------
+
+MBR		master boot record
+
+- first 512 bytes of the HD
+	4 max partitions w 2 TB max size
+	typically located in /dev/hda or /dev/sda
+	contains info about GRUB
+- commands:
+	du - disk usage
+	df - disk free
+	lsblk - list info about block devices
+	sudo xxd -l 512 -g 1 /dev/vda - gives hexdump separed by 1 byte
+	dd if=/dev/vda of=MBRcopy bs=512 count=1 - make a copy of mbr run sudo !! if denied
+
+link to MBR graphic:
+
+https://os.cybbh.io/-/public/-/jobs/809233/artifacts/os/modules/007_linux_boot_process/pages/5_LinuxBootProcess.html
+
+--------------------------------------------------------------------------------------------
+
+GRUB		grand unified bootloader
+
+- dynamically configurable, can make changes during boot
+	/boot/grub/menu.lst
+	alter boot entries, select diff kernels, modify int RAM disk
+
+
+--------------------------------------------------------------------------------------------
+
+Kernel		executes /sbin/init
+
+- heart of the os
+	uncompresses into RAM
+	memory management, detects CPU type, page tables
+	mounts the root '/' filesystem
+	process id of 0
+	/sbin/init pid 1
+	ls -l /sbin/init - show which init system you are on
+	garviel terra box os systemd
+--------------------------------------------------------------------------------------------
+
+Init		executes runlevel programs
+
+- configs environment for the system
+	looks at /etc/inittab
+	run levels 0-6
+	strartup process handled by scripts
+		/etc/init.d
+		scripts run 'S'tart and 'K'ill scripts out of applicable rc folders
+	contents of /etc/rc.d shows all the start up scripts
+	
+--------------------------------------------------------------------------------------------
+
+Runlevel 	executed from /etc/rc*.d/
+
+0	halt
+1	single user
+2	multi user no networking
+3	multi user with networking
+4	not used/user defined
+5	multi-user
+6 	reboot
+
+--------------------------------------------------------------------------------------------
+
+graphical.target is runlevel 5 in sysCTL
+SYSTEM CTL:
+
+systemctl list-dependencies graphical.target
+
+see all the wants
+systemctl show -p wants graphical.target
+
+enumerate/query graphical.target
+systemctl cat graphical.target
+
+/etc/profile CAN BE USED TO SET PERSISTANCE
+
+
+systemd
+
+
+BIOS/UEFI(firmware)		
+
+MBR/UEFI(exes)
+
+GRUB
+
+Kernel
+
+Systemd
+
+Targets

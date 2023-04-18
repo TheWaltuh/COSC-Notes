@@ -1,0 +1,83 @@
+
+
+=========== OS DAY 4 NOTES ============
+
+***windows boot process
+
+
+
+
+1.
+
+-BIOS and UEFI are firmware that ensure critical hardware like SATA devices (Hard Drives), Display Adapters, and SDRAM(Synchronous dynamic random-access memory) are functional then, locates the MBR(Master Boot Record) or GPT(GUID Partition Tables).
+
+
+why UEFI is better:
+
+UEFI Boots much faster than BIOS systems, especially for Windows machines.
+UEFI Firmware is usually loaded into flash memory or EEPROM, making it easier to update and patch.
+UEFI offers SECURED BOOT mode which only allows verified drivers to load.
+UEFI offers drive support of up to 9 zettabytes, while BIOS only works with 2 terabytes.
+
+
+
+2.
+
+-Once the BIOS checks hardware, it finds the MBR (Master Boot Record). The MBR contains Disk Partitions like /dev/sda1 or DISK 1 C:\
+
+-The partition contains code that starts the first stage of loading an Operating System, called a Boot Loader
+
+	Boot Loaders
+		-Windows 2003 and older used NTLDR or New Technology Loader
+		-Windows 7 Service Pack 1 and newer uses bootmgr or New Technology Loader
+
+-From this point the Boot Loader takes over and starts the Operating System
+
+
+
+
+demo bios
+
+
+- has boot manager
+
+bcdedit
+
+bcdedit /export c:\boot_bk			#backup
+
+bcdedit /import c:\boot_bk			#import backup
+
+bcdedit /create {ntldr} /d "Windows XP Pro SP2 - Tiger Paw"
+
+bcdedit /set {<indetifier>} description ""	description
+
+bcdedit /set {ntldr} device partition=C:
+
+bcdedit /displayorder {ntldr} /addfirst
+
+bcdedit /delete {ntldr} /f 			#force delete
+
+bcdedit /create {ntldr} /d "Windows XP Pro SP2 - dog footc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

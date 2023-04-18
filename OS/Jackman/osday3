@@ -1,0 +1,123 @@
+
+
+=========== OS DAY 3 NOTES ============
+
+situational awareness commmands
+
+hostname or uname 		#-a displays the name of the host you are currently on.
+
+whoami 			#shows the user you are currently logged in as 
+
+w or who 			#shows who else is logged in.
+
+ip addr or ifconfig 		#displays network interfaces and configured IP addresses.
+
+ip neigh or arp 		#displays MAC addresses of devices observed on the network.
+
+ip route or route 		#shows where packets will be routed for a particular destination address.
+
+ss or netstat 			#will show network connections or listening ports
+
+nft list tables or iptables 	#-L to view firewall rules.
+
+sudo -l 			#displays commands the user may run with elevated permissions.
+
+sudo -u <user>			#run command as a different user
+
+ip -a 				#get ip address
+
+su  or su -c <cmd> <user>	#super user or run command as a user w password
+
+apropos <word>			#if you remember what command does use a key word to help find command
+
+ll				#alias for ls -la
+
+!!				#shortcut for previous command
+
+id				#shows uid gid and all groups user is part of
+
+---------- linux filesystem ------------
+
+
+/bin		#binaries for users
+
+/usr/bin	#binaries for each specific user
+
+/sbin		#system binaries
+
+/boot		#startup processes
+
+/dev		#device files
+
+/etc 		#everything configureable 
+
+/home 		#all users home directory
+
+/lib		#library to pull info from like local repos
+
+/mnt		#mounted partitions on a drive
+
+/opt 		#optional programs 
+
+/root		#the root home directory
+
+/proc		#processes, contains all linux process ids (use top)
+
+/var		#variables also contains default logs and spool (a spool of jobs that need to be done)
+
+
+/etc/passwd	#users
+
+/etc/group	#groups
+
+-------------- FILES AND FOLDERS --------------
+
+use xxd to read executable files ex. xxd nano | less
+
+owner user, group, other users
+
+chmod u=rwx,g=-rwx,o=rwx	#change permissions
+
+chown <user> <name>		#change ownership
+
+- sticky bit removes the ability to delete files unless the user attempting is the owner of the file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,221 @@
+
+
+
+=========== OS DAY 2 NOTES ============
+
+
+
+tools to view/manipulate
+
+regedit.exe 	#path C:\windows\regedit.exe
+
+reg.exe	#path C:\windows\system32\reg.exe
+
+cli-
+basic command -
+
+reg add
+reg query
+reg delete
+
+
+(real world app) connect to network device with regedit by going to file > connect to network registry 
+
+
+
+registry - hierarchical system of all data on machine
+
+ 
+- registry is comprised of Keys, Subkeys and Values structured in a tree format
+
+registry hives or root keys:
+
+HKEY_LOCAL_MACHINE
+-info for entire computer
+	-hardware
+	-SAM(security account manager)
+	-security(accessed by lsass.exe)
+	-system startup
+
+HKEY_USERS
+-contains all user profiles(SID, secuirty identifier)
+	-S-1-5-18 local system acc
+	-S-1-5-19 local service acc
+	-S-1-5-20 network service acc
+	-S-1-5-21-domain-500 local admin acc
+	
+
+
+HKEY_CURRENT_USERS
+-copy of logged in user's registry key
+
+
+
+HKEY_CURRENT_CONFIG
+-symbolic link to registry key
+	-HKEY_LOCAL_MACHINE\System\CurrentControlSet\Hardware Profiles\Current
+
+
+HKEY_CLASSES_ROOT
+-symbolic link to registry key
+	-HKEY_LOCAL_MACHINE\Software\Classes
+	-file name extension associations
+
+
+
+
+*** get sid for all users on machine
+
+get-localuser | select name,sid
+
+
+
+types of extensions and what they mean
+
+No extension				Actual Hive File
+
+.alt extension				Backup copy of hive, used in Windows 2000
+
+.log extension				Transaction log of changes to a hive
+
+.sav extension				Backup copy of hive created at the end of text-mode (console)
+
+
+**** enemy can establish persistence in the run keys
+
+----------------------------------------------------------------------------------------------------
+
+
+----------------------------------- registry power shell commands ----------------------------------
+
+
+Query
+
+	-Get-ChildItem cmdlet gets the items in one or more specified locations.
+	-Get-ItemProperty cmdlet gets the items in one or more specified locations.
+	-Get-Item cmdlet gets the item at the specified location. It doesn’t get the contents of the item at the location unless you use a wildcard character (*) to request all the contents of the item.
+
+
+Modify
+
+	-Set-ItemProperty cmdlet changes the value of the property of the specified item. example, changing setting to :true or :false.
+	-Remove-ItemProperty cmdlet to delete registry values and the data that they store.
+
+
+Create
+
+	-New-Item cmdlet creates a new item and sets its value. In the registry, New-Item creates registry keys and entries.
+	-New-Itemproperty cmdlet creates a new property for a specified item and sets its value. Typically, this cmdlet is used to create new registry values, because registry values are properties of a registry key item.
+
+
+
+
+examples:
+
+Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\	#returns sub keys of currentver
+
+*** cannot use on /run or /runonce because they only have values, doesn't have sub keys
+
+Get-item HKLM:\SOFTWARE\Microsoft\Wget-psdrivendows\CurrentVersion\Run		#returns the value
+
+---------------------------------------------------------------------------------------------------
+
+
+resource:	attack.mitre.org
+
+run keys created by default 
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce
+
+
+
+--- PSDRIVES ---
+
+get-PSdrive
+
+New-PSDrive -Name FileServer -PSProvider FileSystem -Root "\\file-server\warrior share"   #Review command: Get-Help New-PSDrive for this syntax.
+
+
+
+-------------------------------------- ALTERNATE DATA STREAMS ----------------------------------------------
+
+
+coffee.exe ---------- $DATA
+	|
+	|
+	|__________________ png
+		|
+		|
+		|______________ malicious.exe
+			|
+			|
+			|______________ redundancey.exe
+			
+
+- cannot be disabled
+- deleted once copied to fat32
+
+[filename.extension]:[alternate_steram_name]::$DATA
+
+
+regular data stream on a file
+
+echo "coffee runs the world" > coffee.txt					 	#add text to file
+
+
+Set-Content .\coffee.txt -Value "social security numbers" -Stream secret.info	#change the data stream
+
+Get-Item coffee.txt -Stream *								#view altnernate data stream
+Get-Content coffee.txt -Stream secret.info						#content of alt stream
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
