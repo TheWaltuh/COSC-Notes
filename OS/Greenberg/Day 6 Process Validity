@@ -29,6 +29,8 @@ PowerShell: Get-Process | more
 Get-Ciminstance Win32_Process
 CMD: tasklist
 GUI: Task Manager or Procexp.exe
+tasklist /fo:table | more
+tasklist /m | more
 
 DLL- Dynamic Link Library
 non-standalone program that can be linked to multiple programs at once
@@ -49,6 +51,7 @@ GUI: services.msc or PsService
 ##Scheduled Tasks
 
 #What are scheduled tasks?
+Can be used as a form of persistence by adversaries
 schedule the launch of programs or scripts when defined conditions are met:
 Pre-set time
 Boot up
@@ -58,9 +61,10 @@ good way to establish persistence
 
 #How to view Scheduled Tasks
 PowerShell
-Get-ScheduledTask
+Get-ScheduledTask 
+Get-ScheduledTask | ft -wr | more
 CMD
-schtasks /query
+schtasks.exe
 GUI
 Task Scheduler
 Autoruns
@@ -89,3 +93,13 @@ C:\Windows\System32
 non-standard listening ports
 multiple processes with the same name that should be unique
 handles of dlls a process is using
+
+##Network Connections
+PowerShell
+Get-NetTCPConnection -State Established
+CMD
+netstat /?
+netstat -ano
+GUI
+TCPView
+
