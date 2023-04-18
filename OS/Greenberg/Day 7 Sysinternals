@@ -52,3 +52,6 @@ gathers key information about the local or remote windows system
 displays open file references
 determine what a suspicious process is doing based on the dll files the process has a handle to
 .\handle.exe -accepteula
+
+##AccessChk
+views permissions
