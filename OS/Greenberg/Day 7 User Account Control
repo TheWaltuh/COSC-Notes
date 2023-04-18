@@ -14,7 +14,7 @@ Yellow - unsigned or signed by not trusted
 ##How does the UAC know how to act?
 UAC checks its manifest
 A manifest file on windows contains metadata and tells Windows how the file should be executed
-ashinvoker - will run with the same permissions as the process that started it
+asinvoker - will run with the same permissions as the process that started it
 requireAdministrator - will run with administrator permissions so long as the user who starts it is a part of the administrators group
 highestAvailable - will run with the highest permission level that it can
 
