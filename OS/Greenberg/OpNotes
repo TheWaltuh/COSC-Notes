@@ -10,3 +10,6 @@ Determine what is sending out a SYN_SENT message. The flag is the name of the ex
 
 Malware uses names of legit processes to obfuscate itself. Give the flag located in Kerberos’ registry subkey.
 .\procmam
+
+Figure out the SID of the only Totally-Legit service.
+sc showsid Legit
