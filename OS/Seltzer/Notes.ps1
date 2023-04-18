@@ -622,8 +622,39 @@ diff <file1> <file2>            #reutns differences between two files
 
 ##########################################################################################################################################################
 
+###Windows Process Validity
+##Making sure a windows process is valid
+
+##ways to tell
+#PID Super High
+#If repeating porcess could be
+#Pattern in PID
+#Misspelled Process Names
+
+#C:\Windows\System32 (normal spot for system process and services to run from)
+
+##Commands
+#Task Manager a Gui way to Get-process/tasklist/etc
+
+Get-Process SMSS,CSRSS,LSASS | Sort -Property Id                     #How to discover normal, abnormal, and hidden process and services
+
+Get-Process | Select Name, Id, Description | Sort -Property Id       #shows only process name, id and description then sorts the process list on the ids
+
+Get-Process | Select Name, Id, Path                                  #displays a process list showing only name, id, and the path to where that process is
+Get-Ciminstance Win32_service | Select Name, Processid, Pathname     #same as one above but using get-ciminstance
+
+get-service | where-object {$_.Status -eq "Running"} | ft -wr        #gets services, displays only running and format table wrap so no ... at end of lines too big
+            #can also do for get-process, etc
 
 
+get-process chrome | foreach {$a} {$_.modules} | more                #shows chrome and all processes linked to it (modules of it)
+
+tasklist    #cmd wy to get processes
+/m          #for modules (how to see dlls)
+tasklist /m /fi "IMAGENAME eq chrome.exe"     #seejust module/dll infor for process with name equal to chrome.exe
+/fo         #format output (list, table, etc)
+
+/svc        #cmd way to get services
 
 
 
