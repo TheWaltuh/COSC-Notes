@@ -1,0 +1,34 @@
+####User Account Control
+
+##What is UAC and what does it do?
+limits the privileges of user run applications, even if ran as an administrator
+requesting elevated privileges requires explicit interactive knowledge from the user
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\System
+
+##What do UAC prompts look like?
+Red - application or publisher blocked by group policy
+Blue and Gold - Administrative application
+Blue - trusted and authenticated signed application
+Yellow - unsigned or signed by not trusted
+
+##How does the UAC know how to act?
+UAC checks its manifest
+A manifest file on windows contains metadata and tells Windows how the file should be executed
+ashinvoker - will run with the same permissions as the process that started it
+requireAdministrator - will run with administrator permissions so long as the user who starts it is a part of the administrators group
+highestAvailable - will run with the highest permission level that it can
+
+##Will the UAC prompt Show?
+Auto elevate is true
+./strings C:\Windows\System32\*.exe -acceptelua | select-string -SimpleMatch “autoelevate”
+Digitally signed
+./sigcheck -m C:\Windows\System32\slui.exe -accepteula | Select-String -SimpleMatch “level”
+Trusted Directory
+C:\Windows\System32
+
+##User Interface Privilege Isolation
+UIPI is a part of UAC and is designed to protect against shatter attacks
+each process is given a privilege level
+higher integrity processes can send messages to lower integrity process
+lower integrity processes can only receive messages from higher
+UIPI can be bypassed by signed and trusted applications in the UIaccess manifest settings
