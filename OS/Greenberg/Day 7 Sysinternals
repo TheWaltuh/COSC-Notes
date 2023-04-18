@@ -6,7 +6,7 @@ $wc.DownloadFile("https://download.sysinternals.com/files/SysinternalsSuite.zip"
 Expand-Archive SysinternalsSuite.zip
 
 ##Proman
-monitoring tool that shows real-time file, system, registry, and process/thread activity
+monitorinpty
 .\procmon.exe -accepteula
 
 ##Autoruns
@@ -56,8 +56,11 @@ determine what a suspicious process is doing based on the dll files the process 
 ##AccessChk
 views permissions
 
-##LoadOrder
+##LoadOrd
 service load order
 
 ##listdlls
 reports .dlls loaded into processes
+
+##sigcheck
+allow you to view a file's manifest
