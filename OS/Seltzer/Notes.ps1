@@ -656,12 +656,51 @@ tasklist /m /fi "IMAGENAME eq chrome.exe"     #seejust module/dll infor for proc
 
 /svc        #cmd way to get services
 
+schtasks /query | more              #view scheduled tasks (POSSIBLE FORM OF PERSISTANCE)
+get-scheduledtask                   #same as above but powershell
+
+netstat                             #view network connections
+netstat -anob                       #a shows all connections and listening ports
+                                    #n shows all addressess and port numbers in numerical form
+                                    #o displays owning process id associated with each connection
+                                    #b displays executable involved in creating each connecion
+
+###User Account Control
 
 
+###Windows Sysinteral Tools
+net use * http://live.sysinternals.com      #how to download sysinternals
+#OR
+$wc = new-object System.Net.WebClient
+$wc.DownloadFile("https://download.sysinternals.com/files/SysinternalsSuite.zip","$pwd\SysinternalsSuite.zip")
+Expand-Archive SysinternalsSuite.zip
 
+##PROCMAN (cracked out process explorer)
+.\procmon.exe -accepteula                   #run procmon accepting agreement
 
+##AUTORUNS (like swiss army knife, shows services, scheduled tasks, drivers, runkeys, etc)
+.\autoruns.exe
 
+##PROCEXP (like glorified task manager)
+.\procexp.exe
 
+##TCPVIEW (see processnames, ids, state, addresses, ports, etc)
+.\tcpview.exe
+
+##PSLOGGEDON (Not a GUI shows users logged on locally
+.\pslogggedon.exe
+
+##LOGONSESSIONS (not a gui and lists logon session information)
+.\logonsessions.exe
+
+##PSLIST  (Not a gui process list) (same as get-process)
+.\pslist.exe
+
+##PSINFO (Not a gui gives information about the system)
+.\psinfo.exe
+
+##HANDLE (not a gui displays handles)
+.\handle
 
 
 
