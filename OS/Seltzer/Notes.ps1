@@ -666,6 +666,32 @@ netstat -anob                       #a shows all connections and listening ports
                                     #b displays executable involved in creating each connecion
 
 ###User Account Control
+#Protocol to protect us fro ourselves
+#requesting elevated privileges requires explicit interactive acknologement of the user
+
+#Registry key is located at 
+    #"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
+
+#prompts are color-coded
+    #Red - Application or publisher blocked by group policy
+    #Blue & gold - Administrative application
+    #Blue - Trusted and Authenticode signed application
+    #Yellow - Unsigned or signed but not trusted application
+
+#UAC execution levels in a files manifest
+  #asInvoker - will run with same permissions as the process that started it
+  #requireAdministrator - the application will run with administrator permissions
+  #highestAvalable - the application will run weith administrator permissions
+    #some windows executables can "auto elevate" without a prompt
+        #those will not prompt UAC
+        
+        
+##Commands
+./strings C:\Windows\System32\*.exe -accepteula | select-string -SimpleMatch "autoelevate"        #sees if binary files has autoelevate as true
+
+./sigcheck -m C:\Windows\System32\slui.exe -accepteula | Select-String -SimpleMatch "level"       #sees if slui.exe is digitally signed
+
+
 
 
 ###Windows Sysinteral Tools
@@ -699,7 +725,7 @@ Expand-Archive SysinternalsSuite.zip
 ##PSINFO (Not a gui gives information about the system)
 .\psinfo.exe
 
-##HANDLE (not a gui displays handles)
+##HANDLE (not a gui displays handles) (analyze processes)
 .\handle
 
 
