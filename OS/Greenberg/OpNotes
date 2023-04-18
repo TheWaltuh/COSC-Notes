@@ -1,0 +1,12 @@
+There is malware on the system that is named similarly to a legitimate Windows executable. There is a .dll in the folder that the malware runs from. 
+The flag is the name of the .dll.
+.\Autoruns
+
+You notice that there is an annoying pop up happening regularly. Investigate the process causing it. The flag is the name of the executable.
+.\autoruns
+
+Determine what is sending out a SYN_SENT message. The flag is the name of the executable.
+.\tcpview
+
+Malware uses names of legit processes to obfuscate itself. Give the flag located in Kerberos’ registry subkey.
+.\procmam
