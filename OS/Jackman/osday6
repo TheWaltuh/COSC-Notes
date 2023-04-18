@@ -1,0 +1,158 @@
+
+
+=========== OS DAY 6 NOTES ============
+
+- USER ACCOUNT CONTROL(UAC)
+	reg key HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+
+
+- UAC prompts are color coded
+	Red - Application or publisher blocked by group policy
+	Blue & gold - Administrative application
+	Blue - Trusted and Authenticode signed application
+	Yellow - Unsigned or signed but not trusted application
+
+- 3 TYPES OF EXC LVLS
+
+asInvoker - The application will run with the same permissions as the process that started it. The application can be elevated to a higher permission level by selecting Run as Administrator.
+
+Ex: C:\Windows\System32\cmd.exe
+
+requireAdministrator - The application will run with administrator permissions. The user who starts the application must be a member of the Administrators group. If the opening process is not running with administrative permissions, the system will prompt for credentials.
+
+highestAvailable - The application will run with the highest permission level that it can. If the user who starts the application is a member of the Administrators group, this option is the same as requireAdministrator. If the highest available permission level is higher than the level of the opening process, the system will prompt for credentials.
+
+Ex: C:\Windows\regedit.exe
+
+- AUTOELEVATE SETTING
+
+.\sigcheck -m <path>
+
+.\strings -s <path\*.exe> | findstr /i autoelevate
+
+
+Some Windows executables can "auto elevate" without a prompt.
+
+Files that have "auto elevate" in their permissions will not prompt UAC
+
+
+--------------------------------------------------------------------------------------------
+
+
+- LINUX PROCESS VALIDITY
+	*psh
+		Get-process | select name, id, description | sort -property id
+		Get-ciminstance win32_service | select name, processid, pathname | more
+		Get-service | where-object {$_.status -eq "running"} | ft -wr
+	*cmd
+		tasklist /fo:table 
+		net start
+		sc query
+		sc queryex type=service state=all
+		sc.exe showsid <servicename>
+		
+		
+scheduled tasks, profiles, run keys **persistence**
+
+
+- scheduled task
+	*psh
+		get-scheduledtask | ft -wr | more
+	*cmd
+		schtask.exe
+		
+
+
+- view network activity
+	netstat -anob | more
+	
+--------------------------------------------------------------------------------------------
+
+
+Download
+
+
+PS C:\Users\andy.dwyer\Desktop> $wc = new-object System.Net.WebClient 
+
+PS C:\Users\andy.dwyer\Desktop> $wc.DownloadFile("https://download.sysinternals.com/files/SysinternalsSuite.zip",
+"$pwd\SysinternalsSuite.zip") 
+
+PS C:\Users\andy.dwyer\Desktop> Expand-Archive SysinternalsSuite.zip
+
+
+
+
+- SYSINTERNALS TOOLS
+
+PS C:\windows\system32> net use * http://live.sysinternals.com 
+Drive Z: is now connected to http://live.sysinternals.com.
+how to use tool
+	.\<name>.exe -accepteula
+
+
+GUI TOOLS:
+	*PROCMON
+		#monitor boot process
+		ctrl + j to jump to event
+		.\procmon.exe
+		
+	*AUTORUNS
+		.\autoruns.exe
+		
+	*PROCESSEXPLORER
+		#glorified task manager
+		.\procexp.exe
+		
+	*TCPVIEW
+		#gui version of net stat
+		.\tcpview.exe
+
+
+CMD LINE TOOLS:
+	*PSEXEC
+		#run commands on a remote machine
+		PsExec.exe //file-server cmd.exe
+		
+	*PSLOGGEDON
+		#shows who is logged in
+		.\PsLoggedon.exe
+	
+	*PSLOGONSESSIONS
+		#shows all logged in sessions 
+		.\logonsessions.exe 
+		
+	*PSLIST
+		#shows process list info
+		.\pslist.exe
+		
+	*PSINFO
+		#information about the system
+		.\psinfo.exe
+
+	*HANDLE
+		#shows processes and services with their modules and dlls
+		.\handle.exe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
