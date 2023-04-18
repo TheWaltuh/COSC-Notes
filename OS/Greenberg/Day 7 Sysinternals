@@ -55,3 +55,9 @@ determine what a suspicious process is doing based on the dll files the process 
 
 ##AccessChk
 views permissions
+
+##LoadOrder
+service load order
+
+##listdlls
+reports .dlls loaded into processes
