@@ -66,3 +66,6 @@ take all ipaddresses an put them into a file
 for every ip address in the file
 if that ip address has the name of the service listed
 print the name of the service add one to the count and print the ip_address on a newline
+
+if $2 equal previous line add $1 to the first value
+ awk -F, 'NF{print $2}{for(c=0;c<30;c++) printf "="; printf "\n"}{print $1}{printf "\n"}' new
