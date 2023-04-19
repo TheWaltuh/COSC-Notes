@@ -1,0 +1,187 @@
+
+OS DAY 7
+
+PFT on April 28
+Daemons can be a form of persistance
+Cronjobs are a form of persistance!!!!!!!!!!!!!
+
+===========================LINUX PROCESS VALIDITY=================================
+
+ps  -- List processes in Linux
+
+-e  - all processes
+-l  - long format
+-f  - full format
+
+top  -- live view of processes. 
+
+all kernel processes have []
+all user processes are forked off of init.
+
+
+ring 0  -- kernel
+ring 1  -- device drivers
+ring 2  -- device drivers
+ring 3  -- applications
+
+
+grep UID /etc/login.defs  -- grep for UID from the shadow password suite configuration file login.defs
+gets:
+minimum userid assigned to a regular user
+maximum userid assigned to a regular user
+minimum userid assigned to a system user
+maximum userid assigned to a system use
+
+
+EUID: Effective user ID (EUID) defines the access rights for a process. 
+	In layman’s term it describes the user whose file access permissions are used by the process.
+
+RUID: The real user ID is who you really are (the one who owns the process). 
+	It also defines the user that can interact with the running process—most significantly, which user can kill and send signals to a process.
+
+
+
+
+Signal  -- process interupt, lets process know event has taken place.
+
+
+kill -l  -- lists all the possible signals for the kill command.
+
+-19  -- pause process
+-18  -- continue process
+
+-9  -- forcefully kill process
+
+
+
+zombie process  -- process whose execution is completed but still has an entry in process table.
+orphan process  -- parent process is dead and it gets adopted by /sbin/init
+
+daemon  -- orphan process that runs in the background. All daemons are orphans, not all orphans are daemons. 
+
+disown -a && exit   -- close a shell/terminal and force all children to be adopted. 
+
+
+
+=======================ENUMERATION=============================
+
+ps --ppid 2 -lf  -- shows only processes with a ppid of 2.
+
+ps -elf --forest   -- shows parent-child relationship
+
+
+
+
+
+========================JOB CONTROL=============================
+
+jobs  -- display list of jobs running in background
+
+bg  -- move job to background
+fg  -- move job to foreground
+
+
+
+
+========================SERVICES================================
+
+sysV:
+service "servicename" status
+
+
+Systemd:
+systemctl list-unit  -- lists all services (units)
+
+systemctl status autitd.service  -- get service status
+
+other systemctl commands--
+start 
+stop
+status
+
+
+
+
+=============================CRONJOBS=================================
+
+cron daemon runs in the background and executes cronjobs.
+
+PERSISTANCE
+
+locations for cronjobs--
+/etc/crontab -- system
+/var/spool/cron  -- user cronjobs
+
+
+Syntax:
+  ┌───────────── minute (0 - 59)
+  │ ┌───────────── hour (0 - 23)
+  │ │ ┌───────────── day of the month (1 - 31)
+  │ │ │ ┌───────────── month (1 - 12)
+  │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday;
+  │ │ │ │ │                           7 is also Sunday on some systems)
+  │ │ │ │ │
+  │ │ │ │ │
+  * * * * * <Time/Day to execute    "Command to Execute"
+
+
+
+
+
+===============================Processes and Proc Dir=====================================
+
+
+The /proc/ directory — also called the proc file system — contains a hierarchy of special files which represent the current state of the kernel, allowing applications and users to peer into the kernel’s view of the system.
+
+Every process access files in order to complete it’s work. These processes keep track of open files using File Descriptors.
+
+
+When you open a file, the operating system creates an entry to represent that file and store the information about that opened file.
+So if there are 100 files opened in your OS then there will be 100 entries in OS (somewhere in kernel).
+These entries are represented by integers like (…​100, 101, 102…​.).
+This entry number is the file descriptor. So it is just an integer number that uniquely represents an opened file in operating system. If your process opens 10 files then your Process table will have 10 entries for file descriptors.
+
+
+
+
+
+sudo lsof -c sshd  -- will list open files for the process. FD field is File Descriptor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

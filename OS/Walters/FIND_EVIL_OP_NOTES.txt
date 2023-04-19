@@ -1,0 +1,35 @@
+
+FIND EVIL OP NOTES::
+
+
+FindEVIL1:
+
+Scenario: The Villains group has been chanting offerings to their new leader at regular intervals over a TCP connection.
+
+Task: Identify their method of communication and how it is occurring. Locate the following artifacts: ** The chant/text used by each villain (include spaces) ** The new Lord receiving the offering ** The IP address and port that the offering is received over
+
+Flag format: chant text,new Lord,IP:port
+
+Machine: Minas_Tirith
+
+Solution:
+there is a text file in every user's home folder with chant text in it. They're all the same. 
+witch_king was the only one who didn't have a chant, but he did have a bash script that opened port 9999.
+I found the ip with netstat -ano.
+The chants were executed by a cronjob that executed a bash script called offering. 
+
+
+
+
+
+
+
+/bin/bash -c netcat -lp 3389 < /tmp/NMAP_all_hosts.txt
+
+
+
+
+
+
+
+
