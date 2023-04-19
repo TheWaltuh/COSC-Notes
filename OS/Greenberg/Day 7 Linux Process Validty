@@ -1,0 +1,19 @@
+htop then press F5
+grep UID /etc/login.defs
+ps -eo cmd,pid,euid,ruid          #how to view pid,euid,and ruid of processes running
+
+fork() the kernel creates a nearly identical copy of the process
+exec() the kernel starts the program, replacing the current process
+
+Orphan process - parent process exited, adopted by /sbin/init with PPID of 1
+all daemons are orphans
+disown -a && exit  #forces all children to be adopted
+Zombie - completed process, but has an entry in the process table, waiting for the parent to awknowledge or terminate
+cannot be killed with kill, unless the parent process is killed
+A fork bomb (also known as a “rabbit virus”) is a denial of service (DoS) attack in which the fork system call is 
+recursively used until all system resources execute a command. 
+kill -l       #lists all singal commands such as kill -9 and so on
+
+ps --ppid 2 -lf               #lists all process with a parent process id of 2 (kernel)
+ps --ppid 2 -Nlf              #does the aboce but doesn't list the ppid
+ps -elf --forest              #shows a process tree of child and parent processes
