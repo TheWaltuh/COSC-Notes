@@ -728,19 +728,71 @@ Expand-Archive SysinternalsSuite.zip
 ##HANDLE (not a gui displays handles) (analyze processes)
 .\handle
 
+##########################################################################################################################################################
 
+                                                                        #Day 7#
 
+##########################################################################################################################################################
 
+###Linux Processes
 
+##Kernel Shit
+#All kernel processes are fork()ed from [kthreadd]
+    #PPID of 2 is from [kthreadd]
+#kernel processes run in its own memory space
+#has unrestricted access to the processor and main memory
+      #powerful but dangerous, can easily crash the whole system if not careful
+#area that only the kernel can access is called Kernel Space
 
+#User Shit
+#all user processes are fork()ed from /sbin/init or direct ancestor
+    #PPID of 1 is from /Sbin/init
+#User processes run in a separate memory space
+#restricts access to a (usually quite small) subset of memory and safe CPU operations
+#only has access to parts of the main memory
+      #if mistake made a and crashes the damage is usually limited
+      #kernel can clean up mess made by user mode
 
+##Ownership
+#Effective User ID (EUID)
+    #defines access rights for a process
+#Real User ID (RUID)
+    #defines the user that can interact with the running process most-signifcantly
+            #(who can kill and send sinals to a process)
+#Users ID (UID)
+    #Users can only modify / interact with files /process that they own or are shared with them
+#A user is an entity that can run processes and own files
+    #exist mainly to support permissions and boundaries
+    #every user-space process has a user
 
+##System Calls
+#a system call is an interaction between a process and the kernel
 
+fork()
+    #when a process calls fork, the kernel creates a nearly identical copy of the process
+exec()
+    #when a process calls exec(program) the Kernel starts program replacing the current process
 
+##Orphan and Zombie (DEFUNCT) Processes
 
+#Orphan - Parent process has exited, and is adopted by /sbin/init with PPID of 1
+    #all daemons are orphans
+    disown -a && exit           #close a shell/terminal and force all children to be adopted
 
+#Zombit (DEFUNCT) - completed process, but still has an entry in the process table
+     #stuck waiting on the parent process to give signal to end it
+     #cannot be terminated with kill since it already completed executing (unless parent that spawned it is killed)
+     #don't use resources but take up space on process table
 
+##Commands
 
+ps                            #List processes in Linux (problem is that ps is a snapshot of an instance)
+ps-elf                        #E is every process, L is long format, F is full
 
+top                           #shows live process list 
+htop                          #top but with colors
 
+grep UID /etc/login.defs      #looks for UID in etc/login.defs
+
+kill -l                       #lists all options for how to kill with kill command
 
