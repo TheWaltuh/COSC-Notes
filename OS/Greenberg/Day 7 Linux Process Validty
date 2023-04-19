@@ -59,4 +59,4 @@ Cron Syntax
 
 /usr/sbin/sshd actual location of the executable
 ss -4 -tln              #how to find all listening TCP based sockets
-
+run strings on a filepath for whatever reason
