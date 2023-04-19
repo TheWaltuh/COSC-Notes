@@ -809,6 +809,14 @@ exec()
 | +---------- Hour              (range: 0-23)
 +------------ Minute            (range: 0-59)
 
+#/proc
+#full of directories that are numbers
+      #those numbbers are PID's
+      #when query it do by pid to find for certian process
+ls /proc/<PID>            #how to view contents of the dir for a certian prcoess
+      #can sudo if permission denied on some contents
+
+
 ##Commands
 
 ps                            #List processes in Linux (problem is that ps is a snapshot of an instance)
