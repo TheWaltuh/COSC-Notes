@@ -851,7 +851,8 @@ crontab -l -u [user]          #Displays user’s crontab contents
 crontab -r -u [user]          #Removes user’s crontab contents
 crontab -e -u [user]          #edits user’s crontab contents
 
-
+lsof                          #lists open files
+lsof -c sshd                  #lists open files for sshd process
 
 
 
