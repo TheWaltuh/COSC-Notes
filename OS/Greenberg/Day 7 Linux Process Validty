@@ -34,7 +34,7 @@ Cron Jobs - scheduled tasks a way for adversaries to set persistence
 /var/spool/cron
 /etc/cron.d
 System Cron Jobs
-  controlled by /etc/crontab
+  controlled by /a
   system-wide maintaince tasks
 User Cron Jobs
   CMD: crontab
@@ -54,5 +54,9 @@ Cron Syntax
 | +---------- Hour              (range: 0-23)
 +------------ Minute            (range: 0-59)
 
+ sudo ls -l /proc/<pid>/fd   #getting the file descriptors for processes
+ sudo lsof -a -p 1400        #getting file permissions
+
 /usr/sbin/sshd actual location of the executable
+ss -4 -tln              #how to find all listening TCP based sockets
 
