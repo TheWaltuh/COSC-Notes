@@ -1,6 +1,11 @@
 Stack Number - 20
 admin server - 10.50.35.99
 
+##Useful Op Note Shit
+#/lib/systemd/system   (contains services files (can read those to see what exactly done by services(can find some malicous in there possibly)))
+
+#/home/<user>/.bashrc  (run on logon, can create a .bash_logon and .bash_logout)
+#                      (if shit being done on logon/logout check those to see if anything sus)
 
 ##Persistance Checks
 #/etc/inittab (first file read on boot up)
