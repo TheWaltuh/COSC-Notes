@@ -11,10 +11,23 @@ admin server - 10.50.35.99
 #                      (if shit being done on logon/logout check those to see if anything sus)
 
 ##Persistance Checks
+~~~~~~~~~~~~~~~~~~~~
 #/etc/inittab (first file read on boot up)
 #Cron Jobs
+      #/var/spool/cron
+      #/etc/cron.d 
+      #and the file /etc/crontab
 #scheduled tasks
-#respawn:/bin/netcat -lp 9999
+     #schtasks /query | more
+     #get-scheduledtask
+#Powershell Profiles
+Test-Path -Path $profile.AllUserscurrentHost                #tests to see if created
+          #can be repeated for all others obviously
+
+($profile).AllUsersAllHosts         #gets filepath to check
+          #can repeat for all others obviously
+#/etc/profile (controls system wide default variables)
+#get-item HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run (command to run to check for sus applications or services running)
 
 ############################################################################################################################################################
 
