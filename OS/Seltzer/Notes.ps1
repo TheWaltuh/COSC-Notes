@@ -784,10 +784,40 @@ exec()
      #cannot be terminated with kill since it already completed executing (unless parent that spawned it is killed)
      #don't use resources but take up space on process table
 
+##Cron Jobs
+#run jobs with permissions of the owner of the crontab file
+#checks the directories  below once a minute and executes any commands specified that match the time
+      #/var/spool/cron
+      #/etc/cron.d 
+      #and the file /etc/crontab
+#PLACE TO CHECK FOR PERSISTANCE
+#System Cron Jobs
+      #run as root and rigidly schedules
+      #performs system wide matienance tasks
+      #controled by /etc/crontab
+      
+#User Cron Jobs
+      #use crontab comand to create user cron jobs
+      #stored in /var/spool/cron/crntabs
+#Cron Syntax
+
+* * * * * /directory/and/command
+| | | | |
+| | | | +---- Day of the Week   (range: 0-7, 1 = Monday)
+| | | +------ Month of the Year (range: 1-12)
+| | +-------- Day of the Month  (range: 1-31)
+| +---------- Hour              (range: 0-23)
++------------ Minute            (range: 0-59)
+
 ##Commands
 
 ps                            #List processes in Linux (problem is that ps is a snapshot of an instance)
 ps-elf                        #E is every process, L is long format, F is full
+ps --ppid 2 -lf               #shows all processes with a parent process id of 2
+ps --ppid 1 -lf               #shows all with ppid of 1
+                              #Malicious processes are sometimes orphaned and named to make it look like a daemon process
+
+ps -elf --forest              #
 
 top                           #shows live process list 
 htop                          #top but with colors
@@ -795,4 +825,28 @@ htop                          #top but with colors
 grep UID /etc/login.defs      #looks for UID in etc/login.defs
 
 kill -l                       #lists all options for how to kill with kill command
+kill %<job number>            #terminate process by job number
+kill -19                      #stop / suspend the job
+kill -9 <pid>                 #kill process by its pid
+pkill -9 <process name>       #kill process by its name
+
+jobs                          #Display List of Jobs running in the background
+
+fg                            #Push jobs to the foreground
+bg                            #pull jobs to the backgrounds
+
+man cron                      #to see an example of a daemon service that should run for duration of system operation
+
+crontab                       #command to create user cron jobs
+crontab -u [user] file        #sets users crontab file to the contents of listed file
+crontab -l -u [user]          #Displays user’s crontab contents
+crontab -r -u [user]          #Removes user’s crontab contents
+crontab -e -u [user]          #edits user’s crontab contents
+
+
+
+
+
+
+
 
