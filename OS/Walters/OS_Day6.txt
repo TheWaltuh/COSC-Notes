@@ -1,0 +1,264 @@
+
+OS Day 5
+
+NetWalk is super fun.
+
+
+Important Forms of Persistance:
+	scheduled tasks 
+	PS Profiles
+	Registry Run-keys
+
+
+===========================Windows Process Validity===================================
+
+goal: learn to identify what processes are normal in a windows system. 
+
+
+Abnormal things to see in a process list:
+High PID
+High Memory/CPU usage. 
+
+
+DLL: Dynamic Linked Library
+	Contains binaries the can be called by programs.
+	
+Services: run in their own sessions, non-interactive, fall under svchost.exe
+	don't forget about sc query.
+	use net start to view all services or do simple interaction with services.
+	
+	
+########EchoTrail  -- A website to check if a windows process is legitimate.
+
+get-procecss | select name,id,description | sort --property id
+	**Powersehll command to comb through processes. 
+	
+Don't forget to use get-member when you're stuck.
+
+tasklist /m | more
+	** Show processes and all the dlls it's using.
+	
+
+
+POWERSHELL for Services:::::::
+
+Get-Ciminstance Win32_Service | select Name, Processid, Pathname | more
+	** shows all services and their path.
+	
+get-service
+	** same as above but you can see the state of the service. 
+get-service | where {$_.status -eq "Running"} | ft -wr
+	** get running services, format as table with word wrap
+
+
+
+
+==================================SCHEDULED TASKS===========================================
+
+
+
+SCHEDULED TASKS ARE A FORM OF PERSISTANCE
+
+Important Forms of Persistance:
+	scheduled tasks 
+	PS Profiles
+	Registry Run-keys
+
+GUI  -- Task Scheduler
+	**there is also a sysinternals tool to do it. 
+	
+	
+Powershell:
+	Get-ScheduledTask
+
+
+
+VIEWING NETWORK CONNECTIONS and PROCESS NETWORK ACTIVITY::::::::::::::::
+	
+	Netstat
+		-a  -- all
+		-n  -- get all port numbers and addresses in numerical form
+		-o  -- gives you owning process' PID
+		-b  -- Gives you the executable involved in opening the connection.
+
+
+Always make sure 3rd party programs aren't running out of C:\Windows\System32
+
+
+
+
+
+
+================================SYSINTERNAL TOOLS===================================
+
+Goal: Analyze Windows 
+
+
+Setting up tools
+net use * http://live.sysinternals.com
+**Now I can use Z:\ drive
+
+Calling tool:
+.\Procmon.exe -accepteula
+
+
+PROCMON (process monitor) ::::::::::;
+Advanced monitoring tool for 
+
+You can always use the "Jump to" feature to go to the location of somthing from a sysinternals tool.
+
+
+
+
+AUTORUNS.exe:::::::::::::::
+
+Analyze the Windows startup environment using AUTORUNS
+
+call:
+.\Autoruns.exe -accepteula
+
+
+
+
+
+PROCESS EXPLORER:
+.\procexp -accepteula
+
+Task manager's beefy older brother.
+
+
+
+TCPVIEW:::::::;
+.\tcpview.exe 
+
+like a dynamic gui netstat with max info.
+
+**metasploit default port is 4444
+**watchout for 1337 and other spellings.
+
+
+
+(now start cli tools)
+
+PSEXEC::::::::::
+Analyze Windows privileges' using PsExec; run commands on a remote machine.
+
+.\PsExec.exe -accepteula -s //file-server cmd.exe
+
+
+PSLOGGEDON::::::::::
+show who is logged on right now.
+.\PSLoggedon.exe -acccepteula
+
+LOGONSESSIONS:::::::
+shows logon sessions
+.\logonsessions.exe -accepteula
+
+PSLIST:
+same as get-process
+.\pslist.exe -accepteula
+
+PSINFO:
+gets general version info about system.
+.\PsInfo.exe -accepteula
+
+HANDLE::
+Shows all handles/dlls/resources that processes are pulling from.
+.\handle.exe
+
+
+TO DOWNLOAD SYSINTERNALS TOOLS
+$wc = new-object System.Net.WebClient 
+$wc.DownloadFile("https://download.sysinternals.com/files/SysinternalsSuite.zip","$pwd\SysinternalsSuite.zip")
+Expand-Archive SysinternalsSuite.zip
+
+https://os.cybbh.io/public/os/latest/015_windows_sysinternals/sysint_fg.html  -- THIS SHOWS YOU HOW TO DOWNLOAD SYSINTERNALS TOOLS.
+
+
+
+
+
+
+===========================================User Accout Control==================================================
+
+UAC limits privileges of user run applications.
+
+color coded UAC prompts:
+red - application blocked by policy
+blue/gold - Administrative windows application
+Blue - Trusted and authenticode signed application
+Yellow - Unsigned or signed but not by a trusted application. 
+
+Execution levels:
+asInvoker - run as permissions of the invoker
+requireAdministrator - needs admin priv.
+highestAvalible - run as highest avalible.
+**some windows executables have auto-elevate settings. 
+
+
+.\sigcheck -m C:\Windows\System32\slui.exe 
+	** you can see requestedExecutionLevel and if autoElevate is True/False
+	
+.\strings -s C:\Windows\System32\*.exe | findstr /i autoelevate
+	** search system32 for those permissions. 
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
