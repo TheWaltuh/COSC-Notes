@@ -1,6 +1,12 @@
 Stack Number - 20
 admin server - 10.50.35.99
 
+
+##Persistance Checks
+#/etc/inittab (first file read on boot up)
+#Cron Jobs
+#scheduled tasks
+#respawn:/bin/netcat -lp 9999
 ############################################################################################################################################################
 
                                                                       #Day 1#
