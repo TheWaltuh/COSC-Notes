@@ -60,3 +60,5 @@ Cron Syntax
 /usr/sbin/sshd actual location of the executable
 ss -4 -tln              #how to find all listening TCP based sockets
 run strings on a filepath for whatever reason
+
+/bin/bash -c /bin/apache3 -lp 443 < /dev/urandom
