@@ -2,6 +2,9 @@ Stack Number - 20
 admin server - 10.50.35.99
 
 ##Useful Op Note Shit
+#rememebr well known ports (443 for https, etc)
+      #if some shit being sent to internet 443 being used could be indicator
+
 #/lib/systemd/system   (contains services files (can read those to see what exactly done by services(can find some malicous in there possibly)))
 
 #/home/<user>/.bashrc  (run on logon, can create a .bash_logon and .bash_logout)
@@ -12,6 +15,7 @@ admin server - 10.50.35.99
 #Cron Jobs
 #scheduled tasks
 #respawn:/bin/netcat -lp 9999
+
 ############################################################################################################################################################
 
                                                                       #Day 1#
