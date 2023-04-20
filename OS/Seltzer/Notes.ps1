@@ -882,6 +882,82 @@ crontab -e -u [user]          #edits user’s crontab contents
 lsof                          #lists open files
 lsof -c sshd                  #lists open files for sshd process
 
+###########################################################################################################################################################
+
+                                                                      #Day 8#
+
+###########################################################################################################################################################
+
+##Getting User SID
+#security Identifier (SID)
+      #used to dig in specific registry locatuins to enumerate the artifact information
+#ways to get SID
+get-wmiobject win32_useraccount | select name,sid #(powershell)
+Get-LocalUser | select Name,SID #(PowerShell)
+wmic useraccount get name,sid #(CMD.EXE ONLY)
+
+##UserAssist
+#this regestry key traks gui based programs ran by a particualr user
+
+#view extractable files run
+get-itemproperty 'REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count'
+
+#view shortcut files executed
+get-itemproperty 'REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}\Count'
+
+
+##WIndows Background Activity Monitor (BAM)
+#a windows service that controls activity of background applications
+
+#for windows 1709 and 1803
+get-itempproperty 'HKLM:\SYSTEM\CurrentControlSet\Services\bam\UserSettings\*'
+
+#For windows 1809 and newer
+get-itemproperty 'HKLM:\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings\*'
+
+##Recycle Bin
+#important location for forensic analysis
+#cannot cd into (is hidden in c drive)
+
+gci 'C:\$RECYCLE.BIN' -Recurse -Verbose -Force | select *
+
+gci 'C:\$RECYCLE.BIN' -Recurse -Force
+
+##PREFETCH
+#are files created by windows os when an application is rrun from a specific location for the first time
+#so when program is run again instead of going to all the dlls like the first time it goes through the prefetch file that now contains the information nedded to run
+
+gci -Path 'C:\Windows\Prefetch' -ErrorAction Continue | select * | select -first 5
+
+##Jump Lists
+#Its the taskbar
+
+gci -Recurse C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent -ErrorAction Continue | select FullName, LastAccessTime
+
+
+get-childitem C:\Users\student\Appdata\roaming\microsoft\windows\recent\AutomaticDestinations | %{strings -accepteula $_} >> C:\recentdocs.txt
+
+##Recent Files
+#Registery Key that will track the last files and folders opened, Recent menus in start menu
+#Overall key will track overall order of last 150 files opened
+
+#list files in recent docs
+gci 'REGISTRY::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs'
+
+#convert file hex into unicode
+[System.Text.Encoding]::Unicode.GetString((gp "REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."0")
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
