@@ -947,11 +947,117 @@ gci 'REGISTRY::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\
 #convert file hex into unicode
 [System.Text.Encoding]::Unicode.GetString((gp "REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."0")
 
+#Convert all of a users values from HEX to Unicode
+Get-Item "REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt" | select -Expand property | ForEach-Object { [System.Text.Encoding]::Default.GetString((Get-ItemProperty -Path "REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt" -Name $_).$_)}
 
+###Browser Artifacts
+#Stores details for each user account
+#history will record access to the file on the website that was accessed via the link
 
+##view history
+.\strings.exe 'C:\Users\<username>\AppData\Local\Google\Chrome\User Data\Default\History'
+#or
+strings 'C:\Users\<username>\AppData\Local\Google\Chrome\User Data\Default\History'
 
+##view top sites
+strings 'C:\Users\<username>\AppData\Local\Google\Chrome\User Data\Default\Top Sites' -accepteula
 
+#Find FQDNs in Sqlite Text Files
+$History = (Get-Content 'C:\users\<username>\AppData\Local\Google\Chrome\User Data\Default\History') -replace "[^a-zA-Z0-9\.\:\/]",""
+#or
+$History| Select-String -Pattern "(https|http):\/\/[a-zA-Z_0-9]+\.\w+[\.]?\w+" -AllMatches|foreach {$_.Matches.Groups[0].Value}| ft
 
+###Windows Auditing
+
+#create a file, set content of it, and check to make sure all good 
+new-item C:\Users\andy.dwyer\Desktop\Auditing.txt
+set-content C:\Users\andy.dwyer\Desktop\Auditing.txt "This is the file for Auditing"
+get-content C:\Users\andy.dwyer\Desktop\Auditing.txt
+
+#On desktop set audit policy to full control by 
+Rt click <file> on the desktop > Properties > Security > Advanced > Auditing > Continue > Add > Select a Principle > Type <username> (andy.dwyer) > Check Names > Ok >  Full Control > Ok > Apply > Ok
+
+#view policies in event viewer under Windows Logs > Security
+
+#manual way to do it is
+auditpol /get /category:*
+
+##Commands to Configure Audit Policy
+
+auditpol /get /category:*                                         #View entire auditpol list
+
+auditpol /set /subcategory:"File System"                          #Set File SYstem subcategory to audit
+
+auditpol /set /subcategory:"File System" /success:disable         #Remove File System subcategory auditing
+      
+auditpol /resourceSACL /type:File /view                           #To list the global object access auditing entries set on files or folders:
+
+auditpol /resourceSACL /type:Key /view                            #To list the global object access auditing entries set on Registry Keys
+
+###Windows Event Logs (GUI is Windows Eventviewer)
+##Three main logs
+#Application
+      #Contains events logged by applications
+
+#Security
+      #Contains events such as valid/ invalid logon attempts and other events related to resource use like creating, opening, or deleting files
+
+#System
+      #Contains events logged by system components, such as driver failures other system component to load during startup
+
+#Custom Logs
+      #Can have pretty much anything
+      #Contains events logged by applications that create a custom log.
+      #Using a custom log enables an application to control the size of the log or attach ACLs for security purposes without affecting other applications
+
+eventvwr                #Command to view/analyze event logs (gui)
+      #located in C:\Windows\System32\Winevt
+      #locations are configurable
+
+wevtutil el                          #show all logs
+
+wevtutil gli security                #get log info (in this case security)
+
+wevtutil qe security /c:3 /f:text    #get last three events (in this case from security) 
+
+#POWERSHELL WAY TO VIEW LOGS AND SHIT
+
+Get-EventLog -LogName System -Newest 10         #get 10 newest system logs
+
+Get-Eventlog -LogName Security | ft -wrap       #view entire message field in the security log
+
+get-winevent -FilterHashtable @{logname="security";id="4624"} | select -first 5 | ft -wrap      #search logs with multiple criteria
+
+##EVENT ID'S TO SEARCH FOR MALICIOUS ACTORS
+#Users added to priviledged Group
+      #4728
+      #4732
+      #4756
+#Security-Enabled group Modification
+      #4735
+#Successful/Failed User Account Login
+      #4624
+      #4625
+
+###Powershell Transcript
+##Not enabled by default
+
+Start-Transcript                    #Allows the capture of the input and output of Windows PowerShell commands into text-based transcripts.
+
+Get-History                         #View Powershell console History
+
+Get-Content "C:\users\$env:username\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
+                                    #View entire powershell History
+
+##Script Block Logging
+#logs detailed processing of commands, script blocks, functions, and scripts to the Microsoft-Windows-PowerShell/Operational event log
+#Not enabled by default
+
+#Logging is enabled through turn on of powershell script block logging group policy setting in
+      #Administrative Templates → Windows Components → Windows PowerShell
+
+reg.exe add HKLM\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging\ /v EnableScriptBlockLogging /t REG_DWORD /d 1 /f
+      #Turn on script block logging via the registry
 
 
 
