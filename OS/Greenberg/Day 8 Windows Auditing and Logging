@@ -143,9 +143,3 @@ reg add HKLM\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBl
 4104 show the actual scripts ran, encoded/decoded versions 
 4105 a script started 
 4106 a script ended 
-
-
-
-
-
-
