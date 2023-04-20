@@ -1059,7 +1059,10 @@ Get-Content "C:\users\$env:username\AppData\Roaming\Microsoft\Windows\PowerShell
 reg.exe add HKLM\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging\ /v EnableScriptBlockLogging /t REG_DWORD /d 1 /f
       #Turn on script block logging via the registry
 
+##OP Shits
+%SystemRoot%\System32\winevt\Logs\system.evtx         #records system events like startup and shut down
 
+HKEY_Local_Machine\Security\Policy\PolAdtEv           #registry key that holds audit policy configuration
 
 
 
