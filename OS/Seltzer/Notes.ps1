@@ -898,6 +898,7 @@ wmic useraccount get name,sid #(CMD.EXE ONLY)
 
 ##UserAssist
 #this regestry key traks gui based programs ran by a particualr user
+#Rot13 Cipher used
 
 #view extractable files run
 get-itemproperty 'REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count'
