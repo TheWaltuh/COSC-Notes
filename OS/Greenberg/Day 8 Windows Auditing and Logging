@@ -131,3 +131,21 @@ Audit Log was Cleared: 1102
 System audit policy was changed: 4719
 PS Module Logging (Command Execution): 4103
 PS Script-Block Logging (Script Execution): 4104,4105,4106
+
+
+##History
+Get-Content "C:\users\$env:username\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
+
+##Script Block Logging
+records the content of all script blocks that it processes
+reg add HKLM\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging\ /v EnableScriptBlockLogging /t REG_DWORD /d 1 /f
+4103 is Verbose powershell command execution enabled
+4104 show the actual scripts ran, encoded/decoded versions 
+4105 a script started 
+4106 a script ended 
+
+
+
+
+
+
