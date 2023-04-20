@@ -911,7 +911,7 @@ get-itemproperty 'REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersi
 #a windows service that controls activity of background applications
 
 #for windows 1709 and 1803
-get-itempproperty 'HKLM:\SYSTEM\CurrentControlSet\Services\bam\UserSettings\*'
+get-itemproperty 'HKLM:\SYSTEM\CurrentControlSet\Services\bam\UserSettings\*'
 
 #For windows 1809 and newer
 get-itemproperty 'HKLM:\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings\*'
