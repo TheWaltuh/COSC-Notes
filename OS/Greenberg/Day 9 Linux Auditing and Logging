@@ -1,0 +1,96 @@
+ssh -J
+
+####Linux Auditing and Logging
+
+##What is Logging?
+A record of performance,events,or,day-to-day activities 
+Raw,unprocessed data
+
+##Linux Logging Daemons
+Syslog - Standard System Logging Protocol defined by RFC 5424
+Journald - unique distribution system of Linux
+both store their logs in /var/log
+
+##Syslog Daemon
+configured using /etc/rsyslog
+facility.severity      /path/to/log/location
+	Facility - event that generated the log
+		0 - kernel messages
+		1 - user-level messages
+		2 - mail system
+		3 - system daemons
+		4 - security/authorization messages
+		5 - syslogd messages
+		6 - line printer subsystem 
+		7 - network new subsystem
+	Severity - urgency from 0 (Most Urgent) - 7 (Least Urgent)
+		0 - Emergency :: emerg
+		1 - Alert :: alert
+		2 - Critical :: crit
+		3 - Error :: err
+		4 - Warning :: warning
+		5 - Notice :: notice
+		6 - Informational :: info
+		7 - Debug :: debug
+	path/to/log/location 
+    @@10.10.10.1:514                  #Remote Logging
+
+#Log Rotations
+limit the content in logs based off defined spans of time
+Cron.daily contains logrotate which runs log rotations
+/etc/logrotate.conf
+*vim and zcat read zip files without extracting them*
+
+#Syslog Types and Locations
+	Authentication - logins and authentication
+              authentication related /var/log/auth.log
+			        users currently logged in /var/run/utmp
+				      history file for utmp (use last) /var/log/wtmp
+              failed login attempts (use last) */var/log/btmp
+	              lastb -adF
+	Application - programs
+	System 
+		      /var/log/messages - catch all (Legacy)
+		      /var/log/syslog - catch all (Ubuntu)
+		      dmesg - Device Messenger 
+			      queries /proc/kmsg
+
+##Journald Logs
+system-journald.service logs everything related to *.units
+journalctl rads the log files
+
+##Log Formats
+
+#Simple Text Documents
+read with grep
+#Markup Languages
+use HTML schema
+or XML
+#JavaScript Object Notation (JSON)
+“pretty printing”
+
+
+Minas Sysv5
+cat /etc/rsyslog.conf                     ##if you see a ; it excludes everything after it
+/usr/sbin/rsyslogd
+last -f /var/run/utmp
+last
+ls -l /var/log/messages                   ##catch all
+ls -l /proc/kmsg
+cat /etc/logrotate.conf
+
+
+Terra SystemD
+cat /etc/rsyslog.conf
+systemctl
+/usr/sbin/rsyslogd
+last -f /var/run/utmp
+last
+ls -l /var/log/syslog                     ##catch all
+ls -l /proc/kmsg
+cat /etc/logrotate.conf
+journalctl -e
+journalctl --list-boots
+journalctl -b <boot number>
+journalctl -u ssh.service --since "2 days ago"
+
