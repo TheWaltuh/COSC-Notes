@@ -1,0 +1,163 @@
+
+OS DAY 8
+
+http://10.50.21.56:8000/challenges
+
+
+======================WINDOWS ARTIFACT=============================
+
+an artifact is just leftovers of the user's actions
+
+
+An SID is a security identifier. Every user has one. 
+
+UserAssist is a registry key that keeps track of 
+HKCU:\Software\microsoft\windows\currentversion\Explorer\User
+
+
+Windows Background Activity Moderator (BAM)
+BAM is a windows service that controls activity of background applications.
+
+BAM registry keys. Use get-item or get-childitem to get contents of the key.
+'HKLM:\SYSTEM\CurrentControlSet\Services\bam\UserSettings\*' (Windows 1709 & 1803)
+'HKLM:\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings\*' (Windows 1809 and newer)
+
+
+
+Recycle Bin
+Deleted files go here.
+get-childitem C:\$RECYCLE.BIN -recurse -verbose -Force | select *
+
+
+PreFetch file is a file made from parts of dlls the first time a program runs.
+If a PF file exists, that means a program has executed.
+Location & command to view PF files.:
+gci -Path 'C:\Windows\Prefetch' -ErrorAction Continue
+
+
+
+Jump Lists is the Windows 7-10 taskbar. It has an actual location.
+it's important because it shows launch and modificaiton time for its objects.
+ANYHTING that touches the taskbar comes up here.
+Command:
+get-childitem -recurse C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent -erroraction Continue | select fullname, Lastaccesstime
+
+
+
+recent files is just a list of recent files in file explorer. max 150.
+location & command:
+
+gci 'REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs'
+
+[System.Text.Encoding]::Unicode.GetString((gp "REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."0")
+
+
+
+
+
+
+
+=================================BROWSER ARTIFACTS=======================================
+
+basic location:
+strings 'C:\Users\student\AppData\Local\Google\Chrome\user Data\default\<History, Top Sites, etc.>'
+**There are many useful files to look through in here. 
+
+You have to use strings to read through these files because they're all SQL files.
+
+
+
+
+
+=====================================WINDOWS AUDITING=======================================
+
+
+Event Viewer is the GUI tool to view auditing.
+
+auditpol is the CLI tool.
+auditpol /get /category * 
+
+
+
+
+WINDOWS EVENT LOGS:
+
+3 types of logs:
+Application logs: events logged by applications
+Security logs: login events, resource use, interacting with files.
+system logs: contains events logged by system compunents, such as driver errors, system events...
+
+GUI Tool is Windows Event Viewer. USE THIS IF POSSIBLE.
+
+CLI tool is wevutil
+wevutil el | find /c /v " "  -- shows how many logs I have in total.
+get-winevent -listlog *
+
+powershell: 
+get-eventlog -logname System -newest 10
+shows my 10 newest system logs. 
+
+
+POWERSHELL TRANSCRIPT
+Start-Transcript
+Get-history
+Get-Content C:\users\$env:username\AppData\Roaming\Microsoft\Windows\Powershell\PSReasLine
+
+Registry Location of audit policy:
+HKLM\Security\Policy\PolAdtEv
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

