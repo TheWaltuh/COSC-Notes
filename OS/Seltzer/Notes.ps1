@@ -5,6 +5,8 @@ admin server - 10.50.35.99
 #rememebr well known ports (443 for https, etc)
       #if some shit being sent to internet 443 being used could be indicator
 
+#ssh -J <linux Devices Only>
+
 #/lib/systemd/system   (contains services files (can read those to see what exactly done by services(can find some malicous in there possibly)))
 
 #/home/<user>/.bashrc  (run on logon, can create a .bash_logon and .bash_logout)
@@ -503,7 +505,9 @@ $ cat filename | awk 'NR==M, NR==N'
                                         V                                                             v
                         ------------------------------------                           ------------------------------------
                         |                                  |                           |                                  |
-                        v                                  v                           v                                  v
+                        v                                  v                           v                                  v​
+1160
+
        #CSRSS.exe Session 0                      #WININIT.exe session 0       #CSRSS.exe Session 0             #WINLOGON.exe Session 1
                                                             |                                                             |
                                                             v                                                             v
@@ -1153,20 +1157,60 @@ HKEY_Local_Machine\Security\Policy\PolAdtEv           #registry key that holds a
             #Kernel ring buffer
             #audit records via audit subsystem (auditd)
 
+#Utilizing cron jobs / scripts
+logrotate
+      /etc/logrotate.conf     #(cat to see how rotating (at size and time))
+      #How large to let files get. How long to keep them
+      #when cat in /var/log
+            #.log.1 is log from one <amount of time set ago>
+            #increases num for how many weeks pass stopping at limit set in logrotate
+
 ##Logging Commands
-tail -f                       #Continuously show end of file
-less /var/log/syslog          #View Log in page finder
-logger                        #Send a user generated message to system 
-> /var/log/messages           #wipes logs
-      #
-last -f /var/log{wtmp,btmp}   #needed to view data files
+tail -f                             #Continuously show end of file
+less /var/log/syslog                #View Log in page finder
+logger                              #Send a user generated message to system 
+> /var/log/messages                 #wipes logs
+last -f /var/log{wtmp,btmp}         #needed to view data files
 
+journalctl                          #Print log entries from the the systemd journal
+journalctl --list-boots             #show list of bootnumbers
+journalctl -b <bootnum or shit>     #show contents of given log
+zcat                                #view zipped file without unzipping
+vim                                 #also can do above I think
 
+timesyncd                           #a daemon that has been added for synchronizing the system clock across the network
 
+##Best Practices for loggng
+      #Meaningful Naming Schema
+      #Separate logs logically and by precedence
+      #Sync time across network
+      #Control log access
 
+##Log Formats
+#Simple text document
+      #readable without specific tools (can just grep)
+#Markup Languages
+      #Human readable but designed to have special tools to be looked at
+            #Meant for computer to interpert not humans
+      #uses schema like html so it taks and attributes like a webpage
+#xml
+      #Difficult to read, but it isn’t impossible
+      #to parse need tool
+            Xpath       #tool to parse xml formatted files
+      #xmlns is namespacing attribute
+#JavaScript Object Notation (JSON)
+      #It is human readable, however it is nigh to read without pretty printing it first
+      #serialized data interchange format designed to be parsed by machines
+      jq          #used to query JSON
 
+##Auditing Vs Logging
+#Logging is system/application defines
+#Auditing is user defined
 
-
+[kauditd]                           #runs at the kernel level and can monitor individual syscalls (/sbin/auditd)
+auditctl                            #control/config command
+aureport                            #summary reports of audit logs
+ausearch                            #query audit logs
 
 
 
