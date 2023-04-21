@@ -7,7 +7,7 @@ Linux Auditing and Logging
 
 Daemon  -- orphan process that runs in background under init.
 
-
+http://10.50.21.56:8000/
 
 PROS:
 Remote Logging
@@ -54,7 +54,7 @@ config file:
         
         -mail.info matches all messages produced by the kernel with severity of #equal to and greater than (greater severity) 6/Informational (severity 0 - 6).
         -mail.!info matches all messages produced by the kernel with severity of #less than and not including (lesser severity) 6/Informational (severity 7).
-
+            ! is not inclusive
 
 LOG LOCATION:
 
