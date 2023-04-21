@@ -1147,8 +1147,8 @@ HKEY_Local_Machine\Security\Policy\PolAdtEv           #registry key that holds a
 
 #.info details
 .info             #ip listned across from in rsyslog.conf is location for remote logging 
-*.info - logs all with severity greater than or equal to 7
-*.!info - logs all with severity less than or equal to 6
+*.info - logs all with severity less than than or equal to num
+*.!info - logs all with severity greater than num
 
 ##Logging Daemon
 /usr/sbin/rsyslogd
