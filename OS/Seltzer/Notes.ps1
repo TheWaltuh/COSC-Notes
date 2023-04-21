@@ -1199,12 +1199,14 @@ timesyncd                           #a daemon that has been added for synchroniz
             Xpath       #tool to parse xml formatted files
             xpath -q -e //@addr output.xml                  #output all ip addresses from file output.xml
             xpath -q -e "//@addr|//@portid" output.xml      #output all ipaddresses and ports from file output.xml
+            xpath -q -e "//*[@state='open']/../../../address/@addr| //*[@state='open']/../@portid" output.xml
+                        #takes and returns only open ip's with open ports
       #xmlns is namespacing attribute
 #JavaScript Object Notation (JSON)
       #It is human readable, however it is nigh to read without pretty printing it first
       #serialized data interchange format designed to be parsed by machines
       jq          #used to query JSON
-
+      jq '."id.orig_h" | select ( . != null )' conn.log | sort -u | wc -l     #print a count of all unique ip address in conn.log
 ##Auditing Vs Logging
 #Logging is system/application defines
 #Auditing is user defined
