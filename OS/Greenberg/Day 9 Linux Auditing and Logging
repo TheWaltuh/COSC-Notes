@@ -1,4 +1,4 @@
-ssh -J
+ssh -J an dy.dwyer@10.50.24.175 terra@10.10.0.6
 
 ####Linux Auditing and Logging
 
