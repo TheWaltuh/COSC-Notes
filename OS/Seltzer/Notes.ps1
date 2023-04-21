@@ -1197,6 +1197,8 @@ timesyncd                           #a daemon that has been added for synchroniz
       #Difficult to read, but it isn’t impossible
       #to parse need tool
             Xpath       #tool to parse xml formatted files
+            xpath -q -e //@addr output.xml                  #output all ip addresses from file output.xml
+            xpath -q -e "//@addr|//@portid" output.xml      #output all ipaddresses and ports from file output.xml
       #xmlns is namespacing attribute
 #JavaScript Object Notation (JSON)
       #It is human readable, however it is nigh to read without pretty printing it first
