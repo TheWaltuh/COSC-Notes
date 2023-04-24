@@ -1217,8 +1217,67 @@ aureport                            #summary reports of audit logs
 ausearch                            #query audit logs
 
 
+##########################################################################################################################################################
+
+                                                                        #Day 9#
+
+##########################################################################################################################################################
+
+##Administrator Best Practices
+      #Only give least amount of privilage that is needed for the account
+      #disable to Administrator account
+            #Never log in as administrator
+            #use RUNAS 
+      #Group nesting - groups of groups
+
+#Hunting in the AD
+   #Need to know whats normal on the machine your on
+      #Who
+      #What
+      #Where
+      #When
+      #why
+
+#Signs of sus activities
+      #Unknown admin accounts
+      #Active outside normal work hours
+      #Nested groups
+      #Service accounts logging into hosts
+      #User accounts logging into critical infrastructure (i.e. Domain Controller)
+
+##DSTools
+DSADD             #allows users to add objects to AD
+DSGET             #view the properties of a specific object in the directory
+DSMOD             #Modifies properties of a domain controller
+DSMOVE            #Connects a computer to a remote server or domain that you specify
+DSQUERY           #Connects a computer to a remote server or domain that you specify
+
+##Commands for Active directory
+gpresult                                                                #displays the resulting set of policy settings that were enforced on the computer for the specified user when the user logged on
+Get-GPResultantSetOfPolicy                                              #Same as above but for powershell
+
+Get-ADDefaultDomainPasswordPolicy                                       #gets default password info (requirements)
+
+Get-ADForest                                                            #Gets forest information
+
+Get-ADDomain                                                            #Gets domain information
+
+Get-ADGroup -Filter *                                                   #gets all groups information
+Get-ADGroup -Identity '<Group Name>'                                    #Gets for a specific group
+
+Get-ADGroupMember -Identity '<Group name>' -Recursive                   #Gets list of users in a group
+
+Get-ADUser -Filter 'Name -like "*"'                                     #Gets all AD Users
 
 
+get-aduser -filter {Enabled -eq "FALSE"} -properties name, enabled      #Find all disabled users
+Enable-ADAccount -Identity <name>                                       #enable said user
+
+Set-AdAccountPassword -Identity <actname> -NewPassword (ConvertTo-SecureString -AsPlaintext -String "PassWord12345!!" -Force)
+                              #Sets a new password to the given account
+                              #no return is okay means it worked and met complexity requirements
+
+Add-ADGroupMember -Identity "<group name>" -Members <user>              #adds given user to the given group
 
 
 
