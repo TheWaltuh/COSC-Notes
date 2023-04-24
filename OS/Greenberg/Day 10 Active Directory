@@ -57,6 +57,8 @@ Disable-AdAccount -Identity Guest
 Get-AdGroupMember -identity "Domain Admins" -Recursive | %{Get-ADUser -identity $_.DistinguishedName} | select name, Enabled
 #Get ALL Enterprise Admin accounts
 Get-AdGroupMember -identity "Enterprise Admins" -Recursive | %{Get-ADUser -identity $_.DistinguishedName} | select name, Enabled
+#Expired Accounts
+Search-ADAccount -AccountExpired -UsersOnly | Select-Object Name, SamAccountName, DistinguishedName
 
 ##Display Resultant Set of Policy(RSoP) Information
 #Computer and user node settings
@@ -66,8 +68,9 @@ gpresult /r
 #Force any group policy setting to take affect immediately versus rebooting the computer
 gpupdate /force
 
-
-
+#Finding all unprofessional email addresses
+Get-ADUser -Filter * -Properties EmailAddress | Where-Object -Property EmailAddress -notlike "*.mil@mail.mil"
+ 
 
 
 
