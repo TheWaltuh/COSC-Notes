@@ -1311,7 +1311,9 @@ Search-ADAccount -PasswordNeverExpires
 (Get-ADDomain).NetBIOSName
                   #Gets Short name of domain i am in
 
-
+Get-ADUser -Identity <user> -Properties *  
+                  #displays all infor about users (can be used to find scuffed shit in their information)
+                  
 ###Memory Analysis using Volatility
 ##Volatile Memory
       #Non-persistent
