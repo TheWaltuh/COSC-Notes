@@ -71,7 +71,13 @@ gpupdate /force
 #Finding all unprofessional email addresses
 Get-ADUser -Filter * -Properties EmailAddress | Where-Object -Property EmailAddress -notlike "*.mil@mail.mil"
  
+#Finding all users with reversable encryption on their passwords
+Get-ADUser -Filter 'useraccountcontrol -band 128' -Properties useraccountcontrol
 
+#Finding passwords that never expire
+Search-ADAccount -PasswordNeverExpires
 
+#Domain name
+Get-Addomain
 
 
