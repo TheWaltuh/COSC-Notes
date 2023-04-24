@@ -94,3 +94,9 @@ journalctl --list-boots
 journalctl -b <boot number>
 journalctl -u ssh.service --since "2 days ago"
 
+cat log.txt | grep -i  tty
+
+XPATH
+xpath -q -e //@addr output.xml | md5sum
+xpath -q -e "//@addr | //@portid" output.xml | md5sum
+xpath -q -e '//*[@state="open"]/../../..//@addr | //*[@state="open"]/../..//@portid' output.xml | md5sum
