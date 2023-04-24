@@ -1301,15 +1301,52 @@ gpresult /r                                                            #displays
 
 gpupdate /force                                                         #force any group policy setting to take affect immediately versus rebooting the computer
 
+##OPS 
+Get-ADUser -Filter 'userAccountControl -band 128' -Properties userAccountControl
+                  #Lists users that have reverse password encryption
+
+Search-ADAccount -PasswordNeverExpires
+                  #Lists all users whos password never expires
+
+(Get-ADDomain).NetBIOSName
+                  #Gets Short name of domain i am in
 
 
+###Memory Analysis using Volatility
+##Volatile Memory
+      #Non-persistent
+      #Requires power to maintain stored information; it retains its contents while powereed on, but wipes when loss of power
+            #RAM
+##Nonvolatile Memory
+      #Not erased on loss of power
+      #Hard Drive, etc
 
+##Why Important
+#Data that has not been stored on disk yet is present in memory
+#Files that have been deleted or modified can be scraped from RAM and used as evidence or for timelining an attack
 
+##Order Of Volatility
+      1) CPU registers, cache
 
+      2) Routing table, ARP cache, process table, kernel stats, memory
 
+      3) Temporary file systems
 
+      4) Disk
 
+      5) Remote logging and monitoring data
 
+      6) Physical configuration, network topology
+
+      7) Archival media - backups
+
+##Memory Analysis tools
+#Each os has its own tool
+Linpmem
+
+Winpmem
+
+OSXpmem
 
 
 
