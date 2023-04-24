@@ -1,0 +1,213 @@
+
+
+=========== OS DAY 9 NOTES ===========
+
+
+**LOGGING
+
+Offense:
+	How can someone use this data to detect, investigate, and halt my presence within a system?
+	How can I blend in with standard system activity?
+
+Defense:
+	How can I use this data to determine actions attempted or taken on a host?
+	What artifacts or IOCs(Indicators of Compromise) did the adversary leave behind?
+	
+
+#logging is usually controlled by syslog or journald
+	store in /var/log
+	
+	
+1. syslog daemon
+	configured in /etc/rsyslog
+
+
+*.info 		@@<ip>:port		#all facilities coming on a remote login
+
+facility.severity	/path/to/log
+
+Numerical Code		Facility
+===============================================
+0			kernel messages
+																		
+1			user-level messages
+
+2			mail system
+
+3			system daemons
+
+4			security/authorization messages
+
+5			messages made by syslogd
+
+6			line printer subsystem
+
+7			network news subsystem
+
+
+
+Numerical Code		Severity
+===============================================
+0			Emergency
+
+1			Alert
+
+2			Critical
+
+3			Error
+
+4			Warning
+
+5			Notice
+
+6			Informational
+
+7			Debug
+
+
+
+- grep timesyncd /var/log/syslog #filtering syslog log files
+
+- grep -R "\w*\.\w*\.\w*" /var/log/syslog 
+	#match on the patterns that loosely resemble an IP address or domain names
+	
+	
+log types
+
+---authentication
+
+/var/log/auth.log	- authentication related events
+/var/run/utmp		- users logged in currently
+/var/log/wtmp		- history file for utmp
+/var/log/btmp		- failed login attemps
+
+
+--application
+
+apache - web server
+apt    - package manager
+/var/log/mysql.log
+
+
+--system
+
+/var/log/messages - lgeacy catch all
+/var/log/syslog   - ubuntu/debian catch all
+dmesg             - device messenger (proc/kmsg)
+
+last -f /var/run/utmp 	#-f is force
+
+
+**LOG ROTATIONS
+	#cron job runs logrotate, path /etc/logrotate.conf	(weekly)
+
+
+vim and zcat to look at authlogs
+
+
+**JOURNALD LOGS
+
+- journalctl -e		#show last logs received
+
+- journalctl --list-boots
+	#show boot ids (machine restart)
+
+-journalctl -b <boot id>
+	#shows only log with listed boot id
+	
+- journalctl -u ssh.service
+	#shows only ssh.service logs in journalctl
+	
+- journalctl -u ssh.service --since "2 days ago"
+	#ssh logs from up to 2 days ago
+	
+
+**MARKUP LANGUAGES
+
+ex. XML
+
+parse with http://xpather.com/
+read with  https://www.freeformatter.com/xml-formatter.html#ad-output
+	
+xpath syntax: 	xpath -q -e '//element/@attribute' file.xml
+	
+	
+</host>
+<host starttime="1615317877" endtime="1615318255"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="10.50.29.250" addrtype="ipv4"/>
+<hostnames>
+
+
+- xpath -q -e //host[*]/address/@addr	
+	
+	getting host from the first line, then * for all instances of host, then the property= addr
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

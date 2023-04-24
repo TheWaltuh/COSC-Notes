@@ -1,0 +1,178 @@
+
+
+=========== OS DAY 7 NOTES ============
+
+
+
+*VIEWING PROCESSES
+
+
+- ls -elf 	#to view and format processes
+	e - all processes
+	l - long format
+	f - full format
+
+#all kernel processes are forked off of [kthreadd] PID=2	*brackets mean kernel process
+#all user processes are forked off of /sbin/init   PID=1
+
+
+- htop		#live viewing of processes
+
+
+*OS PROTECTION
+
+ring 3	#least privilege, applications
+
+ring 2	#device drivers
+
+ring 1	#device drivers
+
+ring 0	#most privilege, kernel
+
+
+grep UID /etc/login.defs	#range of user IDs for system and human users
+
+
+
+*SYSTEM CALL
+
+		      --> shell<3>
+                     |
+shell<1> --> fork<2> |
+		      --> copy of shell<4> --> exec(ls)<5> --> ls<6>
+		      
+		    
+*SIGNALS
+
+#signals are interrupts sent to a program to indicate that an important event has occured
+
+kill -l	#shows are signals available for kill command
+
+ps --ppid 2 -lf |  head					#show only [kthreadd] processes
+
+ps --ppid 1 -Nlf					#exclude that ppid
+
+ps -elf --forest | tail				#display output in ascii tree
+
+[ps -o ppid= -p <pid>, then run ps -e | grep <pid>]	#find parent process 
+
+
+zombie process	#process whose execution is copleted but still has a entry in process table.
+orphan process	#parent process is dead and it gets adopted by /sbin/init
+
+
+*CRONJOBS
+
+#cron jobs can be used to establish persistence
+
+two types:
+
+system
+	run as root and rigidly scheduled
+	perform system-wide maintenance tasks (Cleaning out /tmp or rotating logs)
+	controlled by /etc/crontab
+
+user
+	Use 'crontab’ command to create user cron jobs
+	stored in /var/spool/cron/crontabs/
+
+
+crontab -u [user] file This command will load the crontab data from the specified file
+
+crontab -l -u [user] This command will display/list user’s crontab contents
+
+crontab -r -u [user] This Command will remove user’s crontab contents
+
+crontab -e -u [user] This command will edit user’s crontab contents
+
+  ┌──────────────── minute (0 - 59)
+  │ ┌───────────── hour (0 - 23)
+  │ │ ┌───────────── day of the month (1 - 31)
+  │ │ │ ┌───────────── month (1 - 12)
+  │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday;
+  │ │ │ │ │                           7 is also Sunday on some systems)
+  │ │ │ │ │
+  │ │ │ │ │
+  * * * * * <Time/Day to execute    "Command to Execute"
+  
+  
+ex. 
+
+* Run backup everyday at 0412
+** `12 4 * * *`    /usr/bin/backup
+
+
+**PROCESSES AND PROC DIR
+
+
+- sudo lsof | tail -30	#List all open files being used by every process.
+
+
+-sudo lsof -c sshd	#List all open files for a specific process.
+
+
+interpretting descriptors:
+
+# - The number in front of flag(s) is the file descriptor number used by the process associated with the file
+u - File open with Read and Write permission
+r - File open with Read permission
+w - File open with Write permission
+W - File open with Write permission and with Write Lock on entire file
+mem - Memory mapped file, usually for share library
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

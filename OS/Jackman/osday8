@@ -1,0 +1,299 @@
+
+
+=========== OS DAY 8 NOTES ===========
+
+**ARTIFACT
+
+#Artifacts are objects or areas within a computer system that contain important information relevant to the activities performed on the system by the user
+
+#Many artifacts will require the use of a Security Identifer (SID) to dig into the user specific registry locations for the artifact information
+
+- Get-LocalUser | select Name,SID			#shows local users
+
+- Get-WmiObject win32_account | select name,sid		#shows local and domain users
+
+
+- wmic UserAccount get name,sid (cmd.exe)
+
+
+**USERASSIST
+
+#The UserAssist registry key tracks the GUI-based programs that were ran by a particular user.
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count\
+	#where they're located and encoded in ROT13
+		CEBFF5CD-ACE2-4F4F-9178-9926F41749EA #A list of applications, files, links, and 			other objects that have been accessed
+
+		F4E57C4B-2036-45F0-A9AB-443BCFE33D9F #Lists the Shortcut Links used to start programs
+		
+**DEMO
+
+Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count"
+
+#Executable files encoded with ROT13. Copy/ Paste the output into a decoder site like Rot13 or CyberChef
+
+
+Get-ItemProperty "Registry::Hkey_Users\*\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count"
+
+#look at all users UserAssist artifacts
+
+
+
+**BAM
+
+#background activity monitor
+	full path to execuatable
+	last execution date/time
+
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\bam\State\UserSettings #1809 and newer
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\bam\UserSettings #1803 and below
+
+
+os version:
+
+cmd - systeminfo
+
+psh - Get-ComputerInfo | select osname,osversion,OsHardwareAbstractionLayer
+
+
+#can input sid of a user or * at the end of BAM query
+
+ex. 
+Get-Itemproperty 'HKLM\SYSTEM\CurrentControlSet\Services\bam\
+State\UserSettings\S-1-5-21-1584283910-3275287195-1754958050-1005'
+
+
+**Recycle Bin
+
+#when a file is deleted it goes into recycle, data is recoverable during investigation
+
+SID - determines which user deleted it
+
+Timestamp - When it was deleted
+
+$RXXXXXX - content of deleted files
+
+$IXXXXXX - original PATH and name
+
+-path C:\$Recycle.bin
+
+- Get-Childitem 'C:\$RECYCLE.BIN' -Recurse -Verbose -Force | select FullName #get content of recycle
+
+- wmic useraccount where 'sid="S-1-5-21-1584283910-3275287195-1754958050-1005"' get name
+	#find out which user did what with the sid listed in recycle
+
+- Get-Content 'C:\$Recycle.Bin\S-1-5-21-1584283910-3275287195-1754958050-1005\$R8QZ1U8.txt'
+	#read contents
+	
+
+**PREFETCH
+
+#prefetch files created when an application is run from a specific location for the first time
+	#.PF extension
+	#entries can remain after program has been deleted or unistalled
+	-path C:\Windows\Prefetch
+
+- Get-Childitem -Path 'C:\Windows\Prefetch' -ErrorAction Continue | select -First 8 
+    Directory: C:\Windows\Prefetch
+    
+    
+**JUMP LISTS
+
+#allows users to access items they frequently use
+#The data stored in the Automatic Destinations folder will each have a unique file prepended with the AppID of the associated application.
+
+		First time of execution of application.
+
+		Creation Time = First time item added to the AppID file.
+
+		Last time of execution of application w/file open.
+
+		Modification Time = Last time item added to the AppID file.
+
+location:
+C:\%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations
+
+ex. (C:\Users\king\AppData\Roaming\Microsoft\Windows\Recent)
+
+- Get-Childitem -Recurse C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent -ErrorAction Continue | select FullName, LastAccessTime 
+
+or
+
+- Get-Childitem -Recurse $env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Recent -ErrorAction SilentlyContinue | select FullName,LastAccessTime
+
+or
+
+- Gci C:\users\student\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations | % {z:\strings.exe -accepteula $_} >> c:\recentdocs.txt
+
+
+1#shows all users jump list artifacts
+2#shows jumplist of curently logged user
+3#more readable output outputted to file
+
+
+
+**RECENT FILES
+
+#Registry Key tracks opened files 
+
+- path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs
+	HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt
+
+
+- Get-Item 'Registry::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.*'
+	#see type of files/info stored recently with *
+
+
+- Get-Item 'Registry::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\
+.txt'
+	#.txt to see text files
+
+
+- [System.Text.Encoding]::Unicode.GetString((gp "REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."0")
+	#converting single value hex to unicode
+
+
+- Get-Item "REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt" | select -Expand property | ForEach-Object {
+    [System.Text.Encoding]::Default.GetString((Get-ItemProperty -Path "REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt" -Name $_).$_)}
+    	#convert all user values
+
+
+
+**BROWSER ARTIFACTS
+
+#stores data for each user account, records site visitation
+
+- path %USERPROFILE%\AppData\Local\Google\Chrome\User Data\Default\history
+	C:\Users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\
+
+
+.\strings.exe 'C:\users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\History' -accepteula
+	#frequency
+	
+strings.exe 'C:\users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\Top Sites'
+	#most visited
+	
+strings.exe  'C:\users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\Login Data'
+	#user creds were entered
+
+
+1.$History = (Get-Content 'C:\users\student\AppData\Local\Google\Chrome\User Data\Default\History') -replace "[^a-zA-Z0-9\.\:\/]",""
+
+
+2.$History| Select-String -Pattern "(https|http):\/\/[a-zA-Z_0-9]+\.\w+[\.]?\w+" -AllMatches|foreach {$_.Matches.Groups[0].Value}| ft
+
+
+	#create variable to get content from browser hist file, then cleans output to only show URLs
+
+
+**AUDITING
+
+- new-item C:\Users\andy.dwyer\Desktop\Auditing.txt
+	-set-content C:\Users\andy.dwyer\Desktop\Auditing.txt "This is the file for Auditing"
+
+	-get-content C:\Users\andy.dwyer\Desktop\Auditing.txt
+
+
+#Rt click <file> on the desktop > Properties > Security > Advanced > Auditing > Continue > Add > Select a Principle > Type <username> (andy.dwyer) > Check Names > Ok >  Full Control > Ok > Apply > Ok
+
+
+#eventvwr 
+> Windows Logs > Security
+
+
+#enable audit object access
+- auditpol /get /category:*
+- auditpol /get /category:"Object Access"
+- auditpol /get /subcategory:"File System"
+	- auditpol /set /subcategory:"File System"			#enabled
+	- auditpol /set /subcategory:"File System" /success:disable	#back to default
+
+
+**EVENT LOGS
+
+#3 different types
+
+	Application = logged by applications
+	
+	Security = valid/invalid lgon attemps or creating, opening, deleting file
+	
+	System
+	
+psh - get-eventlog or get-winevent	#winevent covers default and custom application logs
+	eventlog ex.
+	Get-EventLog -LogName System -Newest 10				
+	Get-EventLog -LogName System -Newest 3 | Format-Table -Wrap
+	Get-Eventlog -LogName Security | ft -wrap				#view all messages
+	Get-Eventlog -LogName Security | ft -wrap | findstr /i StR1nG	#search for string
+
+	winevent ex.
+	Get-WinEvent -Listlog *						#all logs
+	(Get-WinEvent -Listlog *).count					#number of logs
+	Get-WinEvent -Listlog * | findstr /i "Security"			#deal with security
+	Get-Winevent -FilterHashtable @{logname='Security';id='4624'} | ft -Wrap 
+		#current user
+										
+	Get-Winevent -FilterHashtable @{logname='Security';id='4624'} | ft -Wrap | findstr /i "generated"
+		#search for specific string			
+										
+	Get-WinEvent Microsoft-Windows-PowerShell/Operational | Where-Object {$_.Message -ilike "*RunspacePool*"} | Format-List
+		#search through operational logs 			
+		
+	Get-WinEvent Microsoft-Windows-PowerShell/Operational | Where-Object {$_.Message -ilike "*Pipeline ID = ##"} | Format-List
+		#search for specific pipeline ID							
+
+cmd - wevtutil
+	ex.
+	wevtutil el				#enumerate logs
+	wevtutil el | find /c /v ""		#count lines and invert string 
+	wevtutil gli security			#shows security log info
+	wevtutil qe security /c:3 /f:text	#shows last 3 events with query even, human readable
+
+
+SAMPLES EVEN IDS
+
+
+							ID		LEVEL		EVENT LOG
+
+Account Lockouts					4740		informational	security
+
+User Added to Privileged Group             4728, 4732,4756		informational	security
+
+Security-Enabled group Modification			4735		informational	security
+
+Successful User Account Login				4624		informational	security
+
+Failed User Account Login				4625		informational	security
+
+Account Login with Explicit Credentials		4648		informational	security
+
+Event Log was Cleared					104		
+
+Audit Log was Cleared					1102				security	
+
+System audit policy was changed			4719		
+
+PS Module Logging (Command Execution)			4103		
+
+PS Script-Block Logging (Script Execution)  4104,4105,4106
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
