@@ -1327,6 +1327,19 @@ Get-ADUser -Identity <user> -Properties *
 #Data that has not been stored on disk yet is present in memory
 #Files that have been deleted or modified can be scraped from RAM and used as evidence or for timelining an attack
 
+##Volitality Command exs
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" imageinfo
+            #gets info like profile type of memory
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 psscan
+            #scans the memory for processes
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 procdump -p 1640 -D .
+            #dumps the ip of the given ip address to be able to pull hash of it
+get-filehash .\executable.1640.exe
+            #gets sha256 hash of the dumped process
+            -algorithm MD5 #Will get md5 hash instead of sha256
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 connscan
+            #scans the given file and using profile discovered for connections made
+
 ##Order Of Volatility
       1) CPU registers, cache
 
