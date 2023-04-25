@@ -404,14 +404,266 @@ run strings on a filepath for whatever reason
            Windows_Auditing_Logging
 ##############################################
 
+____What is an Artifact?
+Get-LocalUser | Select-Object Name,SID
+will show local users
+Get-WMIObject win32_useraccount | Select-Object name,sid
+will show local and domain users
+CMD: mic UserAccount get name,sid
+will show local users
+____UserAssist
+tracks the GUI-based programs that were ran by a particular user
+HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count\
+GUID
+CEBFF5CD …
+ 	applications, files, links, and other objects that have been accessed
+F4E57C4B …
+  shortcut links used to start programs
+reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count"
+**WorkStation 2 is 1803 and below**
+**net use * http://live.sysinternals.com**
+____Windows Background Activity Moderator (BAM)
+only after windows 10 version 1709
+Get-ComputerInfo | Select-Object osname,osversion,OsHardwareAbstrationLayer
+CMD: systeminfo
+1809 and newer (Windows 10.0.17763)
+HKLM\System\CurrentControlSet\Services\bam\State\UserSettings
+1803 and below (Windows 10.0.17134)
+HKLM\System\CurrentControlSet\Services\bam\UserSettings
+Get-Item HKLM:\System\CurrentControlSet\Services\bam\UserSettings\*
+____Recycle Bin
+Get-Childitem ‘C:\Recycle.bin’ -recurse -verbose -force | Select-Object FullName
+which useraccount where ‘sid=“<sid>”’ get name
+TimeStamp - when it was deleted
+$RXXXXXX - contents
+$IXXXXXX - original path and name
+____Prefetch
+when an application is run from a specific location for the first time
+.PF extension
+C:\Windows\Prefetch
+Get-ChildItem -Path 'C:\Windows\Prefetch\' -ErrorAction Continue | Select-Object -First 8
+____Jump Lists
+C:\Users\<username>\Appdata\Romaing\Microsoft\Windows\Recent\AutomaticDestinations
+Get-ChildItem -Recurse C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent -ErrorAction Continue | Select-Object Name, LastAccessTime 
+Get-ChildItem C:\Users\student\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\ | % {Z:\strings.exe -accepteula $_} >> C:\recentdocs.txt
+____Recent Files
+HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs
+Get-Item 'Registry::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.*'
+[System.Text.Encoding]::Unicode.GetString((Get-ItemProperty "Registry::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."<propertyNumber>")
+____Browser Artifacts
+records number of time a site is visited per user
+C:\Users\<username>\AppData\Local\Google\Chrome\UserData\Default\History
+Z:\strings.exe 'C:\Users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\History' -accepteula
+Z:\strings.exe 'C:\Users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\Login Data' -accepteula
+Z:\strings.exe 'C:\Users\andy.dwyer\AppData\Local\Google\Chrome\User Data\Default\Top Sites' -accepteula
+$History = (Get-Content 'C:\users\student\AppData\Local\Google\Chrome\User Data\Default\History') -replace "[^a-zA-Z0-9\.\:\/]",""
+$History | Select-String -Pattern "(https|http):\/\/[a-zA-Z_0-9]+\.\w+[\.]?\w+" -AllMatches|foreach {$_.Matches.Groups[0].Value}| ft
+____Auditing
+a way of tracking what events get logged on the system
+event viewer in the GUI (Security)
+auditpol /get /category:*
+auditpol /get /subcategory:"System Integrity"
+____Event Logs
+records of events that happen on the computer
+*.evtx
+Get-Eventlog
+Get-WinEvent
+CMD: wevtutil
+auditpol /get /category:"Object Access"
+(Get-WinEvent -ListLog *).count
+____Application Logs
+wevtutil gli application
+Get-EventLog -LogName Application -Newest 10
+____Security Logs
+valid/invalid logon attempts, creating and deleting files, etc.
+wevtutil gli security
+Get-EventLog -LogName Security -Newest 3 | Format-Table -wrap
+Get-WinEvent -ListLog * | findstr /i "Security"
+Get-Winevent -FilterHashtable @{logname='Security';id='4624'} | ft -Wrap
+____System Logs
+driver failures or other system components to load during startup
+wevtutil gli system
+Get-EventLog -LogName System -Newest 10
+Get-WinEvent -ListLog * | findstr /i "System"
+Account Lockouts: 4740
+User Added to Privileged Group: 4728, 4732, 4756
+Security-Enabled group Modification: 4735
+Successful User Account Login: 4624
+Failed User Account Login: 4625
+Account Login with Explicit Credentials: 4648
+Event Log was Cleared: 104
+Audit Log was Cleared: 1102
+System audit policy was changed: 4719
+PS Module Logging (Command Execution): 4103
+PS Script-Block Logging (Script Execution): 4104,4105,4106
+____History
+Get-Content "C:\users\$env:username\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
+
 ##############################################
             Linux_Auditing_Logging
 ##############################################
+
+ssh -J andy.dwyer@10.50.24.175 garviel@10.10.0.6
+
+____Syslog Daemon
+configured using /etc/rsyslog
+facility.severity      /path/to/log/location
+	Facility - event that generated the log
+		0 - kernel messages
+		1 - user-level messages
+		2 - mail system
+		3 - system daemons
+		4 - security/authorization messages
+		5 - syslogd messages
+		6 - line printer subsystem 
+		7 - network new subsystem
+	Severity - urgency from 0 (Most Urgent) - 7 (Least Urgent)
+		0 - Emergency :: emerg
+		1 - Alert :: alert
+		2 - Critical :: crit
+		3 - Error :: err
+		4 - Warning :: warning
+		5 - Notice :: notice
+		6 - Informational :: info
+		7 - Debug :: debug
+	path/to/log/location 
+    @@10.10.10.1:514                  #Remote Logging
+____Log Rotations
+/etc/logrotate.conf
+*vim and zcat read zip files without extracting them*
+____Syslog Types and Locations
+	Authentication - logins and authentication
+              authentication related /var/log/auth.log
+			        users currently logged in /var/run/utmp
+				      history file for utmp (use last) /var/log/wtmp
+              failed login attempts (use last) */var/log/btmp
+	              lastb -adF
+	Application - programs
+	System 
+		      /var/log/messages - catch all (Legacy)
+		      /var/log/syslog - catch all (Ubuntu)
+		      dmesg - Device Messenger 
+			      queries /proc/kmsg
+___Minas Sysv5
+cat /etc/rsyslog.conf                     ##if you see a ; it excludes everything after it
+/usr/sbin/rsyslogd
+last -f /var/run/utmp
+last
+ls -l /var/log/messages                   ##catch all
+ls -l /proc/kmsg
+cat /etc/logrotate.conf
+___Terra SystemD
+cat /etc/rsyslog.conf
+systemctl
+/usr/sbin/rsyslogd
+last -f /var/run/utmp
+last
+ls -l /var/log/syslog                     ##catch all
+ls -l /proc/kmsg
+cat /etc/logrotate.conf
+journalctl -e
+journalctl --list-boots
+journalctl -b <boot number>
+journalctl -u ssh.service --since "2 days ago"
+cat log.txt | grep -i  tty
+___XPATH
+xpath -q -e //@addr output.xml | md5sum
+xpath -q -e "//@addr | //@portid" output.xml | md5sum
+xpath -q -e '//*[@state="open"]/../../..//@addr | //*[@state="open"]/../..//@portid' output.xml | md5sum
 
 ##############################################
                Memory_Analysis
 ##############################################
 
+____Extract Volatility
+Expand-Archive 'C:\Users\Public\Desktop\Memory\vol_standalone.zip' "$HOME\Desktop\Memory Analysis" -Force
+cd 'C:\Users\andy.dwyer\Desktop\Memory Analysis\volatility_2.6_win64_standalone\'
+____Extract memdump
+Expand-Archive 'C:\Users\Public\Desktop\memdump.zip' "$HOME\Desktop\Memory Analysis" -Force
+
+.\volatility_2.6_win64_standalone.exe -h 
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" imageinfo
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 -h
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 pslist
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 psscan
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 pstree 
+Set-MpPreference -ExclusionPath 'C:\Users\andy.dwyer\Desktop\Memory_Analysis\'
+  .\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 procdump -p 1640 -D .
+  get-filehash .\executable.1640.exe
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 memdump -p 1640 -D .
+  net use * \\live.sysinternals.com\tools
+  .\strings.exe -accepteula "1640.dmp" > 1640.txt 
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 connections
+.\volatility_2.6_win64_standalone.exe -f ".\cridex.vmem" --profile=WinXPSP2x86 connscan
+
 ##############################################
           Active Directory Enumeration
 ##############################################
+
+____Group Policy Object Queries
+gpresult
+Get-GPResultantSetofPolicy
+OU-Organizational Unit
+Get-Command -Module activedirectory
+____Default Domain Password Policy
+Get-ADDefaultDomainPasswordPolicy
+___Fine-Grained Password Policies
+Get-ADFineGrainedPasswordPolicy -Filter {name -like "*"}
+___Forest details
+Get-ADForest
+___Domain details
+Get-ADDomain
+___AD Groups
+Get-ADGroup -Filter *
+___Groups details
+Get-ADGroup -Identity 'IA Analysts Team'
+___Groups members
+Get-ADGroupMember -Identity 'IA Analysts Team' -Recursive
+___AD users
+Get-ADUser -Filter 'Name -like "*"'
+___Additional properties
+Get-ADUser -Identity 'Nina.Webster' -Properties Description
+____Enumerate Users
+___Find Disabled users
+Get-ADuser -filter {Enabled -eq "FALSE"} -properties name, enabled
+___Enable that user
+Enable-ADAccount -Identity guest
+___Change the password
+Set-AdAccountPassword -Identity guest -NewPassword (ConvertTo-SecureString -AsPlaintext -String "PassWord12345!!" -Force)
+___Add the user to an Admin Group
+Add-ADGroupMember -Identity "Domain Admins" -Members guest
+___Distinguished Name to match AD format
+Get-ADuser -filter * | select distinguishedname, name
+___Create a new user
+New-ADUser -Name "Bad.Guy" -AccountPassword (ConvertTo-SecureString -AsPlaintext -String "PassWord12345!!" -Force) -path "OU=3RD PLT,OU=CCO,OU=3RDBN,OU=WARRIORS,DC=army,DC=warriors"
+___Enable the user
+Enable-ADAccount -Identity "Bad.Guy"
+___Add the user to an Admin Group
+Add-ADGroupMember -Identity "Domain Admins" -Members "Bad.Guy"
+___Remove User
+Remove-ADUser -Identity "Bad.Guy"
+___Remove From Group
+Remove-ADGroupMember -Identity "Domain Admins" -Members guest
+___Disable Guest account
+Disable-AdAccount -Identity Guest
+___Get All Domain Admin Accounts
+Get-AdGroupMember -identity "Domain Admins" -Recursive | %{Get-ADUser -identity $_.DistinguishedName} | select name, Enabled
+___Get ALL Enterprise Admin accounts
+Get-AdGroupMember -identity "Enterprise Admins" -Recursive | %{Get-ADUser -identity $_.DistinguishedName} | select name, Enabled
+___Expired Accounts
+Search-ADAccount -AccountExpired -UsersOnly | Select-Object Name, SamAccountName, DistinguishedName
+____Display Resultant Set of Policy(RSoP) Information
+___Computer and user node settings
+gpresult /user Administrator /v
+___Machine and logged on user
+gpresult /r
+___Force any group policy setting to take affect immediately versus rebooting the computer
+gpupdate /force
+___Finding all unprofessional email addresses
+Get-ADUser -Filter * -Properties EmailAddress | Where-Object -Property EmailAddress -notlike "*.mil@mail.mil"
+___Finding all users with reversable encryption on their passwords
+Get-ADUser -Filter 'useraccountcontrol -band 128' -Properties useraccountcontrol
+___Finding passwords that never expire
+Search-ADAccount -PasswordNeverExpires
+____Domain name
+Get-Addomain
