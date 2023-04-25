@@ -1,0 +1,417 @@
+##############################################
+                  PowerShell
+##############################################
+xfreerdp /u:student /v:10.50.24.175 +glyph-cache +clipboard +dynamic-resolution
+Stack 10
+
+_____CIM Classes
+Get-CimClass                                                                   #Lists all CIM Classes
+Get-CimInstance -Namespace <instance> -ClassName <class>                       #lists the class from the instance
+Get-CimInstance -ClassName Win32_LogicaLDisk -Filter "DriveType=3"             #Microsoft is transitioning to using CIM classes
+Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=3"                   #Same Output as the command above
+___WQL for WMI for CIM Classes
+Get-CimInstance -ClassName win32_product -Filter 'name like "microsoft%"'   #What is the %?
+____Execution Policy
+Get-ExecitionPolicy -list                                            #Lists all of the Scopes and Execution Policies on the system
+Get-ExecutionPolicy                                                  #Gets the current user's Execution Policy
+Set-ExecutionPolicy -ExecutionPolicy <see below> -Scope CurrentUser  #Sets the ExecutionPolicy of the CurrentUser to one listed
+____PowerShell Profiles
+All Users, All Hosts                             #The following list boots up in the order listed              
+All Users, Current Host            
+Current User, All Host             
+Current User, Current Hosts        
+$PSHome                                           #Stores installation directory for PowerShell
+$Profile                                          #Displays the paths to the profiles that are available in the current session
+$profile | get-member -Type Noteproperty
+Test-Path -Path $profile                          #Displays the profile values of Names, MemberType, and Paths
+Test-Path -Path $profile.currentUserAllHosts
+Test-Path -Path $profile.AllUsersAllHosts
+Test-Path -Path $profile.AllUserscurrentHost
+New-Item -ItemType File -Path $profile -Force     #creates a new profile
+New-Alias -Name DemUsers -Value Get-LocalUser #saves a new-alias in the created profile, anytime the profile gets loaded up it does not need to be redefined
+____Windows Remoting
+Get-PSSessionConfiguration    #Gets the registered session configurations on the computer.
+Session Configurations        #determine the users who can connect to the computer remotely and the commands they can run.
+Enable-PSRemoting             #configures the computer to receive PowerShell remote commands that are sent
+Invoke-Command                #runs commands on a local or remote computer and returns all output from the commands, including errors
+____Name-Spaces
+([System.Text.Encoding]::GetBytes)
+
+
+##############################################
+                   Registry
+##############################################
+
+____Hive
+1. HKU: Users: constains the ntuser.dat for all users
+2. HKLM: Local Machine: SAM(Security Account Manager), system related information, boot/kernal functions, etc.
+3. HKCU: Current User: individual settings. Symbolic Link
+4. HKCR: Classes Root: backward compatibility, and file extension information. Symbolic Link
+5. HKCC: Current Config: current hardware profile. Symbolic Link
+___Viewing and Manipulating the Registry
+regedit.exe /? or reg.exe /?
+___CMD
+reg.exe query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+___PowerShell
+Get-LocalUser | select-object name, sid                           #Gets all of the names and SID's for users on the system
+Get-Childitem HKLM:\SOFTWARE\Microsost\Windows\CurrentVersion     #Does not show subkeys
+                                                                  #Get-Childitem lists all of the items within that folder that are keys
+Get-Item HKLM:\SOFTWARE\Microsost\Windows\CurrentVersion\Run      #Lists subkeys. Used to check for persistence
+New-Item -Path $registryPath
+New-ItemProperty -Path $registryPath -Name $name -Value $value -PropertyType $datatype
+Remove-Item ^^
+Remove-ItemProperty ^^
+___MITRE 
+.alt backup files for registry from Windows 2000
+.log a log file for the registry which shows the changs made to the registry
+.sav backup files created at the end of text mode
+___Data Types
+REG_SZ: String
+REG_BRINARY: Binary
+REG_DWORD: 32-bit integer
+REG_LINK: Symbloic Link
+REG_MULTI_SZ: Multi-String Values
+REG_QWORD: 64-bit integer
+___PSDrive
+*Only accessed through PowerShell*
+Get-PSDrive  
+    Root- where its going 
+    Provider- type of PSDRIVE
+New-PSDrive -Name FileServer -PSProvider FileSystem -Root "\\file-server\warrior share"
+____OP Notes
+This PC->Computer->MapNetworkDrive will just add that server file system to your computer
+get-item HKLM:\SYSTEM\CURRENTCONTROLSET\ENUM\USBSTOR                 #Checks to see if any USBdrives have been plugged in
+get-childitem "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles"   #find suspciious network activty
+get-childitem "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\"          #find suspciious profiles
+
+##############################################
+            Alternate Data Streams
+##############################################
+
+____Alternate Data Streams
+Cannot be dsiabled
+microsofts attempt at implementing dilesystem forms in order to maintain compatilibity
+Stores metadata, like file attributes, icons, etc
+Does not change the MD5 Hash
+[filename.extension]:[alternate_stream_name]::$DATA
+___PowerShell
+echo "Coffe runs the world" > coffee.txt
+ls
+Get-Content .\coffee.txt 
+Set-Content .\coffee.txt -value "Horns social security number is 123-45-6789" -stream secret.info
+ls
+Get-Content .\coffee.txt
+Get-Item .\coffee.txt -Stream *
+Get-Content .\coffee.txt -stream secret.info
+
+##############################################
+               Linux_Essentials
+##############################################
+
+____Commands
+hostname -a or uname -a          #name of the host you are currently on
+whoami                           #user you are currently logged in as
+who or w                         #who else is logged in
+ip a                             #configured ip address and network interfaces
+arp or ip neigh                  #ip addresses connected at level two
+ip route or route                #where packets will be routes 
+ss or netstat                    #network connections and listening ports
+sudo -l                          #displays commands that the user may run with elevated permissions
+su                               #switch user
+nft list tables or iptables -L   #view firewall rules
+sudo -u <user>                   #runs a command as another user without switching accounts
+sudo -c <command> <user>         #switching user to run a command; only works if you have their password
+lsblk                            #lisitng block devices
+apropos <string>                 #listins commands relating to that string
+file <filename>                  #tells you what type of file it is
+wc                               #counts lines, characters, words
+which <filename>                 #finds the file path of file specified
+ll                               #runs the -la options for ls -la
+!!                               #redo any command you just ran
+xxd <executable>                 #reading an executable
+id                               #gets current users id, gid, and all groups the user belongs to
+____Linux Filesystem
+/bin                             #community binaries for commands
+/sbin                            #system binaries
+/usr/bin                         #your specific binaries
+/boot                            #where all the bootup files are stored
+/dev                             #device files, drivers, etc
+/media                           #removable media
+/etc                             #everything configurable
+/home                            #all users home directories
+/lib                             #local repositories, where your operating system can pull information from
+/mnt                             #mounted partitions
+/opt                             #optional programs, if a user gets something from the internet they might put it in there
+/root                            #root's home directory
+/proc                            #contains all linux process id's
+/var/log                         #contains all your logs
+/var/spool                       #contains data which is awaiting some later processing
+____Groups
+/etc/group
+____Permissions
+U.G.O     User Group Others
+Perm   Relative    Octal
+read      r          4
+write     w          2
+execute   x          1
+chmod 460 <filename>
+chmod u=r,g=rw,0=-rwx <filename>
+sudo chown -R <newowner> <fileorfolder>
+____Speical permissions
+Sticky Bit - Keeps people other than the user from deleting the file
+sudo chmod 1777 <filename>                 #the filepermissions output as follows drwxrwsrwt
+chmod +t <filename>                        #both this and the output above as a sticky bit
+chmod -t <filename>                        #unset the sticky bit
+____SUID SGID
+SUID 4000
+find directory -user root -perm -4000 -exec ls -ldb {} \; ><outputfile_path>          #find all files with the SUID bit set
+SGID 2000
+find / -user root -2000 -exec ls -ldb {} \; ><outputfile_path>                        #find all files with the SGID bit set
+____OP Notes
+find /media -type f -user mephiston -perm /u+w                         #finds file with only the users permisions set to write
+find /media -type f -perm /g+w -perm /u+r                              #finds the file where the group has more permissions than the user
+cat numbers | egrep "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+##valid ip address
+^([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2}$
+
+awk '{print $1}' paths > compare                                       #puts all of the names in one file
+ls /usr/bin | awk '{print $NF}' > contrast                             #puts all of the contents of /usr/bin in a file
+ls /bin | awk '{print $NF}' >> contrast                                #adds all of the contents of /bin into a file
+ grep -w -Ff "compare" "contrast"                                      #compares the two files to find a similar name
+ 
+ echo "$(tr , "\n")"                                                                          #takes a comma separated value and makes into a readable list
+ cat numbers | egrep "^[a-fA-F0-9][02468ACE]-([a-fA-F0-9]{2}-){4}[a-fA-F0-9]{2}$" | wc -l     #finds all valid locally and universally adminstered MAC's
+ 
+##############################################
+              Windows_Boot_Process
+##############################################
+____OP Notes
+Type C:\Windows\Panther\Setupact.log | findstr /i "Detected boot environment"
+Get-Content C:\Windows\Panther\Setupact.log | Select-String "Detected boot environment"
+bcdedit | findstr /i winload
+sc query spooler
+reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services | findstr Spooler
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler
+tasklist /svc
+bcdedit /export C:\Lion_BCD
+bcdedit /import C:\Lion_BCD
+bcdedit /set {<identifier>} description "Windows 7 - Lion Den" (1)
+bcdedit /create {ntldr} /d "Windows XP Pro SP2 - Tiger Paw"
+bcdedit /set {ntldr} device partition=C:
+bcdedit /set {ntldr} path \ntldr
+bcdedit /displayorder {ntldr} /addfirst
+bcdedit /delete {ntldr} /f
+bcdedit /deletevalue {current} safeboot
+bcdedit /set {bootmgr} timeout 29
+
+##############################################
+               Linux_Boot_Process
+##############################################
+
+____MBR
+sudo xxd -l 512 -g 1 /dev/vda                #hex dump of the master boot record -l length(stops after the first 512 bytes) -g octets(1 specifices bit mode)
+sudo dd if=/dev/vda of=MBRcopy bs=512 count=1  #copies the MBR to a new file bs(default is 512 bytes) and count(copies only 1 input block)
+garviel the terra box is systemd system
+bombadil minas-tirith is a sysv system
+____Targets
+cat /lib/systemd/system/default.target 
+ls -l /lib/systemd/system | grep graphical
+____Systemctl
+systemctl list-dependencies graphical.target       #green-dot active           white-dot inactive or maintaince
+systemctl show -p Wants graphical.target           # -p shows all Wants properties
+systemctl cat graphical.target
+
+/etc/profile can be used for persistance
+____OP Notes
+dd if=mbroken bs=1 skip=446 count=16 | md5sum         #how to find the hash-value of the first partition
+dd if=/home/bombadil/mbroken bs=1 count=446 | md5sum  #how to find the has-value of the bootstrap
+
+##############################################
+           Windows_Process_Validity
+##############################################
+
+https://www.echotrail.io/ 
+____Process
+PowerShell: Get-Process | more
+Get-Ciminstance Win32_Process
+CMD: tasklist
+GUI: Task Manager or Procexp.exe
+tasklist /fo:table | more
+tasklist /m | more
+____DLL- Dynamic Link Library
+allows for minor changes without affecting other parts of the program
+Get-process <procname> | foreach {$a} {$_.modules} | more
+____Service
+PowerShell: Get-Service
+Get-Ciminstance Win32_service
+CMD: net start
+sc query type=service
+GUI: services.msc or PsService
+____How to view Scheduled Tasks
+PowerShell
+Get-ScheduledTask 
+Get-ScheduledTask | ft -wr | more
+CMD
+schtasks.exe
+GUI
+Task Scheduler
+Autoruns
+HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM\System\CurrentControlSet\Services
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKU\<sid>\Software\Microsoft\Windows\CurrentVersion\Run
+HKU\<sid>\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM\System\CurrentControlSet\Control\ServiceGroupOrder
+HKLM\CurrentControlSet\Control\GroupOrderList
+____Network Connections
+PowerShell
+  Get-NetTCPConnection -State Established
+CMD
+  net stat /?
+  netstat -ano
+GUI
+  TCPView
+____Identifying Abnormalities/Suspicious Activity
+Misspelling of process names and descriptions
+if the directory the process is running out of isn’t 
+C:\Windows\System32
+3rd party process will run elsewhere
+non-standard listening ports
+multiple processes with the same name that should be unique
+handles of dlls a process is using
+
+##############################################
+             User Account Control
+##############################################
+
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\System
+____Will the UAC prompt Show?
+Auto elevate is true
+./strings C:\Windows\System32\*.exe -acceptelua | select-string -SimpleMatch “autoelevate”
+Digitally signed
+./sigcheck -m C:\Windows\System32\slui.exe -accepteula | Select-String -SimpleMatch “level”
+Trusted Directory
+C:\Windows\System32
+
+##############################################
+                  SysInternals
+##############################################
+
+$wc = new-object System.Net.WebClient
+$wc.DownloadFile("https://download.sysinternals.com/files/SysinternalsSuite.zip",
+"$pwd\SysinternalsSuite.zip")
+Expand-Archive SysinternalsSuite.zip
+____Proman
+monitorinpty
+.\procmon.exe -accepteula
+____Autoruns
+shows applications automatically started on boot as well as the registry and file system locations
+.\Autoruns
+Or just open it through the GUI
+____Procexp
+task manager and system monitor that collects information on running processes 
+shows processes in a tree format color codes process types
+.\Procexp.exe -accepteula
+____TCPView
+shows detailed listings of all TCP and UDP endpoints on the system, including the local and remote addresses and state of TCP connections
+Graphical representation of the net stat command
+.\tcpview.exe -accepteula
+view -> update-speed
+____PSexec
+executes a program on a remote system
+.\PsExec.exe -acceptula -s //file-server cmd.exe
+____PSLoggedOn
+user currently logged onto the system
+can run against a list of machines
+.\PsLoggedon.exe -acceptula
+____LogOnSessions
+shows how that user logged on
+lists sessions and processes running under each user
+.\logonsessions.exe -accepteula
+____PsList
+command line tool for gathering process information
+can be run against multiple machines
+.\pslist.exe -accepteula
+____PsInfo	
+gathers key information about the local or remote windows system
+.\PsInfo.exe -accepteula
+____Handle
+displays open file references
+determine what a suspicious process is doing based on the dll files the process has a handle to
+.\handle.exe -accepteula
+____AccessChk
+views permissions
+____LoadOrd
+service load order
+____listdlls
+reports .dlls loaded into processes
+____sigcheck
+allow you to view a file's manifest
+
+##############################################
+            Linux_Process_Validity
+##############################################
+
+htop then press F5
+grep UID /etc/login.defs
+ps -eo cmd,pid,euid,ruid          #how to view pid,euid,and ruid of processes running
+kill -l       #lists all singal commands such as kill -9 and so on
+ps --ppid 2 -lf               #lists all process with a parent process id of 2 (kernel)
+ps --ppid 2 -Nlf              #does the aboce but doesn't list the ppid
+ps -elf --forest              #shows a process tree of child and parent processes
+jobs                  #list of jobs running in the background
+fg or bg              #push/pull jobs to and from the foreground and background
+kill %<job number>    #terminate process by job number
+kill -9 <pid> 
+pkill -9 <process name>
+SIGSTOP(19) - lets you pause the process to continue later
+SIGTERM(15) - terminates the process, executes shutdown taks, proper way of terminating a process
+SIGKILL(9) - only use if SIGTERM doesn't work, kills process without proper shutdown
+____Cron Jobs - scheduled tasks a way for adversaries to set persistence
+/var/spool/cron
+/etc/cron.d
+___System Cron Jobs
+  controlled by /a
+  system-wide maintaince tasks
+___User Cron Jobs
+  CMD: crontab
+  stored in /var/spool/cron/crontabs
+  crontab -u [user] file - sets user's crontab file to contents of listed file
+  crontab -l -u [user] - user's crontab contents
+  crontab -r -u [user] - removes user's contrab contents
+  crontab -e -u [user] - edits user's crontab contents
+cat /etc/crontab
+__Cron Syntax
+
+* * * * * /directory/and/command
+| | | | |
+| | | | +---- Day of the Week   (range: 0-7, 1 = Monday)
+| | | +------ Month of the Year (range: 1-12)
+| | +-------- Day of the Month  (range: 1-31)
+| +---------- Hour              (range: 0-23)
++------------ Minute            (range: 0-59)
+ sudo ls -l /proc/<pid>/fd   #getting the file descriptors for processes
+ sudo lsof -a -p 1400        #getting file permissions
+/usr/sbin/sshd actual location of the executable
+ss -4 -tln              #how to find all listening TCP based sockets
+run strings on a filepath for whatever reason
+/bin/bash -c /bin/apache3 -lp 443 < /dev/urandom
+
+##############################################
+           Windows_Auditing_Logging
+##############################################
+
+##############################################
+            Linux_Auditing_Logging
+##############################################
+
+##############################################
+               Memory_Analysis
+##############################################
+
+##############################################
+          Active Directory Enumeration
+##############################################
