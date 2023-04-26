@@ -22,7 +22,10 @@ Check network connections--     netstat -anop  (the p gives you the process atta
      
      
      
-    =================PERSISTANCE===============
+    =================LOOKING FOR PERSISTANCE===============
+                    
+                    LINUX
+                    
                     
 Look at scheduled tasks (crontab)-- 
 
@@ -87,6 +90,8 @@ powershell profiles:
 -All Users, Current Host		$PsHome\Microsoft.PowerShell_profile.ps1
 -Current User, All Hosts		$Home\[My]Documents\Profile.ps1
 -Current User, Current Host		$Home\[My ]Documents\WindowsPowerShell\Profile.ps1
+
+look at $profiles
 
 
 Check for SCHEDULED TASKS--
