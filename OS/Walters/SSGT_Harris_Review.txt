@@ -1,0 +1,180 @@
+
+SSGT Harris Final Review
+
+
+SSH to linux box on test. 
+
+Windows box, use the freeRDP command:
+xfreerdp /u:student /v:<ip> +glyph-cache +clipboard +dynamic-resolution
+
+First move on Linux box should be situational awareness.
+Box should be systemd
+
+Check running processes--   ps -elf, 
+                              --OR--
+                            systemctl status <pid>
+
+Check network connections--     netstat -anop  (the p gives you the process attatched to socket.)
+                                    --OR--
+                                netstat -ltup  (shows active connections only)
+                    **USE SUDO TO GET ALL INFO FROM NETSTAT COMMANDS
+     
+     
+     
+     
+    =================PERSISTANCE===============
+                    
+Look at scheduled tasks (crontab)-- 
+
+cron daemon runs in the background and executes cronjobs.
+
+PERSISTANCE
+
+locations for CRONJOBS--
+/etc/crontab -- system
+/var/spool/cron  -- user cronjobs
+
+
+Look for PROFILES-- 
+
+/etc/profile
+/etc/profile.d
+
+
+
+Look for SERVICES--
+
+sysV:
+service "servicename" status
+
+
+Systemd:
+systemctl list-unit  -- lists all services (units)
+
+systemctl status autitd.service  -- get service status
+
+other systemctl commands--
+start 
+stop
+status
+
+
+
+
+
+
+============WINDOWS==============
+
+Check registry RUN KEYS
+
+reg query <key>
+get-item HKLM(U):\<key>
+get-childitem HKLM:\<key>
+
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+
+
+Check POWERSHELL PROFILES--
+
+There is a difference between normal powershell and powershell profiles.
+use test-path to check if profiles exist. 
+
+powershell profiles:
+-All Users, All Hosts			$PsHome\Profile.ps1
+-All Users, Current Host		$PsHome\Microsoft.PowerShell_profile.ps1
+-Current User, All Hosts		$Home\[My]Documents\Profile.ps1
+-Current User, Current Host		$Home\[My ]Documents\WindowsPowerShell\Profile.ps1
+
+
+Check for SCHEDULED TASKS--
+
+GUI  -- Task Scheduler
+	**there is also a sysinternals tool to do it. 
+Powershell:
+	Get-ScheduledTask
+
+
+
+Check for running processes--
+
+look for anything unusual,
+What directory is it running from?
+
+User programs should be running from program files.
+
+
+
+
+Network connections  --
+    netstat -anob
+    get-nettcpconnection
+
+
+
+Artifacts  --
+
+Windows Background Activity Moderator (BAM)
+BAM is a windows service that controls activity of background applications.
+
+BAM registry keys. Use get-item or get-childitem to get contents of the key.
+'HKLM:\SYSTEM\CurrentControlSet\Services\bam\UserSettings\*' (Windows 1709 & 1803)
+'HKLM:\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings\*' (Windows 1809 and newer)
+
+
+
+Jump Lists is the Windows 7-10 taskbar. It has an actual location.
+it's important because it shows launch and modificaiton time for its objects.
+ANYHTING that touches the taskbar comes up here.
+Command:
+get-childitem -recurse C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent -erroraction Continue | select fullname, Lastaccesstime
+
+
+UserAssist is a registry key that keeps track of frequently launched items
+HKCU:\Software\microsoft\windows\currentversion\Explorer\User
+
+
+
+PreFetch file is a file made from parts of dlls the first time a program runs.
+If a PF file exists, that means a program has executed.
+Location & command to view PF files.:
+gci -Path 'C:\Windows\Prefetch' -ErrorAction Continue
+
+
+
+recent files is just a list of recent files in file explorer. max 150.
+location & command:
+    gci 'REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs'
+    [System.Text.Encoding]::Unicode.GetString((gp "REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."0")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
