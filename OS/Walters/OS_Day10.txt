@@ -1,0 +1,134 @@
+
+OS Day 10
+
+
+
+==================ACTIVE DIRECTORY=====================
+
+suspicious activity:
+
+    -unknows admin accounts
+    -active outside normal work hours
+    -Nested Groups
+    -Service accounts logging into hosts
+    -User accounts logging into critical infrastructure
+    
+    
+    
+============INITIAL RECON===============
+    
+**get all AD commands
+get-command -module activedirectory
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Cmdlet          Add-ADCentralAccessPolicyMember                    1.0.1.0    ActiveDirectory
+Cmdlet          Add-ADComputerServiceAccount                       1.0.1.0    ActiveDirectory
+Cmdlet          Add-ADDomainControllerPasswordReplicationPolicy    1.0.1.0    ActiveDirectory
+Cmdlet          Add-ADFineGrainedPasswordPolicySubject             1.0.1.0    ActiveDirectory
+
+
+
+
+**AD supports one set of password and account lockout policies for a domain. Beginning in Windows Server 2008, you can override the default password and account lockout policies in a domain using Fine-Grained Password Policies
+
+PS> Get-ADDefaultDomainPasswordPolicy
+
+ComplexityEnabled           : True
+DistinguishedName           : DC=army,DC=warriors
+LockoutDuration             : 00:30:00
+LockoutObservationWindow    : 00:30:00
+LockoutThreshold            : 0
+MaxPasswordAge              : 42.00:00:00
+
+
+336-6754
+
+**Check for any Fine-Grained Password Policies
+PS> Get-ADFineGrainedPasswordPolicy -Filter {name -like "*"}
+
+** Get forest details
+Get-ADForest
+
+** get AD details
+PS> Get-ADDomain
+
+** Get AD Groups
+PS> Get-ADGroup -Filter *
+
+** Get group details
+PS> Get-ADGroup -Identity 'IA Analysts Team'
+
+** Get group members
+PS> Get-ADGroupMember -Identity 'IA Analysts Team' -Recursive
+
+** Get AD users
+PS> Get-ADUser -Filter 'Name -like "*"'
+
+** See all properties, not just default set
+PS> Get-ADUser -Identity 'Nina.Webster' -Properties Description
+
+** disable guest account.
+Disabe-ADAccount -identity guest
+
+** get all users in the 'domain admins' group
+(get-adgroupmember -identity 'domain.admins').name
+
+** create account with password.
+set-ADAccountPassword -Identity guest -NewPassword (convertto-securestring -asPlainText -String "PassWord12345" -Force)
+**use the -path option to change the Distinguished name
+
+Distinguished name: It's like the FQDN, it breaks down the organization of a user's permissions/groups.\
+
+an OU (organizational unit) is more of a logical seperation, but usually doesn't have permissions?
+
+
+
+
+=========================MEMORY ANALYSIS (VOLATILITY)=============================
+
+
+DOWNLOADING VOLATILITY:::::
+
+PS C:\windows\system32> invoke-webrequest -uri "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v7.8.8/npp.7.8.8.Installer.x64.exe" -outfile "C:\npp.7.8.8.Installer.x64.exe" 
+PS C:\windows\system32> cd C:\ 
+PS C:\> start-process npp.7.8.8.Installer.x64.exe -ArgumentList '/S' 
+
+
+These files should be on Public’s desktop in the Memory folder:
+infected.zip has the 0zapftis.vmem file used later for the Memory Analysis challenges.
+memdump.zip has cridex.vmem file used for the Volatility demo.
+vol_cheatsheet.pdf is a SAN’s cheat sheet providing different use cases and command syntax for the Volatility tool.
+vol_standalone contains the executable and basic docs for standalone version of Volatility used for demo and Memory Analysis challenges.
+
+
+
+Extract Volatility to the Memory Analysis Folder:
+Expand-Archive 'C:\Users\Public\Desktop\Memory\vol_standalone.zip' "$HOME\Desktop\Memory Analysis" -Force
+volatility_2.6_win64_standalone.exe is the executable
+Open a command prompt or PowerShell terminal and cd to the directory where the executable was unzipped.
+Move the executable one directory up to make life easier
+cd 'C:\Users\andy.dwyer\Desktop\Memory Analysis\volatility_2.6_win64_standalone\'
+move-item 'C:\Users\andy.dwyer\Desktop\Memory Analysis\volatility_2.6_win64_standalone\volatility_2.6_win64_standalone.exe' ..
+cd ..
+
+4. Extract Memdump to Memory Analysis Folder
+Expand-Archive 'C:\Users\Public\Desktop\memdump.zip' "$HOME\Desktop\Memory Analysis" -Force
+
+
+
+.\volatility_2.6_win64_standalone.exe -f <path to memdump> imageinfo
+** will give you some suggested profiles to try, and gives general info about the memory dump.
+
+-h will show me all of my plugins/options
+pslist will get us all processes that were running at the time of the image.
+procdump will get us a sample of an executable that was running.
+** then you can hash that file and see if it's malware with something like virustotal
+memdump -p <proc. PID> -D .  -- will just dump the memory and show you what was going on at the time. You have to find a specifiv process to target. 
+** use sysinternals tool strings to view the .dmp files. 
+** use notepad++ to view memory dumps
+sockets  -- view open sockets at the time of image
+connscan  -- view connections at time of image
+hashdump  -- dump password hashes from memory.
+
+

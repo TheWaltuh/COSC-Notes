@@ -181,8 +181,8 @@ $wc.DownloadFile($url, $output)
 
 
 STACK NUMBER:  5
-xfreerdp /u:student /v:<ip> +glyph-cache +clipboard +dynamic-resolution
-10.50.28.125
+xfreerdp /u:student /v:10.50.28.125 +glyph-cache +clipboard +dynamic-resolution
+
 
 
 
