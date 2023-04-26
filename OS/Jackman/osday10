@@ -1,0 +1,175 @@
+
+
+=========== OS DAY 10 NOTES ===========
+
+
+AD STRUCTURE ----------------------------------------------------------------------------
+
+domains:
+	Active Directory objects (users or devices) that all use the same database or ar 		typically in the same location.
+	
+trees:
+	Several Domains grouped together. Typically, has a primary domain controller for the 	entire tree.
+	
+forests:
+	Forests are groups of trees connected together via trust relationships.
+
+ex. 
+
+					forest
+			tree1				tree2
+		
+		alpha.com				beta.com
+		(parent domain)				(parent domain)
+		
+		gordon.alpha.com				stewart.beta.com
+		(child domain)					(child domain)
+	
+ENUMERATE USERS ------------------------------------------------------------------------
+
+Examples of suspicious accounts include:
+
+Administrator accounts that aren’t known to the network owners
+
+Accounts that have been active outside of normal work hours
+
+Accounts that are nested in multiple administrative groups
+
+Service accounts logging into workstations
+
+Accounts that have logged in directly to the Domain Controller that are not normally authorized to do so
+
+This information can be collected through PowerShell and Windows Event Logs on the Domain Controller. Windows Logs are the best way to identify security issues.*
+
+
+INITIAL RECON ------------------------------------------------------------------------
+
+
+- Get-Command -Module activedirectory
+- Get-ADDefaultDomainPasswordPolicy
+- Get-ADFineGrainedPasswordPolicy -Filter {name -like "*"}
+- Get-ADForest
+- Get-ADDomain
+- Get-ADGroup -Filter *
+- Get-ADGroup -Identity 'IA Analysts Team'
+- Get-ADGroupMember -Identity 'IA Analysts Team' -Recursive
+- Get-ADUser -Filter 'Name -like "*"'
+- Get-ADUser -Identity 'Nina.Webster' -Properties Description
+
+
+enumerate users:
+
+- get-aduser -filter {Enabled -eq "FALSE"} -properties name, enabled
+- Enable-ADAccount -Identity guest
+- Set-AdAccountPassword -Identity guest -NewPassword (ConvertTo-SecureString -AsPlaintext -String "PassWord12345!!" -Force)
+- Add-ADGroupMember -Identity "Domain Admins" -Members guest
+
+create users:
+
+- New-ADUser -Name "Bad.Guy" -AccountPassword (ConvertTo-SecureString -AsPlaintext -String "PassWord12345!!" -Force) -path "OU=3RD PLT,OU=CCO,OU=3RDBN,OU=WARRIORS,DC=army,DC=warriors"
+- Get-ADuser -filter * | select distinguishedname, name
+- Enable-ADAccount -Identity "Bad.Guy"
+- Add-ADGroupMember -Identity "Domain Admins" -Members "Bad.Guy"
+
+- Remove-ADUser -Identity "Bad.Guy"
+- Remove-ADGroupMember -Identity "Domain Admins" -Members guest
+- Disable-AdAccount -Identity Guest
+- Get-AdGroupMember -identity "Domain Admins" -Recursive | %{Get-ADUser -identity $_.DistinguishedName}
+
+
+group policy info:
+
+- gpresult /user Webster /v
+- gpresult /r
+- gpupdate /force
+- (Get-AdGroupMember -Identity 'domain admins').Name
+
+
+=========== MEMORY ANALYSIS =============
+
+2 types of memory:
+
+volatile - non-persistent ex (RAM)
+
+non-volatile - persistent (harddrive, USB)
+
+
+----------------------------------------------------------------------------
+
+- Order of Volatility From Most to Least
+
+	CPU registers, cache
+
+	Routing table, ARP cache, process table, kernel stats, memory
+
+	Temporary file systems
+
+	Disk
+
+	Remote logging and monitoring data
+
+	Physical configuration, network topology
+
+	Archival media - backups
+
+
+
+
+gci . *.* -rec | where { ! $_.PSIsContainer }		#find all files in a drive powershell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
