@@ -1,0 +1,70 @@
+LOOKING FOR ANYTHING ABNORMAL
+High PID
+Hugh or Weird Ports
+Suspcious executables
+Weird Directories
+NO LOGGING ON THE TEST
+####Linux
+Look for SysV or SystemD (The test box will be SystemD)
+Running processes
+  ps -elf 
+  ps -elf | grep <pid>
+  systemctl status <pid> (Gives more information on individual processes)
+Network Connections
+  netstat -anop (Adds the process to the output)
+  sudo netstat -ltup (Active connections only with the process)(use sudo to see all active connections on the whole system)
+Sceduled Tasks
+  crontab
+    stored in /var/spool/cron/crontabs
+    cat /etc/crontab
+Profiles
+  /etc/profile
+####Windows
+NO ALTERNATE DATA STREAMS
+NO BCDEDIT
+NO MEMORY ANALYSIS
+Registry Run Keys (autruns)
+  ___CMD
+    reg.exe query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+  ___PowerShell
+    Get-LocalUser | select-object name, sid
+    Get-Childitem HKLM:\SOFTWARE\Microsost\Windows\CurrentVersion
+    Get-Item HKLM:\SOFTWARE\Microsost\Windows\CurrentVersion\Run
+    HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+    HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+    HKLM\System\CurrentControlSet\Services
+    HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+    HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+    HKU\<sid>\Software\Microsoft\Windows\CurrentVersion\Run
+    HKU\<sid>\Software\Microsoft\Windows\CurrentVersion\RunOnce
+Profiles
+  Test-Path $PSHOME\Profile.ps1
+  Test-Path $PSHOME\Microsoft.PowerShell_profile.ps1
+  Test-Path $Home\[My]Documents\profile.ps1
+  Test-Path $Home\[My]Documents\WindowsPowerShell\profile.ps1
+  Test-Path $Home\[My]Documents\WindowsPowerShell\profile.ps1
+  Test-Path $PSHOME\Microsoft.PowerShellISE_profile.ps1
+  Test-Path $Home\[My]Documents\WindowsPowerShell\Microsoft.PowerShellISE_profile.ps1
+  Test-Path
+  Test-Path -Path $profile                          
+  Test-Path -Path $profile.currentUserAllHosts
+  Test-Path -Path $profile.AllUsersAllHosts
+  Test-Path -Path $profile.AllUserscurrentHost
+Scheduled Tasks (autoruns)
+  Get-ScheduledTask 
+    Get-ScheduledTask | ft -wr | more
+Processes
+  Get-Process
+  tasklist
+3RD PARTY PROGRAMS SHOULD BE IN PROGRAM FILES
+Network Connections
+  netstat -anob
+  Get-NetTCPConnection
+Artifacts 
+  UserAssist
+  BAM
+  Recycle Bin
+  Prefetch
+  Jump Lists
+  Recent Files
+  Broswer Artifacts
