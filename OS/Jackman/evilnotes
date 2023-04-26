@@ -1,0 +1,44 @@
+
+
+------------ OP NOTES ------------
+
+Find Evil 1
+
+run htop and wait until all the processes are shown
+f10 to close then immediately ran ps -elf --forest
+then found villians members with getent group | grep villians
+after cd to home directories of listed members 
+
+Find Evil 2
+
+persistence was in a service which are stored in \lib\systemd\system
+cd \lib\systemd\system
+ls -l | grep -R ".txt"
+
+Find Evil 3
+
+ls -l | grep -R "netcat"
+for the command
+ls -l | grep -R "chaos"
+for the service making the other one persistent
+
+Find Evil 4
+
+web server attack
+apache
+cd \lib\systemd\system
+ls -l | grep apache
+was located in apache3
+dos attack
+
+Find Evil 5
+
+
+spike in logins and logoffs but no persistence found
+~./bash_logout is the startup script when a user logs out
+cat ~/.bash_logout
+
+
+additional useful command
+
+systemctl list-timers --all
