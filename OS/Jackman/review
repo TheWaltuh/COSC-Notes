@@ -1,0 +1,252 @@
+	
+	
+SSH to linux box on test. 
+
+Windows box, use the freeRDP command:
+xfreerdp /u:student /v:<ip> +glyph-cache +clipboard +dynamic-resolution	
+	
+============= NOTES FOR TEST =============	
+
+
+LOOK FOR ABNORMAL THINGS
+
+system d linux machine:
+
+1. perform situational awareness look for persistence and at running processes 
+systemctl status <pid>,  ps -elf
+
+2. look at network connections
+sudo netstat -anop (all connects) or -ltup (active connects)
+
+3. look through chron directories for chron jobs
+*CRONJOBS
+
+#cron jobs can be used to establish persistence
+
+two types:
+
+system
+	run as root and rigidly scheduled
+	perform system-wide maintenance tasks (Cleaning out /tmp or rotating logs)
+	controlled by /etc/crontab
+user
+	Use 'crontab’ command to create user cron jobs
+	stored in /var/spool/cron/crontabs/
+
+
+crontab -u [user] file This command will load the crontab data from the specified file
+
+crontab -l -u [user] This command will display/list user’s crontab contents
+
+crontab -r -u [user] This Command will remove user’s crontab contents
+
+crontab -e -u [user] This command will edit user’s crontab contents
+
+  ┌──────────────── minute (0 - 59)
+  │ ┌───────────── hour (0 - 23)
+  │ │ ┌───────────── day of the month (1 - 31)
+  │ │ │ ┌───────────── month (1 - 12)
+  │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday;
+  │ │ │ │ │                           7 is also Sunday on some systems)
+  │ │ │ │ │
+  │ │ │ │ │
+  * * * * * <Time/Day to execute    "Command to Execute"
+  
+ex. 
+
+* Run backup everyday at 0412
+** `12 4 * * *`    /usr/bin/backup
+
+
+
+
+windows machine
+
+1. check the runkeys (autoruns)
+reg query <key>
+get-item HKLM(U):\<key>
+get-childitem HKLM:\<key>
+
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+
+
+2. check powershell profiles
+-All Users, All Hosts			$PsHome\Profile.ps1
+-All Users, Current Host		$PsHome\Microsoft.PowerShell_profile.ps1
+-Current User, All Hosts		$Home\[My]Documents\Profile.ps1
+-Current User, Current Host		$Home\[My ]Documents\WindowsPowerShell\Profile.ps1
+
+use "test-path" then run key
+
+3. scheduled tasks
+
+GUI  -- Task Scheduler
+	**there is also a sysinternals tool to do it. 
+Powershell:
+	Get-ScheduledTask
+	
+4. 3rd party user applications are in program files
+5. netstat -anob or get-tcpconnection
+
+
+6. put all the artifact locations
+
+**ARTIFACT
+
+#Artifacts are objects or areas within a computer system that contain important information relevant to the activities performed on the system by the user
+
+#Many artifacts will require the use of a Security Identifer (SID) to dig into the user specific registry locations for the artifact information
+
+- Get-LocalUser | select Name,SID			#shows local users
+
+- Get-WmiObject win32_account | select name,sid		#shows local and domain users
+
+
+- wmic UserAccount get name,sid (cmd.exe)
+
+
+**USERASSIST
+
+#The UserAssist registry key tracks the GUI-based programs that were ran by a particular user.
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count\
+	#where they're located and encoded in ROT13
+		CEBFF5CD-ACE2-4F4F-9178-9926F41749EA #A list of applications, files, links, and 			other objects that have been accessed
+
+		F4E57C4B-2036-45F0-A9AB-443BCFE33D9F #Lists the Shortcut Links used to start programs
+		
+**DEMO
+
+Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count"
+
+#Executable files encoded with ROT13. Copy/ Paste the output into a decoder site like Rot13 or CyberChef
+
+
+Get-ItemProperty "Registry::Hkey_Users\*\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count"
+
+#look at all users UserAssist artifacts
+
+
+
+**BAM
+
+#background activity monitor
+	full path to execuatable
+	last execution date/time
+
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\bam\State\UserSettings #1809 and newer
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\bam\UserSettings #1803 and below
+
+
+os version:
+
+cmd - systeminfo
+
+psh - Get-ComputerInfo | select osname,osversion,OsHardwareAbstractionLayer
+
+
+#can input sid of a user or * at the end of BAM query
+
+ex. 
+Get-Itemproperty 'HKLM\SYSTEM\CurrentControlSet\Services\bam\
+State\UserSettings\S-1-5-21-1584283910-3275287195-1754958050-1005'
+
+
+**Recycle Bin
+
+#when a file is deleted it goes into recycle, data is recoverable during investigation
+
+SID - determines which user deleted it
+
+Timestamp - When it was deleted
+
+$RXXXXXX - content of deleted files
+
+$IXXXXXX - original PATH and name
+
+-path C:\$Recycle.bin
+
+- Get-Childitem 'C:\$RECYCLE.BIN' -Recurse -Verbose -Force | select FullName #get content of recycle
+
+- wmic useraccount where 'sid="S-1-5-21-1584283910-3275287195-1754958050-1005"' get name
+	#find out which user did what with the sid listed in recycle
+
+- Get-Content 'C:\$Recycle.Bin\S-1-5-21-1584283910-3275287195-1754958050-1005\$R8QZ1U8.txt'
+	#read contents
+	
+
+**PREFETCH
+
+#prefetch files created when an application is run from a specific location for the first time
+	#.PF extension
+	#entries can remain after program has been deleted or unistalled
+	-path C:\Windows\Prefetch
+
+- Get-Childitem -Path 'C:\Windows\Prefetch' -ErrorAction Continue | select -First 8 
+    Directory: C:\Windows\Prefetch
+    
+    
+**JUMP LISTS
+
+#allows users to access items they frequently use
+#The data stored in the Automatic Destinations folder will each have a unique file prepended with the AppID of the associated application.
+
+		First time of execution of application.
+
+		Creation Time = First time item added to the AppID file.
+
+		Last time of execution of application w/file open.
+
+		Modification Time = Last time item added to the AppID file.
+
+location:
+C:\%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations
+
+ex. (C:\Users\king\AppData\Roaming\Microsoft\Windows\Recent)
+
+- Get-Childitem -Recurse C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent -ErrorAction Continue | select FullName, LastAccessTime 
+
+or
+
+- Get-Childitem -Recurse $env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Recent -ErrorAction SilentlyContinue | select FullName,LastAccessTime
+
+or
+
+- Gci C:\users\student\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations | % {z:\strings.exe -accepteula $_} >> c:\recentdocs.txt
+
+
+1#shows all users jump list artifacts
+2#shows jumplist of curently logged user
+3#more readable output outputted to file
+
+
+
+**RECENT FILES
+
+#Registry Key tracks opened files 
+
+- path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs
+	HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt
+
+
+- Get-Item 'Registry::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.*'
+	#see type of files/info stored recently with *
+
+
+- Get-Item 'Registry::\HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\
+.txt'
+	#.txt to see text files
+
+
+- [System.Text.Encoding]::Unicode.GetString((gp "REGISTRY::HKEY_USERS\*\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt")."0")
+	#converting single value hex to unicode
+
+
+- Get-Item "REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt" | select -Expand property | ForEach-Object {
+    [System.Text.Encoding]::Default.GetString((Get-ItemProperty -Path "REGISTRY::HKEY_USERS\*\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.txt" -Name $_).$_)}
+    	#convert all user values
