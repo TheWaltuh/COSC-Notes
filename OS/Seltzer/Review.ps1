@@ -33,6 +33,9 @@
             #(controls system wide default variables)
             #cat this file to check persistance
 ###Windows
+net user <username>
+      #get all information on a user
+      
 #Check Runkeys
 ##Two Types Run and Run Once
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
