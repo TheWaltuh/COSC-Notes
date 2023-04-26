@@ -23,15 +23,26 @@
 #Check scheduled tasks
       #Cron jobs
       #more than 1 directoy
+      #/etc/cron.*
       #/var/spool/cron
       #/etc/cron.d
       #and the file /etc/crontab
 
 #Profiles
       /etc/profiles
-      
+            #(controls system wide default variables)
+            #cat this file to check persistance
 ###Windows
 #Check Runkeys
+##Two Types Run and Run Once
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
+        (have for all 5 HKLM,HKCU,HKU,HKCC,HKCR)
+reg.exe query 
+    #run this with path to key to see whats up
+    #can also use Regedit for GUI
 
 #Powershell Profiles
 Test-Path -Path $profile.AllUserscurrentHost
