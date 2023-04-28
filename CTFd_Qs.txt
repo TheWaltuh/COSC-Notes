@@ -1,0 +1,6 @@
+
+Windows File System  Basics 14:
+This problem seemed more like a word problem / riddle than a question about the file system.
+
+Windows AD Follow Insider Trail 1-4:
+These ones seemed like word problems more than active directory problems. 
