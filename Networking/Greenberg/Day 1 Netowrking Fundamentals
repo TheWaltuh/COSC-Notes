@@ -1,0 +1,57 @@
+UserCTFD:MAGR-503-M
+ssh student@10.50.32.89 -X
+README file located in home directory has tons of useful information for the mod
+All Linux based
+
+----Basic Fundamentals
+---Physical Layer
+Data Treansmission and Reception
+Encoding and Signaling
+Physical Design and Specifications
+---Data Link Layer
+Ethernet Header (Frame)
+  Destination Mac
+  Source MAC
+  Ethertype
+    0x0800 IPv4
+    0x0806 ARP
+    0x86DD IPv6
+    0x8100 VLAN Tag
+      802.1Q Header
+        Tage Protocol ID
+        PCP/DEI
+        VLAN ID
+  Data
+  CRC/FCS
+--MAC(Media Access Control)
+  Address associated with it
+--LLC(Logical Link Control)
+  Virtual
+---Network Layer
+--IPv4 Header
+  version
+  IHL - Internet Header Length
+  DSCP - Differentiated Service Code Point
+  ECN - Explicit Congestion Notification
+    why is this typically zero and in what cases would a value be assigned to it
+  Total Length
+  Identification
+  Flags
+  Fragment Offset
+  Time to Live
+  Protocol
+  Header Checksum
+  Source IP Address
+  Destination IP Address
+  Options
+--IPv6 Header
+  Version
+  Traffic Class
+  Flow Label
+  Payload Length
+  Next Header
+  Hop Limit
+  Source IPv6 Address
+  Destination PIv6 Address
+---Layer 2 Switching Technologies
+---Layer 3 Routing Technologies
