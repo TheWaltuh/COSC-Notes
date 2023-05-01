@@ -184,8 +184,47 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
           https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/IPv4_Header.png
               #All Offsets begin with 0 
                     #DO NOT FORGET ABOUT 0 IT COUNTS
-              
           
+          #Fragmentation Process
+          https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/Fragmentation.png
+              #Will continue to fragment as long as the more fragment flag is on
+              #typically frags in 1480 bit (or byte need to see) fragments
+              
+          #IPv6 Headers
+          https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/IPv6_Header.png
+              #has its own fragmentation deal
+                  #Got rid of all things in header related to fragmentation
+                  #Now is flow label (does the fragmentaion shit)
+              #larger than IPv4
+                  #Source and Dest IP address are much larger than in IPv4
+              #TTL became Hop Limit
+              #Next Header tells you what comes after
+          https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/IPv4_vs_IPv6_Header.png
+                          #Compairison of IPv4 and IPv6
+          
+          #Fingerprinting
+              #Vendors have chosen different TTL values for their stuff
+                  #Can use TTL to identify OS Family the generated packet is from
+              #TTL List
+                  64  = Linux (Kernel 2.4 and 2.6)
+                  64  = Googles's customized Linus
+                  64  = FreeBSD
+                  128 = Windows XP
+                  128 = Windows 7, Vista and Server 2008
+                  225 = Cisco Router (IOS 12.4)
+          
+          #ICMP Header
+          https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/ICMPHeader.png
+          
+          #Zero Configuration
+              #Used to remotely boot and isntall an Operating System just by plugging inthe computer and starting it up
+            #IPv4
+                #APIPA
+                #RFC 3927
+            #IPv6
+                #SLAAC (Stateless Address Auto-Configuration)
+                #RFC 4862
+                
     #Spanning Tree Protocol (STP)
     https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/Spanning-Tree-Protocol-Overview.png
                      Root decision process
@@ -268,22 +307,63 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
             - Policy
         #Static Routing Advantages and Disadvantages
         https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/staticAD.png
-                #(pull ads and dis from here)
-            #Advantages
-            
-            #Disadvantages
         
         #Dynamic Routing
         https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/Dynamic_Routing.jpg
+            #Replaced Static Routing
+                #Much Easier for us, don't have to go in manually
+            #IGP (Interor Gateway Protocol)
+                #Used to Talk inside a network
+            #EGP (Exteror Gateway Protocol)
+                #Used for netowkrs to talk to eachother
 
+        #Dynamic Routing Advantages and Disadvantages
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/dynamicAD.png
 
-
-
-
-
-
-
-
+        #Controling Entities
+                                                                IANA
+                                                                  |
+                                            ---------------------------------------------
+                                            |          |          |           |         |
+                                            v          v          v           v         v
+                                         LACNIC      ARIN      RIPENCC     AFRINIC    APNIC
+            #LACNIC
+              #Latin AMerica
+              #NIC (Mexico)
+              #NIC (Brazil)
+            #ARIN
+              #North America
+            #RIPENCC
+              #Eurasia/Middle East
+            #AFRINIC
+              #Africa
+            #APNIC
+              #Asia/Pacific
+              #APJII (Indonesia)
+              #KRNIC (Korea)
+              #CNNIC (China)
+              #TWNIC (Taiwan)
+              #JPNIC (Japan)
+              #VNNIC (Vietnam)
+              
+        #Border Gateway Protocol (BGP)
+            #Road-Map of the Internet
+            #Routes traffic between Autonomous System (AS) Number
+            #Advertises IP CIDR address blocks
+            #Establishes Peer relationships
+            #Complicated configuration
+            #Complicated and slow path selection
+            
+      #BGP Hijacking
+          #Illegitimate advertising of addresses
+          #BGP propagates false information
+          #Purpose:
+            #stealing prefixes
+            #monitoring traffic
+            #intercept (and possibly modify) Internet traffic
+            #'black holing' traffic
+            #perform MitM
+      
 
 
 
