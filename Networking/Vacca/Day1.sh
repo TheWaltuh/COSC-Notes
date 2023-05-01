@@ -21,12 +21,12 @@ Layer 2 - Data Link
     ports can be shutdown, restrict, or protect
 Layer 3 - Network
   IPv4
+    Fragmentation Formula: (MTU - (IHL * 4) / 8) = offset
   IPv6
   ICMP
   Routers
     Routers have routing tables
-    
-Layer 4 - Trsnsport
+Layer 4 - Transport
   TCP
   UDP
 
