@@ -1,0 +1,161 @@
+What MAC address is initiating the ARP Storm?
+  Filter Used: arp
+What is the MAC of 10.10.10.1?
+  Filter Used: ip.addr==10.10.10.1
+What is the MAC of 10.10.10.2?
+  Filter Used: ip.addr==10.10.10.2
+What is the MAC address of the system trying to perform the ARP MitM attack?
+  Filter Used: arp
+  Looking for (example): 172.16.1.99 is at fa:16:3e:35:21:5a
+  The Mac address is what you are looking for
+What is the OP code of a RARP Request?
+  Filter Used:arp.opcode==3
+  Googled op code for rarp and then searched using above filter to verify
+What is the OP code of a RARP Response?
+  Filter Used:arp.opcode==4
+  Using the previous question I exited out of the filter but stayed on the packet, the packet right after request is reply which supplies opcode
+What is the RARP requestor’s MAC?
+  Filter Used: arp.opcode==3
+What was the RARP requestor’s resolved IP address?
+  Filter Used: arp.opcode==4
+  The answer is in the reply which is stating which ip address the mac address is located
+What is the MAC of the system spamming gratuitous ARP’s for 192.168.1.254?
+  Filter Used: arp.opcode==2
+  looking for the words Gratuitous ARP in the info column
+What is the software version of the Cisco Switch (copy entire field “as is” from Wireshark)?
+  Filter Used: cdp
+  in info coloumn Device ID: myswitch Port ID: FastEthernet0/1
+What is the software version of the Cisco Router (copy entire field “as is” from Wireshark)?
+  Filter Used: cdp
+  in info coloumn Device ID: R1 Port ID: Ethernet0
+What is the System Name of one of the LLDP sending devices?
+  Filter Used: lldp
+What is the Bridge Priority of the STP Root Bridge?
+  Filter Used: stp
+  MST. Root: 0 / 0 / 00:1f:27:b4:7d:80 (found in info coloumn)
+  the first number is the priority level
+What is the MAC address of the STP Root Bridge?
+  Filter Used: stp
+  the last number in the above example is the mac address
+What is the VTP Management Domain Name?
+  Filter Used: vtp
+  located in VLAN trunking proctocol "Management Domain"
+What is the latest configuration revision number?
+  Filter Used: vtp
+  located in the same as the previous question "Configuration Revision number"
+How many total VLANs are being advertised via VTP?
+  Filter Used: vtp
+  went to latest packet and counter amount of "VLAN Information" tabs there were 
+What is the message contained within the single tagged VLAN traffic coming from 11.22.33.44?
+  Filter Used: vlan && ip.src==11.22.33.44
+  capitilization matters
+What is the VLAN ID of this traffic?
+  Filter Used: vlan && ip.src==11.22.33.44
+  located under 802.1Q vitual lan "ID: 999"
+What is the VLAN ID being attacked by 10.10.10.10 using Double Tagging?
+  Filter Used: vlan && ip.addr==10.10.10.10
+  located under the second 802.1Q vitual lan "ID: 250"
+What is the combined message being sent via ICMP?
+  Filter Used: vlan && ip.addr==10.10.10.10
+What is the OS of 192.168.1.1 host based off its Echo Request message to the Google DNS?
+  Filter used: icmp.type == 8 && ip.dst==8.8.8.8
+  TTL will tell a general OS 
+What is the message that 192.168.65.20 sending to Google's DNS via ICMP?
+  Filter Used: icmp.type == 8 && ip.dst==8.8.8.8 && ip.src==192.168.65.20
+How many Hops away is the 151.101.64.84 address?
+  Filter Used: icmp && ip.dst==151.101.64.84
+What is the IP ID of the fragmented ICMP packet? (starting at packet 6472)
+  Filter Used: crtl + g and type in 6472
+  id is under Internet Protocol Version 4 in identification (decimal not hex)
+What is the offset value of the fragments?
+  Filter Used: same as last
+  looking at the last fragmeneted packet under Internet Protocol Version 4 "Fragment offset: 976"
+  when you click on this value the hex value is displayed in the dump 
+  type this is a hex to decimal calculator
+What is the possible OS of the system that sent this ICMP based on the message payload?
+  Filter Used: same as last
+  if the payload contains alphanumeric characters its likely windows and if its just numbers and symbols its likely linux
+What is the ICMPv6 type number of Echo Request?
+  Filter Used: icmpv6
+  located Internet Control Message Protocol v6 "Type: Echo (ping) request 128"
+What is the ICMPv6 type number of Echo Reply?
+  Filter Used: icmpv6
+  located same as above except 129
+What is the ICMPv6 type number of the Router Advertisement message?
+  Filter Used: icmpv6
+  located same as above except 134
+What is the link-layer address of the advertising router?
+  Filter Used: icmpv6.type==134
+  located in info coloumn "from <mac address>"
+What is the IPv6 prefix being advertised?
+  Filter Used: same as above
+  located under internet control message protocol v6 - ICMPv6 option (Prefix information)
+What is the HSRP virtual IP?
+  Filter Used: hsrp
+  located under Cisco Hot Standby Router Protocol "Virtual IP Address: 192.168.0.1"
+What the the HSRP multicast address used?
+  Filter Used: hsrp
+  destination ip
+What is the IP address of the HSRP Active forwarder (before the takeover)?
+  Filter Used: hsrp
+  last packet source ip address
+What is the IP address of the HSRP Active forwarder (after the takeover)?
+  exit out of filter
+  organiuze all apckets based on number, answer is ip address after packet identitfied from last question
+What is the VRRP multicast address used?
+  Filter Used: vrrp
+  destination ip
+What is the VRRP virtual IP?
+  Filter Used: vrrp
+  located in virtual router redundancy protocol "IP Address: 192.168.1.254"
+How many total devices are communicating via VRRP?
+  Filter Used: vrrp
+  sort on source ip, count unique
+How many networks are being advertised via RIP?
+  Filter Used: rip
+  sort on source ip, count unique
+What are the networks being advertised (in numeric order separated by commas and no spaces)?
+  Filter Used: rip
+  located in routing information protocol "IP Address: 200.0.1.0"
+What Protocol and port is being used for RIP?
+  Filter Used: rip
+  located in User datagram Protocol "Source Port"
+What network is being advertised via EIGRPv4
+  Filter Used: eigrp
+  located in update packet under Cisco EIGRP "Internal Route"
+What is the IP protocol number used for EIGRP?
+  Filter Used: eigrp
+  located in upated packet under Internet proctocol Version 4 - time to live "Protocol"
+What multicast address is used to send EIGRPv4 updates?
+  Filter Used: eigrp
+  destination ip on update packets
+What network is being advertised via EIGRPv6
+  Filter Used: eigrp && ipv6
+  located in update packet under Cisco EIGRP "Internal Route"
+What multicast address is used to send EIGRPv6 updates?
+  Filter Used: eigrp && ipv6
+  destination ip
+What Autonomous system number is being used?
+  Filter Used: same as above
+  located in Cisco EIGRP "Autonomous System:"
+What is the IP protocol number used for OSPF?
+  Filter Used: ospf
+  located in Internet Protocol Version 4 "Protocol"
+What is the IP address of the OSPF designated router (DR)?
+  Filter Used: ospf
+  located in open shortest path first "Source OSPF router"
+What multicast address is used by the DR to send updates?
+  Filter Used: ospf
+  hello packet destination ip
+How many networks are being advertised via BGP?
+  Filter Used: bgp
+  packets with a Network Layer Reachabilioty Information tab under Border Gateway Protocol
+What are the networks being advertised (in numeric order separated by commas and no spaces)?
+  Filter Used: bgp
+  under the tab references in previous question
+What Autonomous system number is the 192.168.0.10 peer in?
+  Filter Used: bgp
+  located in the network tab idetified above under path attributes - "origin: 192.168.0.10"
+What Protocol and port is being used for BGP?
+  Filter Used: bgp
+  Transmission Control Protocol "Destination Port"
