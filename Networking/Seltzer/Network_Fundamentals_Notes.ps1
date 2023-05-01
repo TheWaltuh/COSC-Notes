@@ -227,12 +227,54 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
                 #(lets connect but logs what happens)
 
     #Layer 3 Routing Technologies 
-        #
+        #Routing
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/ip_routing_example.jpg
+            #Works off of a Routing table
+                #Table full of netowkrs associated to ports
+                #same system different layer than layer 2
+        #Anatomy
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/Route_Types.png
+        
+        #Lookup Process
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/Bit_Match.jpg
+            #Find whoever has the biggest match (Longest to IP Packet Destination)
+                  #Longer the match higher the priotity 
+        #Routed Vs Routing
+            #Routing Protocols
+                #Used between layer 3 devices to learn and advertise Routers and maintain routing tables
+                #Routing Protocol Routes a Routed protocol for learning and maintaining the routing table
+                #Examples include RIP, EGRIP, OSPF BGP,  etc.
+            #Routed Protocols
+                #used between Routers to direct user traffic.  Is also called netowrk protocols
+                #Routed protocols are rouded by using Routing Protocols
+                #Examples include IP, IPX, AppleTalk, NetWare, etc.
+        
+        #First Hop Redundancy Protocols
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/FHRP.jpg
+        
+        #Administrative Distance
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/AD.png
+            #Lower the distance the better (higher priority)
 
-
-
-
-
+        #Metrics
+            #Used to evaluate performance and reliability of a computer network
+            - Hop
+            - Bandwidth
+            - Delay
+            - Load
+            - MTU
+            - Reliability
+            - Cost
+            - Policy
+        #Static Routing Advantages and Disadvantages
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/staticAD.png
+                #(pull ads and dis from here)
+            #Advantages
+            
+            #Disadvantages
+        
+        #Dynamic Routing
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/Dynamic_Routing.jpg
 
 
 
