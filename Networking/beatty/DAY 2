@@ -1,0 +1,91 @@
+Day 2:
+Transport Layer- Tcp or Udp
+  Tcp-connection oriented and reliable(syn,syn/ack,ack), if any packets are lost it can request it again and put it back in order
+  Udp- connectionless protocol(just sends out the packets doesnt make sure it was successful)
+  
+  TCP:
+  **tcp when sending packets it sends a PSH/ACK and a payload, then the reciever responds with an ACK which should have a value of 1 higher then the payload value**
+  **tcp knows it lost packets by the ack number not matching up with the payload and then it requests the missing packets again**
+  
+  tcp flags byte- CWR(128)-ECE(64)-URG(32)-ACK(16)  <sperate nibble>  PSH(8)-RST(4)-SYN(2)-FIN(1)
+  **christmas tree is where most of the flags are turned on and can be malicous, also a null scan is when there is no flags turned on**
+  tcp byte in a connection- the syn(0x02) then syn/ack(0x12) finally ack(0x10)
+  
+  **if question is asking about a conversation view the tcp connection that started the conversation/protocol**
+  
+ UDP:
+ much shorter header because it doesnt care about lost packets
+ cant really enumerate UDP because there is no connection process to exploit for information
+ 
+ 
+ Session layer:
+ -maintain ongoing connections
+ **only occurs for TCP**
+ protocols- SOCKS, NetBIOS, PPTP/L2TP, RPC
+  SOCKS- uses various client/server exchange messages
+            - client can provide authentication to server
+            - client can request connection from server
+            
+  PPTP(point to point tunneling protocol)- port TCP 1723
+  L2TP(Layer 2 tunneling protocol)- port TCP 1701
+  SMB/CIFS()- port tcp 139/445 and UDP 137/138
+	smb-used for file sharing
+  RPC(remote procedure call)-any port
+     -rpc is a request/responce protocol
+  Port ranges:
+  well known: 0-1023
+  registered: 1024-49151
+  Dynamic(Ephemeral): 49152-65535
+  
+Presentation layer-
+    Responsibilities:
+        -Translation
+	-Formating
+	-Encoding
+	-Encryption
+	-Compression
+	
+Application layer:
+  Ftp-file transfer protocol- active(client gets told what port to open) and passive(client tells server what port its going to use)
+     FTP active(port 20/21) issues:
+     	-NAT and Firewall traversal issues
+	-Complications with tunneling through ssh
+	-Passive FTP solves issues related to Active mode and is most often used in modern systems
+	-to see the file being transfered filter on port 21
+     FTP Passive (port 21 and RHP)
+        -in the conversation you will see two numbers in parenthesis seperated by a comma ex. (128,67) to find the RHP you multiply the first number by 256 and then add the second number which for this example is 32835
+  	-to see the file being transfered filter on the RHP
+  
+  SSH
+     
+  Telnet(TCP 23):
+    -not secure
+    -can be used to run commands on a remote system
+  
+  SMTP(TCP 25):
+    -used for sending mail between mail servers
+  
+  POP(TCP 110):
+    -a protocol for receiving email by downloading it to your computer from a mailbox on the server of an internet service provider.
+  
+  IMAP(143):
+    -a standard email retrieval (incoming) protocol
+    
+  TACACS(TCP 49) Simple/Exended:
+    -security protocol that provides centralized validation of users who are attempting to gain access to a router or NAS
+    
+  HTTP(S)(TCP 80/443):
+    -used for the web
+    -methods: GET/HEAD/POST/PUT
+    -TCP connection (syn,syn/ack,ack) is where the conversations rules are set
+    -http status codes: 100,200,300,400
+    
+  RDP(TCP 3389):
+    -remote desktop protocol(used to get a gui of a windows system)
+    
+  DNS(tcp/udp 52):
+    -Queries (udp 52) and responces
+    -Zone transfer (tcp 52)
+    
+  DHCP(UDP 67/68)
+    -protocol that automatically provides an Internet Protocol (IP) host with its IP address and other related configuration information
