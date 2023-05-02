@@ -78,7 +78,76 @@ Ethernet Header (Frame)
       PPTP vulnerable way to make VPN tunnels on TCP port 1723
       L2TP does not provide encryption but rather relaies on other protocols on TCP port 1701
     RPC
+      Any Port
+      request/response
+        sends requests to a external server
+        receives information for external server
+        displays data to user
+          XML
+          JSON
     SMB/CIFS
-      
+      allows sharing files, printers, and other things
+        SMABA and CIFS are different types of SMB
+      SMB(Server Message Block) rides over NetBIOS
+      Netbios Dgram Service - UDP 138
+      Netbios Session Service - TCP 139
 ---Presentation Layer
+  Translating
+    translates data between what the network requires to the format of the computer
+  Formatting
+    readable format
+  Excryption, and Compression of data
 ---Application Layer
+  Applications and Services
+    FTP (TCP 20/21)
+      File Transfer Protocol
+      Command and Data ports
+      Active
+        client initiates connection
+        issues with NAT and Firewall
+        complications with tunneling
+      Passive
+        client initiates both the command and data connections
+--SSH TCP 22
+  
+--Telnet TCP 23
+  remotely communicate but not secure
+  can interact with an http server
+  banner grabbing
+--SMTP TCP 25
+  for sending mail in-between mail servers
+--TACACS TCP 49 and Raidus UDP 1645/1646 and 1812/1813
+  authentication
+--HTTP TCP 80
+--HTTPS TCP 443
+--POP TCP 110
+  Post Office Protocol
+--IMAP TCP 143
+  Internet Message Access Protocol
+--RDP TCP 3389
+  Remote Desktop Protocol 
+--DNS Query/Zone Transfer TCP/UDP 53
+  Domain Name Server
+--DHCP UDP 67/68
+  Dynamic Host Configuration Protocol
+    Discover (client)
+    Offer (server)
+    Request (client)
+    Accept (server)
+  DHCPv6
+    Solicit (client)
+    Advertise (server)
+    Request (client)
+    Reply (server)
+--TFTP UDP 69
+  Trivial File Transfer Protocol
+--NTP UDP 123
+  Network Time Protocol
+--SNMP UDP 161/162
+  Simple Network Management Protocol
+  Get-Request comes from the manager to the agent (Source IP = manager IP)
+--RTP UDP above 1023
+  Real-Time Transport Protocol
+  streaming
+
+
