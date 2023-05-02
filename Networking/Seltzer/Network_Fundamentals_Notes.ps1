@@ -426,19 +426,21 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
               32-47                     Length                    16 bits
               48-63                     Checksum                  16 bits
               
+    #Session Layer - Layer 5
+    
         #Socks 4/5 (TCP 1080
             #Uses various Client / Server exchange messages
                 #Client can provide authentication to server
                 #client can request connections from server.
         
-             Field name                Length
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-             Ethernet Header           16 Bytes
-             IPv4/IPv6 header          20-40 Bytes
-             TCP Header                20-60 Bytes
-             SOCKS Message             Var Bytes
-             Data                      Var Bytes
-             Ethernet Trailer          4 Bytes
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        TCP Header                20-60 Bytes
+        SOCKS Message             Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
         
         #PPTP (TCP 1723)
         https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/pptp.png
@@ -453,15 +455,174 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
             #Netbios Session Service - TCP 139
             #SAMBA and CIFS are just flavors of SMB
             
+             NetBios Session Service
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        TCP Header                20-60 Bytes
+        NetBios Session Service   Var Bytes
+        SMB Protocol              Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
+             
+             
+            NetBios Datagram Service
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        TCP Header                20-60 Bytes
+        NetBios Datagram Service  Var Bytes
+        SMB Protocol              Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
+        
+        #RPC (Any Port)
+            #is a request / response protocol
+            #User Application will
+                #Sends a request for information to a external server
+                #Revieces the information from the external server
+                #Display collected data to user
     
-
-
-
-
-
-
-
-
+    #Presentation Layer - Layer 6
+        #Responsibilities
+            #Translation
+            #Formating
+            #Encoding (ASCII, EBCDIC, HEX, BASE64)
+            #Encryption (Symmetric or Asymmetric)
+            #Compression
+            
+    #Application Layer - Layer 7
+        #FTP (TCP 20/21)
+            #Messages:
+                #FTP Commands
+                #FTP Reply Codes
+            #Modes:
+                #Active (default)
+                    #SUes Port 20/21
+                    #Active Issues:
+                        #NAT and Firewall traversal issues
+                        #Complications with tunneling through SSH
+                        #Passive FTP solves issues related to Active mode and is most often used in modern systems
+                #Passive
+                    #Uses Port 21 and a RHP
+        
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        TCP Header (Port 20/21)   20-60 Bytes
+        FTP Message               Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
+        
+        #SSH (TCP 22)
+            #Messages Provided:
+                #Client/Server authentication
+                #Asymmetric or PKI for key exchange
+                #Symmetric for session
+                #user authentication
+                #Data stream channeling
+            
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        TCP Header (Port 22)      20-60 Bytes
+        SSH Message               Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
+        
+        #Telnet (TCP 23)
+            #Messages:
+                #Telnet Commands
+                #Telnet Options
+            #can be used to banner grab
+            #IS NOT SECURE
+            
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        TCP Header (Port 23)      20-60 Bytes
+        Telnet Message            Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
+        
+        #SMTP (TCP 25)
+            #Messages:
+                #SMTP Commands
+                #SMTP Responces
+            #Used to send email between servers
+            
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        TCP Header (Port 25)      20-60 Bytes
+        SMTP Message              Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
+        
+        
+        #POP (TCP 110) / IMAP (TCP 143)
+            #Very similar to SMTP
+                #more email sending protocols, slight differences in how they work
+            #POP3 Downloads emails
+            #IMAP Reads/Synchs Emails
+            #SMTP sends
+        
+        #HTTP/HTTPS (TCP 80/443)
+            #Internet Access
+            #Messages:
+                #Methods:
+                    #GET / HEAD / POST / PUT
+                #HTTP Status Codes:
+                    #100,200,300,400 
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        TCP Header (Port 80/443)  20-60 Bytes
+        HTTP(s) Message           Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
+        
+        #RDP (TCP 3839)
+            #Compresson or Encryption support
+            #Desktop size and color depth
+            #Keyboard Mapping
+            #Remote System Control
+            #Mouse-cursor color properties
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        TCP Header (Port 3839)    20-60 Bytes
+        RDP Message               Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
+        
+        #DNS (Query/Response) (TCP/UDP 53)
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/dns.png
+        
+        #DHCP (UDP 67/68)
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/dhcp.png
+        
+        #TFTP (UDP 69)
+            #Messages:
+                #TFTP Opcodes
+                #TFTP Error Codes
+                
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        TCP Header (Port 69)      20-60 Bytes
+        TFTP Opcode               Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
 
 
 
