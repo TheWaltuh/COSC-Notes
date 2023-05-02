@@ -32,8 +32,10 @@ Ethernet Header (Frame)
   version
   IHL - Internet Header Length
   DSCP - Differentiated Service Code Point
-  ECN - Explicit Congestion Notification
-    why is this typically zero and in what cases would a value be assigned to it
+    ECN - Explicit Congestion Notification
+      why is this typically zero and in what cases would a value be assigned to it
+    Bit Shifting
+      multiply by 4 or bit shift in order to get the actual value of the DSCP+ECN rather than just the DSCP value
   Total Length
   Identification
   Flags
@@ -55,3 +57,28 @@ Ethernet Header (Frame)
   Destination PIv6 Address
 ---Layer 2 Switching Technologies
 ---Layer 3 Routing Technologies
+---Transport Layer
+  windows size is the size, in bytes, that the receiveing host can take (tcp sliding window)
+  0x00 null scan, to see if the port is open
+  0x3F christmas tree
+---Session Layer
+  maintain ongoing connections, does not exist for UDP, only for TCP
+  Ports
+    0 to 1023 well known
+    1024 to 49151 registered
+    49152 to 65535 Dynamic(Ephemeral)
+  Protocols
+    SOCKS
+      initiate connections through a proxy
+      on TCP port 1080
+      client can provide authentication to the server
+      client can request connections from the server
+    NetBIOS
+    PPTP/L2TP
+      PPTP vulnerable way to make VPN tunnels on TCP port 1723
+      L2TP does not provide encryption but rather relaies on other protocols on TCP port 1701
+    RPC
+    SMB/CIFS
+      
+---Presentation Layer
+---Application Layer
