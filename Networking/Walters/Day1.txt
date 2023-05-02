@@ -1,0 +1,197 @@
+
+==========Day 1 Notes===========
+
+
+=========COURSE RESOURCES===========
+
+https://net.cybbh.io/public/networking/latest/index.html
+http://networking-ctfd-1.server.vta:8000/resources
+https://miro.com/app/board/o9J_klSqCSY=/
+
+
+Student#: student19
+Command: ssh student@10.50.36.167 -X
+Password: password
+
+README on this machine has useful commands. 
+
+How to banner grab
+how to transfer files
+how to use netcat
+how to use nmap
+
+
+calculator  -  programming mode, lets you do binary math, bit shifts, etc.
+
+
+===============Networking Fundmentals===================
+
+bit         -- 1 or 0, flag
+nibble      -- 4 bits, one hex character
+byte        -- 8 bits, octet
+half word   -- 16 bits, 2 bytes
+word        -- 32 bits
+
+
+
+Encapsulation and Decapsulation:
+Data is passed down from each layer with headers and footers added on, creating a kind of layer approach to networking.
+
+OSI Model- 
+
+Layer 1: Physical layer
+    Actual transmission,
+    hardware,
+    encoding and signaling
+    PDU  -  Bits
+    common protocols  -  Bluetooth, USB, 802.11 (Wi-Fi), DSL, 1000Base-T
+
+
+Layer 2: Data Link Layer
+    MAC (Media Access Control)
+    LLC (Logical Link Control)
+    interface of software and hardware (logical and physical)
+    PDU  -  Frames
+    Common protocols  -  PPP, ATM, 802.2/3 Ethernet, Frame Relay
+    
+    CAM Table  -  machine readable table of interfaces and known MAC addresses. 
+    
+    Ethernet Header  -  
+        Destination MAC     -   6 bytes
+        source MAC          -   6 bytes
+        (vlan tag goes here, 4 bytes, double tagging)
+        ethertype           -   2 bytes
+            values:
+                0x0800 - IPv4
+                0x0806 - ARP
+                0x86DD - IPv6
+                0x8100 - VLAN Tagging 802.1q
+
+
+    Spanning Tree Protocol (STP)  -  Root decision process
+        1) elect root bridge
+        2) Identify the root portss on non-root bridge
+        3) Identify the Designatied port for each segment
+        
+        STP prevents loops, or switching loop:
+        
+        Layer 2 Discovery Protocols:
+            Cisco Discovery Protocol (CDP)
+            Foundry Discovery Protocol (FDP)
+            Link Layer Discovery Protocol (LLDP)
+            
+        Dynamic Trunking Protocol (DTP):
+            Trunk:
+                preestablished connection between 2 switches or a switch and a roter to keep VLANs connected without wasting ports. 
+                ** think of it as a type of tunnel.
+            
+            DTP dynamically creates trunks, so they don't have to be created manually.
+            
+        
+        VLAN Trunking Protocol (VTP):
+            Configure vlan once and send it around to everyone instead of having to do convergence
+            based on revision number  -  highest number wins
+            
+        
+    Port Security: 
+        What to do if I see a new MAC address on any given port. 
+        There are 3 basic responses. 
+        modes:
+            shutdown  -- permanant
+            restrict  -- temporary
+            protect  --  do nothing, but log it.
+            
+                
+    
+
+Layer 3: Networking Layer
+    Uses Routers 
+    PDU  -  packet
+    
+    routing table
+        shows route to different ranges of IPs.
+        also shows default route (gateway of last resort.)
+     
+    lookup process:
+        Router looks for longest match in the routing table.
+        
+    routed vs routing protocol:
+        routed:
+            Allows routers to transfer data
+        routing:
+            transfer info about routes
+    
+    First Hop redundancy protocols:
+        ????
+        
+    Administrative Distance:
+        lower is higher priority:
+        The AD represents the "trustworthiness" of the route; the lower the AD, the more trustworthy the route source.
+        
+        0 - directly connected
+        1 - static
+        5 - EIGRP Summary route
+        20 - External BGP
+        etc... (look in FG)
+        
+    Maximum Transmission Unit (MTU)
+        Largest packet size before we have to fragment packets.
+        
+    
+    Dynamic Routing:
+        Interior:
+            Talking within networks I control
+                IGP -> RIP(v1, v2), IGRP(EIGRP), etc...
+        Exterior:
+            Talking with external networks
+                EGP -> Border Gateway Protocol (BGP)
+            
+    Uses IPv4 and IPv6
+        IPv4 Header:
+            useful info:
+                Source IP addr
+                Destination addr
+                flags
+                fragment offset
+                Time to Live
+    
+        IPv6 Header:
+            is larger than IPv4 header
+            usefil info:
+                no more fragmentation. Uses Flow label instead
+                source address
+                destination address
+                Traffic class.
+                
+    
+    Link State:
+        Tells me the best route based on bandwith or medium of the connections. 
+        Less hops isn't always the best. 
+        
+    
+    Fragmentation:
+        DF - don't fragment
+        MF - May fragment  --  there will be an offset except for the first packet.    
+                                There will be more fragments incoming.
+                                MF is 0 when there are no more packet frags.
+        Offset - 
+        Refrence the MIRO for formulas to find offset.
+        
+        
+    Fingerprinting:
+        TTL
+            Linux: 64
+            Windows: 128
+            Cisco: 255
+        
+        Window size:
+            refrence FG
+            
+
+    ICMP--
+        I C(see) MY PROBLEM
+        ICMP is used for troubleshooting.
+        
+    
+    
+
