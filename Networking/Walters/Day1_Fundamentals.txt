@@ -148,6 +148,7 @@ Layer 3: Networking Layer
             
     Uses IPv4 and IPv6
         IPv4 Header:
+        ** DON"T FORGET TO USE BIT SHIFT WHEN CALCULATING DSCP, multiply by 4
             useful info:
                 Source IP addr
                 Destination addr
