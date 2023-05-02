@@ -518,12 +518,15 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
         Ethernet Trailer          4 Bytes
         
         #SSH (TCP 22)
+            #Unlike Telnet IS SECURE
             #Messages Provided:
                 #Client/Server authentication
                 #Asymmetric or PKI for key exchange
                 #Symmetric for session
                 #user authentication
                 #Data stream channeling
+            #SCP runs across SSH
+            #SFTP runs across SSH
             
         Field name                Length
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -609,6 +612,14 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
         
         #DHCP (UDP 67/68)
         https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/dhcp.png
+            #DORA
+                #Discover Offer Request Accept
+                    (c)     (s)   (c)     (s)
+                c = client
+                s = server
+            #DHCPv6
+                #Solicit Advertise Request Reply
+                   (c)     (s)       (c)    (s)
         
         #TFTP (UDP 69)
             #Messages:
@@ -623,10 +634,45 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
         TFTP Opcode               Var Bytes
         Data                      Var Bytes
         Ethernet Trailer          4 Bytes
+        
+        #NTP (UDP 123)
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/ntp.png
+            #Used for synching time
+            #Times need to be the same for logs, and enumerating after the fact
+                #within a couple seconds
+        
+        #SNMP (UDP 161/162)
+            #5 of the Message Types
+                #Get Request
+                #Set Request
+                #Get Nest
+                #Get Bulk
+                #Trap
+                
+        Field name                Length
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Ethernet Header           16 Bytes
+        IPv4/IPv6 header          20-40 Bytes
+        UDP Header (Port 161/162) 20-60 Bytes
+        SNMP Opcode               Var Bytes
+        Data                      Var Bytes
+        Ethernet Trailer          4 Bytes
+        
+        #Radius (UDP 1645/1646 and 1812/1813)
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/radius.png
 
-
-
-
+              Bit Range                  Field name                Length
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              0-7                        Length                   8 bits
+              8-15                       Identifier               8 bits
+              16-31                      Length                   16 bits
+              32-159                     Authenticator            127 bits
+              160-Unk                    Attributes               Var Length
+        
+        #RTP (UDP Any above 1023)
+            #Used for streaming data
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/rtp.png
+        
 
 
 
