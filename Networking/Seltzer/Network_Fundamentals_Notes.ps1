@@ -1,3 +1,5 @@
+                                                       ##DSCP Value Multiply by 4 if nothing in ECN##
+
 Credentials - 
 ##IH (10.50.38.111)
   #student
@@ -155,7 +157,7 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
           #Type II Frame (64 to 1518 bytes
           https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/Ethernet_II_Frame.png
               14 Bytes = MAC Header/Trailer
-                    First 6 Bytes = Destination MAC
+                    First 6 Bytes = Destination MAC#
                     Bytes 7 - 12 = Source MAC
                     Bytes 13,14 = Ethertype
                           0x0800 = IPv4
@@ -188,7 +190,7 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
           #Fragmentation Process
           https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/Fragmentation.png
               #Will continue to fragment as long as the more fragment flag is on
-              #typically frags in 1480 bit (or byte need to see) fragments
+              #typically frags in 1480 bit (or byte need to see) fragments#
               
           #IPv6 Headers
           https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/IPv6_Header.png
@@ -363,7 +365,110 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
             #intercept (and possibly modify) Internet traffic
             #'black holing' traffic
             #perform MitM
-      
+    
+    #Transport Layer - Layer 4
+        #TCP/UDP
+        #TCP has three way handshake, confirms data was recieved
+            #If TCP comes through out of order, or messed up recieving station can ask for it to be resent to get it correctly
+            #allows for flow control (changes size of data being passed)
+                #allows to carry more data in a single transmission
+        #Tcp Headers
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/TCPHeader.png
+            
+              Bit Range                  Field name                Length
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              0-15                      Source Port               16 bits
+              16-31                     Dst Port                  16 bits
+              32-63                     Sequence Number           32 bits
+              64-95                     Ack Number (if sent)      32 bits
+              96-99                     Data Offset               4 bits
+              100-102                   Reserved                  3 bits
+              103                       NS                        1 bit
+              104-111                   Flags                     8 bits
+              112-127                   Window Size               16 bits
+              128-143                   Checksum                  16 bits
+              144-159                   Urgent Pointer            16 bits
+              Variable                  Options                   0-320 bits and divisible by 32
+        
+        #TCP Flags
+          Letter    Hex Val   What is
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            C       0x80      Reduced(CWR)
+            E       0x40      ECN Echo (ECE)
+            U       0x20      Urgent
+                    0x18      Syn/ACK (is just syn + ack)
+            A       0x10      ACK
+            P       0x08      Psuh
+            R       0x04      Reset
+            S       0x02      Syn
+            F       0x01      Fin
+            
+         https://net.cybbh.io/public/networking/latest/lesson-1-fundamentals/_images/TCPFlagsBPF.png
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         CWR          ECE        URK           ACK         PSH         RST          SYN          Fin
+         128          64         32            16          16          8            2            1
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         0            0           0             1          0           0            0            0      #How ACK is shown (think like binary num line)
+         
+        #TCP Connections
+        https://net.cybbh.io/public/networking/latest/lesson-1-fundamentals/_images/TCPstates.png
+            #disgram breaks down from first syn, syn-ack, ack from initial handshake to fin, fin-ack, fin, fin-ack
+        
+        #UDP just sends it
+            #"fire and forget"
+        #UDP Headers
+        https://net.cybbh.io/public/networking/latest/lesson-1-fundamentals/_images/UDPHeader.png
+            
+              Bit Range                  Field name                Length
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              0-15                      Source Port               16 bits
+              16-31                     Dst Port                  16 bits
+              32-47                     Length                    16 bits
+              48-63                     Checksum                  16 bits
+              
+        #Socks 4/5 (TCP 1080
+            #Uses various Client / Server exchange messages
+                #Client can provide authentication to server
+                #client can request connections from server.
+        
+             Field name                Length
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             Ethernet Header           16 Bytes
+             IPv4/IPv6 header          20-40 Bytes
+             TCP Header                20-60 Bytes
+             SOCKS Message             Var Bytes
+             Data                      Var Bytes
+             Ethernet Trailer          4 Bytes
+        
+        #PPTP (TCP 1723)
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/pptp.png
+        
+        #L2TP (TCP 1701)
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/l2tp.png
+        
+        #SMB/CIFS (TCP 139/445 AND UDP 137/138)
+        https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/smb.png
+            #SMB over Netbios (in image)
+            #Netbios Datagram Service - UDP 138
+            #Netbios Session Service - TCP 139
+            #SAMBA and CIFS are just flavors of SMB
+            
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
