@@ -701,14 +701,42 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
                     sudo tcpdump portrange 20-100 and host 10.1.0.2 or host 10.1.0.3 and dst net 10.2.0.0/24 -vn
                                   #shows all traffic in port range of 20-100, and is a host ip of 10.1.0.2 or 10.1.0.3 and is a dest ip in the network of 10.2.0.0/24
                                   #and then does verbosely showing no name resolution
-                    
+                    sudo tcpdump "(src net 10.1.0.0/24 && (dst net 10.3.0.0/24 || dst host 10.2.0.3) && (! dst host 10.1.0.3))" -vn
+                                  #checks for if src net is 10.1.0.0/24 and (dst net is 10.3.0.0/24 or dst host is 10.2.0.3) and dst host is not 10.1.0.3
+                                  #and does verbose without name resolution
                     #Boolean Logic
                         AND or &&
                         OR or ||
                         #EX
                           sudo tcpdump 'port 80 && port 22'
-                    
+            #BPF (Berkley Packet Filters)
+            tcpdump {A} [B:C] {D} {E} {F} {G}
 
+            A = Protocol (ether | arp | ip | ip6 | icmp | tcp | udp)
+            B = Header Byte offset
+            C = optional: Byte Length. Can be 1, 2 or 4 (default 1)
+            D = optional: Bitwise mask (&)
+            E = Operator (= | == | > | < | <= | >= | != | () | << | >>)
+            F = Result of Expresion
+            G = optional: Logical Operator (&& ||) to bridge expressions
+                #Protocols
+                    ip              #ipv4 header
+                    ip6             #ipv6 header
+                    arp             #arp header
+                    icmp            #icmp header
+                    tcp             #tcp header
+                    udp             #udp header
+                    ether           #ethernet header
+                #Examples
+                    tcpdump 'ether[12:2] = 0x0800 && (tcp[2:2] != 22 && tcp[2:2] != 23)'
+                                      #from ethernet header pulling the ethertype
+                                      #showing where ethertype is equal to 0x0800 (ipv4)
+                                      #and from tcp header pulling dst port
+                                      #and where that port is nt equal to 23
+
+
+                    
+            
                     
                     
 
