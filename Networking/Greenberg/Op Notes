@@ -310,3 +310,47 @@ What is the name of the file uploaded to the TFTP server?
 How many TFTP “Blocks” were used to send the file?
   Filter Used: tftp
   scroll all the way down, last block noted by "(last)"
+What is the Berkeley Packet Filter, using tcpdump, to capture all packets with a ttl of 64 and less, utilizing the IPv4 or IPv6 Headers
+  sudo tcpdump 'ip[8] <= 64 || ip6[7] <= 64' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets with at least the Dont Fragment bit set?
+  sudo tcpdump 'ip[6] & 0x40 != 0' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture traffic with a Source Port higher than 1024, utilizing the correct Transport Layer Headers?
+  sudo tcpdump 'tcp[0:2] > 1024 || udp[0:2] > 1024' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all Packets with UDP protocol being set, utilizing the IPv4 or IPv6 Headers?
+  sudo tcpdump 'ip6[6] = 0x11  || ip[9] = 0x11' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture only packets with the ACK/RST or ACK/FIN flag set, utilizing the correct Transport Layer Header?
+  sudo tcpdump "tcp[13] = 0x11 || tcp[13] = 0x14" -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all packets with an IP ID field of 213?
+  sudo tcpdump 'ip[4:2] = 213' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all traffic that contains a VLAN tag?
+  sudo tcpdump 'ether[12:2] = 0x8100' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets relating to DNS?
+  sudo tcpdump '(udp[0:2] = 0x35 || udp[2:2] = 0x35) || (tcp[0:2] = 0x35 || tcp[2:2] = 0x35)' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture the initial packets from a client trying to initiate a TCP connection?
+  sudo tcpdump 'tcp[13] = 0x02' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture the response packets from a server listening on an open TCP ports?
+  sudo tcpdump 'tcp[13] = 0x12' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture the response packets from a server with closed TCP ports?
+  sudo tcpdump 'tcp[13] = 0x04' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all TCP and UDP packets sent to the well known ports?
+  sudo tcpdump 'tcp[2:2] < 1024 || udp[2:2] < 1024' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all HTTP traffic?
+  sudo tcpdump 'tcp[0:2] = 80 || tcp[2:2] = 80' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all telnet traffic?
+  sudo tcpdump 'tcp[0:2] = 23 || tcp[2:2] = 23' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all ARP traffic?
+  sudo tcpdump 'ether[12:2] = 0x0806' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture if the "Evil bit" is set?
+  sudo tcpdump 'ip[6] & 0x80 = 0x80' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture any packets containing the CHAOS protocol within an IPv4 header?
+  sudo tcpdump 'ip[9] = 0x10' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets with the DSCP field of 37?
+  sudo tcpdump 'ip[1] >> 2 = 37' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets targeting just the beginning of potential traceroutes as it's entering your network. This can be from a Windows or Linux machine using their default settings?
+  sudo tcpdump 'ip[8] = 1 && (ip[9] = 1 || ip[9] = 0x11)' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all packets where the URG flag is not set and URG pointer has a value?
+  sudo tcpdump 'tcp[13] & 0x20 = 0 && tcp[18:2] > 0' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture a TCP null scan to the host 10.10.10.10? 
+  sudo tcpdump 'tcp[13] = 0 && ip[16:4] = 0x0A0A0A0A' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture an attacker using vlan hopping to move from vlan 1 to vlan 10?
+  sudo tcpdump 'ether[12:4] & 0xffff0fff = 0x81000001 && ether[16:4] & 0xffff0fff = 0x8100000A' -r BPFCheck.pcap | wc -l
