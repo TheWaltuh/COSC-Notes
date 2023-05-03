@@ -733,17 +733,20 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
                                       #showing where ethertype is equal to 0x0800 (ipv4)
                                       #and from tcp header pulling dst port
                                       #and where that port is nt equal to 23
-
-
-                    
-            
-                    
-                    
-
-
-
-
-
+                    tcpdump 'ip[9]=17||ip6[6]=0x11'
+                                      #get all ipv4 and ipv6 udp protocols
+                    tcpdump 'ether[12:2]=0x0806'
+                                      #gets all arp traffic
+                    tcpdump 'ip[6]&128=128'
+                                      #gets all with evil bit set
+                    tcpdump 'ip[9]=16'
+                                      #gets all with the chaos protocol
+                    tcpdump 'ip[1]>>2=37'
+                                      #gets all traffic with dscp value of 37
+                    tcpdump 'tcp[13]&32!=32&&tcp[18:2]>0'
+                                      #gets all where urg flag is not set and urg pointer has a value
+                    tcpdump 'ip[8]=1&&(ip[9]=1||ip[9]=0x11)'
+                                      #gets the beginning of traceroutes for windows and linux entering the system
 
 
 
