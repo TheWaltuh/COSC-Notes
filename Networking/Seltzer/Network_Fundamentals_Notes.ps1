@@ -673,6 +673,44 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/O
             #Used for streaming data
         https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/rtp.png
         
+    #Terminator trick
+        ctrl+shift+x          #zooms in on current terminator window
+                              #can do again to see all windows 
+                              
+    #Network Traffic sniffing
+        #filtering and searching through network traffic
+        #what makes traffic capture possible
+            #Libpcap
+            #WinPcap
+            #NPCAP
+        #Use things like Wireshark, TCPdump, TShark, etc
+            #TCP Dump (read packet captures)
+            curl cht.sh/tcpdump                       #gives examples and help for tcpdump command
+                #Filters
+                    sudo tcpdump -D                   #Shows avalable interfaces
+                    sudo tcpdump -i <interface>       #shows data for one specific interface
+                    sudo tcpdump -i <interface> -X    #shows the ascii of a given interface
+                    sudo tcpdump -i <interface> -XX   #shows ascii and ether portion of a given interface
+                    sudo tcpdump -w some.pcap         #writes to a pcap
+                          #can read with wireshark or tcpdump
+                          sudo tcpdump -r some.pcap   #reads some.pcap
+                    sudo tcpdump port 80              #all traffic src or dst 80 (HTTP)
+                                         -vn          #verbose, and disable name resoultion
+                    sudo tcpdump port 22 or 23 -vn | egrep 22:
+                                  #shows all traffic on port 22 or 23, then filter to show only output on port 22 (ssh)
+                    sudo tcpdump portrange 20-100 and host 10.1.0.2 or host 10.1.0.3 and dst net 10.2.0.0/24 -vn
+                                  #shows all traffic in port range of 20-100, and is a host ip of 10.1.0.2 or 10.1.0.3 and is a dest ip in the network of 10.2.0.0/24
+                                  #and then does verbosely showing no name resolution
+                    
+                    #Boolean Logic
+                        AND or &&
+                        OR or ||
+                        #EX
+                          sudo tcpdump 'port 80 && port 22'
+                    
+
+                    
+                    
 
 
 
