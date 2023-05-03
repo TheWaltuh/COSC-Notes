@@ -2,152 +2,57 @@ UserCTFD:MAGR-503-M
 ssh student@10.50.32.89 -X
 README file located in home directory has tons of useful information for the mod
 All Linux based
+curl cht.sh/<command>
 
-----Basic Fundamentals
----Physical Layer
-Data Treansmission and Reception
-Encoding and Signaling
-Physical Design and Specifications
----Data Link Layer
-Ethernet Header (Frame)
-  Destination Mac
-  Source MAC
-  Ethertype
-    0x0800 IPv4
-    0x0806 ARP
-    0x86DD IPv6
-    0x8100 VLAN Tag
-      802.1Q Header
-        Tage Protocol ID
-        PCP/DEI
-        VLAN ID
-  Data
-  CRC/FCS
---MAC(Media Access Control)
-  Address associated with it
---LLC(Logical Link Control)
-  Virtual
----Network Layer
---IPv4 Header
-  version
-  IHL - Internet Header Length
-  DSCP - Differentiated Service Code Point
-    ECN - Explicit Congestion Notification
-      why is this typically zero and in what cases would a value be assigned to it
-    Bit Shifting
-      multiply by 4 or bit shift in order to get the actual value of the DSCP+ECN rather than just the DSCP value
-  Total Length
-  Identification
-  Flags
-  Fragment Offset
-  Time to Live
-  Protocol
-  Header Checksum
-  Source IP Address
-  Destination IP Address
-  Options
---IPv6 Header
-  Version
-  Traffic Class
-  Flow Label
-  Payload Length
-  Next Header
-  Hop Limit
-  Source IPv6 Address
-  Destination PIv6 Address
----Layer 2 Switching Technologies
----Layer 3 Routing Technologies
----Transport Layer
-  windows size is the size, in bytes, that the receiveing host can take (tcp sliding window)
-  0x00 null scan, to see if the port is open
-  0x3F christmas tree
----Session Layer
-  maintain ongoing connections, does not exist for UDP, only for TCP
-  Ports
-    0 to 1023 well known
-    1024 to 49151 registered
-    49152 to 65535 Dynamic(Ephemeral)
-  Protocols
-    SOCKS
-      initiate connections through a proxy
-      on TCP port 1080
-      client can provide authentication to the server
-      client can request connections from the server
-    NetBIOS
-    PPTP/L2TP
-      PPTP vulnerable way to make VPN tunnels on TCP port 1723
-      L2TP does not provide encryption but rather relaies on other protocols on TCP port 1701
-    RPC
-      Any Port
-      request/response
-        sends requests to a external server
-        receives information for external server
-        displays data to user
-          XML
-          JSON
-    SMB/CIFS
-      allows sharing files, printers, and other things
-        SMABA and CIFS are different types of SMB
-      SMB(Server Message Block) rides over NetBIOS
-      Netbios Dgram Service - UDP 138
-      Netbios Session Service - TCP 139
----Presentation Layer
-  Translating
-    translates data between what the network requires to the format of the computer
-  Formatting
-    readable format
-  Excryption, and Compression of data
----Application Layer
-  Applications and Services
-    FTP (TCP 20/21)
-      File Transfer Protocol
-      Command and Data ports
-      Active
-        client initiates connection
-        issues with NAT and Firewall
-        complications with tunneling
-      Passive
-        client initiates both the command and data connections
---SSH TCP 22
-  
---Telnet TCP 23
-  remotely communicate but not secure
-  can interact with an http server
-  banner grabbing
---SMTP TCP 25
-  for sending mail in-between mail servers
---TACACS TCP 49 and Raidus UDP 1645/1646 and 1812/1813
-  authentication
---HTTP TCP 80
---HTTPS TCP 443
---POP TCP 110
-  Post Office Protocol
---IMAP TCP 143
-  Internet Message Access Protocol
---RDP TCP 3389
-  Remote Desktop Protocol 
---DNS Query/Zone Transfer TCP/UDP 53
-  Domain Name Server
---DHCP UDP 67/68
-  Dynamic Host Configuration Protocol
-    Discover (client)
-    Offer (server)
-    Request (client)
-    Accept (server)
-  DHCPv6
-    Solicit (client)
-    Advertise (server)
-    Request (client)
-    Reply (server)
---TFTP UDP 69
-  Trivial File Transfer Protocol
---NTP UDP 123
-  Network Time Protocol
---SNMP UDP 161/162
-  Simple Network Management Protocol
-  Get-Request comes from the manager to the agent (Source IP = manager IP)
---RTP UDP above 1023
-  Real-Time Transport Protocol
-  streaming
-
+----Network Traffic Sniffing
+  Promiscious Mode- being able to see traffic that may not necessarily meant for you
+----Wireshark, Tshark, TCPdump, and BPFs
+---TCP Dump Demo
+  used to capture and display the contents of packets traversing a network interface
+  sudo tcpdump -D
+    Print the list of the network interfaces available on the system
+      1.eth0 [Up, Running]
+      2.any (Pseudo-device that captures on all interfaces) [Up, Running]
+      3.lo [Up, Running, Loopback]
+      4.nflog (Linux netfilter log (NFLOG) interface)
+      5.nfqueue (Linux netfilter queue (NFQUEUE) interface)
+  sudo tcpdump -i eth0
+    If a different interface is needed, it must be specified
+  sudo tcpdump -X
+    Displays packet data in HEX and ASCII
+  sudo tcpdump -XX
+    Displays the packet data in HEX and ASCII to include the Ethernet portion
+  sudo tcpdump -w file.pcap
+    Writes the packet to a file
+  sudo tcpdump -r file.pcap
+    Reads the pcap file
+  tcpdump -v
+    Gives more verbose output with details on the time to live, IPID, total length, options, and flags
+      192.168.249.133.56138 > internet-host-student-5.ssh: Flags [.], cksum 0x5b12 (correct), seq 12029, ack 235724, win 140, options 
+      [nop,nop,TS val 4010205241 ecr 3417680035], length 0 
+      13:16:18.673909 IP (tos 0x10, ttl 61, id 16921, offset 0, flags [DF], proto TCP (6), length 208
+   sudo tcpdump port 80 -vn
+    packet capture on a specific port, you can specify src or dest if you want a more specific searches
+    -n disables name resolution, and rather shows the number version instead
+      sudo tcpdump src port 80 -vn
+      sudo tcpdump dst port 80 -vn
+   sudo tcpdump 'port 80 || port 22'
+   sudo tcpdump "(src net 10.1.0.0/24  && (dst net 10.3.0.0/24 || dst host 10.2.0.3) && (! dst host 10.1.0.3))" -vn
+    source network 10.1.0.0/24 and destination network 10.3.0.0/24 or dst host 10.2.0.3 and not host 10.1.0.3
+----Berkley Packet Filters (BPF)
+  ip[2:2]
+    puts us in the ip header at byte offset 2, and a length of 2 bytes (Total Length field)
+  ip[9]
+    byte offset 9 with a default length of 1 (Protocol)
+  tcpdump 'ether[12:2] = 0x0800 && (tcp[2:2] != 22 || tcp[2:2] != 23)'
+    within the either header; byte offset 12 spanning 2 bytes, is looking for the ethertype set to ipv4 traffic
+    where the tcp byte offset 2, spanning 2 bytes(Destination Port), is not port 22 or is not port 22
+  ip[0] & 0x0F > 0x05
+    in the ip header byte offset 0, focusing only on the IHL where the IHL is greater than 5
+  tcp[13] = 0x11
+    in the tcp header byte offset 13, where the only packets flags set are FIN and ACK
+  tcp[13] & 0x11 = 0x11
+    in the tcp header byte offset 13, where any packets with both flags FIN and ACK are on 
+  tcp[13] & 0x11 !=0
+    in the tcp header byte offset 13, where any packets with either the flag FIN or ACK are on
 
