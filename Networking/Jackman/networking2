@@ -1,0 +1,321 @@
+
+============ DAY 2 NETWORKING NOTES ============
+
+TRANSPORT LAYER (LAYER 4)
+
+TCP -   Connection-oriented (TCP-Segments-Unicast traffic)
+
+	requires that a connection with specific agreed-upon parameters be established before data is sent.
+
+	provides segmentation and sequencing.
+
+	provides connection establishment and acknowledgments.
+
+	provides flow control (or windowing).
+
+	Identify common application layer protocols or functions that rely on TCP.
+		
+		Header:
+		source port,
+		destination port,
+		sequence number,
+		acknowledgement number,
+		offset (length of header)
+		TCP flags
+			CWR  ECE  URG  ACK  PSH  RST  SYN  FIN
+			128   64   32   16    8    4    2    1
+		window, size in biytes that the receiving host is able to get
+		checksum
+		urgent pointer (if URG flag is sent it points to the last urgent data byte)
+		
+		TCP connections
+			initiator sends SYN
+			receiver returns SYN,ACK
+			iniator sends ACK (seq = 1)
+			established connection			
+			
+
+
+UDP -   Connection-less (UDP-Datagrams-Broadcast, Multicast, Unicast Traffic)
+
+	requires no connection before data is sent
+
+	provides no ordering, duplicate protection or delivery guarantee
+
+	does provide integrity checking
+
+	Identify common application layer protocols or functions that rely on UDP
+
+		Header:
+		source port,
+		destination port,
+		length,
+		checksum,
+		
+
+
+SESSION LAYER (LAYER 5)
+
+TCP only
+
+ex protocols
+	SOCKS
+	   port 1080
+	   client can provide authentication to server 
+	   client can request connections from server
+		
+	SMB/CIFS (TCP 139/445 AND UDP 137/138)
+		SMB rides over netbios
+		multi-purpose protocol used for file sharing, domain, and creating sessions
+		CIFS and SAMBA are flavors of SMB
+		
+	PPTP/L2TP
+	   port 1723/1701
+	   microsoft obsolete vpn like product
+	   
+	RPC (ANY PORT)
+		request/response protocol
+		sends a request for info to an external server
+		receives the information from the external server
+		display collected data to user
+		
+well known 		0-1023
+registered 		1024-495151
+dynamic/ephemeral	49152-65535
+	    		
+	    		
+	    	
+PRESENTATION LAYER (LAYER 6)
+
+responsibilities include
+	translation
+	formatting
+	encryption
+	encoding
+	compression
+	
+
+APPLICATION LAYER (LAYER 7)
+
+FTP (TCP 20/21)
+	21 is command and control
+	20 is data
+
+	FTP ACTIVE ISSUES
+		NAT and firewall traveral issues
+		complications with tunneling through SSH
+		passive FTP solves issues related to active mode 
+		is most often used in modern systems
+		uses port 20 & 21
+		filter for 20 to see file
+		
+	FTP passive tells the server what port it's going to get the data from
+		(which solves the firewall issue from active)
+		uses port 21 & random high port
+		in the request you'll see ex (x,x,x,x,128,67)
+		x are where the ip is gonna be comma separated
+					multiply 1st number by 256 and then add 67 
+					for opened random high port	
+
+TELNET (TCP 23)
+	remote shell
+	unsecure
+	can be user to banner grab
+	
+SMTP (TCP 25)
+	sending mail in between mail servers
+	
+
+TACACS (TCP 49) SIMPLE/EXTENDED
+	used for authentication
+
+HTTP(S) (TCP 80/443)
+	used for the web
+	methods:
+		GET/HEAD/POST/PUT
+	http status codes: 200 = OK
+	https is encrypted so it doesn't have status codes
+	
+RDP (TCP 3389)
+	remote to a windows machine's desktop
+	
+DNS  (QUERY/RESPONSE) (TCP/UDP 53)
+	zone transfers are tcp
+	queries are udp
+	
+DHCP (UDP 67/68)
+	dynamic host config
+	client and server process: DORA
+	Discover	(C)
+	Offer		(S)
+	Request 	(C)
+	Accept		(S)
+	
+	for DHCPv6: SARR
+	Solicit	(C)
+	Advertise	(S)
+	Request	(C)
+	Reply		(S)
+
+TFTP (UDP 69)
+	trivial file transfer
+	opcodes & error messages
+
+NTP (UDP 123)
+	keeps the time useful for setting up timelines during analysis
+	
+SNMP (UDP 161/162)
+	if it uses port 161 it's server to client | manager to agent
+				  source    dst       source     dst
+				  
+	if it uses port 162 it's client to server | agent to manager
+				  source    dst       source     dst
+	7 message types:
+		
+
+RADIUS (UDP 1645)
+	not encrypted authorization
+	
+RTP (UDP ANY ABOVE 1023)
+	used for streaming
+	
+SSH (TCP 22)
+	secure shell
+	tunneling
+	can use other applications through shell
+	secure copy (scp)
+	secure file transfer (sftp)
+	
+
+vim .ssh/config
+Host ihost 
+	HostName <ip>
+	Port 22
+	
+	
+	
+challenge notes: 
+
+use bootp for to find dhcp packets
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+

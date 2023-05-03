@@ -1,0 +1,217 @@
+
+============ DAY 1 NETWORKING NOTES ============
+
+links:
+
+https://net.cybbh.io/public/networking/latest/index.html
+http://networking-ctfd-1.server.vta:8000/resources
+https://miro.com/app/board/o9J_klSqCSY=/
+
+Command: ssh student@10.50.38.156 -X
+
+Password: password
+
+
+---------------------------------------------------------------------------
+
+NETWORKING FUNDEMENTALS
+
+binary identification:
+
+1 bit 
+1 nibble 		= 4 bits, 1 hex character
+1 byte 		= 8 bits
+1 half word 		= 16 bits, or 2 bytes
+1 word 		= 32 bits
+1 very long word 	= 64 bits
+
+
+#Encapsulation and Decapsulation
+
+The communication between every layer other than the Physical layer is logical in nature. Therefore in order to pass information between protocol layers a protocol data unit (PDU) must be used. Each PDU for each protocol layer has specifications for the features or requirements at it’s layer. The PDU is passed down to a lower layer for transmission, the next lower layer is providing the service of handling the previous layer’s PDU. This is why the previous layer’s PDU is now referred to as an service data unit (SDU)
+
+#OSI MODEL
+
+	1. PHYSICAL 
+		hardware specifications, encoding & signaling, physical network design, data tranmission & reception
+		PDU: bits
+		common protcols: Bluetooth, USB, 802.11 (Wi-Fi), DSL, 1000Base-T
+		
+	2. DATA LINK
+		MAC (media access control) and LLC (logical link control)
+		PDU: frames
+		common protocols: PPP, ATM, 802.2/3 Ethernet, Frame Relay
+			**ETHERNET HEADER
+				destination MAC:	6 bytes
+				source MAC:		6 bytes
+				ethertype:		2 bytes
+					0x0800 - ipv4
+					0x0806 - arp
+					0x86DD - ipv6
+					0x8100 - VLAN tagging 802.1q
+				data/payload:		46-1500 bytes
+				FCS/CRC:		4 bytes
+				
+			
+			spanning tree protocl (stp)
+			 1. elect root bridge
+			 2. identify the root ports on no-root bridge
+			 3. identify the designated port for each segment
+			 4. 
+			 
+			 stp stops switching loop
+			 layer 2 discovery protocols
+			 	- cisco discovery protocol (cdp)
+			 	- foundry discovery protocol (fdp)
+			 	- link layer discovery protocol (lldp)
+			 
+			 DTP (dynamic trunking protocol)
+			 trunking takes multiple vlans and pipes them through 
+			 dynamic trunking assigns automatically 
+			 
+			 
+			 VTP (vlan trunking protocol)
+			 
+		port security
+			modes:
+				shutdown - if someone else's mac is on your port it gets permanetly shutdown
+				restrict - port is blocked 
+				protect  - logs connections
+	3. NETWORK 
+		predominantly ipv4 and ipv6
+		PDU: packet
+		Uses routers
+			Network route - A network route that has a subnet mask equal to that of the classful mask.
+
+				Class A - 255.0.0.0 (/8)
+
+				Class B - 255.255.0.0 (/16)
+
+				Class C - 255.255.255.0 (/24)
+
+
+			ROUTED VS ROUTING PROTOCOLS
+			 
+Routed protocol: is a protocol that allows data to be routed. These protocols provide an addressing scheme and sub-netting. The addressing scheme identifies the individual host and the network to which it belongs. Each host address bust be unique. All hosts on an internetwork must use the services of a routed protocol to communicate.
+
+	IPv4
+
+	IPv6
+
+	IPX
+
+	AppleTalk
+
+Routing Protocol: are used by routers communicate routing information with each other. Unless all routes are manually entered into the router, the router needs to learn from other routers about the networks that they know. They use this shared information to populate their routing tables so that they can make better decisions when forwarding routed protocols such as IPv4.
+
+Routing protocols are broken down to 2 types:
+
+Interior Gateway Protocol (IGP) - is a type of protocol used for exchanging routing information between gateways (commonly routers) within an autonomous system
+
+	RIP (v1, v2, ng)
+
+	EIGRP and EIGRP or IPv6
+
+	OSPF (v2 and v3)
+
+	IS-IS
+
+Exterior Gateway Protocol (EGP) - is a routing protocol used to exchange routing information between autonomous systems
+
+	BGP
+
+	 
+			 
+First Hop Redundancy Protocols (FHRP)
+				 
+	Hot Standby Router Protocol (HSRP) - A Cisco-proprietary FHRP designed to allow for transparent fail-over of IPv4 networks. One 		router interface will be set as "active" and the others set as "standby". Once the active interface will forward traffic to 	 other networks. Standby interfaces serve as backups in case the active fails. Active interface sends multicast "Hello" packets 		to inform the backups that its still operational.
+
+	HSRP for IPv6 - Cisco-proprietary FHRP providing the same functionality as HSRP but for IPv6 addressing.
+
+	Virtual Router Redundancy Protocol version 2 (VRRPv2) - An open-standard FHRP similar to HSRP. Assigns the "Master" as the 	active forwarder and "backups".
+
+	VRRPv3 - VRRP for IPv6 addressing.
+
+	Gateway Load Balancing Protocol (GLBP) - another Cisco-proprietary FHRP like HSRP but adds the ability to have more than one 		Active forwarder. Incorporates the ability to load balance over all active interfaces rather than using just 1.
+
+	GLBP for IPv6 - CGLBP for IPv6 addressing.
+			 
+			 
+			 
+-----------------------------------------------------------------------------------------------------------------------------------
+
+time to live 
+
+64 - linux
+
+128 - windows
+
+256 - cisco
+
+
+
+
+_ _ _ _ _ _ | _ _
+
+128 64 32 16 8 4 2 1 
+
+DSCP		ECN
+
+multiply dscp by 4
+
+
+
+
+
+
+CHALLENGE NOTES:
+
+arp storm is found in wireshark by looking at "who has <ip> tell <ip>" messages, the source is where you find the mac
+arp mitm is found in wireshark by looking at "<ip> is at <mac address>" messages, the source is where you find the mac
+
+arp opcodes:
+
+1 - request
+2 - reply
+3 - reverse request
+4 - request reply
+			 
+filter for opcode - arp.opcode == <>
+
+filter for mac - eth.addr == <>
+
+filter for cisco software version - cdp.software_version		 
+
+filter for lldp system name of sending devices - lldp.tlv.system.name
+
+filter for bridge priority of stp root bridge - stp.root.prio 
+
+filter for vtp management domain name
+			 
+find fragmentation then add - ip.id as a filter and use the value in ()	 
+			 
+when finding fragment offset value wireshark gives offset in bits so divide by 8
+
+in the data for a fragment payload windows will send all characters in the hex 
+			 
+when looking at eigrp the packets with an (update) info section are where a network is being advertised
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
