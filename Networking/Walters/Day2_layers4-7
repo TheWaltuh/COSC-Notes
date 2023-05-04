@@ -1,0 +1,255 @@
+
+Day 2
+OSI Layers 
+
+
+===============Layer 4=================
+
+TCP:
+    connection oriented
+    reliable
+    packets come in order
+    no packet loss acceptable
+    allows flow control (windowing)
+    uses 3 way handshake:
+
+    Useful Header info:
+        source port,
+        destination port,
+        squence number
+        acknowledgement number
+        offset (length of header)
+        TCP Flags - SYN,ACK,FIN,RST,etc...
+        Window size (size in bytes that the recieving host is able to get)
+        Checksum
+        urgent pointer (if URG flag is sent, this points to last urgent data byte.)
+        TCP options...
+        
+
+TCP Connection:
+
+initiator sends SYN
+reciever returns SYN,ACK
+initiator sends ACK, (seq = 1)
+connection is established. 
+
+Now after every packet, the reciever returns with an ack packet with +1 added to the seq number. 
+
+When closing:
+initiator sends FIN,ACK
+reciever returns with ACK
+reciever sends FIN,ACK
+initiator sends ACK,
+
+The connection is now closed. 
+
+
+       
+        
+        
+UDP:
+    streaming (connectionless)
+    "fire and forget"
+    not worried about order
+    packet loss is acceptable
+
+
+    UDP Header:
+        Source Port
+        Destination Port
+        Length
+        Checksum
+        
+        
+===============Layer 5, Session Layer================
+
+TCP only
+
+Examples:
+SOCKS
+NetBIOS
+PPTP/L2TP
+RPC
+
+
+SOCKS: TCP 1080
+    Can provide authentication to a server
+    can request a connection with a server.
+    
+PPTP: TCP 1723
+    very vulnerable VPN protocol, obsolete
+    Microsoft Product.
+    
+L2TP: TCP 1701
+    ?
+
+SMB/CIFS: TCP 139/445 and UDP 137/138
+    Multi-purpose protocol for file sharing, domain, and creating sessions.
+    CIFS and SAMBA are just flavors of SMB 
+    
+RPC: (any port)
+    send requests for information to an external server
+    receives the information from the external server
+    Display collected data to user
+    **Other protocols use RPC    
+
+
+
+============Layer 6, Presentation=============
+
+This layer is responsible for:
+    Translation
+    Formating
+    Encryption
+    Encoding
+    Compression
+    
+
+=============Layer 7, Application==============
+
+Examples:
+    FTP: TCP 20/21
+        21 is command and control
+        20 is data
+        
+        FTP Active vs. FTP Passive:
+            in passive, the clinet will open a port and "pick up" their data instead of having it delivered. 
+            This avoids issues with firewalls and NAT translation. 
+            Active ports: 20 & 21
+            Passive ports: 21 & Random High Port
+            
+            to find Passive RHP, (123, 64)
+            I would multiple first number by 256, and then add the second number.
+            
+            
+
+
+    Telnet: TCP 23
+        remote shell
+        Unsecure
+        possibly use for banner grab
+            
+    SMTP: TCP 25
+        Part of sending an email. Sends the mail between mail servers.
+        
+    TACACS/Radius: TCP 49 / UDP 1645/1812 (authentication) UDP 1646/1813 (accounting)
+        for authenticating to network devices
+        TACACS is the Cisco one
+                 
+    HTTP, HTTPS: TCP 80, 443
+        For the web
+        
+        Status Codes: 200 = OK
+        Methods:
+            GET, Head, Post, Put
+        
+    RDP: TCP 3389
+        Remote Desktop Protocol
+    
+    DNS: TCP/UDP 53
+        Domain Name System
+        TCP for Zome Transfer
+        UDP for queries
+        
+        
+    DHCP (Dynamic Host Config Protocol): UDP 67/68
+        Client and server process: DORA
+            Discover    (Client)
+            Offer       (Server)
+            Request     (Client)
+            Accept      (Server)
+            
+            For DHCPv6: SARR
+            Solicit     (Client)
+            Advertise   (Server)
+            Request     (Client)
+            Reply       (Server)
+
+            **These are both about the same, but with different names.
+
+
+    NTP (Network Time Protocol): UDP 123
+        Keeps the time
+
+
+    SNMP (Simple Network Management Protocol): UDP 161/162
+        port 162 is for client to manager (manager gets 162)
+        port 161 is for manager to client (agent/client gets 161)
+
+    RTP (Real-time Transfer Protocol): UDP above 1023
+        Standard UDP Streaming on non-well-known ports.
+        
+    SSH (Secure Shell): TCP 22
+        Client Server authentication
+        Asymetric or PKI for key exchange
+        Symmetric for session
+        User authentication
+        Data Stream Channeling
+        
+        SCP is secure copy, rides over ssh
+        SFTP is secure file transfer protocol, rides over ssh
+        
+        ~/.ssh/known_hosts
+            gives me known hosts
+        ~/.ssh/config
+            controls some functionality.
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+alias sshhost='ssh ihost terminator&'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

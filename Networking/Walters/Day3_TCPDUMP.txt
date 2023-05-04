@@ -1,0 +1,146 @@
+
+Day 3
+
+
+=============TCP DUMP==============
+
+TCPdump  --  command line wireshark
+
+
+Demo notes:
+
+** don't forget 'curl cht.sh/tcpdump' is a good resource
+
+We use BPFs because they're faster, less overhead.
+
+Everything needs sudo 
+
+tcpdump -D  - shows all interfaces
+
+tcpdump -i <interface> specify and interface.
+
+tcpdump -X  - shows hex and ascii
+tcpdump -XX  - shows hex and ascii, includes ethernet portion
+
+tcpdump -w <pcap name>.pcap  - write the output to file
+tcpdump -r <pcap name>.pcap  - read pcap file
+
+tcpdump port 80  - listens for traffic on Dport or Sport 80
+
+-v  - verbose
+-n  - don't resolve host and port names
+
+tcpdump portrange 20-100 and host 10.1.0.2 or host 10.1.0.3 and dst net 10.2.0.0/24 -vn
+*portrange 20-100 lets me select a range of ports
+*host lets me select traffic for specific hosts.
+*dst net 10.2.0.0/24 let me select traffic headed towards a specific network.
+*-vn is verbost with no name resolution
+
+tcpdump "(src net 10.1.0.0/24 && (dst net 10.3.0.0/24 || dst host 10.2.0.3) && (! dst host 10.1.0.3))" -vn
+* src net lets me select the source of the traffic
+* The parenteses lets be group the boolean logic together. 
+* && is logical and, || is logical or
+* ! is logical not
+
+
+
+======================Berkley Packet Filters==========================
+
+syntax:
+<header>[<byte offset>:<length (default is 1)>]
+
+ip[2:2]  - get total length in ipv4 header
+ip[9]    - get protocol field
+ip[16:4] - get destination ip
+ip[12:4] - get source ip
+ip[16:4]=8.8.8.8 - destination ip must = 8.8.8.8
+
+
+ip - ipv4 header
+ip6 - ipv6 header
+tcp - tcp header
+
+
+
+SLIDE: 
+tcpdump {A} [B:C] {D} {E} {F} {G}
+
+A = Protocol (ether | arp | ip | ip6 | icmp | tcp | udp)
+B = Header Byte offset
+C = optional: Byte Length. Can be 1, 2 or 4 (default 1)
+D = optional: Bitwise mask (&)
+E = Operator (= | == | > | < | <= | >= | != | () | << | >>)
+F = Result of Expresion
+G = optional: Logical Operator (&& ||) to bridge expressions
+
+
+Bitwise Masking:
+Filter bits, not just the bytes
+syntax:
+ip[0] & 0x<bits we're looking at> <operator> <what their value must be>
+
+
+ip[0] & 0x0F > 0x05
+* this is saying second nibble should be greater than 5
+
+Examples:
+
+    all bit values must be set to specific value (most exclusive)
+tcp[13] = 0x11
+--or--
+tcp[13] & 0xFF = 0x11
+**default is looking at both bits?
+
+
+    all designatiod bits must be set, but others may be set
+tcp[13] & 0x11 = 0x11
+** looks only at ack and fin bits, and says they must be equal to 0x11 (both on)
+
+    
+    At least one of the designated bits must be set to not equal 0; others may be set (least exclusive)
+tcp[13] & 0x11 !=0
+
+
+GREAT RESOURCE FOR BPF:
+RESOURCES > NETWORK FUNAMENTAL RESOURCES > BPF EXAMPLE INFORMATION
+** good starting point.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
