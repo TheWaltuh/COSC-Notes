@@ -1,1 +1,128 @@
+----Sockets
+  Stream Socket - used with TCP, Stream Control Transmission Protocol(SCTP), and Bluetooth. Connection oriented and sequenced.
+  Datagram Socket - used with UDP. NO mechanism to retransmit data is a packet is dropped.
+  Raw Socket - direct sending and receiving of IP packets without automatic protocol-specific formatting
+    Used in tcpdump, nmap, and wireshark
+---User Space/Kernel Space
+  OS's uses API's and libraries or order to manage the functions that span user to kernel space
+  STREAM and DGRAM sockets are user space sockets
+  RAW sockets are kernel space
+---Python Libraries 
+Can Contain
+  Modules: defines functions, classes, and variables
+  Function: organized, resuable code
+  Methods: performs a task within a function
+  Exceptions: special condition encountered
+  Constants: data or a value that does not change
+  Objects: used in object-oriented programming
+  Collections(Arrays) 
+    List: changeable
+    Tuple: unchangeable
+    Set: unindexed
+    Dictionary: unordered, changeable, and indexed
+  Data Types
+    Integer :: Float :: Complex Numbers :: Strings :: List :: Tuples :: Range :: Dict :: Set :: Frozenset :: Boolean :: Bytes :: ByteArrays :: MemoryViews
+---Python3 and Sockets
+  import socket
+  s = socket.socket(socket.FAMILY, socket.TYPE, socket.PROTCOL)
+    FAMILY constants :: AF_INET and AF_INET6
+    TYPE constants :: SOCK_STREAM, SOCK_DGRAM, and SOCK_RAW
+    PROTOCOL constants :: 0 and IPPROTO_RAW
+---Socket API Functions
+  socket() :: creates a new socket
+  bind() :: associates a socket and a socket address
+  listen() :: bound TCP socket to enter a listening state
+  connect() :: assigns a free local port to a socket
+  accept() :: create a new TCP connection from the remote client
+  send() :: sendall() :: recv() :: sendto() :: recvfrom() :: sending and receiving data
+  close() :: release resources allocated to a socket
+  gethostbyname() :: gethostbyaddr() :: resolve hostnames and addresses
+  select() :: waiting for one or more from a provided list of sockets to be ready to read and write
+  poll() :: check a state of a socket
+  getsockopt() :: current value of a socket option
+  setsockopt() :: set a socket option
+  
+--Stream Socket Example
+#!/usr/sbin/python3
+# import module for sockets
+import socket
+#   This can also be accomplised by using s= socket.socket() due to AF_INET and SOCK_STREAM being default
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Network sockets need both an IP address and a port
+HOST = '127.0.0.1'
+PORT = 54321
+# Connecting to the above local address and port
+s.connect((HOST, PORT))
+# To send a string as a butes-like object, add the prefix b to the string. \n is used to go to the next lin$
+s.send(b'Hello is it me you\'re looking for\n')
+# It is recommended that the buffersize used with recvfrom is a power of 2 and not a very large number of b$
+response, conn = s.recvfrom(1024)
+# In order to receive a message that is sent as a bytes-like-object you must decode into utf-8 (default)
+print(response.decode())
+s.close()
+echo "this message will send" | nc -lp 54321
+
+--Dgram Socket Example
+#!/usr/sbin/python3
+# import module for sockets
+import socket
+#   This can also be accomplised by using s= socket.socket() due to AF_INET and SOCK_STREAM being default
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+# Network sockets need both an IP address and a port
+HOST = '127.0.0.1'
+PORT = 54321
+#s.connect((HOST, PORT)) # removed because this UDP which is connection-less
+# To send a string as a butes-like object, add the prefix b to the string. \n is used to go to the next lin$
+s.sendto(b'Die Hard is a Christmas movie!\n', (HOST,PORT))
+# It is recommended that the buffersize used with recvfrom is a power of 2 and not a very large number of b$
+response, conn = s.recvfrom(1024)
+# In order to receive a message that is sent as a bytes-like-object you must decode into utf-8 (default)
+print(response.decode())
+#s.close() # connection was never opened, so no need to close it
+echo "this message will show for udp" | nc -lp 54321 -u
+
+--Raw Socket Example IPv4
+# For building the socket
+import socket
+# For system level commands
+import sys
+"""
+For establishing packet structure (used later on), this will allow access to the function in the struct $
+"""
+from struct import * 
+# Create a raw socket
+try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+except socket.error as msg:
+    print(msg)
+    sys.exit()
+packet = ''
+src_ip = "10.1.0.2"
+dst_ip = "10.3.0.2"
+# Lets add the IPv4 header information
+ip_ver_ihl = 69 # This is putting the decimal conversion 0x45 for Version and Internet Header Length
+ip_tos = 0      # This combines the DSCP and ECN fields
+ip_len = 0      # The kernel will fill in the actual length of the packet
+ip_id = 12345   # This sets the ip identification for the packet
+ip_frag = 0     # This sets fragmentation to off
+ip_ttl = 64     # This determines the ttl of the packet when leaving the machine
+ip_proto = 16   
+"""
+This sets the IP protocol to 16 (Chaos). If this was 6 (TCP) or 17 (UDP) additional header would be requ$
+"""
+ip_check = 0                         # The kernel will fill in the checksum for the packet
+ip_srcadd = socket.inet_aton(src_ip) # will convert an IP address to a 32 bit binary number
+ip_dstadd = socket.inet_aton(dst_ip) # will convert and IP address to a 32 bit binary number
+# After our variables are declared above we need to put them in order, in a variable below
+ip_header = pack('!BBHHHBBH4s4s', ip_ver_ihl, ip_tos, ip_len, ip_id, ip_frag, ip_ttl, ip_proto, ip_check$
+"""
+B - 1 byte (Byte)
+H - 2 bytes (Half Word)
+4s - 4 bytes (Word - converted from string to binary
+"""
+# Making the packet
+message = b'The bird is the word'
+packet = ip_header + message
+# Sending the packet
+s.sendto(packet, (dst_ip, 0))
 
