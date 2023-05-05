@@ -131,11 +131,22 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/R
                                 #For Examples of all the different types of scans see FG
 #NMAP Basics
   sudo nmap 
-            -n #disable name resoultion
-            -P #print off the ping code
+            -n    #disable name resoultion
+            -P    #print off the ping code
+            -T4   #makes run faster
   sudo nmap -Pn 10.10.1.0,5,55,70
         #scans for multi ips in one scan
-
+  nmap -Pn 10.10.0.40/27
+        #scans entire subnet
+  nmap -Pn 10.10.0.40/27 -p 21-23,80
+        #scans entire subnet returning only those with ports 21-23,80
+  nmap -Pn 10.10.0.40/27 -p 21-23,80 | egrep -i "open|Nmap scan"
+        #scans entire subnet returning only those with open ports 21-23,80
+        #also shows all of the ip lines
+  nmap -Pn 10.10.0.40/27 -p-
+        #scans all potential ports 
+        #do not reccommend takes forever (just a hail mary deal)
+  
 #Subnetting Chart
         128       64        32        16        8       4        2       1
              +=
