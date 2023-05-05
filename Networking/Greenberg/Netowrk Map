@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net" modified="2023-05-05T20:08:33.780Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="Ru-rGzEQrqoMxjEobyYJ" version="21.2.9" type="github">
+  <diagram name="Page-1" id="UrAOD6k8fKv2funcCNdR">
+    <mxGraphModel dx="2154" dy="747" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-1" value="&lt;div&gt;HOSTNAME&lt;/div&gt;&lt;div&gt;IP(S)&lt;/div&gt;&lt;div&gt;PORTS&lt;/div&gt;&lt;div&gt;TOOLS&lt;/div&gt;&lt;div&gt;CREDENTIALS&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-2" value="&lt;div&gt;internet-host-student-5&lt;br&gt;&lt;/div&gt;&lt;div&gt;10.50.32.89&lt;/div&gt;&lt;div&gt;eth0: 10.10.0.60/27&lt;/div&gt;&lt;div&gt;21,22,23,80&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;wget-wireshark-telnet-ssh-nmap-tcpdump&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student : password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="80" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-5" value="&lt;pre style=&quot;font-size: 1px;&quot;&gt;im&lt;font style=&quot;font-size: 1px;&quot;&gt;portant&lt;/font&gt;&lt;font style=&quot;font-size: 1px;&quot;&gt; documents&lt;/font&gt;&lt;font style=&quot;font-size: 1px;&quot;&gt; and contents&lt;/font&gt;&lt;br&gt;&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-6" value="&lt;div&gt;netowrking-ctfd-1.server.vta&lt;/div&gt;&lt;div&gt;53&lt;/div&gt;&lt;div&gt;Interrogate DNS record&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="160" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-7" value="&lt;div&gt;RED-SCR&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.120.1&lt;/div&gt;&lt;div&gt;eth0: 172.16.120.1/30&lt;/div&gt;&lt;div&gt;eth1: 172.16.120.6/30&lt;/div&gt;&lt;div&gt;eth2: 172.16.101.30/27 (DMZ)&lt;br&gt;&lt;/div&gt;&lt;div&gt;22 &lt;br&gt;&lt;/div&gt;&lt;div&gt;filtered: 179&lt;br&gt;&lt;/div&gt;&lt;div&gt;wget-tcpdump-telnet-curl&lt;br&gt;&lt;/div&gt;&lt;div&gt;vyos : password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="260" width="170" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-8" value="&lt;div&gt;T2&lt;/div&gt;&lt;div&gt;172.16.182.110&lt;/div&gt;&lt;div&gt;22,80&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1662" y="390" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-9" value="&lt;div&gt;T3&lt;/div&gt;&lt;div&gt;172.16.140.33&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-40" y="440" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-10" value="&lt;div&gt;T4&lt;br&gt;&lt;/div&gt;&lt;div&gt;red-host-1-student-5&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.182.106&lt;/div&gt;&lt;div&gt;eth0: 172.16.182.106/27&lt;br&gt;&lt;/div&gt;&lt;div&gt;22&lt;/div&gt;&lt;div&gt;filtered: 68&lt;/div&gt;&lt;div&gt;wget-curl-telnet-ssh-wireshark&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1662" y="214" width="178" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-11" value="&lt;div&gt;T5&lt;/div&gt;&lt;div&gt;172.16.182.114&lt;/div&gt;&lt;div&gt;22&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="640" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-12" value="&lt;div&gt;T6&lt;/div&gt;&lt;div&gt;172.16.182.118&lt;/div&gt;&lt;div&gt;22&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="640" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-13" value="&lt;div&gt;T7&lt;/div&gt;&lt;div&gt;172.16.140.35&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="640" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-14" value="&lt;div&gt;red-dmz-host-1-student-5&lt;/div&gt;&lt;div&gt;172.16.101.30&lt;/div&gt;&lt;div&gt;eth0:172.16.101.2/27&lt;br&gt;&lt;/div&gt;&lt;div&gt;22&lt;/div&gt;&lt;div&gt;filtered: 68&lt;br&gt;&lt;/div&gt;&lt;div&gt;wget-curl-telnet-wireshark&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student : password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="775" y="440" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-15" value="RED-IPS&lt;div&gt;172.16.120.5&lt;/div&gt;&lt;div&gt;eth0: 172.16.120.5/30&lt;/div&gt;&lt;div&gt;eth1: 172.16.120.10/30&lt;br&gt;&lt;/div&gt;&lt;div&gt;22&lt;/div&gt;&lt;div&gt;wget-curl-telnet-tcpdump&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;vyos:password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="776" y="254" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-16" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.014;entryY=0.468;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="CTcJU4yGuNOKdw21YTPw-7" target="CTcJU4yGuNOKdw21YTPw-15">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="360" as="sourcePoint" />
+            <mxPoint x="590" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-17" value="eth1: 172.16.120.6" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="490" y="298" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-18" value="eth0: 172.16.120.5" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="655" y="328" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-19" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="CTcJU4yGuNOKdw21YTPw-7" target="CTcJU4yGuNOKdw21YTPw-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="530" y="460" as="sourcePoint" />
+            <mxPoint x="580" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-20" value="eth2: 172.16.101.30" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;rotation=30;" vertex="1" parent="1">
+          <mxGeometry x="490" y="370" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-21" value="eth2: 172.16.101.30" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;rotation=30;" vertex="1" parent="1">
+          <mxGeometry x="655" y="490" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-22" value="&lt;div&gt;RED-POP&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.120.9&lt;/div&gt;&lt;div&gt;eth0: 172.16.120.9/30&lt;/div&gt;&lt;div&gt;eth1: 172.16.182.126/27(Hosts)&lt;/div&gt;&lt;div&gt;eth2: 172.16.140.6/30&lt;br&gt;&lt;/div&gt;&lt;div&gt;22&lt;/div&gt;&lt;div&gt;wget-tcpdump-telnet-ssh-curl&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;vyos:password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="254" width="180" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-23" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="CTcJU4yGuNOKdw21YTPw-15" target="CTcJU4yGuNOKdw21YTPw-22">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1040" y="390" as="sourcePoint" />
+            <mxPoint x="1090" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-24" value="eth1: 172.16.120.10" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="936" y="310" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-25" value="eth0: 172.16.120.9" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="338" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-26" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="CTcJU4yGuNOKdw21YTPw-22" target="CTcJU4yGuNOKdw21YTPw-10">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1490" y="320" as="sourcePoint" />
+            <mxPoint x="1540" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-27" value="eth1: 172.16.182.126" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1372" y="268" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-28" value="eth0: 172.16.182.106" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1522" y="298" width="140" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
