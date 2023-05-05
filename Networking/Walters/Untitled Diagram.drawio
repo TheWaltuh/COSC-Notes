@@ -1,9 +1,15 @@
-<mxfile host="app.diagrams.net" modified="2023-05-05T14:57:13.359Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" version="21.2.9" etag="9NZCe9skxKup-FXXO8Pm" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-05T15:01:40.242Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="RYsaApHZenuHfkEWadjp" version="21.2.9" type="github">
   <diagram name="Page-1" id="ft4wF2bk2luMIvqd_Q8e">
-    <mxGraphModel>
+    <mxGraphModel dx="1361" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="tK3rm-bHYn2Zw6kKJ-5M-1" value="Internet_host&lt;br&gt;Flt_IP: 10.50.36.167&lt;br&gt;eth0: 10.10.0.40" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="220" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tK3rm-bHYn2Zw6kKJ-5M-2" value="Ports: 21-23. 80, 6010(X11)&lt;br&gt;user: student&lt;br&gt;pass: password" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="95" y="280" width="170" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
