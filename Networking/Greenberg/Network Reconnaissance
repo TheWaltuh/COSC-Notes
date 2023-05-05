@@ -1,0 +1,59 @@
+Active - process of transmitting packets to remote hosts and analyzing replies to identify devices
+  Netowrk Scanning
+    Remote to Local
+      outside of a specific network performing some sort of scan oh internal hosts
+    Local to Remote
+      a host within the network scans outside of the network
+    Local to Local
+      a host scans there internal network
+    Remote to Remote
+      world wide scanning campaigns
+    Approach
+      wide range scan
+      target specific scan
+    Method
+      single source scan
+      distributed scan
+Passive - OCO :: client listens for traffic from the target -- DCO :: watches the network and looks for irregular traffic
+  Identifying
+    IP-Addresses
+    People and Technologies
+    Content of Interest
+    Vulnerabilitis
+    External Sites
+  Tools
+    WHOIS
+    Phone Numbers
+    Job Listing
+    Fingerprinting
+Internal - within the network
+External - outside you network
+  Passive
+    DNS :: hotnames to Ip addresses
+    DIG :: between primary and secondary DNS servers
+    ZONE TRANSFERS :: DNS information
+    HOST HISTORY :: netcraft
+    GOOGLE SEARCHES :: subdomains and technologies
+    SHODAN :: information about techonolgy, services, network infrastructure
+https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/Recon2.png
+
+:::: PASSIVE EXTERNAL DEMO ::::
+  whois google
+  dig ccboe.net
+    dig ccboe.net MX ## Looks for the Mail Server
+    dig ccboe.net SOA ## Looks for the Source of Authority Server
+    dig ccboe.net TXT ## Text files, or some sort of text (could be in base 64)
+    dig ccboe.net NS ## Gets the name servers for the website
+    dig ccboe.net A ## IPv4
+    dig ccboe.net AAAA ## IPv6
+    dig ccboe.net CNAME ## Gets the Canonical Name record
+  dig axfr @nsztm1.digi.ninja zonetransfer.me
+  dig axfr @<name server> <website>
+  
+:::: NETOWRK SCANNING DEMO ::::
+
+
+
+
+
+
