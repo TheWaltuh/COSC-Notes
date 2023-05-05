@@ -149,6 +149,8 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/R
 #NetCat
   nc <ip> <port>
       #form of banner grabbing
+  nc -u <ip> <port>
+      #for udp
   nc -zvnw1 10.10.0.40 21-23,80
       #shows open ports from the given options
       -w1 #reduces wait time
