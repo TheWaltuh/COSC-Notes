@@ -50,10 +50,13 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/R
   dig axfr @nsztm1.digi.ninja zonetransfer.me
   dig axfr @<name server> <website>
   
-:::: NETOWRK SCANNING DEMO ::::
-
-
-
-
+:::: NETWORK SCANNING DEMO ::::
+  nmap -Pn <IPADDRESS> or <IPSUBNET>  ## -P turns of ping sweep :: -n no name resolution
+    nmap -Pn <IPADDRESS> or <IPSUBNET> -p 21-23,80 -T4 | egrep -i "open|Nmap scan" ## Quick Port Scan
+  nc -zv <IPADDRESS> <PORT> or <SERVICENAME> ## -z port scanning :: -v verbose :: -vv more verbose
+    nc -vznw1 <IPADDRESS> 1-1023 ## quick scan to see if ports are open
+    nc <IPADDRESS> 80
+      GET /
+    nc <IPADDRESS> 23 ## is a bunch of gibberish
 
 
