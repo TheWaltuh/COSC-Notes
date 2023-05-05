@@ -58,5 +58,6 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/R
     nc <IPADDRESS> 80
       GET /
     nc <IPADDRESS> 23 ## is a bunch of gibberish
-
+netstat -nltp ## Local Port Scanning
+ip a ## local ip addresses
 
