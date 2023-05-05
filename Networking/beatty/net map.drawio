@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-05-05T20:31:12.290Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="l2Uu4MTfwePT9kPvOh0G" version="21.2.9" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-05T20:46:31.039Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="xZs-PZz7-ZkDX5z3XBRx" version="21.2.9" type="github">
   <diagram name="Page-1" id="R69GroRH6VKOCnM6CNp0">
-    <mxGraphModel dx="3146" dy="1936" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3546" dy="1936" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -121,10 +121,10 @@
             <mxPoint x="-1150" y="640" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="g0fYzS8W87BL0liGn94h-34" value="&lt;div&gt;172.16.140.33&lt;/div&gt;&lt;div&gt;ports: 22,80,2800,2305,2800,2828&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="g0fYzS8W87BL0liGn94h-34" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.140.33&lt;/div&gt;&lt;div&gt;ports: 22,80,2800,2305,2800,2828,2000(u),2011(u),2200(u),2250(u),2999(u)&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="-1110" y="700" width="108" height="108" as="geometry" />
         </mxCell>
-        <mxCell id="g0fYzS8W87BL0liGn94h-35" value="&lt;div&gt;172.16.140.35&lt;/div&gt;&lt;div&gt;ports: 22&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="g0fYzS8W87BL0liGn94h-35" value="&lt;div&gt;red-int-dmz2-host-2&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.140.35&lt;/div&gt;&lt;div&gt;ports: 22&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="-1110" y="896" width="104" height="104" as="geometry" />
         </mxCell>
         <mxCell id="g0fYzS8W87BL0liGn94h-36" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="g0fYzS8W87BL0liGn94h-35" target="g0fYzS8W87BL0liGn94h-31">
