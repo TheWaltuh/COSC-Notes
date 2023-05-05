@@ -1,19 +1,19 @@
-<mxfile host="app.diagrams.net" modified="2023-05-05T15:49:37.927Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="kEPdZ3wHM6jJo5GzzZvA" version="21.2.9" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-05T15:59:20.330Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="Z3SgCn1mD7ZITHUZd7Ne" version="21.2.9" type="github">
   <diagram name="Page-1" id="ft4wF2bk2luMIvqd_Q8e">
-    <mxGraphModel dx="1361" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="0" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1361" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="tK3rm-bHYn2Zw6kKJ-5M-1" value="Internet_host&lt;br&gt;Flt_IP: 10.50.36.167&lt;br&gt;eth0: 10.10.0.40" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="tK3rm-bHYn2Zw6kKJ-5M-1" value="Internet_host&lt;br&gt;Flt_IP: 10.50.36.167&lt;br&gt;eth0: 10.10.0.40" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#182E3E;strokeColor=#FFFFFF;fontColor=#FFFFFF;" vertex="1" parent="1">
           <mxGeometry x="245" y="180" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="tK3rm-bHYn2Zw6kKJ-5M-2" value="Ports: 21-23. 80, 6010(X11)&lt;br&gt;user: student&lt;br&gt;pass: password" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="tK3rm-bHYn2Zw6kKJ-5M-2" value="Ports: 21-23. 80, 6010(X11)&lt;br&gt;user: student&lt;br&gt;pass: password" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
           <mxGeometry x="220" y="240" width="170" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="tK3rm-bHYn2Zw6kKJ-5M-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="tK3rm-bHYn2Zw6kKJ-5M-5" target="tK3rm-bHYn2Zw6kKJ-5M-1">
+        <mxCell id="tK3rm-bHYn2Zw6kKJ-5M-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;" edge="1" parent="1" source="tK3rm-bHYn2Zw6kKJ-5M-5" target="tK3rm-bHYn2Zw6kKJ-5M-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tK3rm-bHYn2Zw6kKJ-5M-5" value="My Local Host&lt;br&gt;192.168.251.255" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="tK3rm-bHYn2Zw6kKJ-5M-5" value="My Local Host&lt;br&gt;192.168.251.255" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#182E3E;strokeColor=#FFFFFF;fontColor=#FFFFFF;" vertex="1" parent="1">
           <mxGeometry width="120" height="60" as="geometry" />
         </mxCell>
       </root>
