@@ -61,3 +61,23 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/R
 netstat -nltp ## Local Port Scanning
 ip a ## local ip addresses
 
+NET RECON METHODOLOGY
+1. Host Discovery (nmap, scan.sh, nc, ping sweep, traceroute)
+2. Port Discovery (nmap, scan.sh, nc)
+3. Port Validation (Banner Grabbing - nc)
+4. Follow-On Actions (Based on the ports found)
+  IF port is 21 or 80 :: wget -r ftp://<IPADDRESS> \\ wget -r <IPADDRESS>
+  IF port is 22 or 23 :: connect to it and do PASSIVE RECON
+
+SCAN METHODOLOGY
+1. Quick Scan Ports: 21-23 and 80
+2. Specific Ports Based on Hints/Clues found :: to look at images eog :: eom
+
+PASSIVE RECON METHODOLOGY
+1. Hostname :: hostname \\ uname -a
+2. Interface and Subnets :: ip a \\ ifconfig
+3. Neighbors :: arp -a \\ ip neigh | egrep -iv "fail" \\ ip route
+4. Files of Interest (pcaps, flags, etc.) :: find
+5. Other Ports Listening :: sudo netstat -tulpn | grep LISTEN \\ ss -nltp
+6. Available Tools (tcpdump, wireshark, nmap, telnet, wget, curl)
+  We may also have to sniff for additional creds in the clear (use tcpdump to sniff for telnet traffic)
