@@ -146,7 +146,20 @@ https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/R
   nmap -Pn 10.10.0.40/27 -p-
         #scans all potential ports 
         #do not reccommend takes forever (just a hail mary deal)
-  
+#NetCat
+  nc <ip> <port>
+      #form of banner grabbing
+  nc -zvnw1 10.10.0.40 21-23,80
+      #shows open ports from the given options
+      -w1 #reduces wait time
+      -v  #is verbose
+      -n  #is numeric only
+      -z  #zero only mode (used for scanning)
+  nc 10.10.0.40 80
+      #need to run GET / to get banner information
+         #HTML shit
+  nc 10.10.0.40 23
+      #gibberish is normal banner grab return for telnet
 #Subnetting Chart
         128       64        32        16        8       4        2       1
              +=
