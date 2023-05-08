@@ -1,0 +1,16 @@
+The Donovian Insider provided a image called 1steg.jpg on T2 and is trying to connect to RELAY on TCP port 1234 to send the file. 
+  nc -lp 1234 0< relay1 | nc 10.10.0.40 1235 1> relay1
+  nc -lp 1235 > 1steg.jpg
+  steghide extract -sf 1steg.jpg
+The Donovian Insider provided a image called 2steg.jpg on T2 and is trying to connect to RELAY on TCP port 4321 to send the file. 
+  nc -lp 4321 0< relay1 | nc 10.10.0.40 4322 1> relay1
+  nc -lp 4322 > 2steg.jpg
+  steghide extract -sf 2steg.jpg
+The Donovian Insider provided a image called 3steg.jpg on T2 listening for a connection from RELAY on TCP port 6789.
+  nc 172.16.82.115 6789 0< relay1 | nc 10.10.0.40 6788 1> relay1
+  nc -lp 6788 > 3steg.jpg
+  steghide extract -sf 3steg.jpg
+The Donovian Insider provided a image called 4steg.jpg on T2 listening for a connection from RELAY on TCP port 9876.
+  nc 172.16.82.115 9876 0< relay1 | nc 10.10.0.40 9877 1> relay1
+  nc -lp 9877 > 4steg.jpg
+  steghide extract -sf 4steg.jpg
