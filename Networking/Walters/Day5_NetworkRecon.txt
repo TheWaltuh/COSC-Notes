@@ -1,0 +1,221 @@
+
+DAY 5
+
+QUOTE FOR THE DAY:
+    "AUTISTIC IS A SUPERPOWER IN CYBER"
+
+===============NETWORK RECONNAISSANCE===================
+
+flat network  - network not divided up at all. Lots of visiblility for enemies if they get onto any machine.
+
+
+
+recon types:
+    active
+    passive
+    internal
+    external
+    
+    wayback machine
+    netcraft 
+
+    subdomains: 
+    
+
+    arp -a
+    route
+    ip/if config
+    ss / netstat
+    (passive external, OSINT)
+    
+    whois  - does a dns lookup
+    dig  - pull the dns records WRITE THAT DOWN WRITE THAT DOWN
+    
+    shodan  - search engine for info about ips and stuff.
+    
+    
+    
+    
+    
+    
+==============NETWORK SCANNING=====================
+    
+    Remote to Local
+        external looking into a network
+        very common for pentesting or OCO
+    
+    Local to Remote
+        scan systems outside the network.
+        Leads to legal trouble
+        
+    Local to Local
+        scanning a network from inside the network
+        You can scan your own network
+        
+    Remote to Remote    
+        
+        
+        
+    approach:
+        Aim
+            wide range target scan 
+            Target specific scan
+        Method
+            Single source
+            Distributed
+            
+            
+            
+
+Stratagies:
+    Broadcast ping and ping sweep..
+    ARP Scan
+    SYN  - half open
+    Full connect  - creates tcp connection
+    Null scan  - no flags set
+    FIN scan  - FIN flag set
+    XMAS tree scan  - all flags set
+    UDP scan  - scan with UDP header
+
+scan types:
+    ACK/Windows scan
+    RPC scan
+    FTP scan
+    decoy scan
+    OS fingerprinting scan
+    version scan
+    Protocol pin
+    Discovery probes
+
+
+Syntax: 
+    (sudo) nmap <options> <target ip(s)/subnet>
+        -n  - no name resolution
+        -P  - disable ping
+        -p  - specify ports
+        -p-   will scan all ports
+        -T<num 1-5> - controls the speed of the scan.
+        
+    nc <options> <target ip> <target port>
+        -h  - gives you list of options
+        -n  - numeric ip only
+        -v  - verbose, vv also works
+        -w<seconds> - reduce the wait time to a specified value
+        -z  - zero IO mode, Used for scanning.
+
+
+
+nmap examples:
+
+    nmap -Pn 10.10.0.40  - scan host with no name resolution and no ICMP ping
+    nmap -Pn 10.10.0.50 -T4  - runs the scan faster
+    nmap -Pn 10.10.0.40/27 | egrep -i 'open|Nmap scan'  - look for only open ports
+    
+
+netcat examples: 
+    
+    nc 10.10.0.40 21-23,40  - banner grab for those ports
+    nc -zvnw1 10.10.0.40 21-23,80  - scan to see if these ports are open.
+    nc 10.10.0.40 23  - banner grab for telnet
+
+
+
+
+
+
+network mapping:
+
+you should have all endpoints and networking devices on your nework map.
+put all content of interest, open ports, OS, Creds, IP, hostname, 
+
+Tool:
+    draw.io
+    
+what information to include in map:
+        hostname
+        ip(s)
+        Ports 
+        Tools (nmap, nc, tcpdump, wireshark, ssh, telnet)
+            **use which to locat tools on boxes.
+
+
+
+
+net recon method:
+1. Host Discovery (nmap, scan.sh, nc, ping sweep)
+2. ports discovery (nmap, nc, scan.sh)
+3. Port validation, banner grabbing (nc, nmap -A)
+4. follow on actions (based on ports found)
+    4a. if 21 or 80, use 'wget -r ftp(http)://<ip>'
+    4b. if 22 or 23, connect to it and perform passive recon steps (see passive recon)
+5. record results, take op notes
+    
+scan method:
+1. quick scan ports: 21-23,80
+2. scan ports based on specific intel/found
+3. well known ports: 1-1023
+4. scan in chunks of 2000, or first 10,000
+5. last resort, scan everything.
+
+Passive recon method:
+perform while on machines to learn about that machine.
+
+1. hostname
+2. interfaces and subnets
+    ip a
+    ifconfig
+    ipconfig
+3. Find neighbors
+    arp -a
+    ip neigh (take note of MAC and interface it comes off of. )
+    Find more...
+4. Files of interest:
+    PCAPS, FLAGS, .txt, config files (persistence), 
+    ** 'find' is useful. 
+5. other ports listening: netstat -or- 'ss -nltp'
+6. avalible tools
+    'sudo which tcpdump wireshark nmap telnet wget curl'
+7. look for creds in the clear. user TCPDump to look for telnet traffic.
+
+
+
+Activity Notes::
+
+
+eog - open png in cmdline
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

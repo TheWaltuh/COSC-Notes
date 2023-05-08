@@ -1,0 +1,71 @@
+
+Day 4
+
+Python Socket Programming.
+
+
+Socket types:
+
+stream sockets  -- Connection oriented, sequenced, TCP,SCTP,Bluetooth
+Datagram Sockets  -- Connectionless, UDP
+Raw Sockets  -- Direct sending and receiving of IP packets without automatic protocol-specific formatting.
+
+stream and datagram are in user space.
+raw sockets are in user space.
+
+
+user space applications/sockets:
+    tcpdump/wireshark to read a file
+    nmap with no switches
+    using netcat to connet to a listener
+    using netcat to create a listener on an unprivileged port (1024+)
+    using /dev/tcp or /dev/udp to transmit data.
+    
+
+Kernel space application/sockets:
+    using tcpdump or wireshark to captrue packets on the wire.
+    using nmap for OS identification to set specific flags.
+    using nc on ports 1-1023
+    using scapy to craft/modify packets
+    using Python to craft or modify raw sockets
+    network devices using routing protocols
+    
+    
+Python:
+
+s = socket.socket(socket.<FAMILY>, socket.<TYPE>, socket.<PROTOCOL>)
+
+family:
+    AF_INET  - ipv4
+    AF_INET6 - ipv6
+    
+type:
+    SOCK_STREAM  - stream socket, TCP
+    SOCK_DGRAM   - datagram socket, UDP
+    SOCK_RAW     - Raw socket
+
+Protocol:
+    IPPROTO_RAW  - ??
+    (default is 0)
+
+
+other modules:
+    struct
+    sys
+    
+
+
+
+jolin96850@larland.com
+
+
+
+
+
+
+
+
+
+
+
+
