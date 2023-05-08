@@ -105,6 +105,7 @@
           ssh -L <local bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<pivot ip> -NT
           #local port forwarding through a local port
             ssh student@localhost -p 1111 -L 2222:172.16.82.106:80 -NT
+            #when on a box can use localhost instead of retyping the ip again
         #Dynamic Port Forwarding
           
         
