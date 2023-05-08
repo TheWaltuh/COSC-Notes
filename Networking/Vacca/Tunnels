@@ -24,7 +24,10 @@ Dynamic Port Fowarding
   ssh -p 1111 user@localhost -D 9050 -NT
   proxychains <cmd> (wget,ftp,nc,nmap -Pn(required),scan.sh, curl, telnet/ssh(don't build tunnels off of this))
 
-
+Remote Port Forwarding:
+  from the box with filtered port: ssh user@Bill -R 9999:localhost:22
+  ssh -p 2222 user@localhost -L 4444:localhost:9999
+  ssh -p 4444 user@localhost -D 9050
 
 
 
