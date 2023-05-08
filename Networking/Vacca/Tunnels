@@ -1,8 +1,11 @@
 Port Forwarding:
   2 Types (Local, Remote) have to do with where the port is being opened
   
+Local Port Forawrding
+  create tunnel:
   ssh user@H1 -L 1111:H2:22 -NT
   ssh -p 1111 user@localhost
+  Extend Tunnel:
   ssh -p 1111 user@localhost -L 2222:H3:80
   wget localhost:2222
 
@@ -16,9 +19,10 @@ Port Forwarding:
                       IH                H2
 
 
-
-
-
+Dynamic Port Fowarding
+  ssh user@H1 -L 1111:H2:22 -NT
+  ssh -p 1111 user@localhost -D 9050 -NT
+  proxychains <cmd> (wget,ftp,nc,nmap -Pn(required),scan.sh, curl, telnet/ssh(don't build tunnels off of this))
 
 
 
