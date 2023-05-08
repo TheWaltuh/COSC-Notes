@@ -1,0 +1,164 @@
+
+Day 6
+
+==================DATA TRANSFER============================
+
+FTP:
+active - Data port (20) on the server reaches out to client to deliver file.
+passive - data port is replacesd with a random high port. Client reaches out to server to initiate data transfer. 
+
+Authentication is in clear text. 
+
+RFC 959
+
+
+SFTP: SSH file transfer protocol (this is different from ftp)
+TCP port 22. Doesn't use random high ports
+uses symmetric and asymmetric encryption
+is basically FTP but over ssh. It is a completely different protocol though.
+
+
+FTPS: (File Transfer Protocol Secure)
+TCP transport (443)
+This is FTP but encrypted with SSL/TLS
+Uses multiple ports
+There are different modes. 
+Implicit mode:
+    ports 989 990, connection is assumed to be encrypted. 
+Explicit mode:
+    port 21, must request a secure connection
+
+
+
+SCP: (Secure Copy Protocol)
+TCP Transport (port 22)
+rides over SSH
+
+Syntax:
+scp <source> <destination>
+
+examples:
+scp student@192.168.0.1:secretstuff.txt /home/student
+scp secretstuff.txt student@192.168.0.1:/home/student
+scp -3 student@172.16.82.106:/home/student/secretstuff.txt student@192.168.0.1:/home/student
+** You don't always need to specify directory. It defaults to home directory.
+** copy files between remote hosts
+** -3 makes a 3 way conversation, with traffic flowing through the local host.
+
+specify alternate port:
+ssh -p
+**ssh uses little p
+scp -P
+**scp uses big P
+
+
+
+
+
+
+
+
+
+FTP DEMO:
+
+touch test.txt
+ftp 10.0.0.103
+(provide login creds.)
+passive 
+(switches to passive mode)
+help
+(display all commands)
+pwd
+put test.txt
+(copies test.txt onto the server)
+ls
+cd ..
+(change directory in the file server)
+lcd ..
+(change directory on local maching)
+get secret.txt
+(copy secret.txt onto local machine.)
+delete secret.txt
+
+
+
+
+=====================TRAFFIC REDIRECTION =======================
+
+Netcat: general networking utility (swiss army knife)
+always unencrypted, in the clear.
+
+sender:     nc 10.2.0.2 9001 < file.txt
+listener:   nc -l -p 9001 > newfile.txt
+
+** make sure to run listener first.
+
+named pipe:
+    mkfifo <name>
+    ** first in first out, creates named pipe.
+    
+
+NC RELAY DEMOS:
+
+ON CLIENT RELAY:
+mknod mypipe p
+nc 10.1.0.2 9002 0< mypipe | nc 10.2.0.2 9001 1> mypipe
+
+
+
+
+
+
+
+{
+mkfifo mypipe
+nc 10.1.0.2 9002 0< mypipe | nc 10.2.0.2 9001 1> mypipe
+
+(on listener 1 (sends info)): nc -l -p 9002 < infile.txt
+
+(on listener 2 (receives info)): nc -l -p 9001 > outfile.txt
+
+** when relay connects to the listeners, they send the contents of those files. The relay sends what it receives from one to the other. 
+\
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
