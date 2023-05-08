@@ -88,6 +88,14 @@
                 nc -lp <port> < infile.txt
                 nc -lp <port> > outfile.txt
                 
+                #$ways to do same thing
+                    #changes depending on which is listener
+                    #sender is on left
+                    #reciever is on right
+                nc -lp <port1> 0< mypipe | nc -lp <port2> 1> mypipe
+                nc -lp <port1> 0< mypipe | nc HOST_2 <port2> 1> mypipe
+                nc Host_1 <port1> 0< mypipe | nc -lp <port2> 1> mypipe
+                nc Host_1 <port1> 0< mypipe | nc Host_2 <port2> 1> mypipe
         
 
 
