@@ -1,0 +1,40 @@
+SSH LOCAL PORT FORWARDING
+  ssh {-p <alt_port>} user@<pivot ip> -L <local_port_bind>:<target_ip>:<target_port> {-NT} # -NT makes the terimanl non-interactive
+                                -- or --
+  ssh -L <local_port_bind>:<target_ip>:<target_port> {-p <alt_port>} user@<pivot_ip> {-NT}
+    ssh -p <local_port_bind> user@<local_host> # This is checking the tunnel (local_host == 127.0.0.1)
+      ssh -p <local_port_bind> user@<local_host> -L <local_port_bind2>:<target_ip2>:<target_port2> # This creates a new port on Internet-Host and tunnels to a third system
+    wget <local_host>:<local_port_bind> # This is only if port 80 is open on the target_ip
+
+
+ref line 6
+  ssh -p <local_port_bind> user@<local_host> -L <local_port_bind2>:<local_host>:80 # If port 80 is filtered on the second machine, this is how to access that port
+    Internet-Host : 1111 :: Host2 :: 22 # Starting at internet host, through local-bind port 1111 there is a ssh tunnel connecting to Host2 on port 22
+    Internet-Host : 2222 :: Host2 :: 80 # Starting at internet host, through local-bind port 2222 there is a ssh tunnel connecting to Host2's filtered port 80
+
+
+SSH DYNAMIC PORT FORWARDING
+  ssh -D <port> {-p <alt_port>} user@<pivot_ip> {-NT}
+  proxycahin defualt port is 9050
+ref line 6
+  ssh -p <local_port_bind> user@<local_host> -D 9050 -NT
+    proxychains wget -r Host3
+    proxychains netcat
+    proxychains nmap -Pn
+    proxychains ftp H3
+no ref
+  ssh user@<pivot_ip> -L 1111:<target_ip>:<target_port> -NT
+  ssh -p 1111 user@<local_host> -L 2222:<target_ip2>:<target_port2>
+  ssh -p 2222 user@<local_host> -L 3333:<target_ip3>:<target_port3> -NT
+  telnet <local_host> 3333
+  proxychains
+
+
+SSH REMOTE PORT FORWARDING
+ssh {-p <alt_port>} user@<remote_ip> -R <remote_port_bind>:<target_ip>:<target_port> -NT
+                              -- or --
+ssh -R <remote_port_bind>:<target_ip>:<target_port> {-p <alt_port>} user@<remote_ip> -NT
+ref line 29
+  ssh user@<remote_ip> -R <remote_port_bind>:<local_host>:<target_port> -NT
+  ssh -p <local_port_bind> user@<local_host> -L  <local_port_bind2>:<local_host>:<remote_port_bind> -NT
+  ssh -p <local_port_bind2> user@<local_host>
