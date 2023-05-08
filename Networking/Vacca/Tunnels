@@ -1,0 +1,28 @@
+Port Forwarding:
+  2 Types (Local, Remote) have to do with where the port is being opened
+  
+  ssh user@H1 -L 1111:H2:22 -NT
+  ssh -p 1111 user@localhost
+  ssh -p 1111 user@localhost -L 2222:H3:80
+  wget localhost:2222
+
+  ssh user@H1 -L 1111:H2:80
+  wget localhost:1111
+
+  To connect to a filtered port:
+    ssh user@H1 -L 1111:H2:22 -NT
+    ssh -p 1111 user@localhost -L 2222:localhost:80
+                      ^                 ^
+                      IH                H2
+
+
+
+
+
+
+
+
+
+
+
+
