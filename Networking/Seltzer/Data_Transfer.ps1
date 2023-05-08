@@ -97,7 +97,19 @@
                 nc Host_1 <port1> 0< mypipe | nc -lp <port2> 1> mypipe
                 nc Host_1 <port1> 0< mypipe | nc Host_2 <port2> 1> mypipe
         
+#Tunneling
+    #SSH
+        #multichannel connection
+        #Local Port Forwarding
+          ssh -p <optional alt port> <user>@<pivot ip> -L <local bind port>:<tgt ip>:<tgt port> -NT
+          ssh -L <local bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<pivot ip> -NT
+          #local port forwarding through a local port
+            ssh student@localhost -p 1111 -L 2222:172.16.82.106:80 -NT
+        #Dynamic Port Forwarding
+          
+        
 
+        
 
 
 
