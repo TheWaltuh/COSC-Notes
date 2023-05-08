@@ -1,0 +1,243 @@
+
+situational awareness - sudo which tcpdump wireshark nmap telnet wget curl
+---------------------------------------------------------------------------------------[NETWORK RECONNAISSANCE]----------------------------------------------------------------------------------------
+
+
+
+
+
+                                                                                           [RECONNAISSANCE]
+* Active
+* Passive
+* Internal
+* External
+                                     __________________________________________________________________________________________________________________________________________
+                                    |                                                           Active                                                                         |
+                                    |                                                             |                                                                            |
+                                    |                          Network Scanning                   |                             DNS Queries                                    |
+                                    |                                                             |                             ARP Request                                    |
+                                    |                                                             |                                                                            |
+                                    |External-----------------------------------------------------|--------------------------------------------------------------------Internal|
+                                    |                           DNS Lookups                       |                                                                            |
+                                    |                              Whois                          |                            Packet Sniffers                                 |
+                                    |                         Job Site Listing                    |                                                                            |
+                                    |                                                          Passive                                                                         |
+                                    |__________________________________________________________________________________________________________________________________________|
+
+
+                                                                                       [PASSIVE RECONNAISSANCE]
+* Gathering information about targets without direct interaction
+* Not as straight forward and requires more time than active reconnaissance
+* Lower risk of discovery
+
+* Involves identifying:
+  * IP addresses and Sub-Domains
+  * External and 3rd party sites
+  * People and Technologies
+  * Content of Interest
+  * Vulnerabilities
+
+* Possible tools for gathering:
+  * WHOIS queries
+  * Job site listings
+  * Phone Numbers
+  * Google searches
+  * Passive OS fingerprinting
+
+                                                                                [PASSIVE EXTERNAL NETWORK RECONNAISSANCE]
+* Information gathered outside of the network using passive methods
+* Allows for more efficient attacks and plans
+
+---[PASSIVE EXTERNAL NETWORK RECONNAISSANCE: DNS]---
+* Resolves hostnames to IP addresses
+* RFC 3912
+* WHOIS queries
+
+---[PASSIVE EXTERNAL NETWORK RECONNAISSANCE: DIG]---
+* Typically between primary and secondary DNS servers
+* If allowed to transfer externally hostnames, IPs, and IP blocks can be determined
+
+---[PASSIVE EXTERNAL NETWORK RECONNAISSANCE: ZONE TRANSFERS]---
+* Returns DNS information
+* Supplements base queries
+
+---[PASSIVE EXTERNAL NETWORK RECONNAISSANCE: HOST HISTORY]---
+* netcraft
+* wayback machine
+
+---[PASSIVE EXTERNAL NETWORK RECONNAISSANCE: GOOGLE SEARCHES]---
+* subdomains
+* technologies
+
+---[PASSIVE EXTERNAL NETWORK RECONNAISSANCE: SHODAN]---
+* Reveals information about technologies, remote access services, improperly configured services, and network infrastructure.
+* When selected can give additional information and applicable vulnerabilities
+
+                                                                                           [NETWORK SCANNING]
+* Scanning Strategy
+  * Remote to Local
+  * Local to Remote
+  * Local to Local
+  * Remote to Remote
+
+* Scanning Approach
+  - Aim
+    - Wide range target scan
+    - Target specific scan
+  - Method
+    - Single source scan
+    - Distributed scan
+
+---[SCANS]---
+* Broadcast Ping and Ping sweep
+* ARP scan
+* SYN scan
+* Full connect scan
+* Null scan
+* FIN scan
+* XMAS tree scan
+* UDP scan
+* ACK/Window scan
+* RPC scan
+* FTP scan
+* decoy scan
+* OS fingerprinting scan
+* version scan
+* Protocol ping
+* Discovery probes
+
+[Example Syntax]
+nmap [Options] [Target IP/ Subnet]
+nc [Options] [Target IP] [Target Port]
+
+
+                                                                                            [COMMAND STUFF]
+
+whois google.com
+dig ccboe.net
+dig ccboe.net MX
+dig ccboe.net TXT
+dig axfr @nsztm1.digi.ninja zonetransfer.me
+               <website>
+dig axfr @ns1.google.com google.com
+
+--google dorking--
+filetype:pdf
+*ccboe.net -site:*.ccboe.net
+site:*.ccboe.net "Powered by"
+sudo nmap -Pn 10.10.0.40 (10.10.0.40/27, 10.10.1.0,5,55,70) -p 21 (21-23,80 -p-) -T4
+-P	turns off ping probing
+-n	no name resolution
+-p	specifies ports to scan
+-T4	makes the search go faster
+sudo nmap -Pn 10.10.0.40/27 -p 21-23,80 | egrep -C2 "open"
+sudo nmap -Pn 10.10.0.40/27 -p 21-23,80 | egrep -i "open|Nmap scan"
+nc 10.10.0.40 22
+nc -zvnw1 10.10.0.40 21-23,80 - basically an nmap scan
+-z port scanning mode is zero-i/o (used for scanning)
+-v verbose
+-n no name resolution
+-w timeout for connects and final reads
+netstat -nltp # find open ports on your own machine
+
+----------------------------------------------------------------------------------------------[Challenges]---------------------------------------------------------------------------------------------
+creds : student:password
+        vyos:password
+
+Device type
+
+Hostname
+
+Interface type
+
+Interface IP
+
+Subnet Mask CIDR
+
+Autonomous system number, Routing Protocol, IP network and Network Name groupings
+
+Open ports
+
+Operating system type and versions
+
+T1
+Hostname: networking-ctfd-1.server.vta
+Record Type: TXT
+IP: 10.50.255.254
+Ports: 53
+Action: interrogate DNS records
+
+Red Boundry Router
+Hostname:RED-SRC
+IP: 172.16.120.1
+Ports: 22, 179
+Username: vyos
+Password: password
+Action: Use as start point and Perform Passive/Active Reconnaissance
+
+T2
+Hostname: UNKNOWN
+IP: 172.16.182.110
+Action: Perform Active Reconnaissance
+
+T3
+Hostname: UNKNOWN
+IP: 172.16.140.33
+Action: Perform Active Reconnaissance
+
+T4
+Hostname: UNKNOWN
+IP: 172.16.182.106
+Action: Perform Active Reconnaissance
+
+T5
+Hostname: UNKNOWN
+IP: 172.16.182.114
+Action: Perform Active Reconnaissance
+
+T6
+Hostname: UNKNOWN
+IP: 172.16.182.118
+Action: Perform Active Reconnaissance
+
+T7
+Hostname: UNKNOWN
+IP: 172.16.140.35
+Action: Perform Active Reconnaissance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

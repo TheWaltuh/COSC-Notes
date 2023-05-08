@@ -1,0 +1,326 @@
+
+172.16.1.15
+------------------------------------------------------------------------------------[PACKET CREATION AND SOCKET PROGRAMMING]-----------------------------------------------------------------------------------
+
+---[LINKS]---
+Socket- https://docs.python.org/3/library/socket.html
+Struct - https://docs.python.org/3/library/struct.html
+Sys - https://docs.python.org/3/library/sys.html
+Errors - https://docs.python.org/3/tutorial/errors.html
+Exceptions - https://docs.python.org/3/library/exceptions.html
+
+												[SOCKET TYPES]
+
+* Stream Sockets - Connection oriented and sequenced; methods for connection establishment and tear-down. Used with TCP, SCTP, and Bluetooth.
+
+* Datagram Sockets - Connectionless; designed for quickly sending and receiving data. Used with UDP.
+
+* Raw Sockets - Direct sending and receiving of IP packets without automatic protocol-specific formatting.
+
+---[USER SPACE VS. KERNEL SPACE SOCKETS]---
+
+* User Space Sockets
+  -Stream Sockets
+  -Datagram Sockets
+* Kernel Space Sockets
+  -Raw Sockets
+
+										     [SOCKET CREATION AND PRIVILEGE LEVEL]
+
+* User Space Sockets - The most common sockets that do not require elevated privileges to perform actions on behalf of user applications.
+
+* Kernel Space Sockets - Attempts to access hardware directly on behalf of a user application to either prevent encapsulation/decapsulation or to create packets from scratch, which requires elevated 
+  privileges.
+
+---[USER SPACE APPLICATIONS/SOCKETS]---
+* Using tcpdump or wireshark to read a file
+
+* Using nmap with no switches
+
+* Using netcat to connect to a listener
+
+* Using netcat to create a listener above the well known port range(1024+)
+
+* Using /dev/tcp or /dev/udp to transmit data
+
+---[KERNEL SPACE APPLICATIONS/SOCKETS]---
+* Using tcpdump or wireshark to capture packets on the wire
+
+* Using nmap for OS identification or to set specific flags when scanning
+
+* Using netcat to create a listener in the well known port range (0 - 1023)
+
+* Using Scapy to craft or modify a packet for transmission
+
+* Using Python to craft or modify Raw Sockets for transmission
+
+* Network devices using routing protocols such as OSPF
+
+												[Python]
+
+* Network sockets primarily use the Python3 Socket library and socket.socket function.
+
+  -import socket
+    s = socket.socket(socket.FAMILY, socket.TYPE, socket.PROTOCOL)
+
+---[THE SOCKET.SOCKET FUNCTION]---
+* Inside the socket.socket. function, you have these arguments, in order:
+  -socket.socket([*family*[,*type*[*proto*]]])
+
+* <family> constants should be: AF_INET
+
+* <type> constants should be: SOCK_STREAM (default), SOCK_DGRAM, SOCK_RAW
+
+* <proto> constants should be: 0 (default), IPPROTO_RAW
+
+---[SCRIPT EX]---
+[1] STREAM
+import socket
+
+# This can also be accomplished by using s = socket.socket() due to AF_INET and SOCK_STREAM being default
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+ipaddr = '127.0.0.1'
+port = 54321
+
+s.connect((ipaddr, port))
+
+# To send a string as a bytes-like object, add the prefix b to the string. \n is used to go to the next line (hit enter)
+s.send(b'Hello is it me you\'re looking for\n')
+
+# It is recommended that the buffersize used with recvfrom is a power of 2 and not a very large number of bits
+response, conn = s.recvfrom(1024)
+
+# In order to recieve a message that is sent as a bytes-like-object you must decoe into utf-8 (default)
+print(response.decode())
+
+s.close() 
+
+[2] DGRAM
+import socket
+
+# This can also be accomplished by using s = socket.socket() due to AF_INET and SOCK_STREAM being default
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+ipaddr = '127.0.0.1'
+port = 54321
+
+# s.connect((ipaddr, port)) #removed because this is UDP/DGRAM which is connectionless
+
+# To send a string as a bytes-like object, add the prefix b to the string. \n is used to go to the next line (hit enter)
+s.sendto(b'Wass good cuz', (ipaddr,port))
+# Dgrams use s.sentto, have to add ipaddr and port here instead of above
+
+# It is recommended that the buffersize used with recvfrom is a power of 2 and not a very large number of bits
+response, conn = s.recvfrom(1024)
+
+# In order to recieve a message that is sent as a bytes-like-object you must decoe into utf-8 (default)
+print(response.decode())
+
+# s.close() 
+# Dont need close line because we never make a connection (UDP)
+
+[3] RAW
+# for buildig the socket
+import socket
+
+# for system level commands
+import sys
+
+# for establishing the packet structure (used later on), this will allow direct access to the methods and functions in the struct module
+from struct import *
+
+#create a raw socket
+try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+except socket.error as msg:
+    print(msg)
+    sys.exit()
+
+packet = ''
+
+src_ip = "10.1.0.2"
+dst_ip = "10.3.0.2"
+
+#Lets add IPv4 header information
+ip_ver_ihl = 69 # this is putting the decimal conversion of 0x45 for Version and Internet Header Length
+ip_tos = 0      # This combines the DSCP and ECN fields
+ip_len = 0      # The kernel will fill in the actual length of the packet
+ip_id = 12345   # This sets the IP Identification for the packet
+ip_frag = 0     # This sets fragmentation to off
+ip_ttl = 64     # This determines the TTL of the packet when leaving the machine
+ip_proto = 16   # This sets IP protocol to 16 (Chaos). If this was 6 (TCP) or 17 (UDP) additional headers would be required
+ip_check = 0    # The kernel will fill in the checksum for packet
+ip_srcadd = socket.inet_aton(src_ip)    # inet_aton(string) will convert an IP address to a 32 bit binary number
+ip_dstadd = socket.inet_aton(dst_ip)    # inet_aton(string) will convert an IP address to a 32 bit binary number
+
+ip_header = pack('!BBHHHBBH4s4s', ip_ver_ihl, ip_tos, ip_len, ip_id, ip_frag, ip_ttl, ip_proto, ip_check, ip_srcadd, ip_dstadd)
+
+# B -1 Byte (Byes)
+# H - 2 Bytes (Half Word)
+# 4s = 4 Bytes (Word - convered from string to binary)
+
+message = b'The Bird is the word'
+packet = ip_header + message
+# Send the packet
+s.sendto(packet, (dst_ip, 0))
+
+[4] RAW TCP
+# for buildig the socket
+import socket
+
+# for system level commands
+import sys
+
+# Array
+import array
+
+# for establishing the packet structure (used later on), this will allow direct access to the metho$
+from struct import *
+
+#create a raw socket
+try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+except socket.error as msg:
+    print(msg)
+    sys.exit()
+
+packet = ''
+
+src_ip = "10.1.0.2"
+dst_ip = "172.16.40.10"
+
+#Lets add IPv4 header information
+ip_ver_ihl = 69 # this is putting the decimal conversion of 0x45 for Version and Internet Header Le$
+ip_tos = 0      # This combines the DSCP and ECN fields
+ip_len = 0      # The kernel will fill in the actual length of the packet
+ip_id = 2020    # This sets the IP Identification for the packet
+ip_frag = 0     # This sets fragmentation to off
+ip_ttl = 64     # This determines the TTL of the packet when leaving the machine
+ip_proto = 6    # This sets IP protocol to 16 (Chaos). If this was 6 (TCP) or 17 (UDP) additional h$
+ip_check = 0    # The kernel will fill in the checksum for packet
+ip_srcadd = socket.inet_aton(src_ip)    # inet_aton(string) will convert an IP address to a 32 bit $
+ip_dstadd = socket.inet_aton(dst_ip)    # inet_aton(string) will convert an IP address to a 32 bit $
+
+ip_header = pack('!BBHHHBBH4s4s', ip_ver_ihl, ip_tos, ip_len, ip_id, ip_frag, ip_ttl, ip_proto, ip_$
+
+# B -1 Byte (Byes)
+# H - 2 Bytes (Half Word)
+# 4s = 4 Bytes (Word - convered from string to binary)
+
+#TCP header fields
+tcp_src = 54321                         # Source Port
+tcp_dst = 1234                          # Destination Port
+tcp_seq = 90210                         # Sequence Number
+tcp_ack_seq = 30905                     # TCP ack sequence number
+tcp_data_off = 5                        # data offset specifying the size of the tcp header * 4 whi$
+tcp_reserve = 0                         # the 3 reserve bits + ns flag in reserve field
+tcp_flags = 2                           # tcp flags field before the bits are turned on
+tcp_win = 65535                         # maximum allowed window size reordered to network order
+tcp_chk = 0                             # tcp checksum which will be calculated later on
+tcp_urg_ptr = 0                         # urgent pointer only if urg flag is set
+
+# Combine the left shifted 4 bit tcp offset and the reserve field
+tcp_off_res = (tcp_data_off << 4) + tcp_reserve
+
+# Tcp flags by bit starting from right to left
+tcp_fin = 0                             # Finished
+tcp_syn = 1                             # Synchronization
+tcp_rst = 0                             # Reset
+tcp_psh = 0                             # Push
+tcp_ack = 0                             # Acknowledgment
+tcp_urg = 0                             # Urgent
+tcp_ece = 0                             # Explicit Congestion Notification Echo
+tcp_cwr = 0                             # Congestion Window Reduced
+
+# Combine the tcp flags by left shifting the bit locations and adding the bits together
+tcp_flags = tcp_fin + (tcp_syn << 1) + (tcp_rst << 2) + (tcp_psh << 3) + (tcp_ack << 4) + (tcp_urg $
+
+# The ! in the pack format string means network order
+tcp_hdr = pack('!HHLLBBHHH', tcp_src, tcp_dst, tcp_seq, tcp_ack_seq, tcp_off_res, tcp_flags, tcp_wi$
+
+# B = 1 byte (Byte)
+# H = 2 bytes (Half Word)
+# L = 4 bytes (32 bit Word as an integer)
+
+user_data = b'Beatty is mad at my genius idea'
+
+# Pseudo header fields
+src_address = socket.inet_aton(src_ip)
+dst_address = socket.inet_aton(dst_ip)
+reserved = 0
+protocol = socket.IPPROTO_TCP
+tcp_length = len(tcp_hdr) + len(user_data)
+
+# Pack the pseudo header and combine with user data
+ps_hdr = pack('!4s4sBBH', src_address, dst_address, reserved, protocol, tcp_length)
+ps_hdr = ps_hdr + tcp_hdr + user_data
+
+def checksum(data):
+        if len(data) % 2 != 0:
+                data += b'\0'
+        res = sum(array.array("H", data))
+        res = (res >> 16) + (res & 0xffff)
+        res += res >> 16
+        return (~res) & 0xffff
+
+tcp_chk = checksum(ps_hdr)
+
+# Pack the tcp header to fill in the correct checksum - remember checksum is NOT in network byte or$
+tcp_hdr = pack('!HHLLBBH', tcp_src, tcp_dst, tcp_seq, tcp_ack_seq, tcp_off_res, tcp_flags, tcp_win)$
+
+# Combine all of the headers and the user data
+packet = ip_header + tcp_hdr + user_data
+
+# Send the packet
+s.sendto(packet, (dst_ip, 0))
+
+											   [RAW IPV4 SOCKETS]
+
+* Raw Socket scripts must include the IP header and the next headers.
+
+* Requires guidance from the "Request for Comments" (RFC)to follow header structure properly.
+
+* RFCs contain technical and organizational documents about the Internet, including specifications and policy documents.
+
+* See RFC 791, Section 3 - Specification for details on how to construct an IPv4 header.
+
+---[RAW SOCKET USE CASE]---
+
+* Testing specific defense mechanisms - such as triggering and IDS for an effect, or filtering
+
+* Avoiding defense mechanisms
+
+* Obfuscating data during transfer
+
+* Manually crafting a packet with the chosen data in header fields
+
+											[ENCODING AND DECODING]
+* Encoding
+  -The process of taking bits and converting them using a specified cipher.
+
+* Decoding
+  -Reverse of the conversion process used by the specified cipher for encoding.
+
+* Common encoding schemes
+  -UTF-8, Base64, Hex
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

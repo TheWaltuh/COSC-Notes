@@ -1,0 +1,806 @@
+http://networking-ctfd-1.server.vta:8000/
+
+Command: ssh student@10.50.38.237 -X
+Password: password
+
+The map of the environment has been provided in your home directory:
+    student_net_range_blue_only.png
+
+All activity PCAPS are provided here:
+    /home/activity_resources/pcaps 
+
+curl cht.sh/<command>
+
+hex cheat list
+a = 10
+b = 11
+c = 12
+d = 13
+e = 14
+f = 15
+
+[WIRESHARK COMMANDS]
+arp - ARP
+rarp - Reverse ARP
+imap - IMAP
+nbns - 
+smb - SMB
+bootp - DHCP
+dns - DNS
+ssl - HTTPs (TLS)
+smtp - SMTP
+pop - POP
+ssh - SSH
+telnet - TELNET
+tacplus - TACACS+
+tacacs - TACACS
+snmp - SNMP
+tftp - TFTP
+snmp.msgFlags == 04 - shows all get-request
+eth.addr_resolved
+tcp.port == 
+ip.addr == 
+ip.src ==
+ip.dst ==
+ethh.addr ==
+arp.opcode == [request = 1, response = 2, request reverse = 3, response reverse = 4]
+
+
+
+
+[USEFUL COMMANDS]
+
+    1. To view your IP address and interface information:
+        a. current =        ip address (ip addr)
+        b. deprecated =     ifconfig
+
+    2. To view your ARP cache:
+        a. current =        ip neighbor (ip nei)
+        b. deprecated =     arp -a
+
+    3. To view open TCP and UDP sockets:
+        a. current = 
+            i. TCP =        ss -antlp
+            ii. UDP =       ss -anulp
+        b. deprecated =     netstat
+
+    4. To view active processes:
+        a. static =         ps -elf
+        b. real-time =      top or htop
+
+    5. To open file manager from the command line or X11 connection:
+        a. nautilus
+        b. pcmanfm
+
+    6. Web Browsers:
+        a. Firefox
+        b. Chromium
+        c. Konqueror
+
+    7. To open images from the command line or X11 connection:
+        a. Eye of Gnome =                   eog [file]
+        b. Nomacs =                         nomacs [file]
+        c. Eye of Mate =                    eom [file]
+        d. GNU Image Manipulation Program = gimp [file]
+
+    8. Network scanning:
+        a. nmap
+            -sT = TCP Full connection
+            -sS = TCP SYN scanning
+            -Pn = Disable ping sweep
+            -sU = UDP scanning
+        b. zenmap
+        c. netcat
+            TCP: nc -nzvw1 10.10.0.40 21-23 80
+            UDP: nc -unzvw1 10.10.0.40 53 69
+        d. ping
+        e. traceroute
+
+    9. Network Utilization:
+        a. iftop
+        b. iptraf-ng
+
+    10. Packet Manipulation (requires root privileges):
+        a. scapy
+        b. hping3
+        c. yersinia     yersinia -G
+
+    11. Packet Sniffing (requires root privileges):
+        a. Wireshark
+        b. tcpdump
+        c. p0f
+        d. tshark
+
+    12. Banner Grabbing:
+        a. netcat
+            Client: nc 10.10.0.40 22
+            Listener: nc -lvp 1234
+        b. telnet
+            telnet 10.10.0.40
+        c. wget
+            wget -r http://10.10.0.40
+            wget -r ftp://10.10.0.40
+        d. curl
+            curl http://10.10.0.40
+            curl ftp://10.10.0.40
+
+    13. DNS Query:
+        a. whois
+        b. dig
+            Records:
+                A - IPv4
+                AAAA - IPv6
+                NS - Name Server
+                SOA - Start of Authority
+                MX - Mail Server
+                TXT - Human readable message
+
+    14. Remote access:
+        a. ssh
+            ssh student@10.10.0.40
+            ssh student@10.10.0.40 -p 2222
+        b. telnet
+            telnet 10.10.0.40
+            telnet 10.10.0.40 23
+
+    15. File Transfer:
+        a. scp
+            scp student@10.10.0.40:file .
+            scp file student@10.10.0.40:
+        b. netcat
+            nc 10.10.0.40 1234 < file
+            nc -lvp 1234 > file
+
+echo <whatever> | base64 (or md5sum)
+
+------------------------------------[BASIC FUNDEMENTALS]------------------------------------
+
+MATHEMATICS OF NETWORKING - Binary Identification
+
+1		Bit/Flag
+4		Nibble
+8		Byte/Octet
+16		Half Word
+32		Word
+64		Very Long Word
+
+BASE (N) FORMATS
+Common Formats
+
+Base 2 - 01000010 01100001 01110011 01100101 00100000 00110010 	(ones and zero)
+Base 10 - 66 97 115 101 32 49 48					(Decimal System)
+Base 16 - 42 61 73 65 20 31 36					(Hex)
+Base 64 - QmFzZSA2NA==							(Uses Keyboard (ASCII))
+
+
+
+
+---------[Layers]---------
+
+   [PHYSICAL LAYER]
+    [OSI LAYER 1]
+
+PHYSICAL LAYER RESPONSIBILITIES
+	Hardware Specifications
+
+	Encoding and Signaling
+
+	Data Transmission and Reception
+
+	Physical Network Design
+
+   [DATA LINK LAYER]
+     [OSI LAYER 2]
+
+DATA LINK SUB-LAYERS
+	MAC (Media Access Control)
+
+	LLC (Logical Link Control)
+
+
+
+   [NETWORK LAYER]
+    [OSI LAYER 3]
+
+IPV4 HEADERS
+___________________________________________________________________________________________________
+|Offset Size|0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|
+|byte | bit |       0       |         1           |           2           |           3           |
+|  0  |  0  |Version|  IHL  |      DSCP     | ECN |                  Total Length                 |
+|  4  | 32  |            Identicication           |  Flags |            Fragment Offset           |
+|  8  | 64  |  Time to Live |       Protocol      |               Header Checksum                 |                 
+| 12  | 96  |                             Source IP Address                                       |
+| 16  | 128 |                           Destination IP Address                                    |
+| 20  | 160 |                            Options (if IHL > 5)                                     |
+---------------------------------------------------------------------------------------------------
+
+{00 12 80 4b c0 7f 00 16 d4 b8 59 b1 08 00 45 00
+ 00 3c fe fd 00 00 80 06 f1 e6 c0 a8 64 8a c0 a8
+ 64 01}c8 22 00 50 00 00 03 e8 00 00 03 e9 50 12
+ 20 00 0c 1d 00 00 00 00 00 00 71 72 73 74 75 76
+
+IPV6 HEADERS
+___________________________________________________________________________________________________
+|Offset Size|0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|
+|byte | bit |       0       |         1           |           2           |           3           |
+|  0  |  0  |Version|  Traffic Class  |                        Flow Label                         |
+|  4  | 32  |____________Payload Length___________|______Next Header______|_______Hop Limit_______|
+|  8  | 64  |                                                                                     |
+| 12  | 96  |                             Source IPv6 Address                                     |
+| 16  | 128 |                                                                                     |
+| 20  | 160 |_____________________________________________________________________________________|
+| 24  | 192 |                                                                                     |
+| 28  | 224 |                                                                                     |
+| 32  | 256 |                           Destination IPv6 Address                                  |
+| 36  | 320 |                                                                                     |
+---------------------------------------------------------------------------------------------------
+
+{00 12 80 4b c0 7f 00 16 d4 b8 59 b1 86 dd 60 00
+ 00 00 00 20 3a ff fe 80 00 00 00 00 00 00 02 00
+ 86 ff fe 05 80 da fe 80 00 00 00 00 00 00 02 60
+ 97 ff fe 07 69 ea}87 00 68 bd 00 00 00 00 fe 80
+ 67 68 69 6a 6b 6c 6d 6e 6f 70 71 72 73 74 75 76
+ 77 61 62 63 64 65 66 67 68 69
+
+ICMP HEADER
+___________________________________________________________________________________________________
+|Offset Size|0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|
+|byte | bit |       0       |         1           |           2           |           3           |
+|  0  |  0  |      Type     |        Code         |                   Checksum                    |
+|  4  | 32  |                      ICMP Specific Message (variable Length)                        |
+---------------------------------------------------------------------------------------------------
+
+00 12 80 4b c0 7f 00 16 d4 b8 59 b1 08 00 45 00
+00 3c fe fd 00 00 80 06 f1 e6 c0 a8 64 8a c0 a8
+64 01{08 00 6b 5f f1 b2 c4 5d 6a ff 0d 89 01 12
+23 34 45 56 67 78 89 9a ab bc cd de ef ff f1 12
+23 34 45 56 67 78 89 9a ab bc}
+
+###########################################################################-----DSCP - Multiply number by 4-----###########################################################################
+
+FRAGMENT PROCESS
+RES|DF|MF|Offset
+ 0 | 0| 0|   0
+
+first packet will have a more fragment flag but no offset (offset = 0)
+MF|Offset
+1 | 0
+
+Every packet after will have a MF flag of 1 and a offset thaty continues to increment
+MF|Offset
+1 | 185 
+1 | 370 ...
+
+offset increment is the amount of data you can send through each packet
+last packet will have MF of 0  to indicate no more packets and greatest offset of all the packets
+MF|Offset
+0 | 1850
+
+Packets will be put together for least to greatest based on offset
+
+FINGERPRINTING
+	Vendors have chosen different values for TTL which can provide insight to which OS 
+	family a generated packet is from.
+
+ZERO CONFIGURATION
+IPv4 Auto Configuration
+
+* APIPA
+
+* RFC 3927
+
+
+IPv6 auto configuration
+
+* SLAAC (StateLess Address Auto-configuration)
+
+* RFC 4862
+
+   [TRANSPORT LAYER]
+     [OSI LAYER 4]
+
+TCP HEADERS
+___________________________________________________________________________________________________
+|Offset Size|0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|
+|byte | bit |       0       |         1           |           2           |           3           |
+|  0  |  0  |          Source Port                |               Destination Port                |
+|  4  | 32  |                              Sequence Number                                        |
+|  8  | 64  |                          Acknowledgement Number                                     |                 
+| 12  | 96  |Offset |Resrved|     TCP Flag        |                    Window                     |
+| 16  | 128 |           Checksum                  |                 Urgent Pointer                |
+| 20  | 160 |                  TCP Options (variable Length, optinal)                             |
+---------------------------------------------------------------------------------------------------
+
+00 12 80 4b c0 7f 00 16 d4 b8 59 b1 08 00 45 00
+00 3c fe fd 00 00 80 06 f1 e6 c0 a8 64 8a c0 a8
+64 01{c8 22 00 50 00 00 03 e8 00 00 03 e9 50 12
+20 00 0c 1d 00 00 00 00 00 00} 71 72 73 74 75 76
+     ^--TCP header beginning ^-- TCP header end
+TCP FLAGS
+ ________________________________
+|128| 64| 32| 16| 8 | 4 | 2 | 1 |
+|-------------------------------|
+|CWR|ECE|URG|ACK|PSG|RST|SYN|FIN| 
+|_______________________________|
+
+TCP Flag Breakout (Binary and Hex)
+
+Syn		00000010	0x02
+Syn/Ack	00010010	0x12
+Ack		00010000	0x10
+
+Collection of Exceptionally Unskilled Attackers Pester Real Security Folks
+
+Coach Explained to the University of Alaska to Play Really Snowy Football
+
+UDP HEADERS
+___________________________________________________________________________________________________
+|Offset Size|0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|
+|byte | bit |       0       |         1           |           2           |           3           |
+|  0  |  0  |          Source Port                |               Destination Port                |
+|  4  | 32  |            Length                   |                   Checksum                    |
+---------------------------------------------------------------------------------------------------
+
+00 12 80 4b c0 7f 00 16 d4 b8 59 b1 08 00 45 00
+00 3c fe fd 00 00 80 06 f1 e6 c0 a8 64 8a c0 a8
+64 01{c8 30 00 35 01 cc 45 31}98 8f 0d 89 01 12
+
+   [SESSION LAYER]
+    [OSI LAYER 5]
+
+PROTOCOLS
+* SOCKS
+	SOCKS 4/5 (TCP 1080):
+	Uses various Client / Server exchange messages
+		Client can provide authentication to server
+		Client can request connections from server
+* NetBIOS
+
+* PPTP/L2TP
+PPTP
+___________________________________________________________________________________________________
+|Offset Size|0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|
+|byte | bit |       0       |         1           |           2           |           3           |
+|  0  |  0  |             Length                  |                   Message Type                |
+|  4  | 32  |                                Magic Cookie                                         |
+|  8  | 64  |                                   Data                                              |                 
+---------------------------------------------------------------------------------------------------
+
+L2TP
+___________________________________________________________________________________________________
+|Offset Size|0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|
+|byte | bit |       0       |         1           |           2           |           3           |
+|  0  |  0  |T|L|---|S|-|O|P|---------|  Version  |                    Length                     |
+|  4  | 32  |            Tunnel ID                |                  Session ID                   |
+|  8  | 64  |         Sequence Number             |           Sequence Number Expected            |                 
+| 12  | 96  |            Offset Size              |                  Offset Pad                   |
+---------------------------------------------------------------------------------------------------
+
+SMB/CIFS (TCP 139/445 AND UDP 137/138)
+* SMB Rides over Netbios
+	* Netbios Dgram Service - UDP 138
+	* Netbios Session Service - TCP 139
+	* SAMBA and CIFS are just flavors of SMB
+
+* RPC
+	RPC (ANY PORT) - RPC is a request/response protocol
+	User application will:
+		Sends a request for information to a external server
+		Receives the information from the external server
+		Display collected data to User
+   [Presentation LAYER]
+      [OSI LAYER 6]
+
+RESPONSIBILITIES
+* Translation
+
+* Formating
+
+* Encoding (ASCII, EBCDIC, HEX, BASE64)
+
+* Encryption (Symmetric or Asymmetric)
+
+Compression
+
+   [APPLICATION LAYER]
+      [OSI LAYER 7]
+
+FTP (TCP 20/21)
+* Messages:
+	* FTP Commands
+	* FTP Reply Codes
+* Modes:
+	* Active (default)
+	* Passive
+
+Active TCP
+
+1029 cmd -1-> 21 cmd -2-> 1029 cmd
+20 data -3-> 1030 data -4-> 20 data
+
+1029 1030 Client
+20 21 FTP Server
+
+could get blocked by a firewall
+
+FTP ACTIVE ISSUES
+* NAT and Firewall traversal issues
+* Complications with tunneling through SSH
+* Passive FTP solves issues related to Active mode and is most often used in modern systems
+
+FTP PASSIVE
+
+1029 cmd -1-> 21 cmd -2-> 1029 cmd
+1030 data -3-> 2020(Random High Port) -4-> 1030 data
+
+1029 1030 Client
+20 21 2020 FTP Server
+
+get data from different port on ftp server to bypass firewall shit
+
+SSH (TCP 22) Secure Shell
+* Messages provide:
+	* Client/server authentication
+	* Asymmetric or PKI for key exchange
+	* Symmetric for session
+	* User authentication
+	* Data stream channeling
+
+SSH ARCHITECTURE 
+* Server
+* Client
+* Session
+* Keys
+	* User Key - Asymmetric public key used to identify the user to the server
+	* Host Key - Asymmetric public key used to identify the server to the user
+	* Session Key - Symmetric key created by the client and server to protect the session’s communication.
+* Key Generator
+
+* Known-Hosts Database - collection of host keys that the client and server use for mutual authentication.
+
+* Agent - Stores keys as a convenience for users (prevents constant passphrase entry prompt)
+
+* Signer - signs the host-based authentication packets
+
+* Random Seed - used for entropy in creating pseudo-random numbers
+
+* Configuration File - settings that exist on the client and server to dictate configuration of ssh and sshd respectively.
+
+SSH IMPLEMENTATION CONCERNS
+* Using password authentication only
+* Key rotation
+* Key management
+* Implementation specification (libssh, sshtrangerthings)
+
+Telnet(TCP 23):
+  -not secure
+  -can be used to run commands on a remote system
+  
+SMTP(TCP 25) Simple Mail Transfer Protocol
+  -used for sending mail between mail servers
+  
+POP(TCP 110) Post Office Protocal
+  -a protocol for receiving email by downloading it to your computer from a mailbox on the server of an internet service provider.
+  
+IMAP(143) Internet Message Access Protocol
+  -a standard email retrieval (incoming) protocol
+    
+TACACS(TCP 49) Simple/Exended: Terminal Access Controller Access Control System
+  -security protocol that provides centralized validation of users who are attempting to gain access to a router or NAS
+  -Uses TCP
+    
+HTTP(S)(TCP 80/443): HyperText Transfer Protocol (Secure)
+  -used for the web
+  -methods: GET/HEAD/POST/PUT
+  -TCP connection (syn,syn/ack,ack) is where the conversations rules are set
+  -http status codes: 100,200,300,400
+    
+RDP(TCP 3389) Remote Desktop Protocol
+  -remote desktop protocol(used to get a gui of a windows system)
+    
+DNS(tcp/udp 52) Domain Name System
+  -Queries (udp 52) and responces
+  -Zone transfer (tcp 52)
+    
+DHCP(UDP 67/68) Dynamic Host Configuration Protocol
+  -protocol that automatically provides an Internet Protocol (IP) host with its IP address and other related configuration information
+  -DORA
+    -Discover (C)
+    -Offer    (S)
+    -Request  (C)
+    -Accept   (S)
+DHCPv6
+  -SARR
+    -Solicit   (C)
+    -Advertise (S)
+    -Request   (C)
+    -Reply     (S)
+
+TFTP (UDP 69) Trivial File Transfer Protocol
+  -Doesnt require authentication
+
+NTP (UDP 123) Network Time Protocol
+  -allows the synchronization of system clocks (from desktops to servers
+
+SNMP (UDP 161/162) Simple Network Management Protocol
+  -for collecting and organizing information about managed devices on IP networks and for modifying that information to change device behaviour
+  -if going to port 161, going from server to client
+  -if going to port 162, going from client to server
+
+RADIUS (UDP 1645/1646 AND 1812/1813)
+  -Uses UDP
+  -security protocol that provides centralized validation of users who are attempting to gain access to a router or NAS
+  -not encrypted
+  
+RTP (UDP ANY ABOVE 1023) Real-Time Transport Protocol
+  -Delivers audio and video over IP networks
+  -typically used for streaming
+
+-----[NETWORK TRAFFIC SNIFFING]-----
+
+CAPTURE LIBRARY
+What makes traffic capture possible?
+	Libpcap
+	WinPcap
+	NPCAP
+
+---[WIRESHARK, TSHARK, TCPDUMP AND BPFS]---
+
+TCPDUMP
+curl cht.sh/tcpdump
+
+sudo tcpdump -D --- list available network interfaces
+sudo tcpdump -i eth0 --- displays packets capture thru specified interface
+sudo tcpdump -i eth0 -X --- displays hex and ASCII
+sudo tcpdump -i eth0 -XX --- displays hex, ASCII and additional info for ethernet portion
+sudo tcpdump -w some.pcap --- write capture to specified pcap file (will not display anything until you break it)
+sudo tcpdump -r some.pcap --- read specified pcap
+sudo tcpdump port 80 --- shows packet traffic on port 80
+sudo tcpdump src (or dst) port 80 --- shows packet traffic come from (or going to) port 80
+sudo tcpdump port 80 -vn --- displays packet traffic over port 80, -n means to not convert addresses to name, -v is verbose
+sudo tcpdump net 192.168.1.0/24 --- capture the traffic of a network
+sudo tcpdump 'port 80 && port 22' --- can use boolean logic
+sudo tcpdump -r some.pcap | wc -l --- see the amount of packets in a file
+sudo tcpdump "(src net 10.1.0.0/24 && (dst net 10.3.0.0/24 || dst host 10.2.0.3) && (! dst host 10.1.0.3))" -vn
+
+BERKELEY PACKET FILTERS (BPF)
+
+* Requests a SOCK_RAW socket and setsockopt calls SO_ATTACH_FILTER
+
+sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL))
+...
+setsockopt(sock, SOL_SOCKET, SO_ATTACH_FILTER, ...)
+
+Using BPFs with operators, bitmasking, and TCPDump creates a powerful tool for traffic filtering and parsing.
+
+tcpdump {A} [B:C] {D} {E} {F} {G}
+
+A = Protocol (ether | arp | ip | ip6 | icmp | tcp | udp)
+B = Header Byte offset
+C = optional: Byte Length. Can be 1, 2 or 4 (default 1)
+D = optional: Bitwise mask (&)
+E = Operator (= | == | > | < | <= | >= | != | () | << | >>)
+F = Result of Expresion
+G = optional: Logical Operator (&& ||) to bridge expressions
+Example:
+tcpdump 'ether[12:2] = 0x0800 && (tcp[2:2] != 22 && tcp[2:2] != 23)'
+
+what header you want[what offset to start at: how many bytes to read]
+ip[2:2]
+ip[9] - one is the default length to read (same as ip[9:1])
+ip[16:4]=<hex you want to search for>
+tcp[18:2]
+
+Hex cheat
+a = 10
+b = 11
+c = 12
+d = 13
+e = 14
+f = 15
+
+BITWISE MASKING - To filter down to the bit(s) and not just the byte.
+
+ip[0] & 0x0F > 0x05
+
+Hex      8 4 2 1 | 8 4 2 1
+------------------------------
+Solution 0 1 0 0   0 1 0 1
+------------------------------
+mask     0 0 0 0   1 1 1 1
+
+FILTER LOGIC - MOST EXCLUSIVE
+All designated bit values must be set; no others can be set
+
+tcp[13] = 0x11
+--or--
+tcp[13] & 0xFF = 0x11
+
+Hex      8 4 2 1 | 8 4 2 1
+------------------------------
+Solution 0 0 0 1   0 0 0 1
+------------------------------
+mask     - - - -   - - - -   <-- all bits must match
+
+Hex      8 4 2 1 | 8 4 2 1
+------------------------------
+Solution 0 0 0 1   0 0 0 1
+------------------------------
+mask     1 1 1 1   1 1 1 1   <-- all bits must match
+
+
+FILTER LOGIC - LESS EXCLUSIVE
+All designated bits must be set; all others may be set
+
+tcp[13] & 0x11 = 0x11
+
+Hex      8 4 2 1 | 8 4 2 1
+------------------------------
+Solution 0 0 0 1   0 0 0 1
+------------------------------
+mask     0 0 0 1   0 0 0 1   <-- 0's can be any but 1's have to match
+
+FILTER LOGIC - LEAST EXCLUSIVE
+At least one of the designated bits must be set to not equal 0; all others may be set
+
+tcp[13] & 0x11 !=0
+
+Hex      8 4 2 1 | 8 4 2 1
+------------------------------
+Solution 0 0 0 1   0 0 0 1
+------------------------------
+mask     0 0 0 1   0 0 0 1   <-- the 1's can be any combination execpt both off
+
+-----[LAYER 2 SWITCHING TECHNOLOGIES]-----
+SWITCH OPERATION
+* Fast Forward - Only Destination MAC
+* Fragment Free - First 64 bytes
+* Store and Forward - Entire Frame and FCS
+
+CAM TABLE
+* Learn - Examining the Source MAC Address
+* Forward - Examining the Destination MAC Address
+
+IEEE 802.1AD "Q-IN-Q"
+0x88A8 - Standard Double Tag
+0x9100 - Non-Standard Double Tag
+
+SPANNING TREE PROTOCOL (STP)
+   Root decision process
+1. Elect root Bridge
+2. Identify the Root ports on non-root bridge
+3. Identify the Designated port for each segment
+4. Set alternate ports to blocking state
+
+LAYER 2 DISCOVERY PROTOCOLS
+* Cisco Discovery Protocol (CDP)
+* Foundry Discovery Protocol (FDP)
+* Link Layer Discovery Protocol(LLDP)
+
+DTP (DYNAMIC TRUNKING PROTOCOL)
+Trunking - Encodes, then sends to other side through "Trunk", then decodes and sends to 
+	   approprate VLANs
+
+VTP (VLAN TRUNKING PROTOCOL)
+
+    ------------VTP Server-----------
+    |               |               | 
+VTP Client      VTP Client      VTP Client
+
+PORT SECURITY
+   Modes
+
+* shutdown
+
+* restrict
+
+* protect
+
+
+
+Supernet --> Network --> Subnet
+Supernet - lumping multiple larger networks
+Networks - can have multiple subnets
+Subnets  - a section of IP's in a network
+
+LOOKUP PROCESS
+Router looks and finds the longest match, if it matches it sends
+      (Longer the match, the high the priority)
+
+             Routing Protocol                |  	      Routed Protocol
+  Used between layer 3 devices to learn and  | Used Between Routers to direct user traffic
+advertise Routes and maintain Routing tables |      It is also called network protols
+
+
+ADMINISTRATIVE DISTANCE
+the lower the better
+
+Connected		0
+Static			1
+EIGRP summary route	5
+External BGP		20
+Internal EIGRP		90
+IGRP			100
+OSPF			110
+IS-IS			115
+RIP			120
+External EIGRP		170
+Internal BGP		200
+
+METRICS
+* Hop
+* Bandwidth
+* Delay
+* Load
+* MTU
+* Reliability
+* Cost
+* Policy
+
+STATIC ROUTING ADVANTAGES AND DISADVANTAGES
+
+        Advantages         |       Disadvantages
+   Does not send Updates   |  Time consuming and prone
+                           |  to error in configuring
+  No bandwidth used and    |  Administrator must intervene 
+ minimal system resources  |   during any network outages
+Data path is predetermined |  Does not scale well for
+                           |  large growing networks
+
+DYNAMIC ROUTING ADVANTAGES AND DISADVANTAGES
+
+        Advantages         |       Disadvantages
+  Easier to configure and  |  Consumes Bandwidth and
+      maintain netork      |      system resources
+  Intervention not needed  |      Updates can be 
+   with network outages    |       intercepted
+   Scales very well for    |    Data path is not
+      large networks       |     pre-determined
+
+BGP
+* Road-map of the Internet
+* Routes traffic between Autonomous System (AS) Number
+* Advertises IP CIDR address blocks
+* Establishes Peer relationships
+* Complicated configuration
+* Complicated and slow path selection
+
+**most bgp's are supernets**
+
+     BGP OPERATION
+How BGP chooses the best path:
+
+* Advertise a more specific route. 192.168.1.0 /24 is more specific than 192.168.0.0 /16.
+* Offer a shorter route to certain blocks of IP addresses. A route to ip prefix with 4 AS 'hops" 
+  is better than route with 5 AS 'hops'
+
+BGP HIJACKING
+* Illegitimate advertising of addresses
+* BGP propagates false information
+* Purpose:
+	* stealing prefixes
+	* monitoring traffic
+	* intercept (and possibly modify) Internet traffic
+	* 'black holing' traffic
+	* perform MitM
+
+BGP HIJACKING DEFENSE
+* IP prefix filtering
+* BGP hijacking detection
+	* Tracking the change in TTL of incoming packets
+	* Increased Round Trip Time (RTT) which increases latency
+	* Monitoring misdirected traffic (change in AS path from tools like Looking Glass)
+* BGPSec
+
+
+
+
+
+
+
+
+
+
+IP/NFTables - Host Filtering T3 FLAG
+T3 Flag:
+05e5fb96e2a117e01fc1227f1c4d664c
