@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-09T00:24:12.968Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="klVNSQs68yzZaC-J0aht" version="21.2.9" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2023-05-09T00:32:33.830Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="VIJ7sAABASnHmKPh-QNS" version="21.2.9" type="github" pages="2">
   <diagram name="Page-1" id="UrAOD6k8fKv2funcCNdR">
     <mxGraphModel dx="1680" dy="1283" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -314,7 +314,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="GU0P_MR3JsCIxZl4m4iN" name="Page-2">
-    <mxGraphModel dx="638" dy="357" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1094" dy="611" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -324,11 +324,11 @@
         <mxCell id="gSHyd3xjGTIgi1dylPXt-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="gSHyd3xjGTIgi1dylPXt-1" target="gSHyd3xjGTIgi1dylPXt-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="gSHyd3xjGTIgi1dylPXt-4" value="&lt;div&gt;create tunnel:&lt;/div&gt;&lt;div&gt; ssh user@&amp;lt;ip&amp;gt; -L &amp;lt;rh1&amp;gt;:&amp;lt;ip2&amp;gt;:22 -nt&lt;br&gt;&lt;/div&gt;ssh -p &amp;lt;rh1&amp;gt; user@localhost" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="290" y="10" width="220" height="240" as="geometry" />
+        <mxCell id="gSHyd3xjGTIgi1dylPXt-4" value="&lt;div&gt;Create Tunnel:&lt;/div&gt;&lt;div&gt; ssh user@&amp;lt;ip&amp;gt; -L &amp;lt;rh1&amp;gt;:&amp;lt;ip2&amp;gt;:22 -nt&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh -p &amp;lt;rh1&amp;gt; user@localhost&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Extend Tunnel:&lt;/div&gt;&lt;div&gt;ssh -p &amp;lt;rh1&amp;gt; user@localhost -L &amp;lt;rh2&amp;gt;:&amp;lt;ip3&amp;gt;:22&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Dynamic Port Forwarding for ProxyChains:&lt;/div&gt;&lt;div&gt;ssh -p &amp;lt;rhp&amp;gt; user@localhost -D 9050 -NT&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Remote Port Forwarding (when ssh is filtered):&lt;/div&gt;&lt;div&gt;ssh user@&amp;lt;ip&amp;gt; -R &amp;lt;rhp&amp;gt;:localhost:22&lt;/div&gt;&lt;div&gt;&amp;lt;rhp&amp;gt; is now subsituted for 22 in tunnel extension&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="290" y="10" width="270" height="240" as="geometry" />
         </mxCell>
         <mxCell id="gSHyd3xjGTIgi1dylPXt-5" value="Assets" style="childLayout=tableLayout;recursiveResize=0;strokeColor=#98bf21;fillColor=#A7C942;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="510" width="280" height="160" as="geometry" />
+          <mxGeometry x="560" y="10" width="280" height="160" as="geometry" />
         </mxCell>
         <mxCell id="gSHyd3xjGTIgi1dylPXt-6" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;dropTarget=0;collapsible=0;recursiveResize=0;expand=0;fontStyle=0;strokeColor=inherit;fillColor=#ffffff;" vertex="1" parent="gSHyd3xjGTIgi1dylPXt-5">
           <mxGeometry width="280" height="33" as="geometry" />
