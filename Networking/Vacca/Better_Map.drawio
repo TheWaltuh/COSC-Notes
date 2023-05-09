@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-09T19:52:58.269Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="j4av7RBwgQsuFyafrRjL" version="21.2.9" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2023-05-09T20:03:26.484Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="YTGW8JvEVNEi55jJ9d69" version="21.2.9" type="github" pages="2">
   <diagram name="Page-1" id="UrAOD6k8fKv2funcCNdR">
     <mxGraphModel dx="2402" dy="1595" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -355,7 +355,7 @@
         <mxCell id="dqrICr3VdPaRUsVFfLjF-1" value="&lt;div&gt;HOSTNAME&lt;/div&gt;&lt;div&gt;IP(S)&lt;/div&gt;&lt;div&gt;PORTS&lt;/div&gt;&lt;div&gt;TOOLS&lt;/div&gt;&lt;div&gt;CREDENTIALS&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="300" y="290" width="95" height="95" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-1" value="&lt;h1&gt;LocalPort-&amp;gt;PortOnTarget&lt;br&gt;&lt;/h1&gt;&lt;div&gt;-31600&amp;gt;&lt;/div&gt;&lt;div&gt;-31601&amp;gt;&lt;/div&gt;&lt;div&gt;-31602&amp;gt;&lt;/div&gt;&lt;div&gt;-31603&amp;gt;192.168.0.20:3333(alt ssh)&lt;/div&gt;&lt;div&gt;-31604&amp;gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;-31605&amp;gt;ssh-04:31607&lt;br&gt;&lt;/div&gt;&lt;div&gt;-31606-&amp;gt; 172.16.0.60:23&lt;br&gt;&lt;/div&gt;&lt;div&gt;-&lt;/div&gt;&lt;div&gt;-&lt;/div&gt;&lt;div&gt;-&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-1" value="&lt;h1&gt;LocalPort-&amp;gt;PortOnTarget&lt;br&gt;&lt;/h1&gt;&lt;div&gt;-31600&amp;gt;&lt;/div&gt;&lt;div&gt;-31601&amp;gt;&lt;/div&gt;&lt;div&gt;-31602&amp;gt;&lt;/div&gt;&lt;div&gt;-31603&amp;gt;192.168.0.20:3333(alt ssh)&lt;/div&gt;&lt;div&gt;-31604&amp;gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;-31605&amp;gt;ssh-04:31607&lt;br&gt;&lt;/div&gt;&lt;div&gt;-31606-&amp;gt; 172.16.0.60:23&lt;br&gt;&lt;/div&gt;&lt;div&gt;-31609-&amp;gt; 172.16.0.90--&amp;gt;2222&lt;br&gt;&lt;/div&gt;&lt;div&gt;-&lt;/div&gt;&lt;div&gt;-&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="-5" y="585" width="370" height="200" as="geometry" />
         </mxCell>
         <mxCell id="XBUTmc1LcIgyiGN2sdw7-3" value="&lt;p&gt;T3&lt;br&gt;&lt;br&gt;Hostname: Atropia&lt;br&gt;&lt;br&gt;IP: 10.50.XXX.XXX (Will be Provided by Mission Command)&lt;br&gt;&lt;br&gt;creds: net3_student&lt;code&gt;16&lt;/code&gt;:password&lt;code&gt;16&lt;/code&gt; (net&lt;code&gt;Y&lt;/code&gt; = Networking Class Identifier &amp;amp; student&lt;code&gt;X&lt;/code&gt; = Student Number &amp;amp; password&lt;code&gt;X&lt;/code&gt; = Student Number)&lt;br&gt;&lt;br&gt;Known Ports: 22(ssh)&lt;br&gt;&lt;br&gt;Action: Establish appropriate tunneling techniques&lt;br&gt;&lt;/p&gt;&lt;p&gt;T4&lt;br&gt;&lt;br&gt;Hostname: Pineland&lt;br&gt;&lt;br&gt;IP: 10.50.XXX.XXX (Will be Provided by Mission Command)&lt;br&gt;&lt;br&gt;creds: net&lt;code&gt;Y&lt;/code&gt;_student&lt;code&gt;X&lt;/code&gt;:password&lt;code&gt;X&lt;/code&gt; (net&lt;code&gt;Y&lt;/code&gt; = Networking Class Identifier &amp;amp; student&lt;code&gt;X&lt;/code&gt; = Student Number &amp;amp; password&lt;code&gt;X&lt;/code&gt; = Student Number)&lt;br&gt;&lt;br&gt;Known Ports: 23(telnet - go directly from T1 to T4 to simulate compromising the machine)&lt;br&gt;&lt;br&gt;Type: Compromised Donovian System&lt;br&gt;&lt;br&gt;Action: Establish appropriate tunneling techniques&lt;br&gt;&lt;/p&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
@@ -469,14 +469,17 @@
         <mxCell id="XBUTmc1LcIgyiGN2sdw7-39" value="&lt;div&gt;31607:ssh-06:22&lt;/div&gt;&lt;div&gt;31607:localhost:31608&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="-545" y="1150" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-40" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-09&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.90&lt;/div&gt;&lt;div&gt;80, 3389&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-40" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-09&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.90&lt;/div&gt;&lt;div&gt;80, 2222&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="-1190" y="1057" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-41" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-08&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.90&lt;/div&gt;&lt;div&gt;80, 3389&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-41" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-08&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.80&lt;/div&gt;&lt;div&gt;80, 3389&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="-1190" y="890" width="150" height="150" as="geometry" />
         </mxCell>
         <mxCell id="XBUTmc1LcIgyiGN2sdw7-42" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rotation=-180;" vertex="1" parent="1">
           <mxGeometry x="-1092" y="862.5" width="141" height="365" as="geometry" />
+        </mxCell>
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-44" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-07&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.70&lt;/div&gt;&lt;div&gt;1337&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="-1350" y="890" width="150" height="150" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
