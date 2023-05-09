@@ -1,0 +1,205 @@
+
+Day 7
+
+=====================SSH Tunneling=========================
+
+ssh user@H1 -L 1337:H2:22
+** ssh from local machine to H1, send that traffic to H2 @ port 22.
+
+1337(Local) -> 22(H1) -> 22(H2)
+
+ssh -p 1337 user@localhost  
+** this should go down the tunnel and connect me to H2.
+
+{
+    **edit tunnel to come out at port 80.
+    now do localhost at port 1111 and it will go to H2.
+    I could use wget localhost:1111 and I could interact with http on H2.
+}
+
+** use -NT to make the terminal non-interactive. Keeps me from fucking with my tunnel and I can see the previous command.
+
+
+ssh -p 1111 user@localhost -L 2222:H3:80
+** goes through the tunnel into H3. opens port 2222 on local host, target port for H3 is 80
+
+Now test the second tunnel.
+wget localhost:2222
+
+now we have:
+1111>H2:22
+2222>H3:80
+
+============
+
+ssh user@H1 -L 1111:H2:22 -NT
+ssh -p 1111 user@localhost -L 2222:localhost:80
+**this would make a tunnel from ihost to H1 to H2, then on H2 I transfer from port 22 to 80.
+
+
+DYNAMIC PORT FORWARDING:
+
+ssh -p 1111 user@localhost -D 9050 -NT
+** now port 9050 is aimed down the tunnel
+proxychains wget -r H3
+** proxychains uses preexisting tunnels to do things from end of tunnel. The default port is 9050
+proxychains nc
+proxychains ftp
+proxychains nmap (needs -Pn because icmp cannot go through ssh tunnels.)
+proxychains curl
+
+
+
+=====================================
+
+
+DEMO:
+
+Discover host (John)
+do an nmap scan
+    ports 21, 22, 80 are open.
+        follow on action for ports 22 & 80
+            ssh in:
+                situational awareness
+                scan neighbors/network
+Discovered neighbor in network:
+    we need to scan this neighbor:
+    requires tunnel and dynamic port forward.
+    {
+        ssh user@john -D 9050 -NT
+        proxychains ./scan.sh
+    }
+    find port 21,22,80 are open
+    {
+        ssh user@john -L 1111:Jack:22 -NT
+        ssh -p 1111 user@localhost -D 9050 -NT
+        proxychains nmap -Pn -T4 142.16.8.41
+        **find port 22 open, 
+        proxychains ssh 142.16.8.41 (USE FOR SA ONLY! DON'T TUNNEL ON PROXYCHAINS)
+    }
+    **repeat this process over and over. Host discovery > SA > tunnel > repeat
+    
+    {
+        ssh user@John -L 1111:jack:22 -NT
+        ssh -p 1111 user@localhost -L 2222:Bill:4567
+        ssh -p 2222 user@localhost -D 9050 -NT *teardown
+        proxychains nmap -Pn -T4 155.39.88.21
+        ** ALWAYS TEAR DOWN DYNAMIC PORT FWD BEFORE DOING ANY MORE TUNNELING
+        ssh -p 2222 user@localhost -L 3333:155.39.88.21:23 -NT
+        telnet localhost 3333
+        ** now we can telnet into brian
+    }
+
+    because ssh was blocked on this machine, we need to make a reverse port forward to get to this one. 
+    
+    {
+    *now in the telnet session on brian
+    ssh user@bill -R 9999:localhost:22
+    **open 9999 on yourself, and anything that goes there, redirect it to 22 outbound.
+    ssh -p 2222 user@localhost -L 4444:localhost:9999
+    ssh -p 4444 user@localhost
+    ssh -p 4444 user@localhost -D 9050 -NT
+    }
+
+
+
+
+
+ACTIVITY NOTES:
+
+2. Tunnel Prep – Alternate port 1 
+OPS$ ssh cctc@10.50.1.150 -p 1111
+
+3. Tunnel Prep – Alternate port 2
+OPS$ ssh cctc@localhost -p 1111
+
+4. Tunnel Prep – Fill in the blank
+cctc@10.50.1.150
+
+5. Tunnel Prep – Dynamic
+ssh cctc@10.50.1.150 -D 9050 -NT
+
+6. Tunnel Prep – Local to SSH
+A. ssh -L 1111:localhost:22 cctc@10.50.1.150 -NT
+
+7. Tunnel Prep – Local to HTTP
+ssh cctc@10.50.1.150 -L 1111:localhost:80 -NT
+
+8. Tunnel Prep – Dynamic thru 1st Local
+ssh -D 9050 cctc@localhost -p 1111 -NT
+
+9. Tunnel Prep – Pull HTTP thru Local
+C. wget -r http://localhost:1111
+
+10. Tunnel Prep – Pull HTTP thru Dynamic
+B. proxychains wget -r http://100.1.1.2
+
+11. Tunnel Prep – Local to 2nd Pivot SSH
+ssh cctc@10.50.1.150 -L 1111:100.1.1.2:22 -NT
+
+12. Tunnel Prep – 2nd Local thru 1st Local SSH
+A. ssh -L 2222:100.1.1.2:22 cctc@localhost -p 1111 -NT
+
+13. Tunnel Prep – 2nd Local thru 1st Local HTTP
+B. ssh cctc@localhost -p 1111 -L 2222:100.1.1.2:80 -NT
+
+14. Tunnel Prep – Dynamic thru 2nd Local
+A. ssh -D 9050 cctc@localhost -p 2222 -NT
+
+15. Tunnel Prep – What’s Wrong 1
+C. authenticated to wrong IP in line 2
+
+16. Tunnel Prep – What’s Wrong 2
+A. targeted wrong IP in line 1
+
+17. Tunnel Prep – Local to 3rd Pivot TELNET
+D. ssh -p 2222 cctc@localhost -L 3333:192.168.2.2:23 -NT
+
+18. Tunnel Prep – Telnet to 3rd Pivot
+B. telnet localhost 3333
+
+19. Tunnel Prep – Remote
+C. ssh -R 4444:localhost:22 cctc@192.168.2.1 -NT
+
+20. Tunnel Prep – Local to Remote
+A. ssh cctc@localhost -p 2222 -L 5555:localhost:4444 -NT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
