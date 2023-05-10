@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-10T13:42:54.125Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="SqmnQ0Gp1phd1Z8m1O1P" version="21.2.9" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2023-05-10T14:11:36.798Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="q9r1cWaWE1IXS5rc8y0R" version="21.2.9" type="github" pages="2">
   <diagram name="Page-1" id="UrAOD6k8fKv2funcCNdR">
     <mxGraphModel dx="2402" dy="1595" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -314,7 +314,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="GU0P_MR3JsCIxZl4m4iN" name="Page-2">
-    <mxGraphModel dx="3669" dy="2067" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3387" dy="2067" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -353,7 +353,7 @@
           <mxGeometry x="650" y="585" width="150" height="150" as="geometry" />
         </mxCell>
         <mxCell id="dqrICr3VdPaRUsVFfLjF-1" value="&lt;div&gt;HOSTNAME&lt;/div&gt;&lt;div&gt;IP(S)&lt;/div&gt;&lt;div&gt;PORTS&lt;/div&gt;&lt;div&gt;TOOLS&lt;/div&gt;&lt;div&gt;CREDENTIALS&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
-          <mxGeometry x="290" y="50" width="95" height="95" as="geometry" />
+          <mxGeometry x="300" y="-50" width="95" height="95" as="geometry" />
         </mxCell>
         <mxCell id="XBUTmc1LcIgyiGN2sdw7-5" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="gSHyd3xjGTIgi1dylPXt-95">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -481,8 +481,8 @@
         <mxCell id="XBUTmc1LcIgyiGN2sdw7-50" value="Tunnels" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="-700" y="1200" width="100" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-51" value="&lt;div&gt;1.telnet into ssh-01:&amp;nbsp; ssh student@10.50.37.59 -R 31600:localhost:22&lt;br&gt;&lt;/div&gt;&lt;div&gt;2. from IH: ssh -p 31600 net3_student16@localhost -L 31601:192.168.0.40:5555&lt;br&gt;&lt;/div&gt;&lt;div&gt;3. IH: ssh -p 31601 net3_student16@localhost -L 31602:172.16.0.60:23&lt;br&gt;&lt;/div&gt;&lt;div&gt;4. telnet localhost 31602(ssh-06): ssh -p 5555 net3_student16@192.168.0.40 -R 31603:localhost:22&lt;br&gt;&lt;/div&gt;&lt;div&gt;5. IH&amp;gt; ssh -p 31601 net3_student16@localhost -L 31604:localhost:31603&lt;br&gt;&lt;/div&gt;&lt;div&gt;6. IH: ssh -p 31604 net3_student16@localhost -L 31605:172.16.0.90:2222&lt;br&gt;&lt;/div&gt;&lt;div&gt;7. IH&amp;gt; ssh -p 31605 net3_student16@localhost 31607:172.16.0.100:23&lt;br&gt;&lt;/div&gt;&lt;div&gt;8.telnet localhost 31607(ssh-10): ssh -p 2222 net3_student16@172.16.0.90 -R 31608:localhost:22 -NT&lt;br&gt;&lt;/div&gt;&lt;div&gt;9. ssh -p 31605 net3_student16@localhost -L 31609:localhost:31608 -NT&lt;br&gt;&lt;/div&gt;&lt;div&gt;10.&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="-1070" y="1200" width="770" height="240" as="geometry" />
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-51" value="&lt;div&gt;1.telnet into ssh-01:&amp;nbsp; ssh student@10.50.37.59 -R 31600:localhost:22&lt;br&gt;&lt;/div&gt;&lt;div&gt;2. from IH: ssh -p 31600 net3_student16@localhost -L 31601:192.168.0.40:5555&lt;br&gt;&lt;/div&gt;&lt;div&gt;3. IH: ssh -p 31601 net3_student16@localhost -L 31602:172.16.0.60:23&lt;br&gt;&lt;/div&gt;&lt;div&gt;4. telnet localhost 31602(ssh-06): ssh -p 5555 net3_student16@192.168.0.40 -R 31603:localhost:22&lt;br&gt;&lt;/div&gt;&lt;div&gt;5. IH&amp;gt; ssh -p 31601 net3_student16@localhost -L 31604:localhost:31603&lt;br&gt;&lt;/div&gt;&lt;div&gt;6. IH: ssh -p 31604 net3_student16@localhost -L 31605:172.16.0.90:2222&lt;br&gt;&lt;/div&gt;&lt;div&gt;7. IH&amp;gt; ssh -p 31605 net3_student16@localhost 31607:172.16.0.100:23&lt;br&gt;&lt;/div&gt;&lt;div&gt;8.telnet localhost 31607(ssh-10): ssh -p 2222 net3_student16@172.16.0.90 -R 31608:localhost:22 -NT&lt;br&gt;&lt;/div&gt;&lt;div&gt;9. ssh -p 31605 net3_student16@localhost -L 31609:localhost:31608 -NT&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-1035" y="1190" width="770" height="240" as="geometry" />
         </mxCell>
         <mxCell id="XBUTmc1LcIgyiGN2sdw7-52" value="telnet into ssh-01:&amp;nbsp; ssh student@10.50.37.59 -R 31600:localhost:22" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;" vertex="1" parent="1">
           <mxGeometry x="-290" y="690" width="380" height="90" as="geometry" />
@@ -516,6 +516,15 @@
         </mxCell>
         <mxCell id="XBUTmc1LcIgyiGN2sdw7-62" value="ssh -p 31605 net3_student16@localhost -L 31609:localhost:31608 -NT&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-38;" vertex="1" parent="1">
           <mxGeometry x="-1341" y="1310" width="400" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-64" value="scp (tcp 22) - non interactive&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; download a file: scp &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;file&amp;gt; &amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; upload a file: scp &amp;lt;file&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; copy file from rhost to rhost: scp -3 &amp;lt;user&amp;gt;@&amp;lt;srcip&amp;gt;:&amp;lt;filepath&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;dstip&amp;gt;:&amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; recursivel copy a dir: scp -r &amp;lt;testdir&amp;gt; user@H2:&lt;br&gt;scp w/ alt SSHD&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; download: ssh -P &amp;lt;altPort&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;file&amp;gt; &amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; upload: scp -P &amp;lt;altPort&amp;gt; &amp;lt;file&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;dir&amp;gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="560" y="238" width="540" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-66" value="Tunnels" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="286" y="116" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-67" value="File Transfers" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="536" y="190" width="204" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
