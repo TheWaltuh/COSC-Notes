@@ -1,0 +1,98 @@
+TASK 1
+The Donovian Insider provided a image called 1steg.jpg on T2 and is trying to connect to RELAY on TCP port 1234 to send the file. 
+  nc -lp 1234 0< relay1 | nc 10.10.0.40 1235 1> relay1
+  nc -lp 1235 > 1steg.jpg
+  steghide extract -sf 1steg.jpg
+The Donovian Insider provided a image called 2steg.jpg on T2 and is trying to connect to RELAY on TCP port 4321 to send the file. 
+  nc -lp 4321 0< relay1 | nc 10.10.0.40 4322 1> relay1
+  nc -lp 4322 > 2steg.jpg
+  steghide extract -sf 2steg.jpg
+The Donovian Insider provided a image called 3steg.jpg on T2 listening for a connection from RELAY on TCP port 6789.
+  nc 172.16.82.115 6789 0< relay1 | nc 10.10.0.40 6788 1> relay1
+  nc -lp 6788 > 3steg.jpg
+  steghide extract -sf 3steg.jpg
+The Donovian Insider provided a image called 4steg.jpg on T2 listening for a connection from RELAY on TCP port 9876.
+  nc 172.16.82.115 9876 0< relay1 | nc 10.10.0.40 9877 1> relay1
+  nc -lp 9877 > 4steg.jpg
+  steghide extract -sf 4steg.jpg
+TASK2
+Create a Local Port Forward from your Internet_Host to T3 targeting:
+  ssh -L 30501:localhost:22 net3_student5@10.50.33.33
+    ssh -p 30501 net3_student5@localhost
+  ssh -p 30501 net3_student5@localhost -D 9050 -NT
+  ssh -p 30501 net3_student5@localhost -L 30502:10.3.0.27:80
+  wget localhost:30502
+Create a Dynamic Port Forward from Internet_Host to T3 then use proxychains to pull the flag.
+  ssh -p 30501 net3_student5@localhost -D 9050 -NT
+  proxychains wget -r ftp://10.3.0.1
+Use your Dynamic tunnel to T3 and conduct active recon to find the Victoria host.
+  ssh -p 30501 net3_student5@localhost -D 9050 -NT
+  proxychains wget -r ftp://10.3.0.27
+Build a Dynamic tunnel to T3 and conduct active recon to find the Cortina host.
+  ssh -p 30501 net3_student5@localhost -D 9050 -NT
+  proxychains wget 10.3.0.1:80
+Conduct passive recon on this host and determine where the shared location for data relating to CCTC is on the machine.
+  telnet 10.50.22.92
+Create a Remote Port Forward from T4 to T3 binding the source as one of Your authorized ports, from the Mission Prompt, targeting:
+  telnet 10.50.22.92
+  ssh net3_student5@10.3.0.10 -R 30502:localhost:80
+Create a Local Port Forward from Internet_Host to T3 targeting the port you just established.
+  ssh -p 30501 net3_student5@localhost -L 30503:localhost:30502 -NT
+  ssh -p 30503 net3_student5@localhost -D 9050 -NT
+  proxychains wget 10.2.0.2:80
+Build a Dynamic tunnel to T4 and conduct active recon to find the ``Mohammed" host.
+  ssh -p 30503 net3_student5@localhost -D 9050 -NT
+  proxychains wget -r ftp://10.2.0.2
+You will need to conduct a search for clues for the network address of the Mojave host.
+  proxychains ./scan.sh
+  ssh -p 30503 net3_student5@localhost -L 30504:10.2.0.3:22
+    Atlantica
+  Atropia
+  proxychains ./scan.sh
+    10.5.0.0/24
+    10.4.0.0/24
+      10.4.0.1
+        ssh -p 30501 net3_student5@localhost -L 30505:10.4.0.1:22 
+          ssh -p 30505 net3_student5@localhost -D 9050 -NT
+            proxychains ./scan.sh
+              10.5.0.0/24
+                wget -r ftp://<ip>
+                wget <ip>:80
+Provide the port number that allowed initial access to the target.
+  nmap -Pn 10.50.31.103 -T4
+  telnet 10.50.31.103
+  On NET-SSH-01
+     ssh student@10.50.32.89 -R 30501:localhost:22 -NT
+  ssh -p 30501 net3_student5@localhost -L 30502:localhost:80
+  proxychains wget -r localhost:80
+Net-SSH-03 has a flag being hosted on a high port, what country is it referring to with the question?
+  ssh -p 30501 net3_student5@localhost -D 9050 -NT
+  proxychains ./scan.sh
+  proxychains nmap -Pn <each ip> -T4
+  proxychains nc <ip> <port>
+What is the flag found on Net-SSH-02?
+  ssh -p 30501 net3_student5@localhost -L 30503:localhost:22 -NT
+  ssh -p 30503 net3_student5@localhost -L 30504:192.168.0.20:3333 -NT
+  ssh -p 30504 net3_student5@localhost -D 9050 -NT
+This system is hidden behind Net-SSH-02. What is the flag found on this isolated system?
+  proxychains nmap -Pn 10.10.0.62 -T4
+  proxychains ./scan.sh
+    192.168.0.0/24
+  proxychains nmap -Pn 192.168.0.50 -T4
+  proxychains wget -r ftp://192.168.0.50
+Net-SSH-04 is another potential pivot.
+  ssh -p 30503 net3_student5@localhost -L 30505:192.168.0.40:5555 -NT
+  ssh -p 30505 net3_student5@localhost -D 9050 -NT
+What other subnet does Net-SSH-04 have access to?
+  proxychains wget -r localhost:80
+  172.16.0.0/24
+What host IP Address did you find (past Net-SSH-04) that you can login to using a well known port?
+  proxychains ./scan.sh
+    172.16.0.0/24
+What is the answer to the flag found on a high port on Net-SSH-08?
+  ssh -p 30505 net3_student5@localhost -L 30506:172.16.0.60:23 -NT
+  telnet localhost 30505
+  On NET-SSH-06
+    ssh -p 5555 net3_student5@192.168.0.40 -R 30508:localhost:22 -NT
+    ssh -p 30505 net3_student5@localhost -L 30504:localhost:30508 -NT
+    ssh -p 30504 net3_student5@localhost -D 9050 -NT
