@@ -1,0 +1,137 @@
+### FILTERING DEVICES AND MECHANISMS ###
+Filter website access, allows us to have granular control, via a proxy server. 
+Meaning every request to go out to the internet would go through the proxy. Good for monitoring traffic.
+  Email Addresses - block unwanted email
+  Target specificvulnerabilities
+  MAC Filtering - only allows specific computers to access to a network
+  Network Traffic
+--- Why ---
+  Decrease load
+  Ensure efficient data flow
+  Data goes only to intended recipients
+  Block malicious traffic
+  To hide whats behind the network
+--- Devices --
+  Switch :: Layers 2 and 3
+  Router :: Layers 3 and 4
+  Proxies :: Layers 3 to 7  # Middle Man
+  IDS and IPS :: Layers 3 to 7
+  Host Firewall :: Layers 3 to 7
+  Network Firewall :: Layers 3 to 7 respectively 
+    Packet Filtering :: Layers 3 and 4
+    Stateful :: Layers 3 and 4  # Looking for protocol header to check state of connection
+    Application Lyaer FW :: Layers 3 to 7  # FW = Firewall
+    Net Generation FW :: Layers 3 to 7
+
+### CONCEPTS ###
+Whitelist vs Blacklist
+  W -- Block everything but what I allow   # DENY ANY
+                - vs -
+  B -- Allow everything by default and block only the known bad IPs  # ALLOW ANY
+Routed vs Transparent 
+  R -- Routes are listed and easy to access
+                - vs -
+  T -- Routes are listed but when queried, it passes along the route and ignores the query. Therefore making the routes not easy to access
+IDS vs IPS
+  S -- Secuirty device will monitor traffic and if it sees intrustion and notifies you
+                - vs -
+  P -- Instead of notifying you it just blocks the traffic; the downside is it can block good traffic on accident  # Possibility for false positives
+  Location for these should be ingest points where most traffic flows
+--- Directions ---
+Orginating from the locahost to the remote-host <----> Return from the remote-host to the locahost
+Originating from the remote-host to the localhost <----> Return from the localhost to the remote-host
+
+### HOST BASED FILTERING ###
+Linux
+IPTables and NFTables
+  Packet Filtering
+  Stateless/Stateful Firewalls
+  NAT vs PAT
+    N -- translates one IP address to another  # Network Address Translation
+                 - vs -               
+    P -- tasnaltes each IP address to another with a port, which allows multiple IP addresses to be aside  # Port Address Translation
+  Packet Manipulation
+--- Hooks/Chain ---
+  PREROUTING :: NP_IP_PRE_ROUTING
+  INPUT :: NP_IP_LOCAL_IN
+  FORWARD :: NP_IP_FORWARD
+  OUTPUT :: NP_IP_LOCAL_OUT
+  POSTROUTING :: NP_IP_POST_ROUTING
+
+### IPTABLES ###
+IPTables -- IPTables6 -- EBTables -- ARPTables
+  E -- ethernet bridge frame
+--- Tables ---
+  Filter -- default 
+    Input Output and Forward
+  NAT -- public to private address and ports
+  Mangle -- special packet alteration
+  Raw -- configures exemption from connection tracking
+  Security -- MAC control
+--- Options ---
+https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/T51_iptables_options.png
+--- Syntax ---
+iptables -t [table] -A [chain] [rules] -j [action]
+  Action :: ACCEPT REJECT DROP
+
+DO NOT FLUSH THE TABLE WITHOUT CHECKING THE DEFAULT POLICY
+Change Default Policy to Accept before flushing
+  iptable -t [table] -P [chain] ACCEPT
+Flush the tables
+  iptables -t [table] -F
+
+### DEMO ###
+sudo iptables -L            # Lists existing table rules for filter(defualt)
+sudo iptables -t nat -L     # Lists existing table rules for NAT
+sudo iptables -t mangle -L  #  Lists existing table rules for mangle
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT  # Allowing any traffic going anywhere in the network going to destination port 22
+  ## TERMINATOR uses 6010, 6011, 6012
+sudo iptables -A INPUT -p tcp -m multiport --ports 6010,6011,6012 -j ACCEPT  #Allow all traffic going to network on port 6010,6011,6012
+sudo iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT # Allowing all traffic going from anywhere in the networking with the source port 22
+sudo iptables -A OUTPUT -p tcp -m multiport --ports 6010,6011,6012 -j ACCEPT  #Allow all traffic going from the network  on ports 6010,6011,6012
+sudo iptables -P INPUT DROP  # Sets default policy to drop
+
+### NFTABLES ###
+IP -- IP6 -- INet -- ARP -- Bridge -- NetDev
+--- Chain-Types ---
+  Filter -- used with arp, bridge, ip, ip6, and inet
+  Route -- re-routes packets; used with ip and ip6
+  NAT -- used with ip and ip6 
+--- Hooks/Chains ---
+  Same as IPTables + 
+  INGRESS  # Used with NetDev only
+--- Syntax ---
+nft add chain [family] [table] [chain] { type [type] hook [hook] priority [priority] \; policy [policy] \;}
+  chain -- user name for chain
+  type -- filter, route, or nat
+  hook - listed above
+  priority -- default 0; the lower the number the higher the priority  # use -- before a neagtive number
+  policy -- accept or drop
+nft add rule [family] [table] [chain] [matches (matches)] [statemnet]
+  matches - protocol headers
+  statemnet - action performed when packet is matched 
+    log
+    accept
+    drop
+    reject
+    counter
+    nat
+ 
+### DEMO ###
+sudo nft list table TABLENAME  # lists the rules for a table "TABLENAME"
+sudo nft add table ip TABLENAME  # Sets a baseline table
+
+sudo nft add chain ip TABLENAME MyInput { type filter hook input priority 0 \; policy accept \;}  # Sets a baseline input chain and policy to accept
+sudo nft insert rule ip TABLENAME MyInput tcp dport { 6010, 6011, 6012} ct state { new, established } accept
+sudo nft insert rule ip TABLENAME MyInput tcp dport 22 accept  # any incoming destination port 22, accept that traffic
+
+sudo nft add chain ip TABLENAME MyOutput { type filter hook output priority 0 \; policy accept \;} # Sets a baseline output chain and policy to accept
+sudo nft insert rule ip TABLENAME MyOutput tcp sport 22 accept # any outgoing source port 22, accept that traffic
+sudo nft insert rule ip TABLENAME MyOutput tcp sport { 6010, 6011, 6012} ct state { new, established } accept # match on either new or estalished
+sudo nft insert rule ip TABLENAME MyOutput tcp dport { 6010, 6011, 6012} ct state { new, established } accept
+
+sudo nft list chain ip TABLENAME MyInput -ann  # see individual chains with additional notes
+sudo nft delete rule ip TABLENAME MyInput handle 13  # deletes specific rules
+sudo nft delete table ip TABLENAME  # deletes the whole table
+
+
