@@ -161,7 +161,7 @@
 
 
 
-T1 Exercise Op Notes
+T1 Exercise Op Notes  (467accfb25050296431008a1357eacb1)
 ~~~~~~~~~~~~~~~~~~~~
 sudo iptables -A INPUT -p tcp -m multiport --ports 22,23,3389 -m state --state NEW,ESTABLISHED -j ACCEPT
 sudo iptables -A OUTPUT -p tcp -m multiport --ports 22,23,3389 -m state --state NEW,ESTABLISHED -j ACCEPT
@@ -185,7 +185,7 @@ sudo iptables -A INPUT -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACC
 sudo iptables -A OUTPUT -p tcp --sport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
 sudo iptables -A OUTPUT -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
 
-T3 Exercise Op Notes
+T3 Exercise Op Notes   (05e5fb96e2a117e01fc1227f1c4d664c)
 ~~~~~~~~~~~~~~~~~~~~
 sudo iptables -A INPUT -p tcp -m multiport --ports 22,23,3389 -m state --state NEW,ESTABLISHED -j ACCEPT
 sudo iptables -A OUTPUT -p tcp -m multiport --ports 22,23,3389 -m state --state NEW,ESTABLISHED -j ACCEPT
@@ -199,15 +199,60 @@ sudo iptables -A INPUT -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACC
 sudo iptables -A OUTPUT -p tcp --sport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
 sudo iptables -A OUTPUT -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
 
-T2 Exercise Op Notes
+T2 Exercise Op Notes  (9f7a33941828bdafd2755fd20176cdf4)
 ~~~~~~~~~~~~~~~~~~~~
-sudo nft add table ip NFTable
+sudo nft add table ip CCTC
+
+sudo nft add chain ip CCTC input {type filter hook input priority 0 \; policy accept\;}
+sudo nft add chain ip CCTC output {type filter hook output priority 0 \; policy accept\;}
+
+sudo nft add rule ip CCTC input tcp sport { 22,23,3389 } ct state { new,established }
+sudo nft add rule ip CCTC input tcp dport { 22,23,3389 } ct state { new,established }
+sudo nft add rule ip CCTC output tcp sport { 22,23,3389 } ct state { new,established }
+sudo nft add rule ip CCTC output tcp dport { 22,23,3389 } ct state { new,established }
+
+sudo nft add rule ip CCTC input ip saddr 10.10.0.40 icmp type echo-request
+sudo nft add rule ip CCTC input ip saddr 10.10.0.40 icmp type echo-reply
+sudo nft add rule ip CCTC output ip daddr 10.10.0.40 icmp type echo-request
+sudo nft add rule ip CCTC output ip daddr 10.10.0.40 icmp type echo-reply
+
+sudo nft add rule ip CCTC input tcp sport { 5050,5150 }
+sudo nft add rule ip CCTC input tcp dport { 5050,5150 }
+sudo nft add rule ip CCTC input udp sport { 5050,5150 }
+sudo nft add rule ip CCTC input udp dport { 5050,5150 }
+sudo nft add rule ip CCTC output tcp sport { 5050,5150 }
+sudo nft add rule ip CCTC output tcp dport { 5050,5150 }
+sudo nft add rule ip CCTC output udp sport { 5050,5150 }
+sudo nft add rule ip CCTC output udp dport { 5050,5150 }
+
+sudo nft add rule ip CCTC input tcp sport { 80 } ct state { new,established }
+sudo nft add rule ip CCTC input tcp dport { 80 } ct state { new,established }
+sudo nft add rule ip CCTC output tcp sport { 80 } ct state { new,established }
+sudo nft add rule ip CCTC output tcp dport { 80 } ct state { new,established }
+
+sudo nft add chain ip CCTC input {type filter hook input priority 0 \; policy drop\;}
+sudo nft add chain ip CCTC output {type filter hook input priority 0 \; policy drop\;}
+
+md5 - 953e720e688941b15b72c098022c51c3
+validation - d3b88e04de1e76482a1972f36734a7d8
 
 
+T5 Ecercise Op Notes   (0c2ca80fad4accccce3bcecec1d238ce)
+~~~~~~~~~~~~~~~~~~~~
+(On T1)
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to 172.16.82.106
 
+T6 Exercise Op Notes  (be33fe60229f8b8ee22931a3820d30ac)
+~~~~~~~~~~~~~~~~~~~~
+(on t2)
+nft add table NAT
+sudo nft add table NAT
+sudo nft add chain NAT PREROUTING {type nat hook prerouting priority 0 \; }
+sudo nft add chain NAT POSTROUTING {type nat hook postrouting priority 0 \; }
+sudo nft add rule NAT POSTROUTING ip saddr 192.168.3.30 oif eth0 snat 172.16.82.112
 
-
-
+valid - e4f4c65b3884eadf7986adc76caea32c
 
 
 
