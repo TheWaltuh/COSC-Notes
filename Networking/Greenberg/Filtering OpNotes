@@ -20,14 +20,9 @@ Change the Default Policy in the Filter Table for the INPUT, OUTPUT, and FORWARD
 nc -lp 9001
 
 ### T3 ### USING IP TABLES
-Allow New and Established traffic to/from via SSH, TELNET, and RDP
-  sudo iptables -A INPUT -p tcp -m multiport --ports 22,23,3389 -m state --state NEW,ESTABLISHED -j ACCEPT
-  sudo iptables -A OUTPUT -p tcp -m multiport --ports 22,23,3389 -m state --state NEW,ESTABLISHED -j ACCEPT
-Allow New and Established traffic to/from via HTTP
-  sudo iptables -A INPUT -p tcp --sport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
-  sudo iptables -A INPUT -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
-  sudo iptables -A OUTPUT -p tcp --sport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
-  sudo iptables -A OUTPUT -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+Allow New and Established traffic to/from via SSH, TELNET, and RDP AND HTTP
+  sudo iptables -A INPUT -p tcp -m multiport --ports 22,23,3389,80 -m state --state NEW,ESTABLISHED -j ACCEPT
+  sudo iptables -A OUTPUT -p tcp -m multiport --ports 22,23,3389,80 -m state --state NEW,ESTABLISHED -j ACCEPT
 Change the Default Policy in the Filter Table for the INPUT, OUTPUT, and FORWARD chains to DROP  
   sudo iptables -P INPUT DROP
   sudo iptables -P FORWARD DROP
@@ -43,16 +38,20 @@ Allow New and Established traffic to/from via SSH, TELNET, and RDP AND HTTP
   sudo nft insert rule ip CCTC input tcp dport { 22, 23, 3389, 80 } ct state { new, established } accept
   sudo nft insert rule ip CCTC output tcp sport { 22, 23, 3389, 80 } ct state { new, established } accept
 Only allow Pivot to perform ping (ICMP) operations to/from
-  sudo nft insert rule ip CCTC input ip saddr 10.10.0.60 icmp type { echo-request } accept
-  sudo nft insert rule ip CCTC input ip saddr 10.10.0.60 icmp type { echo-reply } accept
-  sudo nft insert rule ip CCTC output ip daddr 10.10.0.60 icmp type { echo-request } accept
-  sudo nft insert rule ip CCTC output ip daddr 10.10.0.60 icmp type { echo-reply } accept
+  sudo nft insert rule ip CCTC input ip saddr 10.10.0.40 icmp type { echo-request, echo-reply } accept
+  sudo nft insert rule ip CCTC output ip daddr 10.10.0.40 icmp type { echo-request, echo-reply } accept
 Allow ports 5050 and 5150 for both udp and tcp traffic to/from
   sudo nft insert rule ip CCTC input tcp dport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC input tcp sport { 5050, 5150 } accept
   sudo nft insert rule ip CCTC input udp dport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC input udp sport { 5050, 5150 } accept
   sudo nft insert rule ip CCTC output tcp sport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC output tcp dport { 5050, 5150 } accept
   sudo nft insert rule ip CCTC output udp sport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC output udp dport { 5050, 5150 } accept
 Change your chains to now have a policy of Drop
   sudo nft add chain ip CCTC input {type filter hook input priority 0 \; policy drop \;}
   sudo nft add chain ip CCTC output {type filter hook output priority 0\; policy drop \;}
+nc -lp 9002
 
+sudo nft delete rule ip CCTC innput handle 
