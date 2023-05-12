@@ -161,17 +161,47 @@
 
 
 
+T1 Exercise Op Notes
+~~~~~~~~~~~~~~~~~~~~
+sudo iptables -A INPUT -p tcp -m multiport --ports 22,23,3389 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -p tcp -m multiport --ports 22,23,3389 -m state --state NEW,ESTABLISHED -j ACCEPT
 
+sudo iptables -P INPUT DROP
+sudo iptables -P FORWARD DROP
+sudo iptables -P OUTPUT DROP
 
+sudo iptables -A INPUT -s 10.10.0.40 -p icmp --icmp-type 8 -j ACCEPT
+sudo iptables -A INPUT -d 10.10.0.40 -p icmp --icmp-type 0 -j ACCEPT
+sudo iptables -A OUTPUT -s 10.10.0.40 -p icmp --icmp-type 8 -j ACCEPT
+sudo iptables -A OUTPUT -d 10.10.0.40 -p icmp --icmp-type 0 -j ACCEPT
 
+sudo iptables -A INPUT -p tcp -m multiport --ports 6579,4444 -j ACCEPT
+sudo iptables -A OUTPUT -p tcp -m multiport --ports 6579,4444 -j ACCEPT
+sudo iptables -A INPUT -p udp -m multiport --ports 6579,4444 -j ACCEPT
+sudo iptables -A OUTPUT -p udp -m multiport --ports 6579,4444 -j ACCEPT
 
+sudo iptables -A INPUT -p tcp --sport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -p tcp --sport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
 
+T3 Exercise Op Notes
+~~~~~~~~~~~~~~~~~~~~
+sudo iptables -A INPUT -p tcp -m multiport --ports 22,23,3389 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -p tcp -m multiport --ports 22,23,3389 -m state --state NEW,ESTABLISHED -j ACCEPT
 
+sudo iptables -P INPUT DROP
+sudo iptables -P FORWARD DROP
+sudo iptables -P OUTPUT DROP
 
+sudo iptables -A INPUT -p tcp --sport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -p tcp --sport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
 
-
-
-
+T2 Exercise Op Notes
+~~~~~~~~~~~~~~~~~~~~
+sudo nft add table ip NFTable
 
 
 
