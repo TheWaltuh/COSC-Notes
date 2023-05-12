@@ -1,0 +1,115 @@
+#########################################################
+                    Traffic Filtering
+#########################################################
+Device            Mechanism           OSI layer
+Switch            ACL                 Layer 2 & 3
+Router            ACL                 Layer 3 & 4
+Proxies           URL/DNS filtering   Layer 3-7
+IDS/IPS           Signaures           Layer 3-7
+Host Firewall     Rules               Layer 3-7
+Network Firewall  Rules               Layer 3-7
+
+Whitelist/Blacklist
+Network Device Operation Modes:
+    Routed
+    Transparent
+IDS - Alerts about traffic that you set a rule for
+IPS - Stops traffic that you set a rule for
+
+Firewalls:
+  Stateful Inspection (L4) - can enable only established traffic
+  Stateless Filtering (L3&4)
+  Application Layer filtering
+
+IPTables:
+  Tables - contain chains
+  Chains - contain rules
+  Rules - dictate what to match on and what actions to perform on matches
+  
+  iptables: IPv4
+  ip6tables - IPv6
+  ebtables - Ethernet bridge frame
+  arptables - Arp packets
+  
+  Tables:
+    filter - default packet filtering
+    nat - translate private IP
+    mangle - special packet alteration
+    raw - configure exemtion from connection tracking
+    security - used for Access Control networking rules
+
+  -A append to the bottom
+  -I insert to the top
+  -D delete a rule
+  -L list rules by chains
+  -P [chain] [target] changes default policy for a chain
+  -p list a protocol
+  -sport/dport | --ports
+  -d destination address
+  -s source address
+
+  ipables -t [table] -A [chain] [rules] -j [action]
+  rules:
+    -i or -o [iface]
+    -s or -d [ip.add | network/mask]
+    -p [protocol(in ipv4 header)]
+    -m is used with:
+      state --state [state]
+      bpf --bytecode [ 'bytecode' ]
+      multiport
+    [action] - ACCEPT, REJECT, DROP
+  iptables -t [table] -F       #flush table
+                     -p [chain] [action]                        #change policy
+                     -L --line-numbers
+                     -S                                         #list rules as commands interpreted by the system
+                     -I [chain] [rule num] [rules] -j [action]  #insert rule before number
+                     -D [chain] [rule num]                      #delete rule at number
+                     
+nftables
+  nft add table [family] [table]
+    family - ip, ip6, inet, arp, bridge, netdev
+    table - user provided name
+  nft add chain [family] [table] [chain] { type [type] hook [hook] priority [priority] \; policy [policy] \;}
+    [chain] = User defined name for the chain.
+    [type] =  can be filter, route or nat.
+    [hook] = prerouting, ingress, input, forward, output or
+         postrouting.
+    [priority] = user provided integer. Lower number = higher
+             priority. default = 0. Use "--" before
+             negative numbers.
+    ; [policy] ; = set policy for the chain. Can be
+              accept (default) or drop.
+    Use "\" to escape the ";" in bash
+  nft add rule [family] [table] [chain] [matches (matches)] [statement]
+      [matches] = typically protocol headers(i.e. ip, ip6, tcp,
+            udp, icmp, ether, etc)
+      (matches) = these are specific to the [matches] field.
+      [statement] = action performed when packet is matched. Some
+              examples are: log, accept, drop, reject,
+              counter, nat (dnat, snat, masquerade)
+  nft {list | flush} ruleset
+  nft {delete | list | flush } table [family] [table]
+  nft {delete | list | flush } chain [family] [table] [chain]
+  nft list table [family] [table] [-a]             
+  nft add rule [family] [table] [chain] [position <position>] [matches (matches)] [statement]       Adds after position
+  nft insert rule [family] [table] [chain] [position <position>] [matches (matches)] [statement]    Inserts before position
+  nft replace rule [family] [table] [chain] [handle <handle>] [matches (matches)] [statement]      Replaces rule at handle
+  nft delete rule [family] [table] [chain] [handle <handle>]    Deletes rule at handle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
