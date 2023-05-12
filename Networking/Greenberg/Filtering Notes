@@ -134,4 +134,28 @@ sudo nft list chain ip TABLENAME MyInput -ann  # see individual chains with addi
 sudo nft delete rule ip TABLENAME MyInput handle 13  # deletes specific rules
 sudo nft delete table ip TABLENAME  # deletes the whole table
 
+### NAT AND PAT IPTABLES ###
+--- source NAT ---
+iptables -t nat -A POSROUTING -o eth0 -j SNAT --to 1.1.1.1
+--- destination NAT ---
+iptables -t nat -A PREROUTING -i eth0 -j DNAT --to 10.0.0.1
+--- source PAT ---
+iptables -t nat -A POSTROUTING -p tcp -o eth0 -j SNAT --to 1.1.1.1:9001
+--- destination PAT ---
+iptables -t -A PREROUTING -p tcp -i eth0 -j DNAT --to 10.0.0.1:8080
+
+### NAT AND PAT NFTABLES ###
+--- source NAT ---
+nft add rule ip NAT POSTROUTING ip saddr 10.1.0.2 oif eht0 snat 144.15.60.11
+--- destination NAT ---
+nft add rule ip NAT PREROUTING iif eth0 tcp dport { 80, 443 } snat 10.1.0.3
+--- source NAT w/ masquerade ---
+nft add rule ip NAT POSTROUTING ip saddr 10.1.0.0/24 oif eth0 masquerade
+--- destination NAT with redirect ---
+nft add rule ip NAT PREROUTING tcp dport 80 redirect to 8080
+
+
+
+
+
 
