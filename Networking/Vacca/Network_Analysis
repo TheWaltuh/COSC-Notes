@@ -1,0 +1,21 @@
+###################################################################
+                         Network Analysis
+###################################################################
+
+fingerprinting:
+  cat /etc/p0f/p0f.fp           #view fingerprinting signatures
+  sudo p0f -r example.pcap      #fingerprints the devices in the pcap
+  sudo p0f                      #will perform fingerprinting on a local interface
+
+Traffic Statistics:
+  Protocol Hierarchy
+  Conversations
+  Endpoints
+  I/O Graph
+  IPv4 and IPv6 Statistics
+  Expert Information
+  
+Wireshark: Export Specified Packets (filters out some of the traffic)
+tcp conatins ""
+
+
