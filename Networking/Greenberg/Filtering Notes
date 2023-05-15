@@ -209,8 +209,24 @@ ACL's are read from top to bottom
   Match Condition Post :: Thresholding and Suppression
     https://net.cybbh.io/-/public/-/jobs/820000/artifacts/modules/networking/slides/6-Network_Traffic_Filtering.html on 19.5 and 19.6
 ## DEMO ##
-
-
+ls -l /etc/snort
+cat /etc/snort/snort.conf
+ls -l /etc/snort/rules
+sudo snort -V    # Version Snort is running on
+   ,,_     
+  o"  )~   
+   ''''
+ps -elf | grep snort     # Checks to see if snort is currently running
+sudo snort -D -l /var/log/snort -c /etc/snort/snort.conf  # -D daemon mode -l log file location -c config file location
+ps -elf | grep snort
+cat /var/log/snort/alert # alert log file
+ls -l /var/log/snort
+  sudo tcpdump -Xvvntr /var/log/snort/snort.log.1684159894  # sees what the actual packets look like
+  sudo tcpdump -r /var/log/snort/snort.log.1684159894   # reads the pcap file
+  sudo tcpdump -tnr /var/log/snort/snort.log.1684159894 | awk '{print $2} {print $4}' | sort | sed 's/:$//' | uniq -c   #  unique counts of source and destination ip addresses
+sudo vim /etc/snort/rules/icmp.rules
+sudo kill -9 <pid>
+Then restart snort with the updated configuration file
 
 
 
