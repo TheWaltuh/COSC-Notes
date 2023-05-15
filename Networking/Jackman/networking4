@@ -1,0 +1,102 @@
+
+============ DAY 4 NETWORKING NOTES ============
+
+PACKET CREATION AND SOCKET PROGRAMMING
+
+
+------SOCKET TYPES------
+
+**user space sockets
+
+	stream sockets - connection oriented and sequenced, methods for connection establishment and tear-down (tcp, sctp, BT)
+	datagram sockets - connectionless; designed for quickly sending and receiving data (UDP)
+		
+		user space applications/sockets
+			using tcpdump or wireshark to read a file
+			using nmap with no switches 
+			using netcat connect to a listener 
+			using netcat to create a listener above the well know port range (0-1023)
+			using /dev/tcp or /dev/udp to transmit data
+			
+**kernel space sockets
+
+	raw sockets - direct sending and receiving of IP packets without automatic protocol-specific formatting
+	(requires priviliges)
+	
+		kernel space applications/sockets
+			using tcpdump or wireshark to capture packets on the wire
+			using nmap for OS identification or to set specific flags when scanning
+			using nc on ports 0-1023
+			using scapy to craft/modify packets
+			using python to craft or modify raw sockets
+			network devices using routing protocols
+		
+python uses 
+
+import socket
+	s = socket.socket(socket.<FAMILY>, socket.<TYPE>, socket.<PROTOCOL>)
+
+family constants: AF_INET(default), AF_INET6, AF_UNIX
+tpye constants: SOCK_STREAM(tcp), SOCK_DGRAM(udp), SOCK_RAW
+
+
+
+example of socket_stream script
+
+#!/usr/bin/python3 
+
+import socket 
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+ipaddr = '127.0.0.1'
+port = 54321
+s.send(b'i\'m mudwalkin in these christians\n')
+s.connect((ipaddr, port))
+response, conn = s.recvfrom(1024)
+print(response.decode())
+s.close()
+
+
+
+
+
+ip.proto == 16 on wireshark to see the script we made
+if wireshark isn't working use -
+
+sudo dpkg-reconfigure wireshark-common
+sudo chmod +x /usr/bin/dumpcap
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

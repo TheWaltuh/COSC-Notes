@@ -1,0 +1,160 @@
+
+============ DAY 5 NETWORKING NOTES ============
+
+	      NETWORK ENUMERATION
+		
+
+types of recon:
+
+Active:
+	Active scanning is the process of transmitting packets to a remote host and analyzing corresponding replies to locate and 		identify devices
+
+Passive:
+	On the offensive side, the client listens for beacons and other traffic sent periodically by a target. On the defensive side, 		passive scanning can be done using an IDS, it watches the network and look for irregular traffic or other indicators of 		compromise. A passive scan generally takes more time, since the client must listen and wait for traffic versus actively probing
+
+Internal:
+	From inside your network, an internal vulnerability scan operates inside your networks* Key Loggers firewall to identify real 		and potential vulnerabilities inside your network
+
+External:
+	From outside your network, looks for holes in your network firewall, where malicious outsiders can break in and attack your 	network.
+
+commands for enumeration
+
+whois - does a dns lookup
+
+dig   - pulls the dns records	dig TXT WRITE THAT DOWN
+
+dig axfr <> zonetransfer.me
+
+dig +short
+
+websites
+
+whois
+shodan
+waybackmachine.com
+duckduckgo.com <search ip with cidr>
+
+
+
+NETWORK SCANNING
+
+**scanning approach
+
+	aim
+	   - wide range target scan
+	   - target specific scan
+	   
+	method
+	   - single source scan
+	   - distributed scan
+	   
+types of scans:
+
+-broadcast ping & ping sweep
+-ARP scan
+-SYN scan
+-full connect scan
+-null scan
+-FIN scan
+-XMAS tree scan
+-UDP scan	
+-ACK/window scan
+-RPC scan
+-FTP scan
+-decoy scan
+-OS finger printing
+-version scan
+-protocol ping
+-discovery probes
+
+
+syntax:
+(sudo) nmap <options> <target ip(s)/subnet>
+	-n   - no name resolution
+	-P   - disable ping
+	-p-  - scans all ports
+	
+nmap examples
+
+	nmap -Pn 10.10.0.33-36,39 - scan hosts with no name resolution or ICMP ping
+	nmap -Pn 10.10.0.40/27 -p 21-23,80 -T4 | egrep -i "open|nmap scan"
+
+netcat examples 
+
+	nc -zvnw1 10.10.0.40 21-23,80 - scan to see if these ports are open
+		-z	zero-I/O mode used for scanning
+		-v	verbose
+		-n 	numeric
+		-w	secs for timeout connects
+	
+	nc 10.10.0.40 22 - banner grab
+	
+	echo "GET /" | nc 10.10.0.40 80 - banner grab (html)
+
+
+
+network map diagram.io
+
+which tcpdump wireshark nmap telnet wget curl 
+
+
+NET RECON METHODOLOGY
+1. Host Discovery (nmap, scan.sh, nc, ping sweep)
+2. Port Discovery (nmap, scan.sh, nc)
+3. Port Validation (e.g Banner Grabbing - nc)
+4. Follow-on Actions (based on ports found)
+ a. if port is 21 or 80: wget -r [ ftp://IP_ADDRESS -or- IP_ADDRESS]
+ b. if port is 22 or 23: connect to it and do PASSIVE RECON
+
+
+SCAN METHODOLOGY
+
+
+
+PASSIVE RECON METHODOLOGY
+1. hostname
+2. Interfaces and Subnets? ip a, ifconfig
+3. Neighbors? arp -a, ip neigh | egrep -iv "fail" | awk '{print $1}' (don't care about "fail")
+4. Files of Interest (pcacps,flags, etc)? find command helpful 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

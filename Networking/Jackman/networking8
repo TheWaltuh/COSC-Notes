@@ -1,0 +1,316 @@
+
+============ DAY 8 NETWORKING NOTES ============
+
+
+filtering devices, mechanisms & layers
+
+
+switch		PACL, VACL, & ACL		layer 2,3
+
+router		ACL				layer 3,4
+
+proxies	URL & DNS blacklists
+		MIME filtering
+		content keyword filtering	layers 3-7
+
+intrusion detection	signatures		layers 3-7
+
+host based firewall	rules			layers 3-7
+
+network firewall	rules			
+			packet filtering (stateless)
+			stateful(connection based)
+			application layer FW
+			next generation FW	layers 3-7 or 3&4
+			
+whitelist:
+	list of people you will always allow, block everything else
+	last rule is deny any
+
+blacklist:
+	list of people to block, allow everything else
+	last rule is allow any
+	
+routed:
+	router will show routes to anyone who asks
+	
+transparent:
+	router won't show anything but will still do routes
+	
+	
+netfilter hooks
+
+NF_IP_ROUTING  	----> PREROUTING
+NF_IP_LOCAL_IN 	----> INTPUT
+NF_IP_FORWARD  	----> FORWARD
+NF_IP_LOCALL_OUT 	----> OUTPUT
+NF_IP_POST_ROUTING	----> POSTROUTING
+
+
+common iptable options
+
+-A		append a rule (from bottom)
+-I		insert a rule (from top) 
+-D 		delete a rule, syntax; IPTABLES -d [chain] [rule #]
+-L		lists the rules by chains
+-P		changes the default polify for a chain
+-p		lsit a protocol
+--sport	specific port
+--dport	specific port
+-d		destination address
+-s 		source address
+-j 		jump to target action
+-n		displays port number vice protocol
+-t		specifies a table, default is filter
+--line		prints the rule number in the output
+numbers
+
+
+***do not flush iptables without checking default poilcy***
+
+flush table
+	iptables -t [table] -F
+	
+change default policy
+	iptables -t [table] -P [chain] [action]
+
+list rules with rule numbers
+	iptables -t [tanle] -L --line-numbers
+	
+
+example syntax for allowing ssh rule
+
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+sudo iptables -A OUTPUT -p tcp --spor-dt 22 -j ACCEPT
+
+
+allows terminator
+
+sudo iptables -A INPUT -p tcp -m multiport --ports 6010,6011,6012 -J ACCEPT
+sudo iptables -A OUPUT -p tcp -m multiport --ports 6010,6011,6012 -J ACCEPT
+
+
+
+
+NFTABLE FAMILIES
+	
+
+	ip 	- ipv4 packets
+	ip6 	 - ipv6 packets
+	inet 	- ipv4 and ipv6 packets
+	arp 	- layer 2
+	bridge	- processing traffic/packets traversing bridges
+	netdev - allows for user classification of packets 
+
+
+chain types:
+
+	filter
+	route
+	nat
+	
+	
+hooks:
+
+	prerouting
+	postrouting
+	input
+	output
+	forward
+	ingress - used with netdev family only
+	
+
+1. create the table
+
+nft add table [family] [table]
+
+2. create the base chain
+
+nft add chain [family] [table] [chain] { type [type] hook [hook] priority [priority] \; policy [policy] \;}
+
+3. create a rule in the chain
+
+nft add rule [family] [table] [chain] [matches (matches)] [statement]
+
+4. modify nftables
+
+nft {list | flush} ruleset
+nft {delete | list | flush } table [family] [table]
+nft {delete | list | flush } chain [family] [table] [chain]
+
+** look at all the tables
+sudo nft list ruleset
+
+
+MODIFY NFTABLES
+	nft list table [family] [table] [-a]
+
+Adds after position
+	nft add rule [family] [table] [chain] [position <position>] [matches (matches)] [statement]
+
+Inserts before position
+	nft insert rule [family] [table] [chain] [position <position>] [matches (matches)] [statement]
+
+Replaces rule at handle
+	nft replace rule [family] [table] [chain] [handle <handle>] [matches (matches)] [statement]
+
+Deletes rule at handle
+	nft delete rule [family] [table] [chain] [handle <handle>]
+
+
+*name table 
+sudo nft add table ip <tablename>
+
+*make chains
+sudo nft add chain ip <tablename> MyInput { type filter hook input priority 0 \; policy accept \;}
+sudo nft add chain ip <tablename> MyOutput { type filter hook output priority 1 \; policy accept \;}
+
+sudo nft list tbale <tablename>
+
+**ssh and terminator allow
+
+sudo nft insert rule ip TABLENAME MyInput tcp dport 22 accept 
+sudo nft insert rule ip TABLENAME MyOutput tcp sport 22 accept 
+*check work 
+sudo nft list table ip <tablename> 
+
+sudo nft insert rule ip <tablename> MyOutput tcp sport { 6010, 6011, 6012 } ct state { new, established } accept
+sudo nft insert rule ip <tablename> MyOutput tcp dport { 6010, 6011, 6012 } ct state { new, established } accept
+sudo nft insert rule ip <tablename> MyInput tcp sport { 6010, 6011, 6012 } ct state { new, established } accept
+sudo nft insert rule ip <tablename> MyInput tcp dport { 6010, 6011, 6012 } ct state { new, established } accept
+
+
+***change policy
+sudo nft add chain ip <tablename> MyOutput { type filter hook output priority 0 \; policy drop \;}
+sudo nft add chain ip <tablename> MyInput { type filter hook input priority 0 \; policy drop \;}
+
+
+
+
+**see rules by their handles
+sudo nft list chain ip <tablename> MyOutput -ann
+
+** delete rule by handle
+sudo nft delete rule ip <tablename> MyOutput handle 13
+
+
+*****RESOURCES CHEAT SHEETS FOR IPTABLES
+
+
+NAT & PAT operators & chains
+
+	-statement operator-		-applicable chains-
+	
+	snat				postrouting input
+	
+	masquerade			postrouting
+	
+	dnat				prerouting output
+	
+	redirect			prerouting output
+	
+
+ex. 
+
+NAT
+source:
+iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to 1.1.1.1
+
+destination:
+iptables -t nat -A PREROUTING -i eth0 -j DNAT --to 10.0.0.1
+
+PAT
+source:
+iptables -t nat -A POSTROUTING -p tcp -o eth0 -j SNAT --to 1.1.1.1:9001
+
+destination:
+iptables -t nat -A PREROUTING -p tcp -i eth0 -j DNAT --to 10.0.0.1:8080
+
+
+**Create the NAT table
+nft add table ip NAT
+
+**Create the NAT chains
+nft add chain ip NAT PREROUTING {type nat hook prerouting priority 0 \; }
+nft add chain ip NAT POSTROUTING {type nat hook postrouting priority 100 \; }
+
+CREATE THE NAT RULES 
+
+***Source NAT
+nft add rule ip NAT POSTROUTING ip saddr 10.1.0.2 oif eth0 snat 144.15.60.11
+
+***Destination NAT
+nft add rule ip NAT PREROUTING iif eth0 tcp dport { 80, 443 } dnat 10.1.0.3
+
+***Source NAT w/ masquerade
+nft add rule ip NAT POSTROUTING ip saddr 10.1.0.0/24 oif eth0 masquerade
+
+***Destination NAT (port forwarding) with redirect
+nft add rule ip NAT PREROUTING tcp dport 80 redirect to 8080
+
+
+
+
+ACTIVITY NOTES:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

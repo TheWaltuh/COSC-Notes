@@ -1,0 +1,225 @@
+
+============ DAY 7 NETWORKING NOTES ============
+
+fingerprinting and host indentification
+	P0F(passive os fingerprinting)
+	-look at variations in intitial TTL, fragmentation flag, default IP header packet length, window size, and TCP options
+	-configuration stored in: /etc/p0f/p0f.fp
+	
+syntax:
+
+sudo p0f -r <file> (run against a file)
+
+
+things to look for
+	protocol hierarchy
+	conversations
+	endpoints
+	I/O graph
+	ipv4 and ipv6 statistics
+	expert information
+	
+	
+	display filter: 'tcp contains "password"'
+	
+	instead of not != encompass the whole filter in () and put ! in front
+	
+	
+tcpdump
+
+sudo tcpdump -r <pcap>	
+
+
+data collection devices
+	sensors
+	- in-line
+	- passive
+
+methods of data collection
+	TAP
+	SPAN
+	ARP spoofing (MitM)
+
+anomaly detection
+indicator of attack (IOA)
+	proactive
+	a series of actions that are suspecious together
+	focus of intent 
+	looks for what musc happen
+		
+
+
+indicators
+	.exe/executable files
+	NOP sled
+	repeated letters
+	well know signature
+	mismatched protocols
+	unusual traffic
+	large amounts of traffic/ unusual times
+
+indicators of attack
+
+	destinations
+	ports
+	public servers/DMZs
+	off-hour
+	network scans
+	alarm events
+	malware reinfection
+
+potential indicators of comporomise
+
+	unusual traffic outbound
+	anomalous user login or account use 
+	size of responses for HTML
+	high number of requests for the same file 
+	using non-standard ports/ apllication port mismatch
+	writing changes to the registry/system files
+	
+types of malware
+
+	adware/spyware
+		large ammounts of traffic
+		IOA
+			destinations
+		IOC
+			unusual traffic outbound
+	virus
+		phishing/ watering hole
+	
+	worm 
+		phishing/watering hole
+		IOA
+			alarm events
+		IOC
+			changes to registry/system files
+	trojan
+		beaconing
+
+	rootkit
+		IOA
+			malware reinfection
+		IOC
+			anomalous user login/account use
+	backdoor
+		IOA
+			remote logins
+			
+	botnets
+		large amounts of ips
+		IOA
+			destinations, remote logins
+		IOC
+			unusual tasks, anomalous user login/account use
+	Polymorphic and metamorphic malware
+		depends on the malware's type/class
+
+
+decoding
+	enca
+	chardet
+	iconv
+			
+			
+			
+			
+			
+			
+		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

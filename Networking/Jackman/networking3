@@ -1,0 +1,100 @@
+
+============ DAY 3 NETWORKING NOTES ============
+
+CAPTURE LIBRARY
+
+libcap
+winpcap
+NPCAP
+
+make traffic capture possible
+
+tcpdump notes
+
+	- tcpdump -D all interfaces
+
+	- tcpdump -i <interface> specify interface
+	
+	- tcpdump -X displays hex and ascii
+	
+	- tcpdump -XX same thing as listed above but also includes eth header
+	
+	- tcpdump -w  <pcap> write output to a file
+	
+	- tcpdump -r <pcap> read a pcap file
+	
+	- tcpdump <src or dst> port <> listens for specific traffic
+		-v verbose output
+		-n don't covert addresses
+
+	you can use boolean operators ex. (AND, OR, ||, &&)
+	
+	-tcpdump portrange 20-100 and host 10.1.0.2 or host 10.1.0.3 and dst net 10.2.0.0/24 -vn
+		can specify port ranges, hosts, and entire subnets
+	
+	- tcpdump "(src net 10.1.0.0/24 && (dst net 10.3.0.0/24 || dst host 10.2.0.3) && (! dst host 10.1.0.3))" -vn
+	
+
+------------------ Berkley Packet Filter ---------------------
+
+flags nibble
+   cwr ece urg ack   psh rst syn fin
+-------------------------------------   
+hex 8	4   2   1  |  8   4   2   1
+-------------------------------------
+
+tcpdump {A} [B:C] {D} {E} {F} {G}
+
+a = protocol (ether | arp | ip | ip6 | icmp | tcp | udp)
+b = header byte offset
+c = optional: byte length can be 1, 2 or 4 (1 by default)
+d = optional: bitwise mask (&)
+e = operator (= | == | > | < | <= | >= | != | () | << | >> )
+f = result of expression
+g = optional: logical operator (&& ||) to bridge expressions
+
+***BITWISE MASKING
+
+ip[0] & 0x<first nibble><second nibble> > 0x<first nibble><second nibble>
+
+ip[0] & 0x0F > 0x05
+
+# this is saying second nibble should be greater than 5
+
+	MOST EXCLUSIVE
+		tcp[13] = 0x11 is the same as tcp[13] & 0xFF = 0x11
+		- 13 is the flag field for tcp header
+		- this is saying that both nibbles must equal 1 that both those specific flags are turned on
+		- most exclusive is signified by FF
+		
+	LESS EXCLUSIVE 
+		tcp[13] & 0x11 = 0x11
+		- this is saying the specified flags must be set but other flags can be on too
+		- ack and fin must be turned on
+		
+	LEAST EXCLUSIVE
+		tcp[13] & 0x11 != 0
+		- set the flags and then put them not equal to 0
+		-  this makes it so one or another of the specified flags must be turned on
+
+
+syntax - <header> [<byte offset>:<length>]
+
+ip[2:2] - get total length in ip header
+ip[9] - get protocol field
+ip[16:4]=8.8.8.8 - destination ip must be 8.8.8.8
+
+
+ip - ipv4 header
+ip6 - ipv6 header
+tcp - tcp header
+
+
+
+
+CHALLENGE NOTES:
+
+
+tcpdump "yourfilter" -r BPFCheck.pcap | wc -l
+
+when a server responds and has open ports it'll send  a SYN,ACK = 0x12 if they're closed it sends a RST = 0x04
