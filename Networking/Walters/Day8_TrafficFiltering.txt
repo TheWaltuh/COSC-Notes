@@ -1,0 +1,114 @@
+
+
+DAY 9
+
+================Traffic filtering================
+
+
+types of Filtering devices:
+    Switch: layer 2-3
+    Router: layer 3-4
+    Proxies: 3-7
+    IDS/PS: 3-7
+    Host Based Firewall: 3-7
+    Network Firewall: 3-7
+        Rules,
+        Packet Filtering
+        Stateful/connection based
+        Application Layer FW
+        Next Generation FW
+
+
+Whitelist:
+    list of people you will always allow, block everything else.
+    last rule is deny any
+Blacklist:
+    list of people to block, allow everyone else.
+    last rule is allow any
+    
+routed: 
+    router will show routes to anyone who asks. 
+transparent:
+    router won't show anything, but will still do the routes. 
+
+
+
+Intrusion Defense:
+    An intrusion prevention system is just an intrusion detection sytem that blocks the traffic.
+    Stateless (packet, L3+4) filtering:
+        
+        
+    Stateful Inspection (L4):
+        Look at the TCP headers to track what part of the conversation you're in.
+        Can use the established line.
+        
+    Application (L7):
+        Can allow specific applications access. 
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

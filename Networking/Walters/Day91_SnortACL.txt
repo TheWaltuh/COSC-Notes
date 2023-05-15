@@ -1,0 +1,215 @@
+
+Day 10
+
+Access control lists and SNORT rules.
+
+standard will only filter on source address.
+Extended will filter on source address, destination address, and even protocol.
+
+You can also name them instead of just giving them a number.
+
+
+you should set standard ACLs closest to the destination.
+Extended ACLs go closest to the source you're filtering on because you can be more specific.
+
+
+
+
+
+IDS/IPS:
+
+    IPS must be in line to block traffic.
+    
+    IDS can be in-line or the other one. 
+
+recognition methods:
+    signature:
+        looking for certain patterns in the packets (known signature of malware.)
+    Heuristic (Behavioral)
+        Block traffic based on behavior of adversary. (frequency, port scanning, etc.)
+        
+    
+    
+SNORT:
+    looks at signatures based on rules. 
+    
+
+
+snort rule syntax:
+[action] [protocol] [src ip] [src port] [direction] [dst ip] [dst port] ( match conditions ;)
+
+rule options:
+    msg - specifies a human readable alert message
+    refrence - links to external source of rule
+    sid - used to uniquely indetify snort rules.
+    rev - identify revision number of snort rule.
+    classtype -used to describe a successful attack
+    priority - level of concern 1 is worst, 3 is informational
+    metadata - allow a rule writer to embed additional info about rule. 
+    
+
+Payload detection options:
+
+    content - looks for a string of text.
+    |binary data| - to look for a string of binary HEX
+    nocase - modified content, makes it case insensitive
+    depth - specify how many bytes into a packet Snort should search for the specified pattern
+    distance - how far into a packet Snort should ignore before starting to search for the specified pattern relative to the end of the previous pattern match
+    within - modifier that makes sure that at most N bytes are between pattern matches using the content keyword
+    offset - skips a certain number of bytes before searching (i.e. offset: 12)
+
+**distance looks from the end of last pattern match, and offset just skips a certain number of bytes.
+
+
+
+non payload detection options:
+
+    Flow - direction (to/from client and server) and state of connection (established, stateless, stream/no stream)
+    ttl - The ttl keyword is used to check the IP time-to-live value.
+    tos - The tos keyword is used to check the IP TOS field for a specific value.
+    ipopts - The ipopts (ip options) keyword is used to check if a specific IP option is present
+    seq - check for a specific TCP sequence number
+    ack - check for a specific TCP acknowledge number.
+    flags - The flags keyword is used to check if specific TCP flag bits are present.
+    itype - The itype keyword is used to check for a specific ICMP type value.
+    icode - The icode keyword is used to check for a specific ICMP code value.
+
+
+
+
+Post detection options:
+
+    logto - The logto keyword tells Snort to log all packets that trigger this rule to a special output log file.
+    session - The session keyword is built to extract user data from TCP Sessions.
+    react - This keyword implements an ability for users to react to traffic that matches a Snort rule by closing connection and sending a notice.
+    tag - The tag keyword allow rules to log more than just the single packet that triggered the rule.
+    activates - This keyword allows the rule writer to specify a rule to add when a specific network event occurs.
+    activated_by - This keyword allows the rule writer to dynamically enable a rule when a specific activate rule is triggered.
+    count - Allows the rule writer to specify how many packets to leave the rule enabled for after it is activated.
+
+
+Threshold and supression options:
+
+    type [limit | threshold | both]
+    limit alerts on the 1st event during defined period then ignores the rest.
+    Threshhold alerts every [x] times during defined period.
+    Both alerts once per time internal after seing [x] amopunt of occurances of event. It then ingores all other events during period.
+    track [by_src | by_dst] - rate is tracked either by source IP address, or destination IP address
+    count [#] - number of rule matching in [s] seconds that will cause event_filter limit to be exceeded
+    seconds [seconds] - time period over which count is accrued. [s] must be nonzero value
+
+
+
+
+
+DEMO:
+
+file locatios:
+
+/etc/snort:
+        /rules  - directory of pre-written rules
+        /snort.conf - config file for snort.
+
+
+sudo snort -V
+** gives me snort version number.
+
+
+Tibbs:
+ ,,_ 
+o"  )~ 
+ '''' 
+
+
+sudo snort -D -l /var/log/snort -c /etc/snort/snort.conf
+** run snort in Daemon mode, specify log location, specify config file location
+
+TROUBLESHOOTING:
+    sudo snort -T -c /etc/snort/snort.conf
+    **test current config.
+    
+
+ps -elf | grep snort
+** will give you the log location and the conf file location.
+
+  
+snort logs are pcaps.
+We have to use tcpdump on this shit....
+
+sudo tcpdump -Xvvvntr /var/log/snort/snort.log.1241w48523751239412
+
+
+sudo tcpdump -tnr /var/log/snort/snort.log.1234 | awk '{print $2} {print $4}' | sort | sed 's/:$//' | uniq -c
+** gives me list of all endpoints in the pcap. 
+
+
+
+    Fail open:
+        
+    Fail close:
+        
+
+
+insertion attack:
+    ids accepts packet that the nost will not
+    
+Evasion attacking:
+    ids does not accept packet that the host will.
+
+
+
+
+
+
+START FLAG: this_whole_ids_is_out_of_line
+
+
+T4 Snort Server (Bob): 10.50.30.212
+
+
+Login Credentials: netN_studentX:passwordX (N=net number and X=student number)
+
+
+Alt SSH Port: 25
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
