@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-05-11T13:04:55.922Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="HtUXJp4OGL7LQ770M431" version="21.2.9" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2023-05-15T17:07:39.667Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="qegwx4yv8zOoGFVmKChu" version="21.2.9" type="github" pages="3">
   <diagram name="Page-1" id="UrAOD6k8fKv2funcCNdR">
-    <mxGraphModel dx="2402" dy="1595" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3190" dy="2312" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -310,11 +310,20 @@
         <mxCell id="T0WTCyAwHoFXnaM4Mq35-80" value="192.168.3.0&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;(.0-.255)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1960" y="-48" width="260" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="QELQx3M-UPzmXtasMxvF-4" value="&lt;div&gt;T4 Snort Server&lt;/div&gt;&lt;div&gt;10.50.30.212&lt;/div&gt;&lt;div&gt;net3_student16 password16&lt;/div&gt;&lt;div&gt;25(ssh)&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="-81" y="20" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="QELQx3M-UPzmXtasMxvF-6" value="" style="endArrow=none;html=1;rounded=0;entryX=0.16;entryY=0.55;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="QELQx3M-UPzmXtasMxvF-4" target="T0WTCyAwHoFXnaM4Mq35-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="140" as="sourcePoint" />
+            <mxPoint x="220" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram id="GU0P_MR3JsCIxZl4m4iN" name="Page-2">
-    <mxGraphModel dx="2258" dy="2067" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3612" dy="2309" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -330,7 +339,7 @@
         <mxCell id="gSHyd3xjGTIgi1dylPXt-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="gSHyd3xjGTIgi1dylPXt-90" target="gSHyd3xjGTIgi1dylPXt-91" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="gSHyd3xjGTIgi1dylPXt-90">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gSHyd3xjGTIgi1dylPXt-90" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="70" y="1080" as="targetPoint" />
           </mxGeometry>
@@ -355,185 +364,229 @@
         <mxCell id="dqrICr3VdPaRUsVFfLjF-1" value="&lt;div&gt;HOSTNAME&lt;/div&gt;&lt;div&gt;IP(S)&lt;/div&gt;&lt;div&gt;PORTS&lt;/div&gt;&lt;div&gt;TOOLS&lt;/div&gt;&lt;div&gt;CREDENTIALS&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-95" width="95" height="95" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-5" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="gSHyd3xjGTIgi1dylPXt-95">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-5" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="gSHyd3xjGTIgi1dylPXt-95" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="70" y="1080" as="sourcePoint" />
             <mxPoint x="250" y="1050" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-6" value="&lt;div&gt;10.3.0.1&lt;/div&gt;&lt;div&gt;21, 80&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-6" value="&lt;div&gt;10.3.0.1&lt;/div&gt;&lt;div&gt;21, 80&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="636" y="410" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-7" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-7" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="180" y="815" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-8" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-8" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="130" y="1030" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-9" value="&lt;div&gt;10.2.0.2&lt;/div&gt;&lt;div&gt;21, 80&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-9" value="&lt;div&gt;10.2.0.2&lt;/div&gt;&lt;div&gt;21, 80&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="636" y="1030" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-10" value="Remote: 31601-&amp;gt;Antropia:22" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-10" value="Remote: 31601-&amp;gt;Antropia:22" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="252.5" y="970" width="275" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-11" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="XBUTmc1LcIgyiGN2sdw7-10">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-11" value="" style="endArrow=none;html=1;rounded=0;" parent="1" source="XBUTmc1LcIgyiGN2sdw7-10" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="340" y="980" as="sourcePoint" />
             <mxPoint x="390" y="930" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-12" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Antarctica&lt;br&gt;&lt;/div&gt;&lt;div&gt;10.2.0.3&lt;/div&gt;&lt;div&gt;22, 23&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-12" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Antarctica&lt;br&gt;&lt;/div&gt;&lt;div&gt;10.2.0.3&lt;/div&gt;&lt;div&gt;22, 23&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="636" y="1205" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-14" value="&lt;div&gt;10.4.0.1&lt;/div&gt;&lt;div&gt;22&lt;br&gt;&lt;/div&gt;Baja Republic&lt;br&gt;&lt;div&gt;wireshark tcpdump&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-14" value="&lt;div&gt;10.4.0.1&lt;/div&gt;&lt;div&gt;22&lt;br&gt;&lt;/div&gt;Baja Republic&lt;br&gt;&lt;div&gt;wireshark tcpdump&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="636" y="780" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-16" value="&lt;div&gt;10.5.0.57&lt;/div&gt;&lt;div&gt;21, 80&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-16" value="&lt;div&gt;10.5.0.57&lt;/div&gt;&lt;div&gt;21, 80&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="890" y="880" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-17" value="&lt;div&gt;10.5.0.1&lt;/div&gt;&lt;div&gt;21, 80&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-17" value="&lt;div&gt;10.5.0.1&lt;/div&gt;&lt;div&gt;21, 80&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="890" y="680" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-18" value="" style="endArrow=none;html=1;rounded=0;exitX=1.027;exitY=0.4;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="XBUTmc1LcIgyiGN2sdw7-14" target="XBUTmc1LcIgyiGN2sdw7-17">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-18" value="" style="endArrow=none;html=1;rounded=0;exitX=1.027;exitY=0.4;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="XBUTmc1LcIgyiGN2sdw7-14" target="XBUTmc1LcIgyiGN2sdw7-17" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="810" y="830" as="sourcePoint" />
             <mxPoint x="860" y="780" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-19" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="XBUTmc1LcIgyiGN2sdw7-14" target="XBUTmc1LcIgyiGN2sdw7-16">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-19" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="XBUTmc1LcIgyiGN2sdw7-14" target="XBUTmc1LcIgyiGN2sdw7-16" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="820" y="950" as="sourcePoint" />
             <mxPoint x="870" y="900" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-20" value="Data-collection-net-ssh-01&lt;br&gt;&lt;div&gt;T5&lt;/div&gt;&lt;div&gt;float: 10.50.31.103&lt;/div&gt;&lt;div&gt;23&lt;br&gt;&lt;/div&gt;&lt;div&gt;, 22f, 80f&lt;/div&gt;&lt;div&gt;tcpdump wireshark&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-20" value="Data-collection-net-ssh-01&lt;br&gt;&lt;div&gt;T5&lt;/div&gt;&lt;div&gt;float: 10.50.31.103&lt;/div&gt;&lt;div&gt;23&lt;br&gt;&lt;/div&gt;&lt;div&gt;, 22f, 80f&lt;/div&gt;&lt;div&gt;tcpdump wireshark&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-320" y="780" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-22" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="XBUTmc1LcIgyiGN2sdw7-20" target="gSHyd3xjGTIgi1dylPXt-90">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-22" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="XBUTmc1LcIgyiGN2sdw7-20" target="gSHyd3xjGTIgi1dylPXt-90" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="-130" y="920" as="sourcePoint" />
             <mxPoint x="-80" y="870" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-23" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-23" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-150" y="815" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-24" value="192.168.0.10/24" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-24" value="192.168.0.10/24" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="-425" y="830" width="110" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-29" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-02&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.0.20&lt;/div&gt;&lt;div&gt;21, 80&lt;br&gt;&lt;/div&gt;&lt;div&gt;1111, 2222, 3333&lt;/div&gt;&lt;div&gt;wireshark tcpdump&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-29" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-02&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.0.20&lt;/div&gt;&lt;div&gt;21, 80&lt;br&gt;&lt;/div&gt;&lt;div&gt;1111, 2222, 3333&lt;/div&gt;&lt;div&gt;wireshark tcpdump&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-590" y="620" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-30" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-03&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.0.30&lt;/div&gt;&lt;div&gt;80, 4444&lt;/div&gt;&lt;div&gt;wireshark tcpdump&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-30" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-03&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.0.30&lt;/div&gt;&lt;div&gt;80, 4444&lt;/div&gt;&lt;div&gt;wireshark tcpdump&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-590" y="800" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-31" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-04&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.0.40&lt;/div&gt;&lt;div&gt;80, 5555&lt;/div&gt;&lt;div&gt;wireshark tcpdump&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-31" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-04&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.0.40&lt;/div&gt;&lt;div&gt;80, 5555&lt;/div&gt;&lt;div&gt;wireshark tcpdump&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-590" y="970" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-32" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rotation=-180;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-32" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rotation=-180;" parent="1" vertex="1">
           <mxGeometry x="-525" y="590" width="210" height="545" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-33" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="XBUTmc1LcIgyiGN2sdw7-31" target="XBUTmc1LcIgyiGN2sdw7-34">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-33" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="XBUTmc1LcIgyiGN2sdw7-31" target="XBUTmc1LcIgyiGN2sdw7-34" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="-700" y="1030" as="sourcePoint" />
             <mxPoint x="-760" y="1050" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-34" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-06&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.60&lt;/div&gt;&lt;div&gt;21, 23, 80, 22F&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-34" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-06&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.60&lt;/div&gt;&lt;div&gt;21, 23, 80, 22F&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-951" y="970" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-35" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-05&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.0.50&lt;br&gt;&lt;/div&gt;&lt;div&gt;80&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-35" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-05&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.0.50&lt;br&gt;&lt;/div&gt;&lt;div&gt;80&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-780" y="620" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-36" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="XBUTmc1LcIgyiGN2sdw7-35" target="XBUTmc1LcIgyiGN2sdw7-29">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-36" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="XBUTmc1LcIgyiGN2sdw7-35" target="XBUTmc1LcIgyiGN2sdw7-29" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="-770" y="890" as="sourcePoint" />
             <mxPoint x="-720" y="840" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-40" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-09&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.90&lt;/div&gt;&lt;div&gt;80, 2222&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-40" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-09&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.90&lt;/div&gt;&lt;div&gt;80, 2222&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-1190" y="1057" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-41" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-08&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.80&lt;/div&gt;&lt;div&gt;80, 3389&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-41" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-08&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.80&lt;/div&gt;&lt;div&gt;80, 3389&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-1190" y="890" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-42" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rotation=-180;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-42" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rotation=-180;" parent="1" vertex="1">
           <mxGeometry x="-1092" y="862.5" width="141" height="365" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-44" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-07&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.70&lt;/div&gt;&lt;div&gt;1337&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-44" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-07&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.70&lt;/div&gt;&lt;div&gt;1337&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-1350" y="890" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-45" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-10&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.100&lt;/div&gt;&lt;div&gt;23, 80, 22f&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-45" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh-10&lt;br&gt;&lt;/div&gt;&lt;div&gt;172.16.0.100&lt;/div&gt;&lt;div&gt;23, 80, 22f&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="-1380" y="1280" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-46" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="XBUTmc1LcIgyiGN2sdw7-40">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-46" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="XBUTmc1LcIgyiGN2sdw7-40" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="-1300" y="1132" as="sourcePoint" />
             <mxPoint x="-1240" y="1130" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-47" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="XBUTmc1LcIgyiGN2sdw7-45">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-47" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="XBUTmc1LcIgyiGN2sdw7-45" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="-1330" y="1220" as="sourcePoint" />
             <mxPoint x="-1300" y="1130" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-50" value="Tunnels" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-50" value="Tunnels" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
           <mxGeometry x="-700" y="1200" width="100" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-51" value="&lt;div&gt;1.telnet into ssh-01:&amp;nbsp; ssh student@10.50.37.59 -R 31600:localhost:22&lt;br&gt;&lt;/div&gt;&lt;div&gt;2. from IH: ssh -p 31600 net3_student16@localhost -L 31601:192.168.0.40:5555&lt;br&gt;&lt;/div&gt;&lt;div&gt;3. IH: ssh -p 31601 net3_student16@localhost -L 31602:172.16.0.60:23&lt;br&gt;&lt;/div&gt;&lt;div&gt;4. telnet localhost 31602(ssh-06): ssh -p 5555 net3_student16@192.168.0.40 -R 31603:localhost:22&lt;br&gt;&lt;/div&gt;&lt;div&gt;5. IH&amp;gt; ssh -p 31601 net3_student16@localhost -L 31604:localhost:31603&lt;br&gt;&lt;/div&gt;&lt;div&gt;6. IH: ssh -p 31604 net3_student16@localhost -L 31605:172.16.0.90:2222&lt;br&gt;&lt;/div&gt;&lt;div&gt;7. IH&amp;gt; ssh -p 31605 net3_student16@localhost 31607:172.16.0.100:23&lt;br&gt;&lt;/div&gt;&lt;div&gt;8.telnet localhost 31607(ssh-10): ssh -p 2222 net3_student16@172.16.0.90 -R 31608:localhost:22 -NT&lt;br&gt;&lt;/div&gt;&lt;div&gt;9. ssh -p 31605 net3_student16@localhost -L 31609:localhost:31608 -NT&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-51" value="&lt;div&gt;1.telnet into ssh-01:&amp;nbsp; ssh student@10.50.37.59 -R 31600:localhost:22&lt;br&gt;&lt;/div&gt;&lt;div&gt;2. from IH: ssh -p 31600 net3_student16@localhost -L 31601:192.168.0.40:5555&lt;br&gt;&lt;/div&gt;&lt;div&gt;3. IH: ssh -p 31601 net3_student16@localhost -L 31602:172.16.0.60:23&lt;br&gt;&lt;/div&gt;&lt;div&gt;4. telnet localhost 31602(ssh-06): ssh -p 5555 net3_student16@192.168.0.40 -R 31603:localhost:22&lt;br&gt;&lt;/div&gt;&lt;div&gt;5. IH&amp;gt; ssh -p 31601 net3_student16@localhost -L 31604:localhost:31603&lt;br&gt;&lt;/div&gt;&lt;div&gt;6. IH: ssh -p 31604 net3_student16@localhost -L 31605:172.16.0.90:2222&lt;br&gt;&lt;/div&gt;&lt;div&gt;7. IH&amp;gt; ssh -p 31605 net3_student16@localhost 31607:172.16.0.100:23&lt;br&gt;&lt;/div&gt;&lt;div&gt;8.telnet localhost 31607(ssh-10): ssh -p 2222 net3_student16@172.16.0.90 -R 31608:localhost:22 -NT&lt;br&gt;&lt;/div&gt;&lt;div&gt;9. ssh -p 31605 net3_student16@localhost -L 31609:localhost:31608 -NT&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="-1035" y="1190" width="770" height="240" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-52" value="telnet into ssh-01:&amp;nbsp; ssh student@10.50.37.59 -R 31600:localhost:22" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-52" value="telnet into ssh-01:&amp;nbsp; ssh student@10.50.37.59 -R 31600:localhost:22" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;" parent="1" vertex="1">
           <mxGeometry x="-290" y="690" width="380" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-53" value="" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;rotation=-210;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-53" value="" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;rotation=-210;" parent="1" vertex="1">
           <mxGeometry x="-480" y="980" width="380" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-54" value="ssh -p 5555 net3_student16@192.168.0.40 -R 31603:localhost:22" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-54" value="ssh -p 5555 net3_student16@192.168.0.40 -R 31603:localhost:22" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;" parent="1" vertex="1">
           <mxGeometry x="-920" y="950" width="380" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-55" value="ssh -p 31600 net3_student16@localhost -L 31601:192.168.0.40:5555" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-30;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-55" value="ssh -p 31600 net3_student16@localhost -L 31601:192.168.0.40:5555" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-30;" parent="1" vertex="1">
           <mxGeometry x="-490" y="1010" width="400" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-57" value="" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;rotation=-180;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-57" value="" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;rotation=-180;" parent="1" vertex="1">
           <mxGeometry x="-895" y="1057" width="380" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-56" value="ssh -p 31601 net3_student16@localhost -L 31604:localhost:31603" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=0;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-56" value="ssh -p 31601 net3_student16@localhost -L 31604:localhost:31603" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=0;" parent="1" vertex="1">
           <mxGeometry x="-905" y="1087" width="400" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-58" value="" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;rotation=-195;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-58" value="" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;rotation=-195;" parent="1" vertex="1">
           <mxGeometry x="-1170" y="1135" width="380" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-59" value="ssh -p 31604 net3_student16@localhost -L 31605:172.16.0.90:2222" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-15;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-59" value="ssh -p 31604 net3_student16@localhost -L 31605:172.16.0.90:2222" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-15;" parent="1" vertex="1">
           <mxGeometry x="-1178" y="1167" width="400" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-61" value="ssh -p 2222 net3_student16@172.16.0.90 -R 31608:localhost:22 -NT&lt;br&gt;" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;rotation=-45;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-61" value="ssh -p 2222 net3_student16@172.16.0.90 -R 31608:localhost:22 -NT&lt;br&gt;" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;rotation=-45;" parent="1" vertex="1">
           <mxGeometry x="-1472" y="1180" width="380" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-63" value="" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;rotation=-218;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-63" value="" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.67;dx=20;notch=0;fillColor=#FF0000;rotation=-218;" parent="1" vertex="1">
           <mxGeometry x="-1331" y="1280" width="380" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-62" value="ssh -p 31605 net3_student16@localhost -L 31609:localhost:31608 -NT&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-38;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-62" value="ssh -p 31605 net3_student16@localhost -L 31609:localhost:31608 -NT&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-38;" parent="1" vertex="1">
           <mxGeometry x="-1341" y="1310" width="400" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-64" value="scp (tcp 22) - non interactive&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; download a file: scp &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;file&amp;gt; &amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; upload a file: scp &amp;lt;file&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; copy file from rhost to rhost: scp -3 &amp;lt;user&amp;gt;@&amp;lt;srcip&amp;gt;:&amp;lt;filepath&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;dstip&amp;gt;:&amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; recursivel copy a dir: scp -r &amp;lt;testdir&amp;gt; user@H2:&lt;br&gt;scp w/ alt SSHD&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; download: ssh -P &amp;lt;altPort&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;file&amp;gt; &amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; upload: scp -P &amp;lt;altPort&amp;gt; &amp;lt;file&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;dir&amp;gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-64" value="scp (tcp 22) - non interactive&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; download a file: scp &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;file&amp;gt; &amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; upload a file: scp &amp;lt;file&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; copy file from rhost to rhost: scp -3 &amp;lt;user&amp;gt;@&amp;lt;srcip&amp;gt;:&amp;lt;filepath&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;dstip&amp;gt;:&amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; recursivel copy a dir: scp -r &amp;lt;testdir&amp;gt; user@H2:&lt;br&gt;scp w/ alt SSHD&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; download: ssh -P &amp;lt;altPort&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;file&amp;gt; &amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; upload: scp -P &amp;lt;altPort&amp;gt; &amp;lt;file&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;dir&amp;gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="290" y="4" width="530" height="112" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-66" value="Tunnels" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-66" value="Tunnels" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
           <mxGeometry x="286" y="116" width="100" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-67" value="File Transfers" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-67" value="File Transfers" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
           <mxGeometry x="267" y="-36" width="204" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-69" value="echo &quot;################&quot; &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echoecho &quot;################&quot; &amp;amp;&amp;amp; echo Interfaces: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; ip a &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Route: &amp;amp;&amp;amp; echo &quot;###############&quot; &amp;amp;&amp;amp; ip r &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Neighbors: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; ip n &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Network Connections: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; ss -nltp &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Arp: &amp;amp;&amp;amp; echo &quot; ################&quot; &amp;amp;&amp;amp; arp -a &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Tools: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; which wireshark nmap telnet wget curl tcpdump &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Flag files? &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; find / -name *flag* 2&amp;gt;/dev/null &amp;amp;&amp;amp; find / -name *hint* 2&amp;gt;/dev/null" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-69" value="echo &quot;################&quot; &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echoecho &quot;################&quot; &amp;amp;&amp;amp; echo Interfaces: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; ip a &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Route: &amp;amp;&amp;amp; echo &quot;###############&quot; &amp;amp;&amp;amp; ip r &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Neighbors: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; ip n &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Network Connections: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; ss -nltp &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Arp: &amp;amp;&amp;amp; echo &quot; ################&quot; &amp;amp;&amp;amp; arp -a &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Tools: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; which wireshark nmap telnet wget curl tcpdump &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Flag files? &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; find / -name *flag* 2&amp;gt;/dev/null &amp;amp;&amp;amp; find / -name *hint* 2&amp;gt;/dev/null" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="10" y="420" width="270" height="260" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-70" value="&lt;div&gt;Single Command&lt;/div&gt;&lt;div&gt;&amp;nbsp;Situational Awareness&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-70" value="&lt;div&gt;Single Command&lt;/div&gt;&lt;div&gt;&amp;nbsp;Situational Awareness&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
           <mxGeometry x="57.5" y="350" width="175" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="XBUTmc1LcIgyiGN2sdw7-72" value="&lt;div&gt;Network Mapping&lt;/div&gt;&lt;div&gt;&amp;nbsp;Methodology&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxCell id="XBUTmc1LcIgyiGN2sdw7-72" value="&lt;div&gt;Network Mapping&lt;/div&gt;&lt;div&gt;&amp;nbsp;Methodology&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
           <mxGeometry x="95" y="-50" width="100" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="25vlHq2of282BFbyzgWW" name="Page-3">
+    <mxGraphModel dx="2284" dy="822" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-1" value="&lt;table style=&quot;width:100%;height:100%;border-collapse:collapse;&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; border=&quot;1&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;&lt;br&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;Net Recon Methodology&lt;br&gt;1. Host Discovery (nmap, scan.sh, nc, ping sweep)&lt;br&gt;2. Service Discovery (nmap,scan.sh, nc)&lt;br&gt;3. Port Validation (e.g Banner Grabbing - nc)&lt;br&gt;4. Follow-on Actions (based on ports found)&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. 21 or 80: wget -r ftp://IP -or- http://IP&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;b. 22 or 23: connect and PASSIVE RECON&lt;br&gt;&lt;br&gt;SCAN METHODOLOGY&lt;br&gt;1. Quick scan ports: 21-23,80&lt;br&gt;2. Specific Ports based on hints/clues&lt;br&gt;3. Well known ports: 1-1023&lt;br&gt;4. Chunks of 200 or first 10000&lt;br&gt;5. Hail Mary&lt;br&gt;&lt;br&gt;PASSIVE RECON METHODOLOGY&lt;br&gt;1. hostname&lt;br&gt;2. Interfaces and subnets? ip a, ifconfig&lt;br&gt;3. Neighbors? arp -a, ip neigh&lt;br&gt;4. Files of interest (pcaps, flags, etc): find&lt;br&gt;5. netstat -or- ss -nltp (note filtered ports that did not show up on Recon)&lt;br&gt;6. wireshark nmap telnet wget curl tcpdump&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. may also have to sniff for additional creds (telnet)&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="-380" y="670" width="290" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" source="EumvTvb3_bsXyUvIxB4w-1" target="EumvTvb3_bsXyUvIxB4w-1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-3" value="&lt;div&gt;Create Tunnel:&lt;/div&gt;&lt;div&gt; ssh user@&amp;lt;ip&amp;gt; -L &amp;lt;rh1&amp;gt;:&amp;lt;ip2&amp;gt;:22 -nt&lt;br&gt;&lt;/div&gt;&lt;div&gt;ssh -p &amp;lt;rh1&amp;gt; user@localhost&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Extend Tunnel:&lt;/div&gt;&lt;div&gt;ssh -p &amp;lt;rh1&amp;gt; user@localhost -L &amp;lt;rh2&amp;gt;:&amp;lt;ip3&amp;gt;:22&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Dynamic Port Forwarding for ProxyChains:&lt;/div&gt;&lt;div&gt;ssh -p &amp;lt;rhp&amp;gt; user@localhost -D 9050 -NT&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Remote Port Forwarding (when ssh is filtered):&lt;/div&gt;&lt;div&gt;ssh user@&amp;lt;ip&amp;gt; -R &amp;lt;rhp&amp;gt;:localhost:22&lt;/div&gt;&lt;div&gt;&amp;lt;rhp&amp;gt; is now subsituted for 22 in tunnel extension&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-90" y="850" width="270" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-4" value="&lt;div&gt;HOSTNAME&lt;/div&gt;&lt;div&gt;IP(S)&lt;/div&gt;&lt;div&gt;PORTS&lt;/div&gt;&lt;div&gt;TOOLS&lt;/div&gt;&lt;div&gt;CREDENTIALS&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="-52.5" y="1070" width="95" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-6" value="scp (tcp 22) - non interactive&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; download a file: scp &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;file&amp;gt; &amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; upload a file: scp &amp;lt;file&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; copy file from rhost to rhost: scp -3 &amp;lt;user&amp;gt;@&amp;lt;srcip&amp;gt;:&amp;lt;filepath&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;dstip&amp;gt;:&amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; recursivel copy a dir: scp -r &amp;lt;testdir&amp;gt; user@H2:&lt;br&gt;scp w/ alt SSHD&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; download: ssh -P &amp;lt;altPort&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;file&amp;gt; &amp;lt;dir&amp;gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; upload: scp -P &amp;lt;altPort&amp;gt; &amp;lt;file&amp;gt; &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;:&amp;lt;dir&amp;gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-90" y="704" width="530" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-7" value="Tunnels" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="-94" y="816" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-8" value="File Transfers" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="-113" y="664" width="204" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-9" value="echo &quot;################&quot; &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echoecho &quot;################&quot; &amp;amp;&amp;amp; echo Interfaces: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; ip a &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Route: &amp;amp;&amp;amp; echo &quot;###############&quot; &amp;amp;&amp;amp; ip r &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Neighbors: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; ip n &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Network Connections: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; ss -nltp &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Arp: &amp;amp;&amp;amp; echo &quot; ################&quot; &amp;amp;&amp;amp; arp -a &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Tools: &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; which wireshark nmap telnet wget curl tcpdump &amp;amp;&amp;amp; echo &quot;&quot; &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; echo Flag files? &amp;amp;&amp;amp; echo &quot;################&quot; &amp;amp;&amp;amp; find / -name *flag* 2&amp;gt;/dev/null &amp;amp;&amp;amp; find / -name *hint* 2&amp;gt;/dev/null" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-370" y="1120" width="270" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-10" value="&lt;div&gt;Single Command&lt;/div&gt;&lt;div&gt;&amp;nbsp;Situational Awareness&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="-322.5" y="1050" width="175" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-11" value="&lt;div&gt;Network Mapping&lt;/div&gt;&lt;div&gt;&amp;nbsp;Methodology&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="-285" y="650" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="zIGGqLQCzoTtlJGkD2zo-1" value="&lt;div&gt;Internet host&lt;/div&gt;&lt;div&gt;10.10.0.40&lt;/div&gt;&lt;div&gt;10.50.37.59&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="-80" y="1180" width="150" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="zIGGqLQCzoTtlJGkD2zo-2" value="Capstone Map" style="text;strokeColor=none;fillColor=none;html=1;fontSize=40;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="-152" y="560" width="294" height="70" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
