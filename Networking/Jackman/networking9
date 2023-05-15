@@ -1,0 +1,193 @@
+
+============ DAY 9 NETWORKING NOTES ============
+
+Acess Control List
+
+work in layers 3 and 4
+
+
+filters traffic on a router or a layer 3 switch
+
+standard filters filter only on the traffic type (TCP,UDP,etc) - these are set closest to the destination
+if you have one set on an interface blocking traffic to a network it is outbound because it is blocking traffic coming into the network
+
+extended ACLs can filter on traffic source, destination and protocol (via port numbers) - these are set closest to the source
+
+
+
+
+Intrusion Detection & prevention systems
+
+IDS only logs suspicious network traffic, IPS will log and drop suspicious traffic
+
+	placement:
+		-in line
+		-or not
+	recognition methods:
+		-signature
+		-heuristic aka behavioral
+
+
+snort rule syntax:
+
+[action] [protocol] [s.ip] [s.port] [direction] [d.ip] [d.port] ( match conditions ;)
+
+action 	  	- such as alert, log, pass, drop, reject
+protocol 	  	- includes TCP, UDP, ICMP and others
+source ip 	  	- single address, CIDR notation, range, or any
+source port 	  	- one, multiple, any, or range
+direction 	  	- either inbound or in and outbound
+destination ip	  	- options mirror source ip
+destination port  	- options mirror source port
+
+
+snort ids/ips general rule:
+
+msg		- human readable alert message
+reference	- links to external source of the rule
+sid		- used to uniquely identify snort rules
+rev		- uniquely identify revisions of snort rules
+classtype	- used to describe what a successful attack would do
+priority	- level of concern(1-really bad,2-badish,3-informational)
+metadat	- allows a rule writer to embed additional information about the rule
+
+
+snort ids/ips payload detection options:
+
+content	- looks for a string of text
+|binary data|	- to look for a string of binary HEX
+nocase		- modified content, makes it case insensitive
+depth		- specift how many bytes into a packet snort should search for the specified pattern
+distance 	- how far into a packet snort should ignore before starting to search for the specified pattern relative to the end of the previous pattern match
+within 	- modifier that makes sure that at most N bytes are between pattern matches using the content keyword
+offset 	- skips a certain number of bytes before searching
+
+
+snort ids/ips non-payload detection options:
+
+Flow 	- direction (to/from client and server) and state of connection (established, stateless, stream/no stream)
+ttl 	- The ttl keyword is used to check the IP time-to-live value.
+tos 	- The tos keyword is used to check the IP TOS field for a specific value.
+ipopts	- The ipopts keyword is used to check if a specific IP option is present
+seq 	- check for a specific TCP sequence number
+ack 	- check for a specific TCP acknowledge number.
+flags 	- The flags keyword is used to check if specific TCP flag bits are present.
+itype 	- The itype keyword is used to check for a specific ICMP type value.
+icode 	- The icode keyword is used to check for a specific ICMP code value.
+
+
+Snort IDS/IPS Post detection options:
+
+logto		- The logto keyword tells Snort to log all packets that trigger this rule to a special output log file.
+session 	- The session keyword is built to extract user data from TCP Sessions.
+react 		- This keyword implements an ability for users to react to traffic that matches a Snort rule by closing connection and sending a notice.
+tag 		- The tag keyword allow rules to log more than just the single packet that triggered the rule.
+activates 	- This keyword allows the rule writer to specify a rule to add when a specific network event occurs.
+activated_by 	- This keyword allows the rule writer to dynamically enable a rule when a specific activate rule is triggered.
+count 		- Allows the rule writer to specify how many packets to leave the rule enabled for after it is activated.
+
+
+Snort IDS/IPS Thresholding and suppression options:
+
+type [limit | threshold | both]
+	limit alerts on the 1st event during defined period then ignores the rest.
+	Threshhold alerts every [x] times during defined period.
+	Both alerts once per time internal after seing [x] amopunt of occurances of event. It then ingores all other events during period.
+	
+track [by_src | by_dst] - rate is tracked either by source IP address, or destination IP address
+count [#] 		 - number of rule matching in [s] seconds that will cause event_filter limit to be exceeded
+seconds [seconds] 	 - time period over which count is accrued. [s] must be nonzero value
+
+
+
+DEMO:
+
+file location
+
+/etc/snort
+
+	/rules - directory of pre-written rules
+	/snort.conf - config file
+	
+check snort's version:0
+
+sudo snort -V
+
+start snort:
+
+sudo snort -D -l /var/log/snort -c /etc/snort/snort.conf
+
+*** if command doesn't work something is wrong with the conf file and you can troubleshoot with:
+sudo snort -T -c /etc/snort/snort.conf
+
+gives log location and conf file location for snort:
+
+ps -elf | grep snort
+
+
+you can look in /var/log/snort to find snort generated logs(stored in pcaps)
+use you use tcpdump -r to view 
+
+sudo tcpdump -Xvvvntr /var/log/snort/snort.log<number>
+
+sudo tcodumo -tnr /var/log/snort/snort.log<number> | awk '{print $2} {print $4}' | sort | sed 's/:$//' | uniq -c
+
+sudo snort -r /var/log/snort/snort.log<number>
+
+tibbs:
+
+ ,,_     
+o"  )~   
+ ''''
+
+
+failed IDS/IPS
+
+	fail open
+	
+	fail close
+	
+attacking & evading ids/ips( based on delta between devices )
+
+insertion attack:
+	-ids accepts packet
+	-host will not accept packets
+evasion attacking:
+	-ids does ont accept packet 
+	-host will accept packet
+	
+	
+START FLAG: this_whole_ids_is_out_of_line
+
+
+T4 Snort Server (Bob): 10.50.30.212
+
+
+Login Credentials: netN_studentX:passwordX (N=net number and X=student number)
+
+
+Alt SSH Port: 25
+
+
+* DO NOT CREATE YOUR RULES ON THIS SYSTEM *
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
