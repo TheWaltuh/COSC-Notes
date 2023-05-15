@@ -155,6 +155,66 @@ nft add rule ip NAT POSTROUTING ip saddr 10.1.0.0/24 oif eth0 masquerade
 nft add rule ip NAT PREROUTING tcp dport 80 redirect to 8080
 
 
+### NETWORK BASED FILTERING ###
+
+## ACL NUMBERING AND NAMING CONVENTIONS ##
+Numbered Standard               1-99 and 1300-1999(Expanded)            Source Address
+Numbered Extended               100-199 and 2000-2699(Expanded)         Source Address :: Destination Address :: Protocol
+Named Standard and Extended     User created name                       Same as Standard or Extended
+
+Put the Standard ACL closest to the destination
+  Inbound or Outbound?
+    Outbound
+Put the Extended ACL closest to the destination
+  Inbound or Outbound?
+    Inbound
+Permit statements should go above the deny statements
+ACL's are read from top to bottom
+## INTRUSION DETECTION AND PREVENTION SYSTEMS(IDS AND IPS) ##
+--- Placement ---
+  In-Line :: IPS can only be put in-line
+--- Recognition ---
+  Signature :: a specific pattern
+  Heurtistic :: behavior of an adversary or software
+## SNORT IDS/IPS RULE ##
+[action] [protocol] [source.ip] [source.port] [direction] [destination.ip] [destination.port] (match condition;)
+  Action :: alert,log,pass,drop,reject
+  Direction :: inbound or outbound
+  Match Condition General
+    msg :: human-readable alert
+    reference :: external source
+    sid :: identify rule
+    rev :: identify revisions of rule
+    classtype :: what the attack would do, if successful
+    priority :: 1. Really Bad 2. Badish 3. Informational
+    metadata :: additional information about the rule
+  Match Condition Payload
+    content :: looks for a string
+    |binary data| :: string of binary hex
+    nocase :: case insensitive
+    depth :: how how far into a packet it should search
+    distance :: how far into a packet it should ignore before searching
+    within :: makes sure that at most N bytes are between pattern matches 
+    offset :: how many bytes it should ignore before searching
+  Match Condition Non-Payload
+    flow :: direction and state of connection
+    ttl 
+    tos
+    ipopts :: check to see if a specific IP option is present
+    seq
+    ack
+    flags
+    itype :: specific icmp type
+    icode :: specific icmp code
+  Match Condition Post :: Thresholding and Suppression
+    https://net.cybbh.io/-/public/-/jobs/820000/artifacts/modules/networking/slides/6-Network_Traffic_Filtering.html on 19.5 and 19.6
+## DEMO ##
+
+
+
+
+
+
 
 
 
