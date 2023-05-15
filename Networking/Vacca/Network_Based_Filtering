@@ -92,16 +92,23 @@ Rule Header
     Incorrect telnet login attempt
       alert tcp any 23 -> any any (msg:"TELNET login incorrect"; content:"Login incorrect"; flow:established,from_server; classtype:bad-unknown; sid:2323; rev:6; )
   
+/etc/snort
+  rules
+    (contains rules flies)
+  snort.conf
+    include /etc/snort/rules/icmp.rules
   
+sudo snort -V (version)
+sudo snort -D -l /var/log/snort -c /etc/snort/snort.conf 
+  -D daemon mode
+  -l log location
+  -c config locatino
+sudo snort -r
   
-  
-  
-  
-  
-  
-  
-
-
+ps -elf | grep snort
+ls -l /var/log/snort/
+sudo tcpdump -Xvvntr /var/log/snort/snort.log.1684159886 
+sudo tcpdump -ntr /var/log/snort/snort.log.1684159886 | awk '{print $2} {print $4}' | sort | sed 's/:$//' | uniq -c (endpoints)
 
 
 
