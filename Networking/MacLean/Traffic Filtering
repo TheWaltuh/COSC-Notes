@@ -589,6 +589,17 @@ count - Allows the rule writer to specify how many packets to leave the rule ena
 * Incorrect telnet login attempt
     alert tcp any 23 -> any any (msg:"TELNET login incorrect"; content:"Login incorrect"; flow:established,from_server; classtype:bad-unknown; sid:2323; rev:6; )
 
+sudo tcpdump -tnr /var/log/snort/snort.log.1684159867 | awk '{print $2} {print $4}' | sort | sed 's/:$//' | uniq -c
+alert icmp any any -> 10.3.0.0/24 any (msg:"DMZ PING";itype:8;icode:0;sid:1000002;)
+alert tcp any any -> any 22 ( msg:"SSH attempt detected";threshold: type both, track by_src, count 3, $
+alert ip 10.1.0.0/16 3389 <> any any (msg:"RDP";flow:stateless; sid:10465;)
+alert tcp any any -> 10.3.0.0/24 any (msg:"TCP SCAN";flags:0;sid:10004;)
+alert icmp any any -> any any (msg:"Cows";content:"|DEADBEEF|";sid:1000001;)
+alert udp any any -> 10.0.0.0/8 137 (msg:"attack";flow:stateless;sid:15364;)
+alert udp any any -> 10.0.0.0/8 138 (msg:"attack";flow:stateless;sid:15324;)
+alert tcp any any -> 10.0.0.0/8 139 (msg:"attack";flow:stateless;sid:15354;)
+alert tcp any any -> 10.0.0.0/8 445 (msg:"attack";flow:stateless;sid:15384;)
+sudo snort -r /home/activity_resources/pcaps/ids.pcap -c /etc/snort/rules/cows.rules 
 
 -----[FAILED IDS/IPS]-----
 * Fail open
