@@ -1,1 +1,117 @@
+########################################################
+                 Network Based Filtering
+########################################################
+Access Control Lists
+  set on router interfaces
+  standard (1-99 1300-19999) saddr [placed closest to destination]
+  extended (100-199 2000-2699) saddr daddr protocol [placed closest to source]
+  Named (usercreated name) same as standard or extended
+Intrusion Detection System
+  Placement
+    In Line
+    Not In Line
+  Recognition
+    Signature
+    Heuristic
+Intrusion Prevention System
+Examples of IPD/IDS: OSSEC, Snort, Suricata, Bro Network Security Monitor, Open WIPS NG, Samhain, Security Onion
+
+#################
+      Snort
+#################
+[action] [protocol] [sip] [sport] [direction] [dip] [dport] ( conditions ; ) 
+Action: (alert log pass drop reject)
+Protocol: TCP UDP ICMP IP
+Sip: addr, CIDR, range
+sport: one multiple range
+Direction: inbound/in and outbound 
+dip
+dport
+Conditions (colon seperated):
+  GENERAL
+  msg: human readable alert message
+  reference: external source of rule
+  sid: rule identity (< 100 reserved by snort.org) (100-999999 premade by snort) ( > 100000 localy created)
+  rev: revision #
+  Classtype: describe what successful attack would do
+  priority: level of concern 1(worst)-3
+  metadata: embed additional info
+  
+  PAYLOAD
+  content: searches for a string
+  |binary data|: search for bin or hex
+  nocase: makes content case insensitive
+  depth: specify how many bytes into a packet snort looks
+  distance: how far into a packet sould snort start searching
+  within: at most N bytes are between pattern matches
+  offset: skips a certain number of b ytes before searching
+  
+  NON-PAYLOAD
+  flow: direction/state
+  ttl: ttl
+  tos: type of service
+  ipopts: IP options
+  seq: TCP sequence #
+  ack: TCP ack #
+  flags: TCP flags
+  itype: ICMP type value
+  icode: ICMP code value
+  
+  POST-DETECTION
+  logto: specifiy output log
+  session: extract userdata
+  react: close connection
+  tag: log more than just the packet that triggered alert
+  activates: adds a rule when an event happens
+  activated_by: dynamically enable a rule
+  count: how many packets to leave the rule enabled for
+  
+  THRESHOLDING
+  type [limit | threshold | both]
+    limit alerts on 1st event & ignores rest
+    threshold alerts every X times
+    both alerts once per time internal after seeing X
+  track [src | dst]: rate is tracked by SIP or DIP
+  count[#]: # of rule matching in S seconds that will cause filter limit
+  seconds [] - time
+  
+  Snort rule example
+    Look for anonymous ftp traffic:
+      alert tcp any any -> any 21 (msg:"Anonymous FTP Login"; content: "anonymous"; sid:2121; )
+    This will cause the pattern matcher to start looking at byte 6 in the payload)
+      alert tcp any any -> any 21 (msg:"Anonymous FTP Login"; content: "anonymous"; offset:5; sid:2121; )
+    This will search the first 14 bytes of the packet looking for the word “anonymous”.
+      alert tcp any any -> any 21 (msg:"Anonymous FTP Login"; content: "anonymous"; depth:14; sid:2121; )
+    Deactivates the case sensitivity of a text search.
+      alert tcp any any -> any 21 (msg:"Anonymous FTP Login"; content: "anonymous"; nocase; sid:2121; )
+Rule Header
+    ICMP ping sweep
+      alert icmp any any -> 10.1.0.2 any (msg: "NMAP ping sweep Scan"; dsize:0; sid:10000004; rev: 1; )
+    Look for a specific set of Hex bits (NoOP sled)
+      alert tcp any any -> any any (msg:"NoOp sled"; content: "|9090 9090 9090|"; sid:9090; rev: 1; )
+    Incorrect telnet login attempt
+      alert tcp any 23 -> any any (msg:"TELNET login incorrect"; content:"Login incorrect"; flow:established,from_server; classtype:bad-unknown; sid:2323; rev:6; )
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
