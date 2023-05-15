@@ -254,6 +254,71 @@ sudo nft add rule NAT POSTROUTING ip saddr 192.168.3.30 oif eth0 snat 172.16.82.
 
 valid - e4f4c65b3884eadf7986adc76caea32c
 
+#Router as  Filter
+    #ACL Name and Numbering Conventions
+          #ACL Type                               Range/Identifier                          Filters On
+          Numbered Standard                       1-99,1300-1999                            Source Address Only
+          Numbered Extended                       100-199,2000-2699                         Source Address, Dst Address, Protocol (OPT ICMP type/Code, tcp/udp port)
+          Named Standard & Extended               User Created Name                         Same as standard or extended
+    
+#Intrusion Detection & prevention systems
+    #Placement 
+        #In-Line
+        #or not
+    #Recognition Methods
+        #Signature
+        #Heuristic aka Behavioral
+    
+#Snort
+    #Header
+        [action] [protocol] [s.ip] [s.port] [direction] [d.ip] [d.port] ( match conditions ;)
+            #Action - such as alert, log, pass, drop, reject
+            #Protocol - includes TCP, UDP, ICMP and others
+            #Source IP address - single address, CIDR notation, range, or any
+            #Source Port - one, multiple, any, or range of ports
+            #Direction - either inbound or in and outbound
+            #Destination IP address - options mirror Source IP
+            #Destination port - options mirror Source port
+    
+    #General Rule Options
+        #msg - specifies the human-readable alert message
+        #reference - links to external source of the rule
+        #sid - used to uniquely identify Snort rules
+        #rev - uniquely identify revisions of Snort rules
+        #Classtype - used to describe what a successful attack would do
+        #priority - level of concern (1 - really bad, 2 - badish, 3 - informational)
+        #metadata - allows a rule writer to embed additional information about the rule
+    
+    #Payload Detection Options
+        #content - looks for a string of text
+        #|binary data| - to look for a string of binary HEX
+        #nocase - modified content, makes it case insensitive
+        #depth - specify how many bytes into a packet Snort should search for the specified pattern
+        #distance - how far into a packet Snort should ignore before starting to search for the specified pattern relative to the end of the previous pattern match
+        #within - modifier that makes sure that at most N bytes are between pattern matches using the content keyword
+        #offset - skips a certain number of bytes before searching (i.e. offset: 12)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
