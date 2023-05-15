@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-12T12:35:29.853Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="7MClGmfi7GFy9FHnEBui" version="21.2.9" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2023-05-15T14:52:42.214Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="AobRNfdOXbc3xw7EvuC5" version="21.2.9" type="github" pages="3">
   <diagram name="Page-1" id="UrAOD6k8fKv2funcCNdR">
     <mxGraphModel dx="5375" dy="2465" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -37,7 +37,7 @@
         <mxCell id="RSi6jhLw-0SFx1MJ1rM7-52" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
           <mxGeometry x="219" y="-342.5" width="360" height="360" as="geometry" />
         </mxCell>
-        <mxCell id="CTcJU4yGuNOKdw21YTPw-2" value="&lt;div&gt;T1&lt;br&gt;&lt;/div&gt;&lt;div&gt;internet-host-student-5&lt;br&gt;&lt;/div&gt;&lt;div&gt;10.50.32.89&lt;/div&gt;&lt;div&gt;eth0: 10.10.0.60/27&lt;/div&gt;&lt;div&gt;wget-wireshark-telnet-ssh-nmap-tcpdump&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student : password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+        <mxCell id="CTcJU4yGuNOKdw21YTPw-2" value="&lt;div&gt;internet-host-student-5&lt;br&gt;&lt;/div&gt;&lt;div&gt;10.50.32.89&lt;/div&gt;&lt;div&gt;eth0: 10.10.0.60/27&lt;/div&gt;&lt;div&gt;wget-wireshark-telnet-ssh-nmap-tcpdump&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student : password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
           <mxGeometry x="319" y="793" width="172" height="160" as="geometry" />
         </mxCell>
         <mxCell id="CTcJU4yGuNOKdw21YTPw-8" value="&lt;div&gt;172.16.182.110&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -265,13 +265,13 @@
             <mxPoint x="-1214" y="156" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="bDpizi0sWAhla1-YNg7d-9" value="&lt;div&gt;T1&lt;br&gt;&lt;/div&gt;&lt;div&gt;BLUE_HOST-1&lt;/div&gt;&lt;div&gt;Linux&lt;/div&gt;&lt;div&gt;eth0: 172.16.82.106&lt;/div&gt;&lt;div&gt;eth1: 192.168.1.1&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="bDpizi0sWAhla1-YNg7d-9" value="&lt;div&gt;BLUE_HOST-1&lt;/div&gt;&lt;div&gt;Linux&lt;/div&gt;&lt;div&gt;eth0: 172.16.82.106&lt;/div&gt;&lt;div&gt;eth1: 192.168.1.1&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-1815" y="205" width="170" height="160" as="geometry" />
         </mxCell>
         <mxCell id="bDpizi0sWAhla1-YNg7d-10" value="&lt;div&gt;BLUE_HOST-2&lt;/div&gt;&lt;div&gt;Windows 10&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 172.16.82.110&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-1574" y="205" width="170" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="bDpizi0sWAhla1-YNg7d-12" value="&lt;div&gt;T2&lt;br&gt;&lt;/div&gt;&lt;div&gt;BLUE_HOST-4&lt;/div&gt;&lt;div&gt;Linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 172.16.82.115&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="bDpizi0sWAhla1-YNg7d-12" value="&lt;div&gt;BLUE_HOST-4&lt;/div&gt;&lt;div&gt;Linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 172.16.82.115&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-1685" y="402.5" width="170" height="160" as="geometry" />
         </mxCell>
         <mxCell id="bDpizi0sWAhla1-YNg7d-13" value="&lt;div&gt;BLUE_INT_SNSR&lt;/div&gt;&lt;div&gt;Linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;mgmt: 172.16.82.113&lt;/div&gt;&lt;div&gt;mon: 172.16.82.114&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -292,7 +292,7 @@
         <mxCell id="bDpizi0sWAhla1-YNg7d-16" value="&lt;div&gt;BLUE_INT_DMZ_HOST-2&lt;/div&gt;&lt;div&gt;eth0: 172.16.40.11&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-1725" y="-635" width="170" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="bDpizi0sWAhla1-YNg7d-17" value="&lt;div&gt;T3&lt;br&gt;&lt;/div&gt;&lt;div&gt;BLUE_INT_DMZ_HOST-1&lt;/div&gt;&lt;div&gt;Linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 172.16.40.10&lt;/div&gt;&lt;div&gt;wget-wireshark-telnet-ssh-nmap-curl-tcpdump&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="bDpizi0sWAhla1-YNg7d-17" value="&lt;div&gt;BLUE_INT_DMZ_HOST-1&lt;/div&gt;&lt;div&gt;Linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 172.16.40.10&lt;/div&gt;&lt;div&gt;wget-wireshark-telnet-ssh-nmap-curl-tcpdump&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-1455" y="-635" width="170" height="160" as="geometry" />
         </mxCell>
         <mxCell id="bDpizi0sWAhla1-YNg7d-18" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="bDpizi0sWAhla1-YNg7d-16">
@@ -337,7 +337,7 @@
             <mxPoint x="-1345" y="305" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="bDpizi0sWAhla1-YNg7d-11" value="&lt;div&gt;T2&lt;br&gt;&lt;/div&gt;&lt;div&gt;BLUE_HOST-3&lt;/div&gt;&lt;div&gt;Linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 172.16.82.112&lt;/div&gt;&lt;div&gt;eth1: 192.168.3.1&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="bDpizi0sWAhla1-YNg7d-11" value="&lt;div&gt;BLUE_HOST-3&lt;/div&gt;&lt;div&gt;Linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 172.16.82.112&lt;/div&gt;&lt;div&gt;eth1: 192.168.3.1&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-1335" y="205" width="170" height="160" as="geometry" />
         </mxCell>
         <mxCell id="bDpizi0sWAhla1-YNg7d-26" value="172.16.82.96/27" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
@@ -349,13 +349,13 @@
             <mxPoint x="-1975" y="245" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="bDpizi0sWAhla1-YNg7d-29" value="&lt;div&gt;T5&lt;br&gt;&lt;/div&gt;&lt;div&gt;BLUE_PRIV_HOST-1&lt;/div&gt;&lt;div&gt;Linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 192.168.1.10&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="bDpizi0sWAhla1-YNg7d-29" value="&lt;div&gt;BLUE_PRIV_HOST-1&lt;/div&gt;&lt;div&gt;Linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 192.168.1.10&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="-2219" y="220" width="120" height="120" as="geometry" />
         </mxCell>
         <mxCell id="bDpizi0sWAhla1-YNg7d-30" value="192.168.1.0/24" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="-2012" y="264" width="100" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="bDpizi0sWAhla1-YNg7d-31" value="&lt;div&gt;T6&lt;br&gt;&lt;/div&gt;&lt;div&gt;BLUE_PRIV_HOST-3&lt;/div&gt;&lt;div&gt;linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 192.168.3.30&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="bDpizi0sWAhla1-YNg7d-31" value="&lt;div&gt;BLUE_PRIV_HOST-3&lt;/div&gt;&lt;div&gt;linux&lt;br&gt;&lt;/div&gt;&lt;div&gt;eth0: 192.168.3.30&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:password&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="-880" y="232" width="120" height="120" as="geometry" />
         </mxCell>
         <mxCell id="bDpizi0sWAhla1-YNg7d-32" value="" style="endArrow=none;html=1;rounded=0;entryX=0.005;entryY=0.44;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryPerimeter=0;" edge="1" parent="1" source="bDpizi0sWAhla1-YNg7d-11" target="bDpizi0sWAhla1-YNg7d-31">
