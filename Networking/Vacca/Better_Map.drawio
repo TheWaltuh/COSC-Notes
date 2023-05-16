@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-16T19:35:38.607Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="sRsiH0TWsEh1zzIM5FFo" version="21.3.2" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2023-05-16T20:09:44.385Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="YPY49PuPgzfyR06B2T-E" version="21.3.2" type="github" pages="3">
   <diagram name="Page-1" id="UrAOD6k8fKv2funcCNdR">
     <mxGraphModel dx="2849" dy="1974" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -672,11 +672,11 @@
         <mxCell id="KNg7YAIGvMR7vGdQJZpB-10" value="&lt;div&gt;capstone-10&lt;br&gt;&lt;/div&gt;&lt;div&gt;10.10.10.167&lt;/div&gt;&lt;div&gt;80 404&lt;/div&gt;&lt;div&gt;eth1 192.168.10.70/27&lt;br&gt;&lt;/div&gt;&lt;div&gt;wireshark tcpdump&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="880" y="2400" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="KNg7YAIGvMR7vGdQJZpB-11" value="&lt;div&gt;10.10.10.182&lt;/div&gt;&lt;div&gt;21&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="635" y="2400" width="150" height="150" as="geometry" />
+        <mxCell id="KNg7YAIGvMR7vGdQJZpB-11" value="capstone-12&lt;div&gt;10.10.10.182&lt;/div&gt;&lt;div&gt;21 504&lt;/div&gt;&lt;div&gt;eth1: 192.168.10.99/27&lt;br&gt;&lt;/div&gt;&lt;div&gt;tcpdump wireshark nmap&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="600" y="2400" width="150" height="150" as="geometry" />
         </mxCell>
         <mxCell id="KNg7YAIGvMR7vGdQJZpB-12" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rotation=90;" vertex="1" parent="1">
-          <mxGeometry x="410" y="2220" width="60" height="720" as="geometry" />
+          <mxGeometry x="215" y="2415" width="60" height="330" as="geometry" />
         </mxCell>
         <mxCell id="KNg7YAIGvMR7vGdQJZpB-13" value="&lt;div&gt;192.168.10.39&lt;/div&gt;&lt;div&gt;21&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="91" y="2590" width="150" height="150" as="geometry" />
@@ -692,6 +692,33 @@
             <mxPoint x="780" y="2720" as="sourcePoint" />
             <mxPoint x="830" y="2670" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="KNg7YAIGvMR7vGdQJZpB-21" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="KNg7YAIGvMR7vGdQJZpB-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="240" y="2475" as="sourcePoint" />
+            <mxPoint x="230" y="2440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KNg7YAIGvMR7vGdQJZpB-22" value="" style="endArrow=none;html=1;rounded=0;exitX=0.533;exitY=0.506;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="KNg7YAIGvMR7vGdQJZpB-12">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="2520" as="sourcePoint" />
+            <mxPoint x="243" y="2470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KNg7YAIGvMR7vGdQJZpB-23" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="KNg7YAIGvMR7vGdQJZpB-11">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="680" y="2980" as="sourcePoint" />
+            <mxPoint x="660" y="2660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KNg7YAIGvMR7vGdQJZpB-24" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rotation=90;" vertex="1" parent="1">
+          <mxGeometry x="650" y="2840" width="60" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="KNg7YAIGvMR7vGdQJZpB-25" value="&lt;div&gt;192.168.10.101&lt;/div&gt;&lt;div&gt;21 22 584&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="530" y="3020" width="150" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="KNg7YAIGvMR7vGdQJZpB-26" value="&lt;div&gt;192.168.10.111&lt;/div&gt;&lt;div&gt;21 22&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="690" y="3020" width="150" height="150" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
