@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-15T17:01:34.753Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="xHDzsNZPuRz8O_O1W2QH" version="21.2.9" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2023-05-16T12:36:54.730Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="L14VxIcGB5rGZNYXGiWA" version="21.2.9" type="github" pages="5">
   <diagram name="Page-1" id="UrAOD6k8fKv2funcCNdR">
     <mxGraphModel dx="8380" dy="3940" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -982,7 +982,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="jkxlSbR18ClUodBK0F5J" name="Page-4">
-    <mxGraphModel dx="1674" dy="822" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1602" dy="795" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -997,6 +997,29 @@
         </mxCell>
         <mxCell id="6I7Cd2K6Tvw8fpQNsWpY-1" value="&lt;div&gt;21&lt;/div&gt;&lt;div&gt;22&lt;/div&gt;&lt;div&gt;25(ssh-alt)&lt;/div&gt;&lt;div&gt;80&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="360" y="557" width="80" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="xJQ5ugB_z2KLdgxL6YXR" name="Page-5">
+    <mxGraphModel dx="1602" dy="795" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="hdwFnnIdLSi8z5X6mx-e-1" value="&lt;div&gt;10.50.30.255&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;net3_student5:password5&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="640" width="170" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="hdwFnnIdLSi8z5X6mx-e-2" value="&lt;div&gt;always check /usr/share/cctc&lt;/div&gt;&lt;div&gt;convert flag :: echo &quot;string&quot; | base64&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="523" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hdwFnnIdLSi8z5X6mx-e-3" value="&lt;div&gt;Port Range&lt;/div&gt;&lt;div&gt;30500 - 30599&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="483" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="jomiu-sW8jeS0ofdmdgx-1" value="&lt;div&gt;T1&lt;br&gt;&lt;/div&gt;&lt;div&gt;internet-host-student-5&lt;br&gt;&lt;/div&gt;&lt;div&gt;10.50.32.89&lt;/div&gt;&lt;div&gt;eth0: 10.10.0.60/27&lt;/div&gt;&lt;div&gt;wget-wireshark-telnet-ssh-nmap-tcpdump&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student : password&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="640" width="172" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="jomiu-sW8jeS0ofdmdgx-2" value="&lt;div&gt;21&lt;/div&gt;&lt;div&gt;22&lt;/div&gt;&lt;div&gt;23&lt;/div&gt;&lt;div&gt;80&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="640" width="40" height="70" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
