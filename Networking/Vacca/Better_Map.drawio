@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-16T18:06:11.257Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="awTeIloMuoI5UaOENlmH" version="21.3.2" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2023-05-16T18:29:42.757Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="PTwL3csEeo_93zgRjRTv" version="21.3.2" type="github" pages="3">
   <diagram name="Page-1" id="UrAOD6k8fKv2funcCNdR">
     <mxGraphModel dx="2849" dy="1974" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -548,12 +548,12 @@
     </mxGraphModel>
   </diagram>
   <diagram id="25vlHq2of282BFbyzgWW" name="Page-3">
-    <mxGraphModel dx="2097" dy="715" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1997" dy="658" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="ZDoZwxWKJqJhY9F0_tZ9-5" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rotation=90;" parent="1" vertex="1">
-          <mxGeometry x="-267.62" y="1289.63" width="531.25" height="610" as="geometry" />
+          <mxGeometry x="-270.63" y="1289.63" width="531.25" height="610" as="geometry" />
         </mxCell>
         <mxCell id="EumvTvb3_bsXyUvIxB4w-1" value="&lt;table style=&quot;width:100%;height:100%;border-collapse:collapse;&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; border=&quot;1&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;&lt;br&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;Net Recon Methodology&lt;br&gt;1. Host Discovery (nmap, scan.sh, nc, ping sweep)&lt;br&gt;2. Service Discovery (nmap,scan.sh, nc)&lt;br&gt;3. Port Validation (e.g Banner Grabbing - nc)&lt;br&gt;4. Follow-on Actions (based on ports found)&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. 21 or 80: wget -r ftp://IP -or- http://IP&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;b. 22 or 23: connect and PASSIVE RECON&lt;br&gt;&lt;br&gt;SCAN METHODOLOGY&lt;br&gt;1. Quick scan ports: 21-23,80&lt;br&gt;2. Specific Ports based on hints/clues&lt;br&gt;3. Well known ports: 1-1023&lt;br&gt;4. Chunks of 200 or first 10000&lt;br&gt;5. Hail Mary&lt;br&gt;&lt;br&gt;PASSIVE RECON METHODOLOGY&lt;br&gt;1. /usr/share/cctc &amp;amp; hostname&lt;br&gt;2. Interfaces and subnets? ip a, ifconfig&lt;br&gt;3. Neighbors? arp -a, ip neigh&lt;br&gt;4. Files of interest (pcaps, flags, etc): find&lt;br&gt;5. netstat -or- ss -nltp (note filtered ports that did not show up on Recon)&lt;br&gt;6. wireshark nmap telnet wget curl tcpdump&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. may also have to sniff for additional creds (telnet)&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;overflow=fill;" parent="1" vertex="1">
           <mxGeometry x="-380" y="670" width="290" height="400" as="geometry" />
@@ -609,8 +609,8 @@
         <mxCell id="ZDoZwxWKJqJhY9F0_tZ9-13" value="&lt;div&gt;Capstone-06&lt;br&gt;&lt;/div&gt;&lt;div&gt;10.50.24.41&lt;/div&gt;&lt;div&gt;eth0:10.2.2.6/28&lt;br&gt;&lt;/div&gt;&lt;div&gt;80 7777&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp;23F &lt;/div&gt;wireshark tcpdump" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="230" y="1860" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="ZDoZwxWKJqJhY9F0_tZ9-14" value="&lt;ol&gt;&lt;li&gt;&amp;nbsp;ssh net3_student16@10.50.30.255 -L 31601:localhost:22&lt;/li&gt;&lt;li&gt;&lt;br&gt;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;br&gt;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;br&gt;&lt;/li&gt;&lt;/ol&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" parent="1" vertex="1">
-          <mxGeometry x="-850" y="1100" width="430" height="260" as="geometry" />
+        <mxCell id="ZDoZwxWKJqJhY9F0_tZ9-14" value="&lt;ol&gt;&lt;li&gt;&amp;nbsp;ssh net3_student16@10.50.30.255 -L 31601:localhost:22&lt;/li&gt;&lt;li&gt;ssh -p 31601 net3_student16@localhost -L 31602:10.2.2.7:23 -NT&lt;br&gt;&lt;/li&gt;&lt;li&gt;&amp;nbsp;ssh -p 7777 net3_student16@10.2.2.6 -R 31603:localhost:2222 -NT&lt;br&gt;&lt;/li&gt;&lt;li&gt;&amp;nbsp; ssh -p 31601 net3_student16 -L 31604:localhost:31603 -NT&lt;br&gt;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;br&gt;&lt;/li&gt;&lt;/ol&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" parent="1" vertex="1">
+          <mxGeometry x="440" y="1580" width="430" height="260" as="geometry" />
         </mxCell>
         <mxCell id="ZDoZwxWKJqJhY9F0_tZ9-15" value="Tunnels" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
           <mxGeometry x="-780" y="1060" width="100" height="40" as="geometry" />
@@ -658,15 +658,9 @@
           <mxGeometry x="590" y="1820" width="60" height="720" as="geometry" />
         </mxCell>
         <mxCell id="KNg7YAIGvMR7vGdQJZpB-4" value="10.2.2.14" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="280" y="2200" width="150" height="150" as="geometry" />
+          <mxGeometry x="460" y="2200" width="150" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="KNg7YAIGvMR7vGdQJZpB-5" value="&lt;div&gt;10.2.2.7&lt;/div&gt;23 80" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="450" y="2200" width="150" height="150" as="geometry" />
-        </mxCell>
-        <mxCell id="KNg7YAIGvMR7vGdQJZpB-6" value="&lt;div&gt;10.2.2.7&lt;/div&gt;&lt;div&gt;23 80&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="810" y="2200" width="150" height="150" as="geometry" />
-        </mxCell>
-        <mxCell id="KNg7YAIGvMR7vGdQJZpB-7" value="&lt;div&gt;10.2.2.6&lt;/div&gt;&lt;div&gt;23 80&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="KNg7YAIGvMR7vGdQJZpB-5" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Capstone-07&lt;br&gt;&lt;/div&gt;&lt;div&gt;10.2.2.7&lt;/div&gt;&lt;div&gt;23 80 2222F&lt;br&gt;&lt;/div&gt;&lt;div&gt;snet3_student16&lt;/div&gt;&lt;div&gt;Netflix and Chill&lt;br&gt;&lt;/div&gt;&lt;div&gt;wireshark tcpdump&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="630" y="2200" width="150" height="150" as="geometry" />
         </mxCell>
       </root>
