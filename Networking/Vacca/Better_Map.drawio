@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-17T13:24:00.292Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="6F31_4QuRneKPiuSWDe8" version="21.3.2" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2023-05-17T17:08:57.565Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="RKMFQ9Pl-FZ8GZ8KoyGd" version="21.3.2" type="github" pages="4">
   <diagram name="Page-1" id="UrAOD6k8fKv2funcCNdR">
     <mxGraphModel dx="2849" dy="1974" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -548,14 +548,14 @@
     </mxGraphModel>
   </diagram>
   <diagram id="25vlHq2of282BFbyzgWW" name="Page-3">
-    <mxGraphModel dx="3718" dy="1644" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2537" dy="967" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="ZDoZwxWKJqJhY9F0_tZ9-5" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;rotation=90;" parent="1" vertex="1">
           <mxGeometry x="-270.63" y="1289.63" width="531.25" height="610" as="geometry" />
         </mxCell>
-        <mxCell id="EumvTvb3_bsXyUvIxB4w-1" value="&lt;table style=&quot;width:100%;height:100%;border-collapse:collapse;&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; border=&quot;1&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;&lt;br&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;Net Recon Methodology&lt;br&gt;1. Host Discovery (nmap, scan.sh, nc, ping sweep)&lt;br&gt;2. Service Discovery (nmap,scan.sh, nc)&lt;br&gt;3. Port Validation (e.g Banner Grabbing - nc)&lt;br&gt;4. Follow-on Actions (based on ports found)&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. 21 or 80: wget -r ftp://IP -or- http://IP&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;b. 22 or 23: connect and PASSIVE RECON&lt;br&gt;&lt;br&gt;SCAN METHODOLOGY&lt;br&gt;1. Quick scan ports: 21-23,80&lt;br&gt;2. Specific Ports based on hints/clues&lt;br&gt;3. Well known ports: 1-1023&lt;br&gt;4. Chunks of 200 or first 10000&lt;br&gt;5. Hail Mary&lt;br&gt;&lt;br&gt;PASSIVE RECON METHODOLOGY&lt;br&gt;1. /usr/share/cctc &amp;amp; hostname&lt;br&gt;2. Interfaces and subnets? ip a, ifconfig&lt;br&gt;3. Neighbors? arp -a, ip neigh&lt;br&gt;4. Files of interest (pcaps, flags, etc): find&lt;br&gt;5. netstat -or- ss -nltp (note filtered ports that did not show up on Recon)&lt;br&gt;6. wireshark nmap telnet wget curl tcpdump&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. may also have to sniff for additional creds (telnet)&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;overflow=fill;" parent="1" vertex="1">
+        <mxCell id="EumvTvb3_bsXyUvIxB4w-1" value="&lt;table style=&quot;width:100%;height:100%;border-collapse:collapse;&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; border=&quot;1&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;&lt;br&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;Net Recon Methodology&lt;br&gt;1. Host Discovery (nmap, scan.sh, nc, ping sweep)&lt;br&gt;&lt;p&gt;&lt;code&gt; for i in {1..254} ;do (ping -c 1 192.168.1.$i 2&amp;gt;/dev/null | grep &quot;bytes from&quot; &amp;amp;) ;done&lt;/code&gt;&lt;/p&gt;2. Service Discovery (nmap,scan.sh, nc)&lt;br&gt;3. Port Validation (e.g Banner Grabbing - nc)&lt;br&gt;4. Follow-on Actions (based on ports found)&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. 21 or 80: wget -r ftp://IP -or- http://IP&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;b. 22 or 23: connect and PASSIVE RECON&lt;br&gt;&lt;br&gt;SCAN METHODOLOGY&lt;br&gt;1. Quick scan ports: 21-23,80&lt;br&gt;2. Specific Ports based on hints/clues&lt;br&gt;3. Well known ports: 1-1023&lt;br&gt;4. Chunks of 200 or first 10000&lt;br&gt;5. Hail Mary&lt;br&gt;&lt;br&gt;PASSIVE RECON METHODOLOGY&lt;br&gt;1. /usr/share/cctc &amp;amp; hostname&lt;br&gt;2. Interfaces and subnets? ip a, ifconfig&lt;br&gt;3. Neighbors? arp -a, ip neigh&lt;br&gt;4. Files of interest (pcaps, flags, etc): find&lt;br&gt;5. netstat -or- ss -nltp (note filtered ports that did not show up on Recon)&lt;br&gt;6. wireshark nmap telnet wget curl tcpdump&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. may also have to sniff for additional creds (telnet)&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;overflow=fill;" parent="1" vertex="1">
           <mxGeometry x="-380" y="670" width="290" height="400" as="geometry" />
         </mxCell>
         <mxCell id="EumvTvb3_bsXyUvIxB4w-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="EumvTvb3_bsXyUvIxB4w-1" target="EumvTvb3_bsXyUvIxB4w-1" edge="1">
@@ -589,7 +589,7 @@
           <mxGeometry x="-80" y="1180" width="150" height="150" as="geometry" />
         </mxCell>
         <mxCell id="zIGGqLQCzoTtlJGkD2zo-2" value="Capstone Map" style="text;strokeColor=none;fillColor=none;html=1;fontSize=40;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
-          <mxGeometry x="-152" y="560" width="294" height="70" as="geometry" />
+          <mxGeometry x="-130" y="490" width="294" height="70" as="geometry" />
         </mxCell>
         <mxCell id="ZDoZwxWKJqJhY9F0_tZ9-1" value="https://miro.com/app/board/o9J_klSqCSY=/" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="142" y="600" width="350" height="30" as="geometry" />
@@ -727,12 +727,12 @@
     </mxGraphModel>
   </diagram>
   <diagram id="TcwYgL1JCShZHiOjwHuW" name="Page-4">
-    <mxGraphModel dx="2015" dy="1127" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1793" dy="1028" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="zdz4jOJiek37vah7HLSP-1" value="&lt;table style=&quot;width:100%;height:100%;border-collapse:collapse;&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; border=&quot;1&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;&lt;br&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;Net Recon Methodology&lt;br&gt;1. Host Discovery (nmap, scan.sh, nc, ping sweep)&lt;br&gt;2. Service Discovery (nmap,scan.sh, nc)&lt;br&gt;3. Port Validation (e.g Banner Grabbing - nc)&lt;br&gt;4. Follow-on Actions (based on ports found)&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. 21 or 80: wget -r ftp://IP -or- http://IP&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;b. 22 or 23: connect and PASSIVE RECON&lt;br&gt;&lt;br&gt;SCAN METHODOLOGY&lt;br&gt;1. Quick scan ports: 21-23,80&lt;br&gt;2. Specific Ports based on hints/clues&lt;br&gt;3. Well known ports: 1-1023&lt;br&gt;4. Chunks of 200 or first 10000&lt;br&gt;5. Hail Mary&lt;br&gt;&lt;br&gt;PASSIVE RECON METHODOLOGY&lt;br&gt;1. /usr/share/cctc &amp;amp; hostname&lt;br&gt;2. Interfaces and subnets? ip a, ifconfig&lt;br&gt;3. Neighbors? arp -a, ip neigh&lt;br&gt;4. Files of interest (pcaps, flags, etc): find&lt;br&gt;5. netstat -or- ss -nltp (note filtered ports that did not show up on Recon)&lt;br&gt;6. wireshark nmap telnet wget curl tcpdump&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. may also have to sniff for additional creds (telnet)&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;overflow=fill;" vertex="1" parent="1">
-          <mxGeometry x="520" y="120" width="290" height="400" as="geometry" />
+        <mxCell id="zdz4jOJiek37vah7HLSP-1" value="&lt;table style=&quot;width:100%;height:100%;border-collapse:collapse;&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; border=&quot;1&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;&lt;br&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;Net Recon Methodology&lt;br&gt;1. Host Discovery (nmap, scan.sh, nc, ping sweep)&lt;br&gt;2. Service Discovery (nmap,scan.sh, nc)&lt;br&gt;3. Port Validation (e.g Banner Grabbing - nc)&lt;br&gt;4. Follow-on Actions (based on ports found)&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. 21 or 80: wget -r ftp://IP -or- http://IP&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;b. 22 or 23: connect and PASSIVE RECON&lt;br&gt;&lt;br&gt;SCAN METHODOLOGY&lt;br&gt;1. Quick scan ports: 21-23,80&lt;br&gt;2. Specific Ports based on hints/clues&lt;br&gt;3. Well known ports: 1-1023&lt;br&gt;4. Chunks of 200 or first 10000&lt;br&gt;5. Hail Mary&lt;br&gt;&lt;br&gt;PASSIVE RECON METHODOLOGY&lt;br&gt;1. /usr/share/cctc &amp;amp; hostname&lt;br&gt;2. Interfaces and subnets? ip a, ifconfig&lt;br&gt;for routers: show interfaces&lt;br&gt;3. Neighbors? arp -a, ip neigh&lt;br&gt;4. Files of interest (pcaps, flags, etc): find&lt;br&gt;5. netstat -or- ss -nltp (note filtered ports that did not show up on Recon)&lt;br&gt;6. wireshark nmap telnet wget curl tcpdump&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;a. may also have to sniff for additional creds (telnet)&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="520" y="112" width="290" height="400" as="geometry" />
         </mxCell>
         <mxCell id="zdz4jOJiek37vah7HLSP-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" source="zdz4jOJiek37vah7HLSP-1" target="zdz4jOJiek37vah7HLSP-1" parent="1">
           <mxGeometry relative="1" as="geometry" />
@@ -759,7 +759,7 @@
           <mxGeometry x="577.5" y="500" width="175" height="80" as="geometry" />
         </mxCell>
         <mxCell id="zdz4jOJiek37vah7HLSP-10" value="&lt;div&gt;Network Mapping&lt;/div&gt;&lt;div&gt;&amp;nbsp;Methodology&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
-          <mxGeometry x="615" y="100" width="100" height="40" as="geometry" />
+          <mxGeometry x="615" y="97" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="zdz4jOJiek37vah7HLSP-11" value="&lt;div&gt;Internet hos&lt;code&gt;t&lt;/code&gt;&lt;/div&gt;&lt;code&gt;&lt;/code&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="820" y="630" width="150" height="150" as="geometry" />
@@ -820,6 +820,12 @@
             <mxGeometry x="857" y="74" width="60" height="40" as="geometry" />
           </mxCell>
         </UserObject>
+        <mxCell id="wbBpL9uytfxC9l3BrSO4-1" value="&lt;p&gt;&lt;code&gt; for i in {1..254} ;do (ping -c 1 192.168.1.$i 2&amp;gt;/dev/null | grep &quot;bytes from&quot; &amp;amp;) ;done&lt;/code&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="220" y="560" width="275" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="wbBpL9uytfxC9l3BrSO4-2" value="Ping Sweep" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="260" y="530" width="100" height="40" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
