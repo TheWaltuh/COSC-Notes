@@ -5,7 +5,7 @@
 #######################################################################################################################################################################################################
 
 ##BPF I used and what for
-Using BPF’s, determine how many packets with a DSCP of 26 being sent to the host 10.0.0.103.
+#Using BPF’s, determine how many packets with a DSCP of 26 being sent to the host 10.0.0.103.
     tcpdump 'ip[1]>>2=26&&ip[16:4]=0x0a000067' -r /usr/share/cctc/capstone-bpf.pcap | wc -l
                 (ip 1 for dscp)     (dst addr = ip[16:4} = hex of ip)
                 (>>2 to not have last two bits that arent dscp)
