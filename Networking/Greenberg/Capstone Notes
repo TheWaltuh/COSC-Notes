@@ -1,0 +1,713 @@
+###############################
+        Fundamentals
+###############################
+
+UserCTFD:MAGR-503-M
+ssh student@10.50.32.89 -X
+README file located in home directory has tons of useful information for the mod
+All Linux based
+curl cht.sh/<command>
+
+----Network Traffic Sniffing
+  Promiscious Mode- being able to see traffic that may not necessarily meant for you
+----Wireshark, Tshark, TCPdump, and BPFs
+---TCP Dump Demo
+  used to capture and display the contents of packets traversing a network interface
+  sudo tcpdump -D
+    Print the list of the network interfaces available on the system
+      1.eth0 [Up, Running]
+      2.any (Pseudo-device that captures on all interfaces) [Up, Running]
+      3.lo [Up, Running, Loopback]
+      4.nflog (Linux netfilter log (NFLOG) interface)
+      5.nfqueue (Linux netfilter queue (NFQUEUE) interface)
+  sudo tcpdump -i eth0
+    If a different interface is needed, it must be specified
+  sudo tcpdump -X
+    Displays packet data in HEX and ASCII
+  sudo tcpdump -XX
+    Displays the packet data in HEX and ASCII to include the Ethernet portion
+  sudo tcpdump -w file.pcap
+    Writes the packet to a file
+  sudo tcpdump -r file.pcap
+    Reads the pcap file
+  tcpdump -v
+    Gives more verbose output with details on the time to live, IPID, total length, options, and flags
+      192.168.249.133.56138 > internet-host-student-5.ssh: Flags [.], cksum 0x5b12 (correct), seq 12029, ack 235724, win 140, options 
+      [nop,nop,TS val 4010205241 ecr 3417680035], length 0 
+      13:16:18.673909 IP (tos 0x10, ttl 61, id 16921, offset 0, flags [DF], proto TCP (6), length 208
+   sudo tcpdump port 80 -vn
+    packet capture on a specific port, you can specify src or dest if you want a more specific searches
+    -n disables name resolution, and rather shows the number version instead
+      sudo tcpdump src port 80 -vn
+      sudo tcpdump dst port 80 -vn
+   sudo tcpdump 'port 80 || port 22'
+   sudo tcpdump "(src net 10.1.0.0/24  && (dst net 10.3.0.0/24 || dst host 10.2.0.3) && (! dst host 10.1.0.3))" -vn
+    source network 10.1.0.0/24 and destination network 10.3.0.0/24 or dst host 10.2.0.3 and not host 10.1.0.3
+----Berkley Packet Filters (BPF)
+  ip[2:2]
+    puts us in the ip header at byte offset 2, and a length of 2 bytes (Total Length field)
+  ip[9]
+    byte offset 9 with a default length of 1 (Protocol)
+  tcpdump 'ether[12:2] = 0x0800 && (tcp[2:2] != 22 || tcp[2:2] != 23)'
+    within the either header; byte offset 12 spanning 2 bytes, is looking for the ethertype set to ipv4 traffic
+    where the tcp byte offset 2, spanning 2 bytes(Destination Port), is not port 22 or is not port 22
+  ip[0] & 0x0F > 0x05
+    in the ip header byte offset 0, focusing only on the IHL where the IHL is greater than 5
+  tcp[13] = 0x11
+    in the tcp header byte offset 13, where the only packets flags set are FIN and ACK
+  tcp[13] & 0x11 = 0x11
+    in the tcp header byte offset 13, where any packets with both flags FIN and ACK are on 
+  tcp[13] & 0x11 !=0
+    in the tcp header byte offset 13, where any packets with either the flag FIN or ACK are on
+
+###############################
+        Reconnaissance
+###############################
+
+Active - process of transmitting packets to remote hosts and analyzing replies to identify devices
+  Netowrk Scanning
+    Remote to Local
+      outside of a specific network performing some sort of scan oh internal hosts
+    Local to Remote
+      a host within the network scans outside of the network
+    Local to Local
+      a host scans there internal network
+    Remote to Remote
+      world wide scanning campaigns
+    Approach
+      wide range scan
+      target specific scan
+    Method
+      single source scan
+      distributed scan
+Passive - OCO :: client listens for traffic from the target -- DCO :: watches the network and looks for irregular traffic
+  Identifying
+    IP-Addresses
+    People and Technologies
+    Content of Interest
+    Vulnerabilitis
+    External Sites
+  Tools
+    WHOIS
+    Phone Numbers
+    Job Listing
+    Fingerprinting
+Internal - within the network
+External - outside you network
+  Passive
+    DNS :: hotnames to Ip addresses
+    DIG :: between primary and secondary DNS servers
+    ZONE TRANSFERS :: DNS information
+    HOST HISTORY :: netcraft
+    GOOGLE SEARCHES :: subdomains and technologies
+    SHODAN :: information about techonolgy, services, network infrastructure
+https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/Recon2.png
+
+:::: PASSIVE EXTERNAL DEMO ::::
+  whois google
+  dig ccboe.net
+    dig ccboe.net MX ## Looks for the Mail Server
+    dig ccboe.net SOA ## Looks for the Source of Authority Server
+    dig ccboe.net TXT ## Text files, or some sort of text (could be in base 64)
+    dig ccboe.net NS ## Gets the name servers for the website
+    dig ccboe.net A ## IPv4
+    dig ccboe.net AAAA ## IPv6
+    dig ccboe.net CNAME ## Gets the Canonical Name record
+  dig axfr @nsztm1.digi.ninja zonetransfer.me
+  dig axfr @<name server> <website>
+  
+:::: NETWORK SCANNING DEMO ::::
+  nmap -Pn <IPADDRESS> or <IPSUBNET>  ## -P turns of ping sweep :: -n no name resolution
+    nmap -Pn <IPADDRESS> or <IPSUBNET> -p 21-23,80 -T4 | egrep -i "open|Nmap scan" ## Quick Port Scan
+  nc -zv <IPADDRESS> <PORT> or <SERVICENAME> ## -z port scanning :: -v verbose :: -vv more verbose
+    nc -vznw1 <IPADDRESS> 1-1023 ## quick scan to see if ports are open
+    nc <IPADDRESS> 80
+      GET /
+    nc <IPADDRESS> 23 ## is a bunch of gibberish
+netstat -nltp ## Local Port Scanning
+ip a ## local ip addresses
+
+NET RECON METHODOLOGY
+1. Host Discovery (nmap, scan.sh, nc, ping sweep, traceroute)
+2. Port Discovery (nmap, scan.sh, nc)
+3. Port Validation (Banner Grabbing - nc)
+4. Follow-On Actions (Based on the ports found)
+  IF port is 21 or 80 :: wget -r ftp://<IPADDRESS> \\ wget -r <IPADDRESS>
+  IF port is 22 or 23 :: connect to it and do PASSIVE RECON
+
+SCAN METHODOLOGY
+1. Quick Scan Ports: 21-23 and 80
+2. Specific Ports Based on Hints/Clues found :: to look at images eog :: eom
+
+PASSIVE RECON METHODOLOGY
+1. Hostname :: hostname \\ uname -a
+2. Interface and Subnets :: ip a \\ ifconfig
+3. Neighbors :: arp -a \\ ip neigh | egrep -iv "fail" \\ ip route
+4. Files of Interest (pcaps, flags, etc.) :: find
+5. Other Ports Listening :: sudo netstat -tulpn | grep LISTEN \\ ss -nltp
+6. Available Tools (tcpdump, wireshark, nmap, telnet, wget, curl)
+  We may also have to sniff for additional creds in the clear (use tcpdump to sniff for telnet traffic)
+
+###############################
+        Analysis
+###############################
+
+### FINGERPRINTING ###
+Fingerprinting aids in OS detection due to different implementations of network stack characteristics. Everything runs on TCP/IP protocols.
+Active
+  IDS may easily detect active scanning on a network
+Passive
+  do not generate any traffic and rely on analyzing existing traffic 
+
+### P0F ###
+---sudo which p0f
+  /usr/sbin/p0f
+## Format ##
+  [module: direction]
+## Signature Database ##
+  more /etc/p0f/p0f.fp
+---sudo p0f -r <pcap>
+--Passively through traffic monitoring while interacting with the webserver 
+  p0f -i <ethernet>
+  wget <IP_Address>
+  
+### BASELINING ###
+---7 days to estabalish the initial snapshot
+---Verify ports and potocols used
+
+### STATISTICS ###
+---Protocol Hierarchy
+  statistics>Protocol Hierarchy
+  most used protocols and differences can be seen and compared
+---Conversations
+  statistics>conversations
+  most to least talkitive computers and any new conversations
+----Endpoints
+  statistics>endpoints
+  each computer and their statistics and show any new computers, and anormal traffic
+---I/O Graph
+  statistics>io graph
+  time periods during the capture and baseline normal to abnormal traffic
+---IPv4 and IPv6 statistics
+  statistics>IPv6>All addresses
+  packet breakdown per address and will show any durastic changes
+---Expert Information
+  analyze>expert information
+  used as guidance to see where to start looking
+
+### WIRESHARK ###
+# FILTER - tcp contains "password"               # shows all tcp packets that contains password
+# FILTER - !(tcp contains "password")            # shows all tcp packets that does not contain password
+TimeStamps are important
+### TCPDUMP ###
+# COMMAND - sudo tcpdump -r practice.pcap "tcp[13] = 0x02" | awk '{print $3}' | cut -d. -f1,2,3,4 | sort -n | uniq     # Finds every uniq ip address sending syn flags
+
+Polymorphic Vs. Metamorphic
+Gets to the box and changes what it looks like Polymorphic
+Gets to the box looks at the enivornment and then changes what it looks like depending on the OS Metamorphic
+
+###############################
+        Filtering
+###############################
+
+### FILTERING DEVICES AND MECHANISMS ###
+Filter website access, allows us to have granular control, via a proxy server. 
+Meaning every request to go out to the internet would go through the proxy. Good for monitoring traffic.
+  Email Addresses - block unwanted email
+  Target specificvulnerabilities
+  MAC Filtering - only allows specific computers to access to a network
+  Network Traffic
+--- Why ---
+  Decrease load
+  Ensure efficient data flow
+  Data goes only to intended recipients
+  Block malicious traffic
+  To hide whats behind the network
+--- Devices --
+  Switch :: Layers 2 and 3
+  Router :: Layers 3 and 4
+  Proxies :: Layers 3 to 7  # Middle Man
+  IDS and IPS :: Layers 3 to 7
+  Host Firewall :: Layers 3 to 7
+  Network Firewall :: Layers 3 to 7 respectively 
+    Packet Filtering :: Layers 3 and 4
+    Stateful :: Layers 3 and 4  # Looking for protocol header to check state of connection
+    Application Lyaer FW :: Layers 3 to 7  # FW = Firewall
+    Net Generation FW :: Layers 3 to 7
+
+### CONCEPTS ###
+Whitelist vs Blacklist
+  W -- Block everything but what I allow   # DENY ANY
+                - vs -
+  B -- Allow everything by default and block only the known bad IPs  # ALLOW ANY
+Routed vs Transparent 
+  R -- Routes are listed and easy to access
+                - vs -
+  T -- Routes are listed but when queried, it passes along the route and ignores the query. Therefore making the routes not easy to access
+IDS vs IPS
+  S -- Secuirty device will monitor traffic and if it sees intrustion and notifies you
+                - vs -
+  P -- Instead of notifying you it just blocks the traffic; the downside is it can block good traffic on accident  # Possibility for false positives
+  Location for these should be ingest points where most traffic flows
+--- Directions ---
+Orginating from the locahost to the remote-host <----> Return from the remote-host to the locahost
+Originating from the remote-host to the localhost <----> Return from the localhost to the remote-host
+
+### HOST BASED FILTERING ###
+Linux
+IPTables and NFTables
+  Packet Filtering
+  Stateless/Stateful Firewalls
+  NAT vs PAT
+    N -- translates one IP address to another  # Network Address Translation
+                 - vs -               
+    P -- tasnaltes each IP address to another with a port, which allows multiple IP addresses to be aside  # Port Address Translation
+  Packet Manipulation
+--- Hooks/Chain ---
+  PREROUTING :: NP_IP_PRE_ROUTING
+  INPUT :: NP_IP_LOCAL_IN
+  FORWARD :: NP_IP_FORWARD
+  OUTPUT :: NP_IP_LOCAL_OUT
+  POSTROUTING :: NP_IP_POST_ROUTING
+
+### IPTABLES ###
+IPTables -- IPTables6 -- EBTables -- ARPTables
+  E -- ethernet bridge frame
+--- Tables ---
+  Filter -- default 
+    Input Output and Forward
+  NAT -- public to private address and ports
+  Mangle -- special packet alteration
+  Raw -- configures exemption from connection tracking
+  Security -- MAC control
+--- Options ---
+https://git.cybbh.space/net/public/raw/master/modules/networking/slides/images/T51_iptables_options.png
+--- Syntax ---
+iptables -t [table] -A [chain] [rules] -j [action]
+  Action :: ACCEPT REJECT DROP
+
+DO NOT FLUSH THE TABLE WITHOUT CHECKING THE DEFAULT POLICY
+Change Default Policy to Accept before flushing
+  iptable -t [table] -P [chain] ACCEPT
+Flush the tables
+  iptables -t [table] -F
+
+### DEMO ###
+sudo iptables -L            # Lists existing table rules for filter(defualt)
+sudo iptables -t nat -L     # Lists existing table rules for NAT
+sudo iptables -t mangle -L  #  Lists existing table rules for mangle
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT  # Allowing any traffic going anywhere in the network going to destination port 22
+  ## TERMINATOR uses 6010, 6011, 6012
+sudo iptables -A INPUT -p tcp -m multiport --ports 6010,6011,6012 -j ACCEPT  #Allow all traffic going to network on port 6010,6011,6012
+sudo iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT # Allowing all traffic going from anywhere in the networking with the source port 22
+sudo iptables -A OUTPUT -p tcp -m multiport --ports 6010,6011,6012 -j ACCEPT  #Allow all traffic going from the network  on ports 6010,6011,6012
+sudo iptables -P INPUT DROP  # Sets default policy to drop
+
+### NFTABLES ###
+IP -- IP6 -- INet -- ARP -- Bridge -- NetDev
+--- Chain-Types ---
+  Filter -- used with arp, bridge, ip, ip6, and inet
+  Route -- re-routes packets; used with ip and ip6
+  NAT -- used with ip and ip6 
+--- Hooks/Chains ---
+  Same as IPTables + 
+  INGRESS  # Used with NetDev only
+--- Syntax ---
+nft add chain [family] [table] [chain] { type [type] hook [hook] priority [priority] \; policy [policy] \;}
+  chain -- user name for chain
+  type -- filter, route, or nat
+  hook - listed above
+  priority -- default 0; the lower the number the higher the priority  # use -- before a neagtive number
+  policy -- accept or drop
+nft add rule [family] [table] [chain] [matches (matches)] [statemnet]
+  matches - protocol headers
+  statemnet - action performed when packet is matched 
+    log
+    accept
+    drop
+    reject
+    counter
+    nat
+ 
+### DEMO ###
+sudo nft list table TABLENAME  # lists the rules for a table "TABLENAME"
+sudo nft add table ip TABLENAME  # Sets a baseline table
+
+sudo nft add chain ip TABLENAME MyInput { type filter hook input priority 0 \; policy accept \;}  # Sets a baseline input chain and policy to accept
+sudo nft insert rule ip TABLENAME MyInput tcp dport { 6010, 6011, 6012} ct state { new, established } accept
+sudo nft insert rule ip TABLENAME MyInput tcp dport 22 accept  # any incoming destination port 22, accept that traffic
+
+sudo nft add chain ip TABLENAME MyOutput { type filter hook output priority 0 \; policy accept \;} # Sets a baseline output chain and policy to accept
+sudo nft insert rule ip TABLENAME MyOutput tcp sport 22 accept # any outgoing source port 22, accept that traffic
+sudo nft insert rule ip TABLENAME MyOutput tcp sport { 6010, 6011, 6012} ct state { new, established } accept # match on either new or estalished
+sudo nft insert rule ip TABLENAME MyOutput tcp dport { 6010, 6011, 6012} ct state { new, established } accept
+
+sudo nft list chain ip TABLENAME MyInput -ann  # see individual chains with additional notes
+sudo nft delete rule ip TABLENAME MyInput handle 13  # deletes specific rules
+sudo nft delete table ip TABLENAME  # deletes the whole table
+
+### NAT AND PAT IPTABLES ###
+--- source NAT ---
+iptables -t nat -A POSROUTING -o eth0 -j SNAT --to 1.1.1.1
+--- destination NAT ---
+iptables -t nat -A PREROUTING -i eth0 -j DNAT --to 10.0.0.1
+--- source PAT ---
+iptables -t nat -A POSTROUTING -p tcp -o eth0 -j SNAT --to 1.1.1.1:9001
+--- destination PAT ---
+iptables -t -A PREROUTING -p tcp -i eth0 -j DNAT --to 10.0.0.1:8080
+
+### NAT AND PAT NFTABLES ###
+--- source NAT ---
+nft add rule ip NAT POSTROUTING ip saddr 10.1.0.2 oif eht0 snat 144.15.60.11
+--- destination NAT ---
+nft add rule ip NAT PREROUTING iif eth0 tcp dport { 80, 443 } snat 10.1.0.3
+--- source NAT w/ masquerade ---
+nft add rule ip NAT POSTROUTING ip saddr 10.1.0.0/24 oif eth0 masquerade
+--- destination NAT with redirect ---
+nft add rule ip NAT PREROUTING tcp dport 80 redirect to 8080
+
+
+### NETWORK BASED FILTERING ###
+
+## ACL NUMBERING AND NAMING CONVENTIONS ##
+Numbered Standard               1-99 and 1300-1999(Expanded)            Source Address
+Numbered Extended               100-199 and 2000-2699(Expanded)         Source Address :: Destination Address :: Protocol
+Named Standard and Extended     User created name                       Same as Standard or Extended
+
+Put the Standard ACL closest to the destination
+  Inbound or Outbound?
+    Outbound
+Put the Extended ACL closest to the destination
+  Inbound or Outbound?
+    Inbound
+Permit statements should go above the deny statements
+ACL's are read from top to bottom
+## INTRUSION DETECTION AND PREVENTION SYSTEMS(IDS AND IPS) ##
+--- Placement ---
+  In-Line :: IPS can only be put in-line
+--- Recognition ---
+  Signature :: a specific pattern
+  Heurtistic :: behavior of an adversary or software
+## SNORT IDS/IPS RULE ##
+[action] [protocol] [source.ip] [source.port] [direction] [destination.ip] [destination.port] (match condition;)
+  Action :: alert,log,pass,drop,reject
+  Direction :: inbound or outbound
+  Match Condition General
+    msg :: human-readable alert
+    reference :: external source
+    sid :: identify rule
+    rev :: identify revisions of rule
+    classtype :: what the attack would do, if successful
+    priority :: 1. Really Bad 2. Badish 3. Informational
+    metadata :: additional information about the rule
+  Match Condition Payload
+    content :: looks for a string
+    |binary data| :: string of binary hex
+    nocase :: case insensitive
+    depth :: how how far into a packet it should search
+    distance :: how far into a packet it should ignore before searching
+    within :: makes sure that at most N bytes are between pattern matches 
+    offset :: how many bytes it should ignore before searching
+  Match Condition Non-Payload
+    flow :: direction and state of connection
+    ttl 
+    tos
+    ipopts :: check to see if a specific IP option is present
+    seq
+    ack
+    flags
+    itype :: specific icmp type
+    icode :: specific icmp code
+  Match Condition Post :: Thresholding and Suppression
+    https://net.cybbh.io/-/public/-/jobs/820000/artifacts/modules/networking/slides/6-Network_Traffic_Filtering.html on 19.5 and 19.6
+## DEMO ##
+ls -l /etc/snort
+cat /etc/snort/snort.conf
+ls -l /etc/snort/rules
+sudo snort -V    # Version Snort is running on
+   ,,_     
+  o"  )~   
+   ''''
+ps -elf | grep snort     # Checks to see if snort is currently running
+sudo snort -D -l /var/log/snort -c /etc/snort/snort.conf  # -D daemon mode -l log file location -c config file location
+ps -elf | grep snort
+cat /var/log/snort/alert # alert log file
+ls -l /var/log/snort
+  sudo tcpdump -Xvvntr /var/log/snort/snort.log.1684159894  # sees what the actual packets look like
+  sudo tcpdump -r /var/log/snort/snort.log.1684159894   # reads the pcap file
+  sudo tcpdump -tnr /var/log/snort/snort.log.1684159894 | awk '{print $2} {print $4}' | sort | sed 's/:$//' | uniq -c   #  unique counts of source and destination ip addresses
+sudo vim /etc/snort/rules/icmp.rules
+sudo kill -9 <pid>
+Then restart snort with the updated configuration file
+
+
+###############################
+        Tunneling
+###############################
+
+SSH LOCAL PORT FORWARDING
+  ssh {-p <alt_port>} user@<pivot ip> -L <local_port_bind>:<target_ip>:<target_port> {-NT} # -NT makes the terimanl non-interactive
+                                -- or --
+  ssh -L <local_port_bind>:<target_ip>:<target_port> {-p <alt_port>} user@<pivot_ip> {-NT}
+    ssh -p <local_port_bind> user@<local_host> # This is checking the tunnel (local_host == 127.0.0.1)
+      ssh -p <local_port_bind> user@<local_host> -L <local_port_bind2>:<target_ip2>:<target_port2> # This creates a new port on Internet-Host and tunnels to a third system
+    wget <local_host>:<local_port_bind> # This is only if port 80 is open on the target_ip
+
+
+ref line 6
+  ssh -p <local_port_bind> user@<local_host> -L <local_port_bind2>:<local_host>:80 # If port 80 is filtered on the second machine, this is how to access that port
+    Internet-Host : 1111 :: Host2 :: 22 # Starting at internet host, through local-bind port 1111 there is a ssh tunnel connecting to Host2 on port 22
+    Internet-Host : 2222 :: Host2 :: 80 # Starting at internet host, through local-bind port 2222 there is a ssh tunnel connecting to Host2's filtered port 80
+
+
+SSH DYNAMIC PORT FORWARDING
+  ssh -D <port> {-p <alt_port>} user@<pivot_ip> {-NT}
+  proxycahin defualt port is 9050
+ref line 6
+  ssh -p <local_port_bind> user@<local_host> -D 9050 -NT
+    proxychains wget -r Host3
+    proxychains netcat
+    proxychains nmap -Pn
+    proxychains ftp H3
+no ref
+  ssh user@<pivot_ip> -L 1111:<target_ip>:<target_port> -NT
+  ssh -p 1111 user@<local_host> -L 2222:<target_ip2>:<target_port2>
+  ssh -p 2222 user@<local_host> -L 3333:<target_ip3>:<target_port3> -NT
+  telnet <local_host> 3333
+  proxychains
+
+
+SSH REMOTE PORT FORWARDING
+ssh {-p <alt_port>} user@<remote_ip> -R <remote_port_bind>:<target_ip>:<target_port> -NT
+                              -- or --
+ssh -R <remote_port_bind>:<target_ip>:<target_port> {-p <alt_port>} user@<remote_ip> -NT
+ref line 29
+  ssh user@<remote_ip> -R <remote_port_bind>:<local_host>:<target_port> -NT
+  ssh -p <local_port_bind> user@<local_host> -L  <local_port_bind2>:<local_host>:<remote_port_bind> -NT
+  ssh -p <local_port_bind2> user@<local_host>
+
+###############################
+        Sockets
+###############################
+
+----Sockets
+  Stream Socket - used with TCP, Stream Control Transmission Protocol(SCTP), and Bluetooth. Connection oriented and sequenced.
+  Datagram Socket - used with UDP. NO mechanism to retransmit data is a packet is dropped.
+  Raw Socket - direct sending and receiving of IP packets without automatic protocol-specific formatting
+    Used in tcpdump, nmap, and wireshark
+---User Space/Kernel Space
+  OS's uses API's and libraries or order to manage the functions that span user to kernel space
+  STREAM and DGRAM sockets are user space sockets
+  RAW sockets are kernel space
+---Python Libraries 
+Can Contain
+  Modules: defines functions, classes, and variables
+  Function: organized, resuable code
+  Methods: performs a task within a function
+  Exceptions: special condition encountered
+  Constants: data or a value that does not change
+  Objects: used in object-oriented programming
+  Collections(Arrays) 
+    List: changeable
+    Tuple: unchangeable
+    Set: unindexed
+    Dictionary: unordered, changeable, and indexed
+  Data Types
+    Integer :: Float :: Complex Numbers :: Strings :: List :: Tuples :: Range :: Dict :: Set :: Frozenset :: Boolean :: Bytes :: ByteArrays :: MemoryViews
+---Python3 and Sockets
+  import socket
+  s = socket.socket(socket.FAMILY, socket.TYPE, socket.PROTCOL)
+    FAMILY constants :: AF_INET and AF_INET6
+    TYPE constants :: SOCK_STREAM, SOCK_DGRAM, and SOCK_RAW
+    PROTOCOL constants :: 0 and IPPROTO_RAW
+---Socket API Functions
+  socket() :: creates a new socket
+  bind() :: associates a socket and a socket address
+  listen() :: bound TCP socket to enter a listening state
+  connect() :: assigns a free local port to a socket
+  accept() :: create a new TCP connection from the remote client
+  send() :: sendall() :: recv() :: sendto() :: recvfrom() :: sending and receiving data
+  close() :: release resources allocated to a socket
+  gethostbyname() :: gethostbyaddr() :: resolve hostnames and addresses
+  select() :: waiting for one or more from a provided list of sockets to be ready to read and write
+  poll() :: check a state of a socket
+  getsockopt() :: current value of a socket option
+  setsockopt() :: set a socket option
+  
+--Stream Socket Example
+#!/usr/sbin/python3
+# import module for sockets
+import socket
+#   This can also be accomplised by using s= socket.socket() due to AF_INET and SOCK_STREAM being default
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Network sockets need both an IP address and a port
+HOST = '127.0.0.1'
+PORT = 54321
+# Connecting to the above local address and port
+s.connect((HOST, PORT))
+# To send a string as a butes-like object, add the prefix b to the string. \n is used to go to the next lin$
+s.send(b'Hello is it me you\'re looking for\n')
+# It is recommended that the buffersize used with recvfrom is a power of 2 and not a very large number of b$
+response, conn = s.recvfrom(1024)
+# In order to receive a message that is sent as a bytes-like-object you must decode into utf-8 (default)
+print(response.decode())
+s.close()
+echo "this message will send" | nc -lp 54321
+
+--Dgram Socket Example
+#!/usr/sbin/python3
+# import module for sockets
+import socket
+#   This can also be accomplised by using s= socket.socket() due to AF_INET and SOCK_STREAM being default
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+# Network sockets need both an IP address and a port
+HOST = '127.0.0.1'
+PORT = 54321
+#s.connect((HOST, PORT)) # removed because this UDP which is connection-less
+# To send a string as a butes-like object, add the prefix b to the string. \n is used to go to the next lin$
+s.sendto(b'Die Hard is a Christmas movie!\n', (HOST,PORT))
+# It is recommended that the buffersize used with recvfrom is a power of 2 and not a very large number of b$
+response, conn = s.recvfrom(1024)
+# In order to receive a message that is sent as a bytes-like-object you must decode into utf-8 (default)
+print(response.decode())
+#s.close() # connection was never opened, so no need to close it
+echo "this message will show for udp" | nc -lp 54321 -u
+
+--Raw Socket Example IPv4
+# For building the socket
+import socket
+# For system level commands
+import sys
+"""
+For establishing packet structure (used later on), this will allow access to the function in the struct $
+"""
+from struct import * 
+# Create a raw socket
+try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+except socket.error as msg:
+    print(msg)
+    sys.exit()
+packet = ''
+src_ip = "10.1.0.2"
+dst_ip = "10.3.0.2"
+# Lets add the IPv4 header information
+ip_ver_ihl = 69 # This is putting the decimal conversion 0x45 for Version and Internet Header Length
+ip_tos = 0      # This combines the DSCP and ECN fields
+ip_len = 0      # The kernel will fill in the actual length of the packet
+ip_id = 12345   # This sets the ip identification for the packet
+ip_frag = 0     # This sets fragmentation to off
+ip_ttl = 64     # This determines the ttl of the packet when leaving the machine
+ip_proto = 16   
+"""
+This sets the IP protocol to 16 (Chaos). If this was 6 (TCP) or 17 (UDP) additional header would be requ$
+"""
+ip_check = 0                         # The kernel will fill in the checksum for the packet
+ip_srcadd = socket.inet_aton(src_ip) # will convert an IP address to a 32 bit binary number
+ip_dstadd = socket.inet_aton(dst_ip) # will convert and IP address to a 32 bit binary number
+# After our variables are declared above we need to put them in order, in a variable below
+ip_header = pack('!BBHHHBBH4s4s', ip_ver_ihl, ip_tos, ip_len, ip_id, ip_frag, ip_ttl, ip_proto, ip_check$
+"""
+B - 1 byte (Byte)
+H - 2 bytes (Half Word)
+4s - 4 bytes (Word - converted from string to binary
+"""
+# Making the packet
+message = b'The bird is the word'
+packet = ip_header + message
+# Sending the packet
+s.sendto(packet, (dst_ip, 0))
+
+--Raw Socket Example TCP
+# For building the socket
+import socket
+# For system level commands
+import sys
+# For doing an array in the TCP checksum
+import array
+"""
+For establishing packet structure (used later on), this will allow access to the function in the struct $
+"""
+from struct import * 
+# Create a raw socket
+try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+except socket.error as msg:
+    print(msg)
+    sys.exit()
+packet = ''
+src_ip = "10.1.0.2"
+dst_ip = "10.3.0.2"
+# Lets add the IPv4 header information
+ip_ver_ihl = 69 # This is putting the decimal conversion 0x45 for Version and Internet Header Length
+ip_tos = 0      # This combines the DSCP and ECN fields
+ip_len = 0      # The kernel will fill in the actual length of the packet
+ip_id = 12345   # This sets the ip identification for the packet
+ip_frag = 0     # This sets fragmentation to off
+ip_ttl = 64     # This determines the ttl of the packet when leaving the machine
+ip_proto = 6   
+"""
+This sets the IP protocol to 6 (TCP). If this was 6 (TCP) or 17 (UDP) additional header would be required
+"""
+ip_check = 0                         # The kernel will fill in the checksum for the packet
+ip_srcadd = socket.inet_aton(src_ip) # will convert an IP address to a 32 bit binary number
+ip_dstadd = socket.inet_aton(dst_ip) # will convert and IP address to a 32 bit binary number
+# After our variables are declared above we need to put them in order, in a variable below
+ip_header = pack('!BBHHHBBH4s4s', ip_ver_ihl, ip_tos, ip_len, ip_id, ip_frag, ip_ttl, ip_proto, ip_check$
+"""
+# TCP Header field
+tcp_src = 54321 # source port
+tcp_dst = 7777  # destination port
+tcp_seq = 454   # sequence number
+tcp_ack_seq = 0 # tcp ack equence number
+tcp_data_off = 5 # data offset specifying the size of the tcp header * 4 which is 20
+tcp_reserve = 0 # the 3 reserve bits + ns flag in the reserve field
+tcp_flags = 0 # tcp flags field before the bits are turned on
+tcp_win = 65535 # maximum  allowed window size recorded to network order
+tcp_chk = 0 # tcp checksum which will be calculated later on
+tcp_urg_ptr = 0 # urgent pointer only if urg flag is set
+# Combine the left shifted 4 bit tcp offset and the reserve field
+tcp_off_res = (tcp_data_off << 4) + tcp_reserve
+#  Tcp Flags by bit starting from right to left
+tcp_fin = 0 # Finished
+tcp_syn = 1 # Synchronized
+tcp_rst = 0 # Reset
+tcp_psh = 0 # Push
+tcp_ack = 0 # Acknowledgment
+tcp_urg = 0 # Urgent
+tcp_ece = 0 # Explicit Congestion Notification Echo
+tcp_cwr = 0 # Congestion Window Reduce
+# Chombine the tcp flags by left shifting the bit locations and adding the bits together
+tcp_flags = tcp_fin + (tcp_syn << 1) + (tcp_rst << 2) + (tcp_psh << 3) + (tcp_ack << 4) + (tcp_urg << 5)$
+# The ! in the pack format string means network order
+tcp_hdr = pack('!HHLLBBHHH', tcp_src, tcp_dst, tcp_seq, tcp_ack_seq, tcp_off_res, tcp_flags, tcp_win, tc$
+"""
+B - 1 Byte (Byte)
+H - 2 Bytes (Half Word)
+L - 4 Bytes (32 bit word as an integer)
+"""
+# Making the packet
+user_data = b'Desperate times call for desperate measures'
+# Pseduo Header fields
+src_address = socket.inet_aton(src_ip)
+dst_address = socket.inet_aton(dst_ip)
+reserved = 0
+protocol = socket.IPPROTO_TCP
+tcp_length = len(tcp_hdr) + len(user_data)
+# Pack the psuedo header and combine with user data
+ps_hdr = pack('!4s4sBBH', src_address, dst_address, reserved, protocol, tcp_length)
+ps_hdr = ps_hdr + tcp_hdr + user_data
+def checksum(data):
+        if len(data) % 2 != 0:
+                data += b'\0'
+        res = sum(array.array("H", data))
+        res = (res >> 16) + (res & 0xffff)
+        res += res >> 16
+        return (~res) & 0xffff
+tcp_chk = checksum(ps_hdr)
+#Pack the tcp header to fill in the correct checksum - it is NOT in network byte order
+tcp_hdr = pack('!HHLLBBH', tcp_src, tcp_dst, tcp_seq, tcp_ack_seq, tcp_off_res, tcp_flags, tcp_win) + pa$
+# Combine all the headers and the user data
+packet = ip_header + tcp_hdr + user_data
+# Sending the packet
+s.sendto(packet, (dst_ip, 0))
