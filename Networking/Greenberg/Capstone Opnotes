@@ -1,96 +1,229 @@
-Using the questions found on Capstone-02 web-page. What is the Answer to Network Fundamentals Question 1?
+### Obtain Access to Capstone-01 ###
+1. Nmap scan
   nmap -Pn 10.50.30.255 -T4
     22 :: 80
+2. Obtain http server
   wget -r 10.50.30.255:80
     eom hint-01a.png
       pivot for network and programming sections
+3. SSH onto the box and perform sitational awareness
   ssh net3_student5@10.50.30.255
-    hotname
-    ls -l /usr/share/cctc
-    netstat -ntupln
+    hostname
+    netstat -ntulp
     ip a
     ip n
+    which curl :: wget :: wireshark :: tcpdump :: nmap :: telnet :: ssh
+4. Create local port forward tunnel to Capstone-01 using ssh port and floating ip
   ssh -L 30500:localhost:22 net3_student5@10.50.30.255 -NT
-    ssh -p 30500 net3_student5@localhost
-    exit to set up dynamic port forwarding
+5. Check to make sure tunnel works
+  ssh -p 30500 net3_student5@localhost
+6. Exit Connection
+
+### Doing Recon on the network ###
+1. Set up Dynamic port forwarding from Internet Host to Capstone-01
   ssh -p 30500 net3_student5@localhost -D 9050 -NT
-    proxychains ./scan.sh
-      while this is running start grabbing all of the files from ftp and http and put them on your device
-    nmap -Pn <IP_address> -T4 # For each ip found
-    eom hint-04a.png
-      Capstone-05 is on a different network that only the 10.1.1.33 can see; trying to atttack the .33 using ports associated with the W32/Blaster Worm. Use a sniffing tool
-    eom hint-04b.png
-      RIPv2 is running on the 10.1.1.0/25 network, try sniffing out the traffic to find out what networks its advertisting; you will find the next pivot access to use from your ID # On the .33
-    eom hint-02a.png
-      a webservice running on the port that corresponds with the RFC that governs Private IPv4 addressing # On the .11
-    eom hint-02b.png
-      there is a PCAP saved in the share folder of this machine that your should look at # On the .11
-    eom hint-03a.png
-      a webservice running on the port that corresponds with the RFC that governs IPv4 Header structure # On the .25
-    eom hint-03b.png
-      there is a listening tcp port waiting for onnection, build a Python3 TCP stream send and send it thru your tunnel to say Hi, send it as a bytes-like object and decode the response to/from 
-      UTF-8 to get the double-encoded message. You can use cyberchef # On the .25
-    proxychains telnet 10.1.1.11
-      situational awareness
+2. Begin scan on network 10.1.1.0/24 network (eth0 on Capstone-01)
+  nmap ./scan.sh
+    10.1.1 :: 1 :: 254 :: 21-23 80
+  * While this is running it would be a good time to grab http and ftp server information as the IP's appear *
+3. Begin grabbing information for each ip address and port open
+  10.1.1.11: 21 :: 23 :: 1918
+    proxychains wget -r ftp://10.1.1.11
+      eom hint-02a.png
+        a webservice running on the port that corresponds with the RFC that governs Private IPv4 addressing 
+          Port 1918
+      eom hint-02b.png
+        there is a PCAP saved in the share folder of this machine that your should look at
     proxychains wget -r 10.1.1.11:1918
- ssh -p 30500 net3_student5@localhost -L 30501:10.1.1.11:23 -NT
-  telnet localhost 30501
-    Using BPF’s, determine how many packets with a DSCP of 26 being sent to the host 10.0.0.103  # use a ip address to hex caluclator not cyber chef
-      tcpdump -r capstone-bpf.pcap 'ip[1] >> 2 = 26 && ip[16:4] = 0x0A000067' | wc -l
-    What is the total number of fragmented packets?
-      tcpdump -r capstone-bpf.pcap 'ip[6] & 0x20 = 0x20 || ip[6:2] & 0x1fff > 0' | wc -l
-    How many packets have the DF flag set and has ONLY the RST and FIN TCP Flags set?
-      tcpdump -r capstone-bpf.pcap 'ip[6] & 0x40 = 0x40 && (tcp[13] = 0x05)' | wc -l
-    An attacker is targeting the host 10.0.0.104 with either a TCP full or half open scan. Based off the pcap, how many ports are open?
-      tcpdump -r capstone-bpf.pcap 'ip[12:4] = 0x0A000068 && tcp[13] = 0x12' | wc -l
-Using the questions found on Capstone-03 web-page. What is the Answer to Packet Crafting and Socket Programming Question 1?
-  ssh -p 30500 net3_student5@localhost -D 9050 -NT
+  10.1.1.25: 21 
+    proxychains wget -r ftp://10.1.1.25
+      eom hint-03a.png
+        a webservice running on the port that corresponds with the RFC that governs IPv4 Header structure
+        Port 791
+      eom hint-03b.png
+        there is a listening tcp port waiting for connection, build a Python3 TCP stream send and send it thru your tunnel to say Hi, send it as a bytes-like object and decode the response to/from 
+        UTF-8 to get the double-encoded message. You can use cyberchef 
     proxychains wget -r 10.1.1.25:791
-    proxychains nmap -Pn 10.1.1.25 -p- -T4
-    proxychains python3 streamSEND.py
-What is the message referenced by “Hint-04a.png”. Provide the message (exactly as you received it) converted to BASE64  
+    proxychains nmap -Pn 10.1.1.25 -p- -T4 # To find tcp port that is waiting for connection
+  10.1.1.33: 21 :: 23 :: 80
+    proxychains wget -r ftp://10.1.1.33
+    proxychains wget -r http://10.1.1.33
+      eom hint-04a.png
+        Capstone-05 is on a different network that only the 10.1.1.33 can see; trying to atttack the .33 using ports associated with the W32/Blaster Worm. Use a sniffing tool
+        Port 135
+      eom hint-04b.png
+        RIPv2 is running on the 10.1.1.0/25 network, try sniffing out the traffic to find out what networks its advertisting; you will find the next pivot access to use from your ID 
+        Port 520
+        
+--- Using the questions found on Capstone-02 web-page. What is the Answer to Network Fundamentals Question 1-5? ---
+1. APIPA uses the IP network range of 169.254.0.0/16. What RFC number governs this? Enter only the BASE64 conversion of the number.
+  3927
+2. IPv6 Uses SLAAC to resolve its Global address from the Router. What multicast destination address does it use to Solicit the router?
+  FF02::2
+3. Which type of ARP is sent in order to perform a MitM attack?
+  Gratuitous
+4. An attacker built a FRAME that looks like this: What form of attack is being performed? Supply your answer in ALL CAPS and convert to BASE64.
+| Destination MAC | Source MAC | 0x8100 | 1 | 0x8100 | 100 | 0x0800 | IPv4 Header | TCP Header | Data | FCS |
+  Vlan Hopping
+5. A router receives a 5000 byte packet on eth0. The MTU for the outbound interface (eth1) is 1500. What would the fragmentation offset increment be with the conditions below?
+  Formula : (MTU - (IHL X 4))/8 = offset
+  184
+
+### Gaining Access to Capstone-02 ###
+1. Set up a tunnel connecting to the telnet port on Capstone-02
+  ssh -p 30500 net3_student5@localhost -L 30501:10.1.1.11:23 -NT
+2. telnet from internet host to the box and perform situational awareness
+  telnet localhost 30501
+  siutational awareness
+--- Using the PCAP stored on Capstone-02. What is the Answer to Question 2-4 referenced in “Flag-02f.txt” ---
+1. Using BPF’s, determine how many packets with a DSCP of 26 being sent to the host 10.0.0.103  # use a ip address to hex caluclator not cyber chef
+  Filter: tcpdump -r capstone-bpf.pcap 'ip[1] >> 2 = 26 && ip[16:4] = 0x0A000067' | wc -l
+  108
+2. What is the total number of fragmented packets?
+  Filter: tcpdump -r capstone-bpf.pcap 'ip[6] & 0x20 = 0x20 || ip[6:2] & 0x1fff > 0' | wc -l
+  2729
+3. How many packets have the DF flag set and has ONLY the RST and FIN TCP Flags set?
+  Filter: tcpdump -r capstone-bpf.pcap 'ip[6] & 0x40 = 0x40 && (tcp[13] = 0x05)' | wc -l
+  109
+4. An attacker is targeting the host 10.0.0.104 with either a TCP full or half open scan. Based off the pcap, how many ports are open?
+  Filter: tcpdump -r capstone-bpf.pcap 'ip[12:4] = 0x0A000068 && tcp[13] = 0x12' | wc -l
+  18
+
+##########################
+Close Connection/Tunnel to Capstone-02
+##########################
+
+--- Using the questions found on Capstone-03 web-page. What is the Answer to Packet Crafting and Socket Programming Question 1-5? ---
+1. RAW Sockets are created in ________ space. Specify the one word BASE64 conversion of your answer in ALL CAPS.
+  KERNEL
+2. Which module would you need to import to convert data into a corresponding 2-digit hex representation?
+  binascii
+3. What is the proper format to pro-grammatically pack the IPv4 RAW header?
+  BBHHHBBH4s4s
+4. What is the default (and most common) encoding used when converting data to be sent over the network.
+  UTF-18
+5. What type of header does TCP build to perform the checksum function?
+  PSUEDO
+
+--- What was the response that was referenced from “Hint-03b”? Provide the answer (exactly as you received it) converted to BASE64 ---
+1. edit the streamSEND.py to do this
+  IP = 10.1.1.25
+  PORT = 4869
+  s.send(b'Hi')
+2. Send it through the tunnel
+  proxychains python3 streamSEND.py
+3. Run it through cyber chef using magic
+  Bazinga
+  
+### Gaining Access to Capstone-04 ###
+1. set up a tunnel connecting to their port 23
   ssh -p 30500 net3_student5@localhost -L 30501:10.1.1.33:23 -NT
-    telnet localhost 30501
-      situational awareness
-      ls -l /usr/share/cctc
-      tcpdump -i eth1 -Xvvn
-      tcpdump -i eth1 port 520 -Xvvn
-What is the answer to the question referenced in “Hint-06a”? Provide the answer converted to BASE64.
+2. telnet from internet host onto the box and perform situational awareness
+  telnet localhost 30501
+  situational awareness
+
+--- What is the message referenced by “Hint-04a.png”. Provide the message (exactly as you received it) converted to BASE64 ---
+1. tcpdump -i eth1 -Xvvn
+  I just want to say LOVE YOU SAN
+
+--- What is the IP referenced in “Hint-04b”. Provide the exact dotted decimal IP address discovered for next pivot. ---
+1. tcpdump -i eth1 port 520 -Xvvn
+  10.50.24.41
+
+##########################
+Close Connection/Tunnel to Capstone-04
+##########################
+
+### Performing Analysis on Capstone-06 ###
+1. scan the ip address given
   nmap -Pn 10.50.24.41 -p21-23,80 -T4
-  wget -r 10.50.24.41:80
+    80
+2. grab the http server
+  wget -r http://10.50.24.41
     eom hint-06a.png
       ssh is running on a higher port but only accepts if it looks like it coming form a Cisco Device's TTL ; use iptables to adjust your ttl ; the flag in the port number
+3. change the iptable on Internet Host to reflect a ttl of 255
   sudo iptables -t mangle -A POSTROUTING -j TTL --ttl-set 255
+4. run scan again # A hint on the question said to look between ports 7000 and 8000
   nmap -Pn 10.50.24.41 -p7000-8000 -T4
-What is the answer to the question referenced in “Hint-07a”? Provide the answer (exactly as you found it) converted to BASE64. You will use the phrase as your password for this system only.
+    Port 7777
+    
+### Gaining Access to Capstone-06 ###
+1. build tunnel from internet host to the ssh port 7777 and floating ip
   ssh -p 7777 net3_student5@10.50.24.41 -L 30502:localhost:7777 -NT
+2. ssh to the system to check connection and perform situational awareness   
   ssh -p 30502 net3_student5@localhost
-    situational awareness
-    exit and set up a dynamic tunnel
+  situational awareness
+  exit 
+
+### Doing Recon on the network ###
+1. Set up a dynamic tunnel to Capstone-06
   ssh -p 30502 net3_student5@localhost -D 9050 -NT
-    proxychains ./scan for the 10.2.2.0/24 network
-    proxychains nmap -Pn 10.2.2.7 -T4
-    proxychains wget -r 10.2.2.5:80
-      eom hint-07a.png
+2. perform a scan on the network
+  proxychains ./scan 
+    10.2.2 :: 1 :: 254 :: 21-23 80
+  * While this is running start grabbing http and ftp server information as the IP's appear
+  10.2.2.7: 23 :: 80
+3. proxychains wget -r http://10.2.2.7
+  eom hint-07a.png
         ssh running on high port not accessible from outside; uses different credentials; intercept them
-    close dynamic and ssh back into 06
+
+--- What is the answer to the question referenced in “Hint-07a”? Provide the answer (exactly as you found it) converted to BASE64. You will use the phrase as your password for this system only. ---
+1. SSH back into Capstone-06
+  ssh -p 30502 net3_student5@localhost
+2. run tcpdump on the telnet port to intercept any login credentials
   tcpdump port 23 -Xvvn
-    net3_student5:Netflix and Chill
-What is the Answer referenced in “Hint-08a.png”? Provide the answer converted to BASE64.
+    Netflix and Chill
+
+### Gaining Access to Capstone-07 ###
+1. set up tunnel from internet host to Capstone-07 on port 23
   ssh -p 30502 net3_student5@localhost -L 30503:10.2.2.7:23 -NT
-    telnet localhost 30503
-      ssh -p 7777 net3_student5@10.2.2.6 -R 30504:localhost:2222 -NT
-    ssh -p 30502 net3_student5@localhost -L 30504:localhost:30504 -NT
-      ssh -p 30504 net3_student5@localhost   # ssh to double check
-      exit and start dynamic tunnel
-    ssh -p 30504 net3_student5@localhost -D 9050 -NT
-      proxychains ./scan.sh on the 10.10.10.0/24 network
-      proxychains nmap -Pn <IP_address> -T4
-      proyxchains wget -r ftp://<IP_address>
+2. from internet host telnet to capstone-07 and perform situational awarness
+  telnet localhost 30503
+  Situational Awareness
+    Port 2222 is open for SSH
+3. set up a remote tunnel from telnet session on capstone-07 2222 back to capstone-06 7777
+  ssh -p 7777 net3_student5@10.2.2.6 -R 30504:localhost:2222 -NT
+4. establish a tunnel from internet host through the remote tunnel set up on capstone-06 and capstone-07
+  ssh -p 30502 net3_student5@localhost -L 30504:localhost:30504 -NT
+5. ssh to the system to ensure the tunnel is set up properly
+  ssh -p 30504 net3_student5@localhost
+  exit
+
+### Doing Recon on the Network ###
+1. set up a dynamic tunnel to Capstone-07
+  ssh -p 30504 net3_student5@localhost -D 9050 -NT
+2. scan the network
+  proxychains ./scan.sh
+    10.10.10 :: 1 :: 254 :: 21-23 80
+    * while this is running use this time to grab http and ftp server information as the appear *
+3. grab their information
+  10.10.10.140: 21
+    proyxchains wget -r ftp://10.10.10.140
         eom hint-08a.png
           ssh is running on port that corresponds with HTTP status code for Moved permanently; the flag is the port number
+          Port 301
         eom hint-08b.png
           this sytem in the pivot for network reconnaissance section
+  10.10.10.182: 21
+    proxychains wget -r ftp://10.10.10.182
+      eom hint-12a.png
+        ssh is running on the port that corresponds with the HTTP status code for Gateway timeout
+        Port 504
+      eom hint-12b.png
+        pivot for network analysis and filtering
+  10.10.10.167: 80
+    proxychains wget -r http://10.10.10.167
+      eom hint-10a.png
+        ssh is running on a port that corresponds to HTTP code Not Found; the flag is the port number
+        Port 404
+      eom hint-10b.png
+        this system is the pivot for movement and redirection
+        
+--- What is the Answer referenced in “Hint-08a.png”? Provide the answer converted to BASE64. ---
+  
+    
+    
 Using the questions found on Capstone-09 web-page. What is the Answer to Network Reconnaissance Question 1?
   ssh -p 30504 net3_student5@localhost -L 30505:10.10.10.140:301 -NT
   ssh -p 30505 net3_student5@localhost
@@ -107,11 +240,7 @@ What is the Answer referenced in “Hint-10a.png”? Provide the answer converte
   dynamic tunnel to 07
   ssh-p 30504 net3_student5@localhost -D 9050 -NT
   proxychains nmap -Pn 10.10.10.67 -T4
-  proxychains wget -r 10.10.10.67:80
-    eom hint-10a.png
-      ssh is running on a port that corresponds to HTTP code Not Found; the flag is the port number
-    eom hint-10b.png
-      this system is the pivot for movement and redirection
+  
 Using the questions found on Capstone-11 web-page. What is the Answer to Movement & Redirection Question 1?
   ssh -p 30504 net3_student5@localhost -L 30506:10.10.10.167:404 -NT
   ssh -p 30506 net3_student5@localhost
@@ -127,10 +256,7 @@ Using the questions found on Capstone-11 web-page. What is the Answer to Movemen
     proxychains wget -r 192.168.10.80:9050
 What is the Answer referenced in “Hint-12a.png”? Provide the answer converted to BASE64.
   exit dynamic tunnel
-    eom hint-12a.png
-      ssh is running on the port that corresponds with the HTTP status code for Gateway timeout
-    hint-12b.png
-      pivot for network analysis and filtering
+    
 Using the questions found on Capstone-13 web-page. What is the Answer to Network Analysis Question 1?
   ssh -p 30504 net3_student5@localhost -D 9050 -NT
     proxychains nmap -Pn 10.10.10.182 -p504 -T4
