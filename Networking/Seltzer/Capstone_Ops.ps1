@@ -29,6 +29,9 @@ sudo iptables -t mangle -A POSTROUTING -j TTL --ttl-set 254       #how to cange 
 Tunnels
 ~~~~~~~
 ssh -p 7777 net3_student15@10.50.24.41 -L 31500:10.2.2.7:23 -NT
+
 ssh -p 7777 net3_student15@10.2.2.6 -R 31501:localhost:2222 -NT
 ssh -p 7777 net3_student15@10.50.24.41 -L 31502:localhost:31501 -NT
+
 ssh net3_student15@localhost -p 31502 -L 31503:10.10.10.140:301 -NT
+ssh net3_student15@localhost -p 31502 -L 31504:10.10.10.167:404 -NT
