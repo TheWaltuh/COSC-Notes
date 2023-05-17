@@ -1,0 +1,1096 @@
+###############################
+        Fundamentals
+###############################
+
+What MAC address is initiating the ARP Storm?
+  Filter Used: arp
+What is the MAC of 10.10.10.1?
+  Filter Used: ip.addr==10.10.10.1
+What is the MAC of 10.10.10.2?
+  Filter Used: ip.addr==10.10.10.2
+What is the MAC address of the system trying to perform the ARP MitM attack?
+  Filter Used: arp
+  Looking for (example): 172.16.1.99 is at fa:16:3e:35:21:5a
+  The Mac address is what you are looking for
+What is the OP code of a RARP Request?
+  Filter Used:arp.opcode==3
+  Googled op code for rarp and then searched using above filter to verify
+What is the OP code of a RARP Response?
+  Filter Used:arp.opcode==4
+  Using the previous question I exited out of the filter but stayed on the packet, the packet right after request is reply which supplies opcode
+What is the RARP requestor’s MAC?
+  Filter Used: arp.opcode==3
+What was the RARP requestor’s resolved IP address?
+  Filter Used: arp.opcode==4
+  The answer is in the reply which is stating which ip address the mac address is located
+What is the MAC of the system spamming gratuitous ARP’s for 192.168.1.254?
+  Filter Used: arp.opcode==2
+  looking for the words Gratuitous ARP in the info column
+What is the software version of the Cisco Switch (copy entire field “as is” from Wireshark)?
+  Filter Used: cdp
+  in info coloumn Device ID: myswitch Port ID: FastEthernet0/1
+What is the software version of the Cisco Router (copy entire field “as is” from Wireshark)?
+  Filter Used: cdp
+  in info coloumn Device ID: R1 Port ID: Ethernet0
+What is the System Name of one of the LLDP sending devices?
+  Filter Used: lldp
+What is the Bridge Priority of the STP Root Bridge?
+  Filter Used: stp
+  MST. Root: 0 / 0 / 00:1f:27:b4:7d:80 (found in info coloumn)
+  the first number is the priority level
+What is the MAC address of the STP Root Bridge?
+  Filter Used: stp
+  the last number in the above example is the mac address
+What is the VTP Management Domain Name?
+  Filter Used: vtp
+  located in VLAN trunking proctocol "Management Domain"
+What is the latest configuration revision number?
+  Filter Used: vtp
+  located in the same as the previous question "Configuration Revision number"
+How many total VLANs are being advertised via VTP?
+  Filter Used: vtp
+  went to latest packet and counter amount of "VLAN Information" tabs there were 
+What is the message contained within the single tagged VLAN traffic coming from 11.22.33.44?
+  Filter Used: vlan && ip.src==11.22.33.44
+  capitilization matters
+What is the VLAN ID of this traffic?
+  Filter Used: vlan && ip.src==11.22.33.44
+  located under 802.1Q vitual lan "ID: 999"
+What is the VLAN ID being attacked by 10.10.10.10 using Double Tagging?
+  Filter Used: vlan && ip.addr==10.10.10.10
+  located under the second 802.1Q vitual lan "ID: 250"
+What is the combined message being sent via ICMP?
+  Filter Used: vlan && ip.addr==10.10.10.10
+What is the OS of 192.168.1.1 host based off its Echo Request message to the Google DNS?
+  Filter used: icmp.type == 8 && ip.dst==8.8.8.8
+  TTL will tell a general OS 
+What is the message that 192.168.65.20 sending to Google's DNS via ICMP?
+  Filter Used: icmp.type == 8 && ip.dst==8.8.8.8 && ip.src==192.168.65.20
+How many Hops away is the 151.101.64.84 address?
+  Filter Used: icmp && ip.dst==151.101.64.84
+What is the IP ID of the fragmented ICMP packet? (starting at packet 6472)
+  Filter Used: crtl + g and type in 6472
+  id is under Internet Protocol Version 4 in identification (decimal not hex)
+What is the offset value of the fragments?
+  Filter Used: same as last
+  looking at the last fragmeneted packet under Internet Protocol Version 4 "Fragment offset: 976"
+  when you click on this value the hex value is displayed in the dump 
+  type this is a hex to decimal calculator
+What is the possible OS of the system that sent this ICMP based on the message payload?
+  Filter Used: same as last
+  if the payload contains alphanumeric characters its likely windows and if its just numbers and symbols its likely linux
+What is the ICMPv6 type number of Echo Request?
+  Filter Used: icmpv6
+  located Internet Control Message Protocol v6 "Type: Echo (ping) request 128"
+What is the ICMPv6 type number of Echo Reply?
+  Filter Used: icmpv6
+  located same as above except 129
+What is the ICMPv6 type number of the Router Advertisement message?
+  Filter Used: icmpv6
+  located same as above except 134
+What is the link-layer address of the advertising router?
+  Filter Used: icmpv6.type==134
+  located in info coloumn "from <mac address>"
+What is the IPv6 prefix being advertised?
+  Filter Used: same as above
+  located under internet control message protocol v6 - ICMPv6 option (Prefix information)
+What is the HSRP virtual IP?
+  Filter Used: hsrp
+  located under Cisco Hot Standby Router Protocol "Virtual IP Address: 192.168.0.1"
+What the the HSRP multicast address used?
+  Filter Used: hsrp
+  destination ip
+What is the IP address of the HSRP Active forwarder (before the takeover)?
+  Filter Used: hsrp
+  last packet source ip address
+What is the IP address of the HSRP Active forwarder (after the takeover)?
+  exit out of filter
+  organiuze all apckets based on number, answer is ip address after packet identitfied from last question
+What is the VRRP multicast address used?
+  Filter Used: vrrp
+  destination ip
+What is the VRRP virtual IP?
+  Filter Used: vrrp
+  located in virtual router redundancy protocol "IP Address: 192.168.1.254"
+How many total devices are communicating via VRRP?
+  Filter Used: vrrp
+  sort on source ip, count unique
+How many networks are being advertised via RIP?
+  Filter Used: rip
+  sort on source ip, count unique
+What are the networks being advertised (in numeric order separated by commas and no spaces)?
+  Filter Used: rip
+  located in routing information protocol "IP Address: 200.0.1.0"
+What Protocol and port is being used for RIP?
+  Filter Used: rip
+  located in User datagram Protocol "Source Port"
+What network is being advertised via EIGRPv4
+  Filter Used: eigrp
+  located in update packet under Cisco EIGRP "Internal Route"
+What is the IP protocol number used for EIGRP?
+  Filter Used: eigrp
+  located in upated packet under Internet proctocol Version 4 - time to live "Protocol"
+What multicast address is used to send EIGRPv4 updates?
+  Filter Used: eigrp
+  destination ip on update packets
+What network is being advertised via EIGRPv6
+  Filter Used: eigrp && ipv6
+  located in update packet under Cisco EIGRP "Internal Route"
+What multicast address is used to send EIGRPv6 updates?
+  Filter Used: eigrp && ipv6
+  destination ip
+What Autonomous system number is being used?
+  Filter Used: same as above
+  located in Cisco EIGRP "Autonomous System:"
+What is the IP protocol number used for OSPF?
+  Filter Used: ospf
+  located in Internet Protocol Version 4 "Protocol"
+What is the IP address of the OSPF designated router (DR)?
+  Filter Used: ospf
+  located in open shortest path first "Source OSPF router"
+What multicast address is used by the DR to send updates?
+  Filter Used: ospf
+  hello packet destination ip
+How many networks are being advertised via BGP?
+  Filter Used: bgp
+  packets with a Network Layer Reachabilioty Information tab under Border Gateway Protocol
+What are the networks being advertised (in numeric order separated by commas and no spaces)?
+  Filter Used: bgp
+  under the tab references in previous question
+What Autonomous system number is the 192.168.0.10 peer in?
+  Filter Used: bgp
+  located in the network tab idetified above under path attributes - "origin: 192.168.0.10"
+What Protocol and port is being used for BGP?
+  Filter Used: bgp
+  Transmission Control Protocol "Destination Port"
+What Protocol and port is being used for SMB?
+  Filter Used: smb
+What is the name of the file accessed via SMB?
+  Filter Used: smb
+What is the IP address of the DHCP server?
+  Filter Used: bootp
+  either Offer or ACK source ip
+What is the “offered” IP address?
+  Filter Used: bootp
+  offer destination ip
+What is the DHCP lease time (in seconds)?
+  Filter Used: bootp
+  located in bootstrap protocol "Option: IP Address Lease Time"
+What ".com" webpage was the “A” record requested for?
+  Filter Used: dns
+What webpage was the “AAAA” record requested for?
+  Filter Used: dns
+What mail server was the “MX” record requested for?
+  Filter Used: dns
+What domain was the Zone transfer requested for?
+  Filter Used: dns && tcp
+What is the username/password used for the FTP authentication?
+  Filter Used: ftp
+What was the filename requested via FTP?
+  Filter Used: ftp
+What was the message in the file transferred via FTP?
+  Filter Used: ftp-data
+  follow tcp stream (save data as raw)
+What was the source and destination ports used for the Passive FTP?
+  Filter Used: ftp-data
+  locate in info coloumn "(PASV)"
+What was the HTTP site reached (without any errors or redirects)?
+  Filter Used: http
+  locate packet that was not redirected, look in HyperText Transfer Protocol "Full request URI"
+What was the HTTP site that was “Moved Temporarily”?
+  Filter Used: http
+  locate same as above
+What was the HTTP site that was “Moved Permanently”?
+  Filter Used: http
+  locate the same as above
+What was the HTTPs (TLS) site that was reached?
+  Filter Used: tcp.port==443
+  find ACK packets from the server, follow stream
+What is the SMTP domain name?
+  Filter Used: smtp
+Who sent the email to (cuizw@public.qd.sd.cn)?
+  Filter Used: smtp
+  find packet info "RCPT TO:<cuizw@public.qd.sd.cn>" follow stream
+From the message, what are “self-explanatory”?
+  Filter Used: smtp
+  read the above packets
+What is the SMTP server communicating over IPv6?
+  Filter Used: smtp && ipv6
+What is the username that signed-in via IMAP?
+  Filter Used: imap
+  follow tcp stream
+How many emails were “fetched”?
+  Filter Used: imap
+  scroll all the way to the last fetch
+Who is “reporting a similar situation” via the emails?
+  Filter Used: imap
+  in the tcp stream of the above question, search for "similar"
+What is the POP mailbox address?
+  Filter Used: pop
+  locate in info coloumn "+OK mailbox"
+How many messages does this mailbox have?
+  Filter Used: pop
+  in the tcp stream from above question
+What is the name of the University in one of the email messages?
+  Filter Used: pop
+  scroll until you find a packet that is opening the emails, follow the stream
+What is the IP of the NTP server?
+  Filter Used: ntp
+  source i[  os "symmetric active"
+What is the Timestamp in the NTP messages (MONTH DAY, YEAR)?
+  Filter Used: ntp
+  located in Network Time Protocol "Transmit Timestamp"
+What is the NTP version number?
+  Filter Used: ntp
+What is the SSH server IP address?
+  Filter Used: ssh
+  "Server" source ip
+What is the SSH protocol version being used by both (copy entire field “as is” from Wireshark)?
+  Filter Used: ssh
+  located in SSH protocol "Protocol:"
+Which asymentric encryption protocol is being used?
+  Filter Used: ssh
+What is the MSS option set to for the SSH communication?
+  Filter Used: ssh
+  click top packet, exit from search bar, find initiating syn for 3-way handshake
+What is the windows scale shift option set to?
+  Filter Used: ssh
+  same as above, locate in Transmission Control Protcocol - Options - Window Scale "Shift Count"
+What is the username/password of the account used via telnet?
+  Filter Used: telnet
+  follow tcp stream
+What is the exact first command issued on the remote system over telnet?
+  Filter Used: telnet
+  same as above
+What was the second command issued?
+  Filter Used: telnet
+  same as above
+What is the inital sequence number of the client?
+  Filter Used: telnet
+  find initial syn packet, click on sequnce number, find hex, convert to decimal
+What is the MSS of the server?
+  Filter Used: telnet
+  find initital syn/ack
+What was the username used to log in via RADIUS
+  Filter Used: radius
+  follow udp stream
+What is the RADIUS Request code?
+  Filter Used: radius
+  in request packet, locate in Radius Protocol "Code"
+What is the RADIUS Accept code?
+  Filter Used: radius
+  in accept packet, locate same as above question
+What is the RADIUS Challenge code?
+  Filter Used: radius
+  in challenge packet, locate same as above question
+What is the IP of the TACACS+ server?
+  Filter Used: tacplus
+  locate in info coloumn "R:" source ip
+What is the SPORT used for the communication?
+  Filter Used: tacplus
+  locate in a "Q:" packet, source port
+What is the MSS option set to for the TACACS+ communication?
+  Filter Used: tacplus
+  exit out of the stream, go to 3 way handshake
+What is the starting window size of the TACACS+ client?
+  Filter Used: tacplus
+  same as above, locate ack packet of handshake
+What SNMP version is being used?
+  Filter Used: snmp
+  locate in Simple Network Management Protocol
+What is the IPv4 address of the SNMP server?
+  Filter Used: snmp
+  locate "get request" source ip
+What is the IPv6 address of the SNMP server?
+  Filter Used: snmp && ipv6
+  same as above
+What Protocol and port is being used for SNMP communication?
+  Filter Used: snmp
+What is the IP address of the TFTP server?
+  Filter Used: tftp
+  locate awkowledgment block, source ip
+What is the name of the file uploaded to the TFTP server?
+  Filter Used: tftp
+How many TFTP “Blocks” were used to send the file?
+  Filter Used: tftp
+  scroll all the way down, last block noted by "(last)"
+What is the Berkeley Packet Filter, using tcpdump, to capture all packets with a ttl of 64 and less, utilizing the IPv4 or IPv6 Headers
+  sudo tcpdump 'ip[8] <= 64 || ip6[7] <= 64' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets with at least the Dont Fragment bit set?
+  sudo tcpdump 'ip[6] & 0x40 != 0' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture traffic with a Source Port higher than 1024, utilizing the correct Transport Layer Headers?
+  sudo tcpdump 'tcp[0:2] > 1024 || udp[0:2] > 1024' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all Packets with UDP protocol being set, utilizing the IPv4 or IPv6 Headers?
+  sudo tcpdump 'ip6[6] = 0x11  || ip[9] = 0x11' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture only packets with the ACK/RST or ACK/FIN flag set, utilizing the correct Transport Layer Header?
+  sudo tcpdump "tcp[13] = 0x11 || tcp[13] = 0x14" -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all packets with an IP ID field of 213?
+  sudo tcpdump 'ip[4:2] = 213' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all traffic that contains a VLAN tag?
+  sudo tcpdump 'ether[12:2] = 0x8100' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets relating to DNS?
+  sudo tcpdump '(udp[0:2] = 0x35 || udp[2:2] = 0x35) || (tcp[0:2] = 0x35 || tcp[2:2] = 0x35)' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture the initial packets from a client trying to initiate a TCP connection?
+  sudo tcpdump 'tcp[13] = 0x02' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture the response packets from a server listening on an open TCP ports?
+  sudo tcpdump 'tcp[13] = 0x12' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture the response packets from a server with closed TCP ports?
+  sudo tcpdump 'tcp[13] = 0x04' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all TCP and UDP packets sent to the well known ports?
+  sudo tcpdump 'tcp[2:2] < 1024 || udp[2:2] < 1024' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all HTTP traffic?
+  sudo tcpdump 'tcp[0:2] = 80 || tcp[2:2] = 80' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all telnet traffic?
+  sudo tcpdump 'tcp[0:2] = 23 || tcp[2:2] = 23' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all ARP traffic?
+  sudo tcpdump 'ether[12:2] = 0x0806' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture if the "Evil bit" is set?
+  sudo tcpdump 'ip[6] & 0x80 = 0x80' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture any packets containing the CHAOS protocol within an IPv4 header?
+  sudo tcpdump 'ip[9] = 0x10' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets with the DSCP field of 37?
+  sudo tcpdump 'ip[1] >> 2 = 37' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all IPv4 packets targeting just the beginning of potential traceroutes as it's entering your network. This can be from a Windows or Linux machine using their default settings?
+  sudo tcpdump 'ip[8] = 1 && (ip[9] = 1 || ip[9] = 0x11)' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture all packets where the URG flag is not set and URG pointer has a value?
+  sudo tcpdump 'tcp[13] & 0x20 = 0 && tcp[18:2] > 0' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture a TCP null scan to the host 10.10.10.10? 
+  sudo tcpdump 'tcp[13] = 0 && ip[16:4] = 0x0A0A0A0A' -r BPFCheck.pcap | wc -l
+What is the Berkeley Packet Filter, using tcpdump, to capture an attacker using vlan hopping to move from vlan 1 to vlan 10?
+  sudo tcpdump 'ether[12:4] & 0xffff0fff = 0x81000001 && ether[16:4] & 0xffff0fff = 0x8100000A' -r BPFCheck.pcap | wc -l
+
+###############################
+        Reconnaissance
+###############################
+
+student:password
+vyos:password
+    Device type
+    Hostname
+    Interface type
+    Interface IP
+    Subnet Mask CIDR
+    Autonomous system number, Routing Protocol, IP network and Network Name groupings
+    Open ports
+    Operating system type and versions
+Tools/Techniques: dig, nmap, nc, /dev/tcp
+
+
+START FLAG :: dig networking-ctfd-1.server.vta TXT
+Utilizing the intelligence already provided, what is it’s hostname of their boundary router?
+  ssh vyos@172.16.120.1
+  hostname
+  RED-SCR
+How many host(s) did you discover on the DMZ Net? (excluding the router)
+  show interfaces (on RED-SCR)
+  run NMAP scan on 172.16.101.30/27
+    nmap -Pn 172.16.101.30/27 -T4 | egrep -i "open|Nmap scan"
+What is the ip address of the host device(s) in the DMZ network?
+  From above, its the IP without BGP associate
+    172.16.101.2
+How many well-known open TCP ports did you discover on the device(s)?
+  From above, BGP is a well known port but is UDP not TCP
+What well-known TCP port(s) are open on the system(s)?
+  From above
+    22
+What is the Hostname of the system(s)?
+  ssh from RED-SCR to 172.16.101.2 using credentials student:password
+  hostname
+    red-dmz-host-1
+What is it’s hostname of the device directly connected to the Donovian boundary on eth1?
+  ip neigh - locate reachable address on eth1
+    172.16.120.5
+  ssh from router using credentials vyos:password
+What is the hostname of the device directly connected to the system discovered in Donovian Man in the Middle, on eth1?
+  ip neigh on RED-IPS - locate reachable address on eth1
+    172.16.120.9
+  ssh to ip using credentials vyos:password
+How many host(s) did you discover on the HOSTS Net? (Excluding the router)
+  show interface (find interface for hosts)
+    172.16.182.126/27
+  nmap -Pn 172.16.182.126/27 -T4 | egrep -i "open|Nmap Scan"
+    count how many have ssh
+      4
+What are the host IP Address(s) on the HOSTS network? (list only the last octet separated by commas and no spaces and in order from lowest to highest)
+  above question
+    106,110,114,118
+What well-known port(s) are open on the system? (separate ports with a comma and no space)
+  above question
+    22,80
+Interface with the web service on the 172.16.182.110 host. The hint provides a suggestion on the ports above the well-known that you will need to recon. What is the range?
+  from your host machine use 
+    wget -r 172.16.182.110
+      eom hint-01.png
+        1980-1989
+What UDP ports did you find that were open? (List them in in order and separate the ports with a comma and no space.) NOTE: Look in the same port range mentioned in your hint for this target.
+  scan from internet-host
+    nmap -sU 172.16.182.110 -p1980-1989
+      1984,1989
+What instrument was being played on UDP port 1984?
+  On RED-POP 
+     nc -u 172.16.182.110 1984
+      Saxophone
+What color were the socks on the person in the left changing room on UDP port 1989?
+     nc -u 172.16.182.110 1989
+      blue
+What TCP ports in the range did you find that were open? (List them in order and separate the ports with a comma and no space)
+  from internet-host
+    sudo nmap -Pn 172.16.182.110 -p1980-1989
+      1980,1982,1988,1989
+What was on the license plate in the link on TCP port 1980?
+  from RED-POP
+    nc 172.16.182.110 1980
+      5JB738
+Where did it say to bless the rains on TCP port 1982?
+  from RED-POP
+    nc 172.16.182.110 1982
+      Africa
+How many (total) miles did they go on TCP port 1988?
+  from RED-POP
+    nc 172.16.182.110 1988
+      1000
+Who joined the ARMY on TCP port 1989? 
+  from RED-POP
+    nc 172.16.182.110 1989
+      Elvis
+What well-known port(s) are open on the system? (separate ports with a comma and no space)
+  on Internet-Host
+    nmap -Pn 172.16.182.106 -p-1023 -T4
+      22
+What is the Hostname of the system?
+  ssh 172.16.182.106 using credentials student:password
+    hostname
+      red-host-1
+What well-known port(s) are open on the system? (separate ports with a comma and no space)
+  on Internet-Host
+    nmap -Pn 172.16.182.114 -p-1023 -T4
+      22
+What is the Hostname of the system?
+  on RED-POP
+    ssh student@172.16.182.114
+      hostname
+        red-host-3
+What well-known port(s) are open on the system? (separate ports with a comma and no space)        
+  from Internet-Host
+    sudo nmap -Pn 172.16.182.118 -p-1023 -T4
+      22
+What is the Hostname of the system?
+  from RED-POP
+    ssh 172.16.182.118
+      hostname
+        red-host-4
+What is the hostname of the device directly connected to the system discovered in Donovian Inner boundary, on eth2?
+  ip neigh find connection on eth2
+    ssh vyos@172.16.140.5
+      hostname
+        RED-POP2
+What are the host ip address(s) in the DMZ2 network? (list only the last octet separated by commas and no spaces and in order from lowest to highest)
+  show interface
+  from Internet-Host
+    nmap -Pn 172.16.140.62/27 -T4 | egrep -i "open|Nmap scan"
+      .33,.35
+What well-known port(s) are open on the system? (separate ports with a comma and no space)
+  from above
+    22,80
+Interface with the web service on T3. The hint provides a suggestion on the ports above the well-known that you will need to recon. What is the range? (provide the range in the format of the example below)
+  on Internet-Host
+    wget -r 172.16.140.33
+    eom hint-01.png
+      1999-2999
+Which TCP ports were open in the range? List them in numerical order and separate the ports with a comma and no space.
+  on Internet-Host
+    nmap -Pn 172.16.140.33(.35) -p1999-2999 -T4 | egrep -i "open|Nmap scan"
+      2305,2800,2828
+What UDP port(s) did you find that were open? (List them in in order and separate the ports with a comma and no space) NOTE: Look in the same port range mentioned in your hint for this target.
+  on Internet-Host
+    sudo nmap -sU 172.16.140.33(.35) -p1999-2999 --open --min-rate 5000
+      2000,2011,2200,2250,2999
+On TCP port 2305, What day is it according to Spider-man?
+  On RED-POP2
+     nc 172.16.140.33 2305
+        Wednesday
+Watch your ______ on TCP port 2800?
+  On RED-POP2
+    nc 172.16.140.33 2800
+      profanity
+Welcome to ______ on TCP port 2828?
+  On RED-POP2
+    nc 172.16.140.33 2828
+      Target
+What is the first thing the man says when he sees a car that looks like this? On UDP port 2000?
+“Would you _______ _______ _______ ?”
+  On RED-POP2
+    nc -u 172.16.140.33 2000
+      look at this
+What does the sign say at Del Taco on UDP port 2011?
+  On RED-POP2
+    nc -u 172.16.140.33 2011
+      fr e sh a voca do
+How many shots on UDP port 2200?
+  On RED-POP2
+    nc -u 172.16.140.33 2200
+      2
+Look at this what? On UDP port 2250?
+  On RED-POP2
+    nc -u 172.16.140.33 2250
+      graph
+Look at those ______ on UDP port 2999?     
+  On RED-POP2
+    nc -u 172.16.140.33 2250
+      chickens
+What is the Hostname of the system?
+  on RED-POP2
+    ssh student@172.16.140.35
+      hostname
+        red-int-dmz2-host-2-student-5
+
+###############################
+        Analysis
+###############################
+
+How many total packets were captured in the pcap?
+  1908895  # At the bottom right
+Determine all IP addresses that were captured in the pcap, and list them in order. You should find 10.
+  Conversations
+  91.189.89.199,192.168.10.101,192.168.10.111,192.168.10.112,192.168.41.1,192.168.41.2,192.168.41.130,192.168.41.254,224.0.0.251,239.255.255.250
+How many hosts are in the capture?
+  Endpoints
+  Minus the broadcast and the 00 mac addresses
+  8
+What Transport Layer Protocol is the most prominent in the capture?
+  Protocol Hierarchy
+  UDP
+Use p0f to read the pcap and determine the OS type of the host: 192.168.10.101
+  sudo p0f -r attack_analysis1.pcap | egrep "192.168.10.101" -C4 | egrep "os"
+  Linux 3.11 and newer
+What standard/protocol is performing this communication? Be sure to name the protocol and not the standard being used
+  GPRS (General Packet Radio Service)
+  gprs-ns
+Within the packet capture, the following IP Address was identified: 239.x.x.x What type of address is this?
+  Class D - Multicast
+  Conversations
+    239.255.255.250
+The protocol being used to generate the traffic associated with 239.x.x.x is a UDP based protocol which is commonly used with UPnP for finding devices and services on the network.
+  ip.addr == 239.255.255.250
+  SSDP
+What is the mac address of the device that is sending the multicast SSDP traffic?
+  ssdp
+  Click on a packet and look in the ethernet header to find Source MAC
+    00:50:56:c0:00:08
+What user agent is making use of the protocol you discovered in Attack Analysis - Address 2 - Protocol?
+  ssdp
+  Click on a packet and look in the Simple Service Discover Protocol Header
+    Find USER-AGENT
+      Google Chrome/58.0.3029.110 Windows
+What is the IP Address for the DNS Server in the packet capture?
+  tcp.port == 53
+  192.168.41.2
+What IP Address and Port is the query responding to?
+  tcp.port == 53
+  Click on the standard query response packet and look in the UDP header for dst port
+  192.168.10.111:54966
+What is the Service indicated by the use of the following IP Address? 224.0.0.251
+  mDNS
+What is the FQDN and IP Address of the device indicated in the response to the query identified in `Attack Analysis - Service 1``? Look for the DNS A record.
+  mdns
+  Click on a standard query response packet under additional records Type A
+    HP705A0FF92F8D.local,192.168.1.7
+Attackers will seek unique ways to avoid being caught. This Traffic has been reported to contain a vulnerability that crashes wireshark due to an out-of-bounds write, detailed in CVE-2017-13766
+What Protocol did the attackers use to achieve this and which server IP Address and Port was targeted?
+  Protocol Hierarchy
+    Profinet
+  pn_rt
+  Click on a packet and look at the UDP header for the dst port
+    Profinet 192.168.10.111:55
+It was identified that an exploit targeting a prominent IOT Systems was captured targeting 192.168.10.111 over UDP port 55.
+This protocol was identified as an open global standard for wireless technology that uses low-power digital radio signals for indoor Personal Area Networks, uses the IEEE 802.15.4 specification as it's basis, which is often deployed in a mesh topology.
+What is the name of this Protocol and what is the Packet Type being flooded?
+  Protocol Hierarchy
+    Zigbee SCop
+  scop
+  Click on a packet and look under Zigbee Header for Packet Type
+    scop,hello
+Remote arbitrary Code Execution was captured targeting 192.168.10.111 via a gaming protocol. What is the name of the game?
+  ip.dst == 192.168.10.111
+  Quake III
+The Vuze DHT protocol was used as an exploit against 192.168.10.111, indicated in the protocol hierarchy page of Wireshark.
+After analysis and some Open Source Research, what type of Application is Vuze?
+  BitTorrent
+Determine the IP addresses for the top two talkers in the capture (the two hosts that generated the most traffic). (list in order e.g. 1.1.1.1,2.2.2.2)
+  Conversations
+  192.168.10.101,192.168.10.111
+Initial TTL can be used to determine host operating systems. Use a tool that will perform fingerprinting based on other criteria to determine the OS of the host with the IP address 192.168.10.111.
+  sudo p0f -r attack_analysis1.pcap | egrep "192.168.10.111" -C4 | egrep "os"
+  Linux 3.11 and newer
+Filter traffic communication between the IP addresses of the hosts determined in challenge 19, a UDP flood is occurring. What port is being attacked?
+  (ip.addr==192.168.10.101 && ip.addr==192.168.10.111) && udp
+  55
+In the last challenge you discovered port 55 being targeted for attacks, this is within the well known range, what typical service is associated with it?
+  isi-gl
+What type of attack is the UDP flood discovered in challenge 22?
+  DOS
+Is this an automated attack? (yes/no)
+  yes
+What version of Apache is running on the web server at the 192.168.10.111 address according to raw signatures in p0f?
+  sudo p0f -r shortened1.pcap | egrep "192.168.10.111" -C4 | egrep "raw_sig"
+    2.4.18
+What is the name of the website creation tool/software used on the 192.168.10.111 server indicated in the HTTP POST/GET messages and plugin scanning done by the attackers?
+  http contains "User-Agent"
+    wordpress
+Determine which 2 tools were used for scanning against 192.168.10.111. These tools can be identified through examining the user-agent strings.
+  http contains "User-Agent"
+  google search "tools to scan wordpress"
+  control + f
+    nikto,wpscan
+What is the username and password that was attempted against the axis2 plugin?
+  http contains "User-Agent"
+  control + f for "axis2" and "password"
+    admin:axis2
+Analyze the related traffic, and identify what Plugin the vulnerability scan triggered on?
+  mhttp contains User-Agent && http.request.method=="POST"
+  last packet follow http stream "success"
+    reflex-gallery
+Refer to challenge 29. What CVE is related to the plugin the web vulnerability scanner found? (you need to include the version in your research) Submit your answer as the cve listing (e.g. CVE-2019-9999)
+  CVE-2015-4133
+What was the Filename that was successfully uploaded by the attacker to 192.168.10.111?
+  In the http stream
+  msf2.php
+The malicious upload referred to in challenge 31 is used to start communication for a specific tool, what is the name of this tool/framework (not the attack payload)?
+  google msf2
+    Metasploit
+This popular attack payload provides an interactive shell to the attacker, this payload uses in-memory DLL injection. Identify the payload name (this is a single word, not the payload in hex).
+  Google :: Metasploits payload that provides an interactive shell to the attacker, this payload uses in-memory DLL injection. Identify the payload name
+    Meterpreter
+What programming language is this payload discovered in question 33 written in?
+  Google :: Metasploit payload language
+    Ruby
+Refering to the payload identified in Challenge 33, what is the Payload UUID identified in the session of the host that was first compromised?
+  control + f "meterpreter" lookinf for dst.ip 192.168.10.111
+  follow tcp stream and control + f "UUID"
+    \x81\xc2\xe4\x1d\xc3\x06\xf6\xf6\xeb\xd8\xf8\xd7\xb2\xe2\xea\x5b
+The 192.168.10.111 web server is now under control of the attacker through a reverse TCP connection via the meterpreter session. The 192.168.10.111 server is used to pivot to another target and perform the same actions the attacker took against 192.168.10.111, what is its ip address?
+  Conversations
+    192.168.10.112
+What type of malware is uploaded to the 192.168.10.112 server
+  ip.dst == 192.168.10.112 
+  control + f "github"
+    ransomeware
+What is the payload UUID for the new meterpreter session on the host at 192.168.10.112?
+  from same packet as above follow stream
+  control + f "UUID"
+    \xc5\x0f\xbc\x3a\x9f\x31\x91\x0b\x42\x66\x51\x69\x1b\x5c\x43\xa3
+Refer back to challenge 37, the malware referenced in this question was identified as ransomware. What is the github repo from which the malware is downloaded?
+  In the stream control + f "ransomware"
+    https://github.com/mauri870/ransomware
+According to the github site, the malware was determined to be ransomware. What programming language was used to write this?
+  GO
+Refer back to challenge 38, the malware referenced in this question was identified as ransomware. What OS is targeted by the malware?
+  Windows
+The ransomware indicated in challenge 37 targets what type of system architecture?
+  x86
+What is the assembly description attribute in the assembly manifest for the ransomware?
+  Nothing to see here
+There is a protocol that provides clock synchronization between systems over packet-switched networks in this pcap. Use this information to determine the date of this packet capture.
+  NTP
+    Jun 9, 2017
+
+###############################
+        Filtering
+###############################
+
+### T1 ### USING IPTABLES
+ssh student@172.16.82.106
+Allow New and Established traffic to/from via SSH, TELNET, and RDP AND HTTP
+  sudo iptables -A INPUT -p tcp -m multiport --ports 22,23,3389,80 -m state --state NEW,ESTABLISHED -j ACCEPT
+  sudo iptables -A OUTPUT -p tcp -m multiport --ports 22,23,3389,80 -m state --state NEW,ESTABLISHED -j ACCEPT
+Only allow Pivot to perform ping (ICMP) operations to/from
+  sudo iptables -A INPUT -p icmp -s 10.10.0.40 --icmp-type echo-request -j ACCEPT
+  sudo iptables -A INPUT -p icmp -s 10.10.0.40 --icmp-type echo-request -j ACCEPT
+  sudo iptables -A OUTPUT -p icmp -d 10.10.0.40 --icmp-type echo-reply -j ACCEPT
+  sudo iptables -A OUTPUT -p icmp -d 10.10.0.40 --icmp-type echo-reply -j ACCEPT
+Allow ports 6579 and 4444 for both udp and tcp traffic
+  sudo iptables -A INPUT -p tcp -m multiport --ports 6579,4444 -j ACCEPT
+  sudo iptables -A INPUT -p udp -m multiport --ports 6579,4444 -j ACCEPT
+  sudo iptables -A OUTPUT -p tcp -m multiport --ports 6579,4444 -j ACCEPT
+  sudo iptables -A OUTPUT -p udp -m multiport --ports 6579,4444 -j ACCEPT
+Change the Default Policy in the Filter Table for the INPUT, OUTPUT, and FORWARD chains to DROP
+  sudo iptables -P INPUT DROP
+  sudo iptables -P OUTPUT DROP
+  sudo iptables -P FORWARD DROP
+nc -lp 9001
+
+### T3 ### USING IP TABLES
+Allow New and Established traffic to/from via SSH, TELNET, and RDP AND HTTP
+  sudo iptables -A INPUT -p tcp -m multiport --ports 22,23,3389,80 -m state --state NEW,ESTABLISHED -j ACCEPT
+  sudo iptables -A OUTPUT -p tcp -m multiport --ports 22,23,3389,80 -m state --state NEW,ESTABLISHED -j ACCEPT
+Change the Default Policy in the Filter Table for the INPUT, OUTPUT, and FORWARD chains to DROP  
+  sudo iptables -P INPUT DROP
+  sudo iptables -P FORWARD DROP
+  sudo iptables -P OUTPUT DROP
+nc -lp 9003
+
+### T2 ### USING NFT TABLES
+  sudo nft add table ip CCTC
+Create input and output base chains with: Hooks Priority of 0 Policy as Accept
+  sudo nft add chain ip CCTC input {type filter hook input priority 0 \; policy accept \;}
+  sudo nft add chain ip CCTC output {type filter hook output priority 0\; policy accept \;}
+Allow New and Established traffic to/from via SSH, TELNET, and RDP AND HTTP
+  sudo nft insert rule ip CCTC input tcp dport { 22, 23, 3389, 80 } ct state { new, established } accept
+  sudo nft insert rule ip CCTC output tcp sport { 22, 23, 3389, 80 } ct state { new, established } accept
+Only allow Pivot to perform ping (ICMP) operations to/from
+  sudo nft insert rule ip CCTC input ip saddr 10.10.0.40 icmp type { echo-request, echo-reply } accept
+  sudo nft insert rule ip CCTC output ip daddr 10.10.0.40 icmp type { echo-request, echo-reply } accept
+Allow ports 5050 and 5150 for both udp and tcp traffic to/from
+  sudo nft insert rule ip CCTC input tcp dport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC input tcp sport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC input udp dport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC input udp sport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC output tcp sport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC output tcp dport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC output udp sport { 5050, 5150 } accept
+  sudo nft insert rule ip CCTC output udp dport { 5050, 5150 } accept
+Change your chains to now have a policy of Drop
+  sudo nft add chain ip CCTC input {type filter hook input priority 0 \; policy drop \;}
+  sudo nft add chain ip CCTC output {type filter hook output priority 0\; policy drop \;}
+nc -lp 9002
+
+iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to 172.16.82.106
+
+sudo nft add table ip NAT
+sudo nft add chain NAT PREROUTING {type nat hook prerouting priority 0 \; }
+sudo nft add chain NAT POSTROUTING {type nat hook postrouting priority 0 \; }
+sudo nft add rule NAT POSTROUTING ip saddr 192.168.3.30 oif eth0 snat 172.16.82.112
+
+
+What command was used to run snort on that machine.
+  ps -elf | grep snort
+which SNORT rule would create an alert when No TCP Flags are set or the URG, PUSH, and FIN TCP Flags are set?
+  cat /etc/snort/rules/<filename>.rules | grep "flag"
+which SNORT rule would create an alert when the Hex Indicator of a NOP Sled are detected
+  cat /etc/snort/rules/<filename>.rules | grep "90 90"
+which SNORT rule would create an alert when a DNS Zone Transfer is detected with the content specified in CVE-1999-0532
+   cat /etc/snort/rules/<filename>.rules | grep -i "CVE"
+which SNORT rule would create an alert when an ICMP Message is detected.
+  cat /etc/snort/rules/<filename>.rules | grep -i "icmp"
+Using the provided Traffic Capture (/home/activity_resources/pcaps/ids.pcap) how many alerts are created with the default ICMP rule?
+  sudo snort -r /home/activity_resources/pcaps/ids.pcap -c /etc/snort/rules/icmp.rules
+Rule Definition: alert any ICMP Messages Source to destination Message = Cows HEX content = DEADBEEF Set sid to 1000001
+  alert icmp any any -> any any ( msg:"Cows"; content:"|DEADBEEF|"; sid:1000001; )
+Utilizing your INTERNET_HOST, and the provided Traffic Capture how many alerts are created with the content of DEADBEEF?
+  sudo snort -r /home/activity_resources/pcaps/ids.pcap -c /etc/snort/rules/cows.rules
+Rule Definition: alert any ICMP Echo Requests Detects Type 8 / Code 0 To 10.3.0.0/24 Generate the message DMZ Ping Set sid to 1000002
+  alert icmp any any -> 10.3.0.0/24 any (msg:"DMZ Ping";itype:8;icode:0;sid:1000002;)
+Track 3 ssh authentication attempts within 10 seconds coming from a Specific Source using both threshold.
+  alert tcp any any -> any 22 (msg:"SSH Brute Force";type:threshold;sid:1000003;)
+Track 3 ssh authentication attempts within 10 seconds coming from a Specific Source using both threshold.
+  alert tcp any any -> any 22 (msg:"SSH Brute Force";threshold: type both, track by_src, count 3, seconds 10;sid:1000003;)
+Track IP Protocol and RDP traffic to and from 10.1.0.0/16 regardless of the traffic flow state.
+  alert ip any any <> 10.1.0.0/16 3389 (msg:"RDP messages";sid:1000004;)
+Detect TCP Null scan to 10.3.0.0/24 regardless of the traffic flow state.
+  alert tcp any any -> 10.3.0.0/24 any (msg:"NMAP Null Scan";flags:0;sid:1000005;)
+WannaCry ransomware and other Malware often use SMB and CIFS protocols as an attack vector for propagation. Identify the ports these protocols use.
+  alert tcp any any -> 10.0.0.0/8 139 (msg:"WannaCry";sid:1000006;)
+  alert tcp any any -> 10.0.0.0/8 445 (msg:"WannaCry";sid:1000007;)
+  alert udp any any -> 10.0.0.0/8 137 (msg:"WannaCry";sid:1000008;)
+  alert udp any any -> 10.0.0.0/8 138 (msg:"WannaCry";sid:1000009;)
+
+###############################
+        Tunneling
+###############################
+
+TASK 1
+The Donovian Insider provided a image called 1steg.jpg on T2 and is trying to connect to RELAY on TCP port 1234 to send the file. 
+  nc -lp 1234 0< relay1 | nc 10.10.0.40 1235 1> relay1
+  nc -lp 1235 > 1steg.jpg
+  steghide extract -sf 1steg.jpg
+The Donovian Insider provided a image called 2steg.jpg on T2 and is trying to connect to RELAY on TCP port 4321 to send the file. 
+  nc -lp 4321 0< relay1 | nc 10.10.0.40 4322 1> relay1
+  nc -lp 4322 > 2steg.jpg
+  steghide extract -sf 2steg.jpg
+The Donovian Insider provided a image called 3steg.jpg on T2 listening for a connection from RELAY on TCP port 6789.
+  nc 172.16.82.115 6789 0< relay1 | nc 10.10.0.40 6788 1> relay1
+  nc -lp 6788 > 3steg.jpg
+  steghide extract -sf 3steg.jpg
+The Donovian Insider provided a image called 4steg.jpg on T2 listening for a connection from RELAY on TCP port 9876.
+  nc 172.16.82.115 9876 0< relay1 | nc 10.10.0.40 9877 1> relay1
+  nc -lp 9877 > 4steg.jpg
+  steghide extract -sf 4steg.jpg
+
+IN-DEPTH OPNOTES TASK 3
+________________
+--- Conduct passive recon on the Target T3, it appears to have access to the 10.3.0.0/24 subnet. ---
+1. starting in Internet-Host begin with situational awareness
+  a. hostname
+  b. ip a
+  c. ip n
+  d. which
+    - telnet
+    - wget
+    - wireshark
+    - nmap
+    - tcpdump
+    - ssh
+    - curl
+  e. netstat -ntulp
+2. conduct Nmap scan on initial target
+  nmap -Pn 10.50.33.33 -T4
+3. set-up local tunnel from internet host to target 3 (Atropia)
+  ssh -L 30501:localhost:22 net3_student@10.50.33.33 -NT
+    - Local port forward on local bind port 30501 through port 22 to target 3's floating ip on 10.50.33.33
+4. Check to make sure the tunnel is established properly from internet host
+  ssh -p 30501 net3_student5@localhost
+5. Perform sitational awarenes ref point 1
+6. Exit and set up a dynamic tunnel to run proxychains
+  ssh -p 30501 net3_student5@localhost -D 9050 -NT
+7. From internet host run nmap scans on 10.3.0.27
+  proxychains nmap -Pn 10.3.0.27 -T4 -p21-23,80
+8. Pull the http server for the .27 using proxycahins on internet host
+  proxychains wget -r 10.3.0.27:80
+--- Conduct passive recon on the Target T3, it appears to have access to the 10.3.0.0/24 subnet. ---
+1. considering pervious tunnels; run nmap on target 10.3.0.1
+  proxychains nmap -Pn 10.3.0.1 -T4 -p21-23,80
+2. pull the ftp server using proxychains
+  proxychains wget -r ftp://10.3.0.1
+--- Conduct passive recon on this host and determine where the shared location for data relating to CCTC is on the machine. ---
+1. From internet host telnet to Target 4 (Pineland)
+  telnet 10.50.22.92
+2. situational awareness ref point 1 question 1
+3. search for files hint and flag
+  find / -name hint* 2>/dev/null
+  find / -name flag* 2>/dev/null
+--- Conduct passive recon on the Target T4, it appears to have access to the 10.2.0.0/25 subnet. ---
+-- Create a Remote Port Forward from T4 to T3 binding the source as one of Your authorized ports, from the Mission Prompt, targeting: --
+1. From telnet session to 10.50.22.92
+  ssh net3_student5@10.3.0.10 -R 30502:localhost:22 -NT
+    - Remote forward for Pineland to Atropia on remote bind port 30502 from port 80
+-- Create a Local Port Forward from Internet_Host to T3 targeting the port you just established. --
+2. From Internet Host
+  ssh -p 30501 net3_student5@localhost -L 30502:localhost:30502 -NT
+    - Connecting to previously established tunnel on 30501 using a local port forward to Atropia using local bind port 30502 and remote bind port 30502
+3. Create a Dyanmic tunnel on Internet Host
+  ssh -p 30502 net3_student5@localhost -D 9050 -NT
+4. From Internet Host use nmap to scan target 10.2.0.2
+  proxychains nmap -Pn 10.2.0.2 -T4 -p21-23,80
+5. Using proxychains pull http server
+  proxychains wget -r http://10.2.0.2
+--- Build a Dynamic tunnel to T4 and conduct active recon to find the ``Mohammed" host.
+1. considering previously established tunnels; use scan.sh to scan for 10.2.0.0/24 hosts
+  proxychains ./scan.sh
+2. pull the http server using proxychains
+  proxychains wget -r ftp://10.2.0.2
+--- Build a Dynamic tunnel to T3 and conduct active recon to find the Cortina host. ---
+1. considering previously established tunnels; establish a dynamic tunnel to atropia
+  ssh -p 30501 net3_student5@localhost -D 9050 -NT
+2. From internet host; use proxychains to scan the 10.3.0.0/24 network
+  proxychains ./scan.sh
+3. Using proxychains pull the http server
+  proxychains wget -r 10.3.0.1:80
+--- Use your Dynamic tunnel to T3 and conduct active recon to find the Victoria host. ---
+1. considering previously established tunnels; establish a dynamic tunnel to atropia
+  ssh -p 30501 net3_student5@localhost -D 9050 -NT
+2. From internet host; use proxychains to scan the 10.3.0.0/24 network
+  proxychains ./scan.sh
+3. Using proxychains pull the ftp server
+  proxychains wget -r ftp://10.3.0.27
+--- You will need to conduct a search for clues for the network address of the Mojave host. ---
+1. From atropia find the hint page
+  find / -name hint* 2>/dev/null
+2. Switch to Pineland and find the hint page
+  ssh -p 30502 net3_student5@localhost
+  find / -name hint* 2>/dev/null
+    - workstations are not directly reachable by atropia
+3. Build a dynamic tunnel to Pineland and conduct a scan
+  ssh -p 30502 net3_student5@localhost -D 9050 -NT
+  From Internet Host
+    proxychains ./scan.sh
+      - A host we haven't used yet 10.2.0.3
+4. Using proxychains scan 10.2.0.3
+  proxychains nmap -Pn 10.2.0.3 -T4 -p21-23,80
+5. Build a tunnel to connect to 10.2.0.3 from Internet Host
+  ssh -p 30502 net3_student5@localhost -L 30503:10.2.0.3:22 -NT
+6. Check ssh 
+  ssh -p 30503 net3_student5@localhost
+7. Situational Awareness
+8. Find hint page
+  find / -name hint* 2>/dev/null
+    -nothing interesting on this server; used to have access to the 10.4.0.0/24 and 10.5.0.0/24; try and access them another way
+9. From Atropia run a scan on both networks
+  proxychains ./scan.sh
+    -Identified host 10.4.0.1
+    -No hosts identified on 10.5.0.1
+10. Conduct nmap scan on 10.4.0.1 using proxychains
+  nmap -Pn 10.4.0.1 -T4 -p21-23,80
+11. Build a tunnel from internet host to 10.4.0.1
+  ssh -p 30501 net3_student5@localhost -L 30504:10.4.0.1:22 -NT
+12. Check ssh tunnel
+  ssh -p 30504 net3_student5@localhost
+13. Stiuational awarness
+14. Find hint page
+  find / -name hint* 2>/dev/null
+    - There are no other devices of interest in this subnet, but this device has access to another network that no one else ahas access to
+15. Exit ssh and build a dymaic tunnel to Baja
+  ssh -p 30504 net3_student5@localhost -D 9050 -NT
+16. Using proxychains scan the 10.5.0.0/24 network
+  proxychains ./scan.sh
+    10.5.0.1
+    10.5.0.57
+17. Using proxychains nmap scan both hosts
+  nmap -Pn 10.5.0.1 -T4 -p21-23,80
+  nmap -Pn 10.5.0.57 -T4 -p21-23,80
+18. Using proxychains pull the ftp server
+  proxychains wget -r ftp://10.5.0.1
+--- Identify the flag on Mojave's HTTP Server ---
+1. considering the previous tunnels, pull the http server
+  proxychains wget -r http://10.5.0.1
+--- Parumphia is co-located with Mojave. Identify the flag on Parumphia's FTP Server ---
+1. condsidering the previous tunnels, pull the ftp server
+  proxychains wget -r ftp://10.5.0.57
+--- Identify the flag on Parumphia's HTTP Server ---
+1. Condsidering the previous tunnels, pull the HTTP server
+  proxychains wget -r http://10.5.0.57
+IN-DEPTH OPNOTES TASK 4
+______________________
+--- Your initial target is T5. You will need to find a way to connect. ---
+1. From Internet Host nmap scan Target 5 to find available ports
+  nmap -Pn 10.50.31.103 -T4 -p21-23,80
+2. Telnet to Target 5
+  telnet 10.50.21.103
+3. situation awareness ref Task 3 Question 1 Point 1
+--- What flag did you find on Net-SSH-01 after identifying it's additional open ports? ---
+1. Establish a remote tunnel back to Internet Host from NET-SSH-01
+  ssh student@10.50.32.89 -R 30501:localhost:22 -NT
+2. Check ssh from Internet Host
+  ssh -p 30501 net3_student5@localhost
+3. Situational Awareness ref Task 3 Question 1 point 1
+4. Set up Dynamic tunnel from Internet Host
+  ssh -p 30501 net3_student5@localhost -D 9050 -NT
+5. Using proxychains pull the http server
+   proxychains wget -r http://localhost
+--- Net-SSH-03 has a flag being hosted on a high port, what country is it referring to with the question? ---
+1. Using proxychains scan for other hosts, and individually scan them
+  proxychains ./scan.sh
+    192.168.0.20
+      nmap -Pn 192.168.0.20 -T4
+    192.168.0.30
+      nmap -Pn 192.168.0.30 -T4
+    192.168.0.40
+      nmap -Pn 192.168.0.40 -T4
+2. Using proxychains and netcat banner grab the high ports
+   proxychains nc 192.168.0.20 3333
+   proxychains nc 192.168.0.30 4444
+   proxychains nc 192.168.0.40 5555
+--- What is the flag found on Net-SSH-02? ---
+1. Using proxychains grab all of the ftp and http servers
+  proxychains wget -r ftp://192.168.0.20
+  proxychains wget -r http://192.168.0.20
+    - Use banner grabbing on the alternate SSH port to idetify the next machine
+--- This system is hidden behind Net-SSH-02. What is the flag found on this isolated system? ---
+1. Tunnel from Internet Host to Net-SSH-02
+  ssh -p 30501 net3_student5@localhost -L 30502:192.168.0.20:3333 -NT
+2. Check ssh connection
+  ssh -p 30502 net3_student5@localhost
+3. Situation Awareness ref Task 3 Question 1 Point 1
+4. Exit and set up a Dyamic Tunnel 
+  ssh -p 30502 net3_student5@localhost -D 9050 -NT
+5. Using proxychains scan the network again
+  proxychains ./scan.sh
+    192.168.0.0/24
+      192.168.0.50 - Haven't seen before
+6. Using proxychains and nmap scan the individual network
+  proxychains nmap -Pn 192.168.0.50 -T4
+7. Grab ftp and http server
+  proxychains wget -r ftp://192.168.0.50
+  proxychains wget -r http://192.168.0.50
+--- Net-SSH-04 is another potential pivot. This system has several open ports. What is the flag on it's HTTP port? ---
+1. Set up a dynamic tunnel on SSH-01
+  ssh -p 30501 net3_student5@localhost -D 9050 -NT
+2. Using proxychains grab http server
+   proxychains wget -r http://192.168.0.40
+--- What host IP Address did you find (past Net-SSH-04) that you can login to using a well known port? ---
+1. Set up a tunnel from Internet Host to SSH-04
+  ssh -p 30501 net3_student5@localhost -L 30503:192.168.0.40:5555 -NT
+2. Check ssh connection
+  ssh -p 30503 net3_student5@localhost
+3. Situational Awareness ref Task 3 Question 1 Point 1
+4. Set up a Dynamic Tunnel to SSH-04
+  ssh -p 30503 net3_student5@localhost -D 9050 -NT
+5. Using proxychains scan the 172.16.0.0/24 network
+  proxychains ./scan.sh
+--- What is the flag found on Net-SSH-06 that was identified in the Inner Net Challenge". ---
+1. Using Proxychains and nmap scan the individual host
+  proxychains nmap -Pn 172.16.0.60 -T4
+2. Grab the ftp and http server
+  proxychains wget -r http://172.16.0.60
+  proxychains wget -r ftp://172.16.0.60
+    -Pivot point to more networks, ssh does not work outside of the network
+--- What is the answer to the flag found on a high port on Net-SSH-08? ---
+1. telnet into NET-SSH-06 using proxychains
+  proxychains telnet 172.16.0.60
+2. Situational Awareness Task 3 Question 1 Point 1
+3. Determine reachable addresses within the same subnet
+  ip n
+4. Exit telnet, establish  a tunnel from Internet Host to Net-SSH-06 through port 23
+  ssh -p 30503 net3_student5@localhost -L 30504:172.16.0.60:23 -NT
+5. connect to the port using telnet
+  telnet localhost 30504
+6. From SSH-06 establish a connection to SSH-04 through SSH
+  ssh -p 5555 net3_student5@192.168.0.40 -R 30505:localhost:22 -NT
+7. On internet host creat a local port forward to connect to SSH-06 directly
+  ssh -p 30503 net3_student5@localhost -L 30505:localhost:30505 -NT
+8. Check SSH connection
+  ssh -p 30505 net3_student5@localhost
+9. Exit and set up dynamic tunnel to SSH-06
+  ssh -p 30505 net3_student5@localhost -D 9050 -NT
+10. Using Proxychains scan the same network for other hosts
+  proxychains ./scan.sh
+    172.16.0.70
+    172.16.0.80
+    172.16.0.90
+11. Using proxychains nmap scan the SSH-08 host
+  proxychains nmap -Pn 172.16.0.80 -T4
+    proxychains nc 172.16.0.80 3389
+--- Enter the flag you retrieved from Net-SSH-07. It is found on a port number that is commonly used in leet speak. ---
+1. Considering pre-established tunnels; use proxychains and nmap to scan the SSH-07 network
+  proxychains nmap -Pn 172.16.0.70 -T4
+2. Now focus the port
+  proxychains nmap -Pn 172.16.0.70 -T4 -p1337
+    proxychains nc 172.16.0.70 1337
+--- Host Net-SSH-09 has a flag referring to a "specific time", what is the entire flag? ---
+1. Considering pre-established tunnels; use proxychains and nmap to scan the SSH-09 host
+  proxychains nmap -Pn 172.16.0.90 -T4
+2. Banner grab the high port
+  proxychains nc 172.16.0.90 2222
+3. Grab the http and ftp servers
+  proxychains wget -r ftp://172.16.0.90
+  proxychains wget -r http://172.16.0.90
+    - The only machine you can reach in is NET-SSH-10 using alternative ssh port
+--- Net-SSH-09 has access to another host with ONLY telnet and http ports exposed. ---
+1. Build a tunnel from Internet Host to SSH-09
+  ssh -p 30505 net3_student5@localhost -L 30506:172.16.0.90:2222 -NT
+2. Check the ssh connection
+  ssh -p 30506 net3_student5@localhost
+3. Situational Awareness Task 3 Question 1 Point 1
+4. Exit and create a dynamic tunnel to SSH-09
+  ssh -p 30506 net3_student5@localhost -D 9050 -NT
+5. Using proxychains scan the network
+  proxychains ./scan.sh 
+    - 172.16.0.100
+--- After gaining access to Net-SSH-10, what 8 character pattern did you find in the hex dump?
+1. Considering pre-established tunnels; get the http server for SSH-10
+  proxychains wget -r http://172.16.0.100
+    -when logged on to SSH-10 use tcpdump to look for a 8 character hidden and repeating message
+2. Using proxychains telnet into SSH-10
+  proxychains telnet 172.16.0.100
+3. Exit telnet, establish a tunnel from Internet Host to Net-SSH-10 through port 23
+  ssh -p 30506 net3_student5@localhost -L 30507:172.16.0.100:23 -NT
+4. connect to the port using telnet
+  telnet localhost 30507
+5. from SSH-10 establish a connection to SSH-09 trhough SSH
+  ssh -p 2222 net3_student5@172.16.0.90 -R 30508:localhost:22 -NT
+7. On Internet Host creat a local port forward to connect to SSH-10 Directly
+  ssh -p 30506 net3_student5@localhost -L 30508:localhost:30508 -NT
+8. Check SSH connection
+  ssh -p 30508 net3_student5@localhost
+9. Situational Awareness ref Task 3 Question 1 Point 1
+10. Find the message
+  tcpdump -X icmp
