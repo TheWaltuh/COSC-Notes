@@ -221,63 +221,142 @@ Close Connection/Tunnel to Capstone-04
         this system is the pivot for movement and redirection
         
 --- What is the Answer referenced in “Hint-08a.png”? Provide the answer converted to BASE64. ---
-  
-    
-    
-Using the questions found on Capstone-09 web-page. What is the Answer to Network Reconnaissance Question 1?
+1. Port 301
+
+### Gaining Access to Capstone-08 ###
+1. set up a tunnel from Internet Host to Capstone-08
   ssh -p 30504 net3_student5@localhost -L 30505:10.10.10.140:301 -NT
+2. check to make sure tunnel was set up properly and do situational awareness
   ssh -p 30505 net3_student5@localhost
-    set up dynamic tunnel
+  situational awareness
+  exit
+  
+### Doing Recon on the network ###
+1. set up a dynamic tunnel to capstone-08
   ssh -p 30505 net3_student5@localhost -D 9050 -NT
-    proxychains ./scan on the 192.168.10.0/24 net
-    proxychains nmap -Pn 192.168.10.39 -p 21-23,80 -T4
+2. scan the network
+  proxychains ./scan.sh
+    192.168.10 :: 1 :: 254 :: 21-23 80
+    * while this is running start grabbing http and ftp server information as ip's appear *
+3. grab server information
+  192.168.10.39: 21
     proxychains wget -r ftp://192.168.10.39
       eom hint-09a.png
         there is a web service running on this machine on the same port metasploit uses for its webservice
-    proxychains nmap -Pn 192.168.10.39 -p3790 -T4
-    proxychains wget -r 10.168.10.39:3790
-What is the Answer referenced in “Hint-10a.png”? Provide the answer converted to BASE64.
-  dynamic tunnel to 07
-  ssh-p 30504 net3_student5@localhost -D 9050 -NT
-  proxychains nmap -Pn 10.10.10.67 -T4
-  
-Using the questions found on Capstone-11 web-page. What is the Answer to Movement & Redirection Question 1?
+        Port 3790
+    proxychains wget -r 192.168.10.39:3790
+
+--- Using the questions found on Capstone-09 web-page. What is the Answer to Network Reconnaissance Question 1-5? ---
+1. What type of recon is being performed if you are performing ARP scans and sending Gratuitous ARPs to perform a MitM attack? 
+  Active External
+2. What is the typical flag response (if any) would a Linux host perform when receiving a Stealth scan on an CLOSED port?
+  RST
+3. What command line tool can be used to pull DNS information from the server using TCP port 43?
+  whois
+4. Which NMAP scan is able to determine open ports on a target by spoofing packets to make them looks as if they came from a zombie machine?
+  Idle
+5. A cyber analyst wants to us Netcat to perform a banner grab on a target IP of 10.1.0.1 port 1111.
+  nc 10.1.0.1 1111
+
+##########################
+Close Connection/Tunnel to Capstone-08 and Capstone-09
+##########################
+
+--- What is the Answer referenced in “Hint-10a.png”? Provide the answer converted to BASE64. ---
+1. Port 404
+
+### Gaining Access to Capstone-10 ###
+1. set up a tunnel from Internet Host to Capstone 10 through its port 404
   ssh -p 30504 net3_student5@localhost -L 30506:10.10.10.167:404 -NT
+2. ssh to check connection and perform situational awareness
   ssh -p 30506 net3_student5@localhost
-    situational awareness
-    exit and make a dynamic tunnel
+  situational awareness
+  exit
+
+### Doing recon on the network ###
+1. establish a dynamic tunnel on Capstone-10
   ssh -p 30506 net3_student5@localhost -D 9050 -NT
-    proxychains ./scan.sh
-    proxychains nmap -Pn 192.168.10.80 -p21-23,80 -T4
-    proxychains wget -r ftp://192.168.10.80
+2. scan the network
+  proxychains ./scan.sh
+    192.168.10 :: 1 :: 254 :: 21-23 80
+    * while this is running start grabbing the http and ftp server information as the ip appears *
+3. grab server information
+  192.168.10.80: 21
+    proxychains wget -r ftp:// 192.168.10.80
       eom hint-11a.png
         there is a webservice running on the port that corresponds with the default port for Proxychains
-    proxychains nmap -Pn 192.168.10.80 -p9050 -T4
+        Port 9050
     proxychains wget -r 192.168.10.80:9050
-What is the Answer referenced in “Hint-12a.png”? Provide the answer converted to BASE64.
-  exit dynamic tunnel
-    
-Using the questions found on Capstone-13 web-page. What is the Answer to Network Analysis Question 1?
-  ssh -p 30504 net3_student5@localhost -D 9050 -NT
-    proxychains nmap -Pn 10.10.10.182 -p504 -T4
+
+--- Using the questions found on Capstone-11 web-page. What is the Answer to Movement & Redirection Question 1-5? ---
+1. Which SSH syntax will properly setup a Local port forward from the “Outside Host” to access to the Internal Website?
+      -----------     ------       ----------    -------
+      | Outside |     | FW |       | Inside |    | Web |
+      -----------     ------       ----------    -------
+      147.25.99.1                 192.168.1.27  188.8.8.8
+  ssh inside@192.168.1.27 -L 1234:188.8.8.8:80
+2. Which SSH syntax will properly setup a Remote port forward from the “Inside Host” to give “Outside Host” access to the Internal Website?
+      -----------     ------       ----------    -------
+      | Outside |     | FW |       | Inside |    | Web |
+      -----------     ------       ----------    -------
+      147.25.99.1                 192.168.1.27  192.168.1.10
+  ssh Outside@147.25.99.1 -R 9876:192.168.1.10:80
+3. What form of encryption does SSH use to verify and authenticate each other and to pass the shared key?
+  Asymmetric 
+4. What exact SCP command would you use to copy a file called “secret.txt” from the 'tgt' home directory, to your current working directory, using the Dynamic tunnel you have established.
+      -----------     ------       ----------    -------
+      | outside |     | FW |       | inside |    | tgt |
+      -----------     ------       ----------    -------
+      147.25.99.1                 192.168.1.27  192.168.1.10
+  proxychains scp tgt@192.168.1.10:/home/tgt/secret.txt .
+5. Which tool adds “FTP Like” services to SSH?
+  SFTP
+
+##########################
+Close Connection/Tunnel to Capstone-10 and Capstone-11
+##########################
+
+--- What is the Answer referenced in “Hint-12a.png”? Provide the answer converted to BASE64. ---
+1. Port 504
+
+### Gaining Access to Capstone-12 ###
+1. set up a tunnel from Internet Host to Capstone-12 using port 504
   ssh -p 30504 net3_student5@localhost -L 30507:10.10.10.182:504 -NT
-    ssh -p 30507 net3_student5@localhost
-      Situational Awareness
-      exit create dynamic tunnel
-    ssh -p 30507 net3_student5@localhost -D 9050 -NT
-      proxychains ./scan.sh 
-      proxychains nmap -Pn <IP_Address> -p21-23,80 -T4
-      proxychains wget -r ftp://<IP_Address>
-        eom hint-13a.png
-          webservice running on the port that is the sum of the 2 smb ports used by wanna cry ransomeware
-        eom hint-13b.png
-          there is a hex-encoded PCAP saved in the share folder of this machine that will need to be extracted using XXD and opened with wireshark
-        eom hint-14a.png
-          there is a webservice running on the port that falls in the Expanded Cisco Numbered ACL Range
-        eom hint-14b.png
-          snort is running on thie machine. take a look at the file locations
-      proxychains nmap -Pn 192.168.10.101 -p584 -T4
-      proxychains wget -r 192.168.10.101:584
+2. check ssh connection and perform situational awareness
+  ssh -p 30507 net3_student5@localhost
+  Situational Awareness
+  exit 
+
+### Doing recon on the network ###
+1. establish a dynamic tunnel to Capstone-12
+  ssh -p 30507 net3_student5@localhost -D 9050 -NT
+2. scan the network
+  proxychains ./scan.sh
+    192.168.10 :: 1 :: 254 :: 21-23 80
+    *while this is running go ahead a grab the http and ftp server information as the ip appears*
+3. grab server information
+  192.168.10.111: 21 :: 22
+    proxychains wget -r 192.168.10.111:21
+      eom hint-14a.png
+        there is a webservice running on the port that falls in the Expanded Cisco Numbered ACL Range
+        Port 2223
+      eom hint-14b.png
+        snort is running on thie machine. take a look at the file locations
+    proxychains wget -r 192.168.10.111:2223
+  192.168.10.101: 21 :: 22
+    proxychains wget -r 192.168.10.101:21
+      eom hint-13a.png
+        webservice running on the port that is the sum of the 2 smb ports used by wanna cry ransomeware
+        Port 584
+      eom hint-13b.png
+        there is a hex-encoded PCAP saved in the share folder of this machine that will need to be extracted using XXD and opened with wireshark
+    proxychains wget -r 192.168.10.101:584
+
+--- Using the questions found on Capstone-13 web-page. What is the Answer to Network Analysis Question 1? ---
+1.  Which option in Wireshark could you use if you wanted to identify which IP address are communicating with each other?
+  
+        
+    
   ssh -p 30507 net3_student5@localhost -L 30508:192.168.10.101:22 -NT
   ssh -p 30508 net3_student5@localhost
     situational awareness
