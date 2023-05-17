@@ -354,85 +354,113 @@ Close Connection/Tunnel to Capstone-10 and Capstone-11
 
 --- Using the questions found on Capstone-13 web-page. What is the Answer to Network Analysis Question 1? ---
 1.  Which option in Wireshark could you use if you wanted to identify which IP address are communicating with each other?
-  
-        
-    
+  Conversations
+2. What is the name of the data type that is a Cisco proprietary protocol used for collecting IP traffic information and monitoring network flow?
+  NetFlow
+3. A method of data collection where this device can be placed in line on the wire to capture traffic?
+  Tap
+4. A network admin starts to notice an increase in requests for certain files, changes to the registry and unusual tasks being run. This anomaly is an Indicator of ________?
+  Compromise
+5. What type of malware that is capable of changing its code and signature patterns with each iteration?
+  Metamorphic
+
+### Gaining Access to Capstone-13 ###
+1. set up a tunnel from Internet Host to Capstone-13
   ssh -p 30507 net3_student5@localhost -L 30508:192.168.10.101:22 -NT
+2. check ssh connection and perform situational awarness
   ssh -p 30508 net3_student5@localhost
-    situational awareness
-    cd /usr/share/cctc
+  situational awarness
+  cd /usr/share/cctc
+  cat Flag-13f.txt
+3. establish a dynamic tunnel to Capstone-13
   ssh -p 30508 net3_student5@localhost -D 9050 -NT
-    scp net3_student5@localhost:/usr/share/cctc/capstone-analysis_HEX-ENCODED.pcap  student@localhost .
-    cat Flag-13f.txt
-      Which ip address initiated the attack against the FTP server? Provide the ip address in the x.x.x.x format and converted to Base64.
-        filter used: ftp
-        10.1.0.108
-      How many failed attempts to guess the FTP password? Provide number and converted to Base64.
-        filter used: ftp
-        looked for "Login incorrect"
-        4
-      What is the correct FTP password? Provide the exact password and converted to Base64.
-        filter used: ftp
-        looked for "Login Correct"
-        w
-      What is the system IP that was compromised? Provide the ip address in the x.x.x.x format and converted to Base64.
-        filter used: ftp
-        the receving end of ip that is attacking
-        10.2.0.2
-      What is the FTP version? Provide the version number only and converted to Base64.
-        filter used: ftp
-        looked for (vsFTPd 3.0.2)
-        3.0.2
-      What is the name of the file taken by the attacker? Provide the filename exactly as shown and converted to Base64.
-        filter used: ftp
-        look for transfer complete
-        test.txt
-      What was the message contained within the extracted file? Provide the message exactly as shown and converted to Base64.
-        filter used: ftp
-        find transfer complete, ans select packet before it. Exit filter to return to main stream. Follow tcp stream of data packet
-        hi
-      What is the name of the file uploaded by the attacker? Provide the filename exactly as shown and converted to Base64.
-        filter used: ftp
-        look for STOR command
-        company_payroll_2019
-Using the questions found on Capstone-14 web-page. What is the Answer to Network Filtering Question 1?
-  ssh -p 30507 net3_student5@localhost -D 9050 -NT
-    proxychains nmap -Pn 192.168.10.111 -p2000-2699 -T4
-    proxychains wget -r 192.168.10.111:2223
-      In NAT, which Hook would I place a rule to change the source IP for all traffic thru this host?
-        POSTROUTING
-      Which Hook would I apply rules that are destined for the ‘localhost’?
-        INPUT
-      What recognition method do IDS/IPS primarily use to detect malicious traffic?
-        SIGNATURE
-      In iptables, which Table would I use if I wanted to preform packet alterations?
-        MANGLE
-      What is the default family for NFTables?
-        IP
+4. use scp to transfer pcap to local machine
+  scp net3_student5@localhost:/usr/share/cctc/capstone-analysis_HEX-ENCODED.pcap  student@localhost .
+5. unexcrypt file
+  xxd -r capstone-analysis_HEX-ENCODED.pcap capstone-analysis.pcap
+
+--- Using the PCAP stored on Capstone-13. What is the Answer to Question 1-8 referenced in “Flag-13f.txt” ---
+1. Which ip address initiated the attack against the FTP server? Provide the ip address in the x.x.x.x format and converted to Base64.
+  filter used: ftp
+  10.1.0.108
+2. How many failed attempts to guess the FTP password? Provide number and converted to Base64.
+  filter used: ftp
+  looked for "Login incorrect"
+  4
+3. What is the correct FTP password? Provide the exact password and converted to Base64.
+  filter used: ftp
+  looked for "Login Correct"
+  w
+4. What is the system IP that was compromised? Provide the ip address in the x.x.x.x format and converted to Base64.
+  filter used: ftp
+  the receving end of ip that is attacking
+  10.2.0.2
+5. What is the FTP version? Provide the version number only and converted to Base64.
+  filter used: ftp
+  looked for (vsFTPd 3.0.2)
+  3.0.2
+6. What is the name of the file taken by the attacker? Provide the filename exactly as shown and converted to Base64.
+  filter used: ftp
+  look for transfer complete
+  test.txt    
+7. What was the message contained within the extracted file? Provide the message exactly as shown and converted to Base64.
+  filter used: ftp
+  find transfer complete, ans select packet before it. Exit filter to return to main stream. Follow tcp stream of data packet
+  hi   
+8. What is the name of the file uploaded by the attacker? Provide the filename exactly as shown and converted to Base64.
+  filter used: ftp
+  look for STOR command
+  company_payroll_2019
+
+--- Using the questions found on Capstone-14 web-page. What is the Answer to Network Filtering Question 1-5? ---
+1. In NAT, which Hook would I place a rule to change the source IP for all traffic thru this host?
+  POSTROUTING
+2. Which Hook would I apply rules that are destined for the ‘localhost’?
+  INPUT
+3. What recognition method do IDS/IPS primarily use to detect malicious traffic?
+  SIGNATURE
+4. In iptables, which Table would I use if I wanted to preform packet alterations?
+  MANGLE
+5. What is the default family for NFTables?
+  IP
+
+##########################
+Close Connection/Tunnel to Capstone-13
+##########################
+
+### Gaining Access to Capstone-14 ###
+1. set up a tunnel from Internet Host to Capstone-14
   ssh -p 30507 net3_student5@localhost -L 30509:192.168.10.111:22 -NT
-    ssh -p 30509 net3_student5@localhost
-      situational awareness
-      ps -elf | grep snort 
+2. check ssh connection and perform situational awareness
+  ssh -p 30509 net3_student5@localhost
+  situational awareness
+3. look for snort running on the system
+   ps -elf | grep snort 
         /usr/bin/snort -D -c /etc/snort/snort.conf -l /var/log/capstone
-      cat  /usr/share/cctc/Flag-14f.txt 
-        How many rule files are on the system?
-          ls -l /etc/snort/rules | wc -l
-          24
-        How many of the rules are currently in use to match on traffic?
-          cat /etc/snort/snort.conf | wc -l
-          7
-        Which rule will look for someone doing a null scan ?
-          looking for flags=0
-          alien-abductions.rules
-        What is the exact Alert Message that is being triggered on the system?
-          cat /var/log/capstone/alert
-          Who got that kinda monies to pay that!
-        From what IP is the attack coming from?
-          cat /var/log/capstone/alert
-          192.168.10.99
+4. check the shared folder
+  ls -l /usr/share/cctc
+  cat /usr/share/cctc/Flag-14f.txt
+
+--- What is the Answer to Question 1-5 referenced in “Flag-14f.txt” ---
+1. How many rule files are on the system?
+  ls -l /etc/snort/rules | wc -l
+  24
+2. How many of the rules are currently in use to match on traffic?
+  cat /etc/snort/snort.conf | wc -l
+  7
+3. Which rule will look for someone doing a null scan ?
+  looking for flags=0
+  alien-abductions.rules
+4. What is the exact Alert Message that is being triggered on the system?
+  cat /var/log/capstone/alert
+  Who got that kinda monies to pay that!
+5. From what IP is the attack coming from?
+   cat /var/log/capstone/alert
+   192.168.10.99
 
 
-
+List of Tunnels 
+_____________________________
 ssh -L 30500:localhost:22 net3_student5@10.50.30.255 -NT
 ssh -p 30500 net3_student5@localhost -L 30501:10.1.1.11:23 -NT
 telnet localhost 30501
