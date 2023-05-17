@@ -1,0 +1,413 @@
+
+
+CAPSTONE OP NOTES:
+
+55 questions total.
+
+DO ON EVERY HOST!
+    net recon method:
+    1. Host Discovery (nmap, scan.sh, nc, ping sweep)
+    2. ports discovery (nmap, nc, scan.sh)
+    3. Port validation, banner grabbing (nc, nmap -A)
+    4. follow on actions (based on ports found)
+        4a. if 21 or 80, use 'wget -r ftp(http)://<ip>'
+        4b. if 22 or 23, connect to it and perform passive recon steps (see passive recon)
+    5. record results, take op notes
+        
+    scan method:
+    1. quick scan ports: 21-23,80
+    2. scan ports based on specific intel/found
+    3. well known ports: 1-1023
+    4. scan in chunks of 2000, or first 10,000
+    5. last resort, scan everything.
+
+    Passive recon method:
+    perform while on machines to learn about that machine.
+    CHECK FIRST: "/usr/share/cctc/"
+    1. hostname
+    2. interfaces and subnets
+        ip a
+        ifconfig
+        ipconfig
+    3. Find neighbors
+        arp -a
+        ip neigh (take note of MAC and interface it comes off of. )
+        Find more...
+    4. Files of interest:
+        PCAPS, FLAGS, .txt, config files (persistence), 
+        ** 'find' is useful. 
+    5. other ports listening: netstat -or- 'ss -nltp'
+    6. avalible tools
+        'sudo which tcpdump wireshark nmap telnet wget curl'
+    7. look for creds in the clear. user TCPDump to look for telnet traffic.
+
+
+
+START FLAG: crowning achievement
+Floating IP of start pivot is: 10.50.30.255
+creds:
+    user: net3_student19
+    pass: password19
+    
+    ALWAYS CHECK
+"/usr/share/cctc/" directory. This is where any/all files of interest or instructions will be provided.
+
+Authorized port range:
+ 31900-31999
+
+
+NMAP Results from pivot to hosts shown in "ip n"  --
+
+Nmap scan report for 10.1.1.11
+Host is up (0.00077s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+21/tcp open  ftp
+23/tcp open  telnet
+
+Nmap scan report for 10.1.1.25
+Host is up (0.00099s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+21/tcp open  ftp
+
+Nmap scan report for 10.1.1.33
+Host is up (0.00098s latency).
+Not shown: 997 closed ports
+PORT   STATE SERVICE
+21/tcp open  ftp
+23/tcp open  telnet
+80/tcp open  http
+
+Nmap scan report for 10.1.1.125
+Host is up (0.00078s latency).
+Not shown: 999 closed ports
+PORT    STATE SERVICE
+125/tcp open  locus-map
+
+
+
+
+
+
+FLAGS:
+
+
+DONE:
+10.1.1.11:
+/usr/share/cctc/flag-02f.txt:
+-------------------------------------------------------------------------------
+Question 1:
+Using BPF’s, determine how many packets with a DSCP of 26 being sent to the host 10.0.0.103.
+Provide the number of packets converted to BASE64.
+-------------------------------------------------------------------------------
+Question 2:
+What is the total number of fragmented packets?
+Provide the number of packets converted to BASE64.
+-------------------------------------------------------------------------------
+Question 3:
+How many packets have the DF flag set and has ONLY the RST and FIN TCP Flags set?
+Provide the number of packets converted to BASE64.
+-------------------------------------------------------------------------------
+Question 4:
+An attacker is targeting the host 10.0.0.104 with either a TCP full or half open scan. Based off the pcap, how many ports are open?
+Provide the number of ports converted to BASE64.
+-------------------------------------------------------------------------------
+ALSO LOOK AT THE FILES UNDER PORT 1918 FOR FLAGS!!!!!!!!
+
+
+
+
+    ***************************
+10.1.1.25:791:
+    THE INDEX-X.html FILES ARE QUESTIONS FOR FLAGS!!!!!!
+    ***************************
+
+
+
+From 10.1.1.30:
+    hint-01a.png:
+        This system seems to be a pivot for the Network Fundamentals and Programming Sections.
+
+From 10.1.1.11:
+hint-02a.png:
+    There is a webservice running on the port that corresponds with the RFC that giverns ipv4 addressing.
+hint-02b.png:
+    There is a PCAP saved in the share folder of this machine that you should look at.
+    ON PORT 1918 THERE ARE INDEX-X.html FILES THAT ARE FLAGS!!!!!!!!!!!!!
+    
+    
+10.1.1.25:
+    hint-03a.png:
+        There is a webservice running on the port that correstponds with the RFC that giverns ipv4 header structure
+        
+    hint-03b.png:
+        There is a listening TCP port on this system that waiting for connections.
+        Build a Python3 Stream sender and send it though your tunnel to say Hi.
+        Send your message as a bytes like object and decode the response to/from UTF-8 to get the human readable message.
+        
+    ON PORT 791 THERE ARE INDEX-X.html FILES THAT ARE FLAGS!!!!!!!!!!!
+
+
+10.1.1.33:
+    hint-04a.png:
+        There is another box (Capstone05) on a different network (that only this system can see.). Try to attack this box.
+        On one of the ports assocuated with the W32/Blaster Worm. Use a sniffing tool to try and find the message it is trying to send.
+        
+I just want to say LOVE YOU SAN
+
+        
+    hint-04b.png:
+        RIPv2 seems to be running on the 10.1.1.0/25 network.
+        Try to sniff out the traffic to find out what networks its advertising in its updates.
+        What you find will be the ip address of the next environment pivot to access from INTERNET_HOST
+        
+
+
+
+
+
+PACK 2 PIVOT::::
+10.50.24.41/32
+
+SSH is running on a higher port, It only accepts connections where the TTL looks like a cisco device. use iptables
+
+
+NMAP SCAN RESULTS:
+
+    Nmap scan report for 10.2.2.7
+    Host is up (0.0015s latency).
+
+    PORT   STATE  SERVICE
+    23/tcp open   telnet
+    80/tcp open   http
+    
+    Nmap scan report for 10.2.2.14
+    Host is up (0.0028s latency).
+    PORT   STATE  SERVICE
+    NONE
+
+
+10.2.2.7:
+    hint-07a.png:
+        SSH is running on a rhp, not accessible from outside (I'll need a reverse ssh tunnel)
+        It also uses different creds. how can i get them from the outside?
+        Maybe another system tool can help me.
+        The Flag for this system is the password I find converted to BASE64
+        Credentials for this system will be exactly what you find.
+
+
+
+Scan Results from Capstone-07 on the 10.10.10.0/25 Network:
+
+
+
+Nmap scan report for 10.10.10.140
+Host is up (0.0014s latency).
+Not shown: 998 closed ports
+PORT    STATE SERVICE
+21/tcp  open  ftp
+301/tcp open  unknown
+
+Nmap scan report for 10.10.10.167
+Host is up (0.0012s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+80/tcp open  http
+
+Nmap scan report for 10.10.10.182
+Host is up (0.0013s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+21/tcp open  ftp
+
+Nmap scan report for 10.10.10.254
+Host is up (0.0013s latency).
+All 1000 scanned ports on 10.10.10.254 are closed
+
+
+
+10.10.10.140:
+    Hint-08a.png
+        SSH is running on a high port that corresponds to HTTP moved permenantly error code.
+        flag is that # converted to base 64
+        
+    hint-08b.png
+        This box is a pivot for the Network Recon section.
+        
+    This box opens up to the 192.168.10.32/27 subnet.
+    
+
+        192.168.10.39:
+            Hint-09a.png
+                There is a web service running on this machine that uses the same port as Metasploit webservice. 3790
+
+
+
+
+10.10.10.167:
+    hint-10a.png
+        SSH is running on port that corresponds to HTTP error code not found.
+        flag is that # in base64
+    hint-10b.png
+        This is the pivot for movement and redirection section
+        
+    This box opens ip to the 192.168.10.64/27 subnet.
+        
+        NMAP RESULTS::::::::
+        Nmap scan report for 192.168.10.80
+        Host is up (0.0018s latency).
+        Not shown: 998 closed ports
+        PORT     STATE SERVICE
+        21/tcp   open  ftp
+        9050/tcp open  tor-socks
+
+        Nmap scan report for 192.168.10.94
+        Host is up (0.0018s latency).
+        All 1000 scanned ports on 192.168.10.94 are closed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10.10.10.182:
+    hint-12a.png
+        SSH is running on the port that corresponds with the http status code for gateway Timeout 504
+    hint-12b.png
+        This system is the pivot for the Analysis and Filtering sections/
+    
+    PRIVATE NETWORK NMAP SCAN:
+        Nmap scan report for 192.168.10.101
+        Host is up (0.0017s latency).
+        Not shown: 995 closed ports
+        PORT    STATE SERVICE
+        21/tcp  open  ftp
+        22/tcp  open  ssh
+        444/tcp open  snpp
+        801/tcp open  device
+        999/tcp open  garcon
+
+        Nmap scan report for 192.168.10.111
+        Host is up (0.0016s latency).
+        Not shown: 996 closed ports
+        PORT     STATE SERVICE
+        21/tcp   open  ftp
+        22/tcp   open  ssh
+        88/tcp   open  kerberos-sec
+        1999/tcp open  tcp-id-port
+
+            192.168.1.101:
+                hint-13a.png
+                    Webservice running on port that is the sum of wannacry ports.
+                hint-13b.png
+                    There is a Hex-Encoded PCAP saved in the share folder.
+                    Extract it, decode with XXD, and then open it in wireshark.
+            
+            192.168.1.111:
+            hint 14a
+                There is a webservice running on the port that falls in the expanded extended cisco numbered acl range
+            hint 14b
+                Snort is running on this machine. Maybe you should take a look through its file locations.
+                
+
+
+13 PCAP FLAGS:
+To answer these 8 questions, you will need extract the capstone-analysis-HEX-Encoded.pcap file that you will need extract, decode with XXD, and open with Wireshark.
+-------------------------------------------------------------------------------
+Question 1:
+Which ip address initiated the attack against the FTP server?
+Provide the ip address in the x.x.x.x format and converted to Base64.
+-------------------------------------------------------------------------------
+Question 2:
+How many failed attempts to guess the FTP password?
+Provide number and converted to Base64.
+-------------------------------------------------------------------------------
+Question 3:
+What is the correct FTP password?
+Provide the exact password and converted to Base64.
+------------------------------------------------------------------------------
+Question 4:
+What is the system IP that was compromised?
+Provide the ip address in the x.x.x.x format and converted to Base64.
+-------------------------------------------------------------------------------
+Question 5:
+What is the FTP version?
+Provide the version number only and converted to Base64.
+-------------------------------------------------------------------------------
+Question 6:
+What is the name of the file taken by the attacker?
+Provide the filename exactly as shown and converted to Base64.
+-------------------------------------------------------------------------------
+Question 7:
+What was the message contained within the extracted file?
+Provide the message exactly as shown and converted to Base64.
+-------------------------------------------------------------------------------
+Question 8:
+What is the name of the file uploaded by the attacker?
+Provide the filename exactly as shown and converted to Base64.
+-------------------------------------------------------------------------------
+
+
+
+CAPSTONE 14 FLAG QUESTIONS::::::
+
+To answer these s questions, you will need to examine the Snort services running on this system.
+-------------------------------------------------------------------------------
+Question 1:
+How many rule files are on the system?
+Provide the number converted to Base64 as your answer.
+-------------------------------------------------------------------------------
+Question 2:
+How many of the rules are currently in use to match on traffic?
+Provide the number converted to Base64 as your answer.
+-------------------------------------------------------------------------------
+Question 3:
+Which rule will look for someone doing a null scan ?
+Provide only the filename as your answer (i.e. ‘file.rules’) and converted to Base64.
+-------------------------------------------------------------------------------
+Question 4:
+What is the exact Alert Message that is being triggered on the system?
+Convert the exact message as you see it and convert it to Base64 for your answer.
+---------------------------------------------------------------
+Question 5:
+From what IP is the attack coming from?
+Provide your answer in the x.x.x.x format and converted to Base64.
+-------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
