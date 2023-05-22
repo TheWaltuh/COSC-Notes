@@ -53,9 +53,13 @@
     #Port Enumeration
         #Find ports for each host that is online (nmap)
     #Port Interrogation
-        #Find what service is running on each open/avalable port
+        #Find what service is running on each open/avalable port 
 
-
+#NMAP
+    #Used for port discoverny/enumeration
+    #Has its own scripting engine
+        /usr/share/nmap/scripts
+    
 
 
 
