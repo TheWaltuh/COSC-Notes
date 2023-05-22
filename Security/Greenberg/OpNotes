@@ -1,1 +1,28 @@
-
+ssh -X student@10.50.39.165
+On jump box
+  for i in {1..254}; do(ping -c 1 192.168.28.$i | grep "bytes from" &) ; done
+ssh student@10.50.39.165 -L 3001:localhost:22 -NT
+ssh -p 3001 student@localhost -D 9050 -NT
+From LinOPS
+  proxychains nmap -v -sT -Pn -T4 <EACH_IP> 
+  proxychains nc 192.168.28.100 2222   # banner grab unusual ports
+  proxychains nmap -v -sT -Pn -T4 --script http-robots.txt.nse <EACH_IP> -p 80
+  proxychains nmap -v -sT -Pn -T4 --script http-enum.nse <EACH_IP> -p 80
+  proxychains nmap -v -sT -Pn -T4 --script discovery <EACH_IP> 
+  proxychains wget -r ftp://192.168.28.105   # grabbing ftp servers
+  proxychains wget -r http://<EACH_IP>  # grabbing all http servers
+ssh -p 3001 student@localhost -L 3002:192.168.28.111:8080 -NT
+Go to firefox
+localhost:3002
+vim webscrapper.py
+  change website to localhost:3002
+  change tag to h2
+  change class to text-white mb-4 name
+proxychains nmap -v -sT -Pn -T4 --script discovery 192.168.28.111 -p 8080
+  cat news.html | grep strong
+ssh -p 3001 student@localhost -L 3002:192.168.28.111:80 -NT
+Go to Firefox
+  localhost:3002/sites
+grep -ri strong .
+grep -ri Organization -C 1 .
+proxychains nmap -v -sT -Pn -T4 --script discovery 192.168.28.111 -p 8080
