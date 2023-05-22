@@ -2,14 +2,62 @@ GRRG-503-M
 9GbRCKc43SzluEG
 10.50.39.165
 
+!! Why do they not post the Student Facilitation Guide the day before class, the first day has too much information too fast and it is stressful. It would be less stressful if they just released the FG
+the night before, setting us up for success !!
+
 #############################################
 Penetration Testing Phases :: Network Scanning/Recon :: Exploitation Research
 #############################################
+--- Penetration Testing Phases ---
+* Penetration testing is used to expose vulnerabilities *
+Phase 1 - Mission Definition
+  mission goals and targets
+  scope of mission
+  Rules of Engagement (RoE)
+Phase 2 - Recon
+  gathering information from public sources
+Phase 3 - Footprinting
+  scanning or interaction with the target
+Phase 4 - Exploitation and Initial Access
+Phase 5 - Post-Exploitation
+  establish persistence
+  escalate privileges
+  cover tracks
+  exfilitrate data
+Phase 6 - Document Mission
 
+--- Scanning and Reconnaissance ---
+OSINT -  Open Source Intelligence
+  https://webbreacher.files.wordpress.com/2018/07/data-collection3.png?w=1136
+1. Host Discovery
+  Ping Sweep - to see what hosts are alive quickly (narrow the scope)
+2. Port Enumeration
+  Nmap Scan - will check to see what ports are available
+3. Port Interrogation
+  what service is running on each open port
+Hyper-Text Markup Language (HTML) - Markup language for browser interpretation
+NMAP Scripts 
+  /usr/share/nmap/scripts
+  nmap --script <filename>|<category>|<directory>
+  nmap --script-help
+  nmap --script-args <args>
+  nmap --script-args-file <filename>
+  nmap --script-help <filename>|<category>|<directory>
+  nmap --script-trace
 
-
-
-
+--- SCRAPE DEMO ---
+Run firefox from terminator
+  Google "Quotes to Scrape"
+    https://quotes.toscrape.com/
+sudo apt-get install python-lxml python-requests python3-pip -y
+vim webscrapper.py   # scrapes the website to grab indivudal tags and data from them
+  change class, tag, and website as needed
+--- PING SWEEP DEMO ---
+for i in {1..254}; do(ping -c 1 10.50.22.$i | grep "bytes from" &) ; done
+  IN-DEPTH (IP-ONLY) 
+    for i in {1..254}; do(ping -c 1 10.50.22.$i | grep "bytes from" &) ; done | awk '{print $4}' | sed 's/.$//'
+--- SCAN HOST DEMO ---
+nmap -v -sT -Pn -T4 <IP_Address>
 
 #############################################
 Web Exploitation (xss,cmd injection, etc)
