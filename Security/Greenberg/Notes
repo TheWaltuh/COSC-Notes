@@ -61,7 +61,9 @@ nmap -v -sT -Pn -T4 --script http-enum.nse <IP_Address> -p 80  # more aggressive
 nmap -v -sT -Pn -T4 --script discovery <IP_Address> # extracts as much information as possible on all open ports
 sudo apt-get install nikto
   nikto -h <IP_Address>
-
+--- VULNERABILITY DEMO ---
+Google Exploit DB
+  search term you want to find exploits on
 #############################################
 Web Exploitation (xss,cmd injection, etc)
 #############################################
