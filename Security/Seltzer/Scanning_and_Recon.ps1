@@ -59,8 +59,11 @@
     #Used for port discoverny/enumeration
     #Has its own scripting engine
         /usr/share/nmap/scripts
+            #dir with thousands of scripts in it
+            #will be given ones to use so we dont have to parse all them
     
-
+#Robots.txt file
+    #file for web pages that contains area not allowed to be scraped by people looking at web pages
 
 
 
