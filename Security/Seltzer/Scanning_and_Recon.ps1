@@ -61,7 +61,10 @@
         /usr/share/nmap/scripts
             #dir with thousands of scripts in it
             #will be given ones to use so we dont have to parse all them
-
+            nmap -v -sT -Pn -T4 --script http-robots.txt.nse 10.50.33.251 -p 80
+            nmap -v -sT -Pn -T4 --script http-enum.nse 10.50.33.251 -p 80
+            nmap -v -sT -Pn -T4 --script discovery 10.50.33.251
+            
 #Robots.txt file
     #file for web pages that contains area not allowed to be scraped by people looking at web pages
 
