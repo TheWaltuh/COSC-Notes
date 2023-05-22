@@ -40,10 +40,7 @@ NMAP Scripts
   /usr/share/nmap/scripts
   nmap --script <filename>|<category>|<directory>
   nmap --script-help
-  nmap --script-args <args>
-  nmap --script-args-file <filename>
   nmap --script-help <filename>|<category>|<directory>
-  nmap --script-trace
 
 --- SCRAPE DEMO ---
 Run firefox from terminator
@@ -56,8 +53,14 @@ vim webscrapper.py   # scrapes the website to grab indivudal tags and data from 
 for i in {1..254}; do(ping -c 1 10.50.22.$i | grep "bytes from" &) ; done
   IN-DEPTH (IP-ONLY) 
     for i in {1..254}; do(ping -c 1 10.50.22.$i | grep "bytes from" &) ; done | awk '{print $4}' | sed 's/.$//'
---- SCAN HOST DEMO ---
+--- NMAP DEMO ---
 nmap -v -sT -Pn -T4 <IP_Address>
+  nmap -v -sT -Pn -T4 <IP_Address> -p-  # deliberate scan for every port
+nmap -v -sT -Pn -T4 --script http-robots.txt.nse <IP_Address> -p 80  # in-depth on service on port 80 using nmap script http-robots.txt.nse
+nmap -v -sT -Pn -T4 --script http-enum.nse <IP_Address> -p 80  # more aggressive search for service on port 80 using nmap script http-enum.nse
+nmap -v -sT -Pn -T4 --script discovery <IP_Address> # extracts as much information as possible on all open ports
+sudo apt-get install nikto
+  nikto -h <IP_Address>
 
 #############################################
 Web Exploitation (xss,cmd injection, etc)
