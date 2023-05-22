@@ -64,6 +64,7 @@ sudo apt-get install nikto
 --- VULNERABILITY DEMO ---
 Google Exploit DB
   search term you want to find exploits on
+
 #############################################
 Web Exploitation (xss,cmd injection, etc)
 #############################################
