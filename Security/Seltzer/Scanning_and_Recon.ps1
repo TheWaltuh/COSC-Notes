@@ -7,7 +7,7 @@
 #Inital moves
     #ping sweep to quickly see what networks are alive
         #follow on with a nmap scan to learn about hosts discovered 
-
+    for i in {1..254}; do(ping -c 1 10.50.33.$i | grep "bytes from" &) ;done 
 #OSI (Open Source Intelegence)
     #Shit like Google, just using open internet sources to learn about target, or what have you
         #have to take information on internet with a grain of salt
