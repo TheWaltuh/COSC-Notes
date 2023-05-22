@@ -32,3 +32,15 @@
     #Document Mission
         #Document and report mission details
 
+#Pen Test Reporting
+    #Executive Summary
+        #nicer version sent up to shiney people to summarize what we did
+    #Technical Summary
+        #your op notes 
+
+
+
+
+
+
+
