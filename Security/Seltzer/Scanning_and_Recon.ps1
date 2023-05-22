@@ -65,6 +65,7 @@
             nmap -v -sT -Pn -T4 --script http-enum.nse 10.50.33.251 -p 80
             nmap -v -sT -Pn -T4 --script discovery 10.50.33.251
             
+            nikto -h <host>
 #Robots.txt file
     #file for web pages that contains area not allowed to be scraped by people looking at web pages
 
