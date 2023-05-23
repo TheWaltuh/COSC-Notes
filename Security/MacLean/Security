@@ -1,0 +1,13 @@
+grey box and ctfd
+MAGA-503-M
+ZjeB0Lk8MyOaMAQ
+ssh student@10.50.39.84
+password: password
+
+win-ops
+10.50.31.161
+password: password
+
+lin-ops
+ssh -X student@10.50.29.154
+password: password
