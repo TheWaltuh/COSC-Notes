@@ -69,13 +69,37 @@ Google Exploit DB
 Web Exploitation (xss,cmd injection, etc)
 #############################################
 
-
-
-
-
-
-
-
+xfreerdp /u:student /v:10.50.37.177 +glyph-cache +clipboard +dynamic-resolution
+Server - provides services
+Client - requests services
+HTTP Methods ::
+  Get - pulling information from a web server
+  Post - posting information to the web server
+  Head - etrieve meta-information about a resourceof a web server without transmitting actual data.
+  Put - replaces some already existing information on the web server
+HTTP Response Code ::
+  10X == Informational
+  2XX == Success
+  30X == Redirection
+  4XX == Client Error
+  5XX == Server Error
+User-Agent String - identifies the client's browser and operating system
+Cross-Site Scripting (XSS)
+  A form of attack where untrusted javascript is injected into a trusted website
+  This occurs when input from a user is displayed back without proper sanitization.
+    such as GET POST and PUT
+  Allows stealing of cookies, and session hijacking
+  Reflected  :: not persistent, reflects off the web server
+    When a user is tricked into clicking on a malicious link, the injected code travels to the vulnerable web site. The browser then executes the code because it came from a "trusted" server
+  Stored :: Actually stored on the web server, more persistent
+    Where the injected script is permanently stored on the target servers. The victim then retrieves the malicious script from the server when it requests the stored information
+--- JAVA SCRIPT DEMO ---
+1. Go to the web server   # <IP_Address>
+  You can use your nmap scripts to see what webpages are available such as http-robots.txt.nse and http-enum.nse
+2. Navigate to <IP_Address>/robots.txt   # shows you where you are allowed and not allowed to go
+3. Navigate to <IP_Address>/java   # Java script pages
+4. Open up DevConsole   # Hit F12
+  Here you are reading the Java code trying to understand it as if you were reading psuedocode
 
 #############################################
 Web Exploitation - SQL Injection
