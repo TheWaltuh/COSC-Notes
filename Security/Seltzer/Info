@@ -3,3 +3,5 @@ student           BotMK69TsIv7kS7         Gray Host IP - 10.50.35.217
                                           Lin Ops      - 10.50.23.114
                  
                  
+ssh student@gray -L 4444:192.168.28.111:80(website port)
+http://localhost:4444clear
