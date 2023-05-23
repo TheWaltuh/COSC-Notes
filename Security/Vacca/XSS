@@ -1,8 +1,12 @@
 ########################################
           Cross-Site Scripting
 ########################################
-
-
+https://owasp.org/www-community/attacks/xss/
+https://null-byte.wonderhowto.com/how-to/write-xss-cookie-stealer-javascript-steal-passwords-0180833/
+https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+https://owasp.org/www-community/attacks/Command_Injection
+https://www.acunetix.com/blog/articles/web-shells-101-using-php-introduction-web-shells-part-2/
+https://excess-xss.com/
 
 
 
