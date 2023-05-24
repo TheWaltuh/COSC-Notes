@@ -175,10 +175,27 @@ Server-Side Injection
 #############################################
 Web Exploitation - SQL Injection
 #############################################
+Structured Query Language (SQL) 
+COMMANDS ::
+  select  - extracts data
+  uinion  - combine results of two or more select statements
+  use  - selects database for use
+  update
+  delete
+  insert into 
+SQL Injection ::
+  Require valid SQL queries
+  Systems can be vulnerable dur to misconfiguration
+  Input field Sanitization
+    Unsanitized - can be found using single quotes; will return extra information, may show no errors
+    Sanitized - input fields are checked for items that might harm the databse
+    Validation - checks to ensure input meets criteria
 
-
-
-
+--- EXAMPLES ---
+SELECT * FROM table_name # selects all column values
+SELECT column1,column2,etc FROM table_name  # selects multiple columns from a given table
+SELECT column FROM table_name  # selects all column value even duplicates
+SELECT DISTINCT column FROM table_name  # shows only distinct colomn values
 
 
 
