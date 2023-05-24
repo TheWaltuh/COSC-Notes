@@ -14,6 +14,7 @@ proxychains nmap nmap -v -sT -Pn -T4 --script discovery 10.100.28.40 -p 80
     10.100.28.55
 ssh -p 3001 student@localhost -L 3003:10.100.28.40:4444 -NT
 SSH-KEYGEN through malcious upload
+ssh-keygen -t rsa -b 4096
 ssh -p 3003 student@localhost
 ssh -p 3003 billybob@localhost -D 9050 -NT
   proxychains nmap -Pn 10.100.28.55 -T4
