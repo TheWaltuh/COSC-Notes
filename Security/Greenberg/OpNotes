@@ -53,4 +53,34 @@ firefox
 7. Under Register 
   submit a baseline in which it will give you a baseline query
   In the Username box submit
-    hackerdude1', 'password', 'doesitmatter', 3) 
+    hackerdude1', 'password', 'doesitmatter', 3)
+
+#############################
+     REVERSE ENGINEERING
+#############################
+
+
+if int var3 == 146
+open registry key HKEY 2147483649\Software\Mircosoft\Keyed3 0, 983103 == local_20c
+local_20c terminated string 0, DWORD pointer 0 == local_218,local_208,local_214
+close local_20c
+C:\Users\Public\Documents\Secret == local_210
+local_210 and local_108
+String var1 = length of string local_108
+if not equal to 0
+      subtract strings local_208 and local_108
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
