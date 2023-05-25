@@ -1,0 +1,104 @@
+
+Day 4
+
+
+Reverse Engineering!!!
+
+
+
+
+%rax - first return register
+%rbp - the base pointer that keeps track of the base of the stack
+%rsp - the stack pointer that points to the top of the stack
+
+
+INSTRUCTION POINTERS
+64 RIP  
+32 EIP  
+16 IP   
+
+instructions:
+        
+    MOV    move source to destination
+    PUSH   push source onto stack
+    POP    Pop top of stack to destination
+    INC    Increment source by 1
+    DEC    Decrement source by 1
+    ADD    Add source to destination
+    SUB    Subtract source from destination
+    CMP    Compare 2 values by subtracting them and setting the %RFLAGS register. ZeroFlag set means they are the same.
+    JMP    Jump to specified location
+    JLE    Jump if less than or equal
+    JE     Jump if equal
+
+
+Reverse Engineering workflow:
+
+static
+Behavioral
+Dynamic
+Disassembly
+Document Findings
+
+Make sure you reverse engineer software in the proper environment.
+
+
+
+DEMO Notes:::
+
+main:
+    mov rax, 16 # move the value 16 into the rax register.
+    push rax    # put the rax register onto the stack
+    jmp mem2    # jump to the code block called mem2
+    
+mem2:
+    ##CODE BLOCK##
+    
+     
+    
+
+Ghidra DEMO notes:
+    
+search for strings in the executable.
+anazlyze the function with those strings.
+decode variables and functions, convert hex to decimal.
+
+
+
+Patching:
+    in ghidra, you can patch instructions.
+    more from gunny later...
+    
+    
+
+
+
+ACTIVITY NOTES
+
+
+T1
+Hostname: web.site.donovia
+IP: 192.168.28.111
+Jump Box = 10.50.34.91
+OS: unknown
+Creds: comrade::StudentWebExploitPassword
+Last Known SSH Port: unknown
+PSP: Unknown
+Malware: Unknown
+Action: Extract approved binaries under directory titled "longTermStorage".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
