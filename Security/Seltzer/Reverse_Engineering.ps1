@@ -65,3 +65,36 @@
         #Create signatures and indicators of compromise to detect the binary in the future
         #Document and save the tools, scripts, code, methods used to analyze the software to better analyze related software in the future
         #Document proof of concept for exploitation of the binary if it is found to be vulnerable and a potential target. For example, if the binary is running on an adversary network, or if a friendly network may be using the binary
+
+#Poertable Executable Patching / Software Analysis
+    #Perform DEBUGGING and DISASSEMBLY
+    #Find the SUCCESS/FAILURE
+    #Adjust INSTRUCTIONS
+    #Apply Patch and Save
+    #Execute Patched Binary
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
