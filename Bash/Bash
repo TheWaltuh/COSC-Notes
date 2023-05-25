@@ -1,0 +1,849 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NOTES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+use man pages
+when in doubt, -type f it out
+
+[ALIAS]
+alias vim='nano'
+	creates alias vim for nano, everytime you use vim, it goes to nano
+unalias vim
+	unalias vim so it no longer resolves to nano
+alias egrep='egrep --color=auto'
+	best use of aliases to include common options of cmd
+\egrep
+	negates the alias to run egrep without --color=auto option
+
+--rules--
+Aliases are NOT persistent by default
+Alias names CANNOT use / $ `` = or any of the shell metacharacters or quoting characters
+
+
+
+
+[SORT]
+
+sort - sort lines of text files
+
+sort
+	sort content according to position on the ASCII table
+sort -n
+	sort content numerically
+sort -u
+	sort content uniquely
+sort -nr
+	sort content numerically reversed
+sort -t'+'
+	specify field separator '+'
+
+-example-
+cat .sort_uiq.ex | sort | uniq -c
+	sort the file then counts it
+cat .sort_uiq.ex | sort | uniq -c | sort -nr
+	sorts, counts, then sorts again by the counts
+sort -u = sort | uniq
+sort -t',' -k2nr sorty.txt
+	-t is deliminator, -k is colum, n is for numerical sorting, r is or reversing 
+	(high to low)
+
+
+
+
+[UNIQ]
+
+uniq - report or omit repeated lines
+
+uniq
+	select content uniquely, must already be sorted
+uniq -c
+	select content uniquely with a count reading
+uniq -u
+	display only the unique lines (lines without duplicates)
+uniq -d
+	Display onlythe duplicate lines (opposite of -u)
+
+
+
+
+[AWK]
+
+awk - pattern scanning and process lanuages
+
+Syntax:
+awk [options] 'selection_criteria {action}' input-file > output-file
+
+-examples-
+
+awk -F: '{print $1}'
+	displays 1st field delimited by a ":"
+awk '{print $2}'
+	displays 2nd field delimited automatically by white space
+awk -F: '($3 == 0) {print $1}' etc/passwd
+	if the 3rd field is equal to 0, print the first field in etc/passwd
+awk -F: '/root/{print $1}' /etc/password
+	/root/ is a pattern search for a string. looks for root string and prints the first 	field seperated by :, Can search for multiple strings - '/root|dan|jones/'
+awk -F: '/games/,/news/{print $1}' /etc/passwd
+	prints a section starting from games and ending with news
+egrep "bin/false|/bin/bash" /etc/passwd | awk -F: '(($7!="/bin/false")){print}'
+	condition that checks field 7, if field 7 is not equal to /bin/false --> print it
+echo "Python is better than Bash" | awk '{$1="Bash";$NF=Python;print}'
+	switches field 1 with Bash and the last field with Python
+SUBJECT=Leaders
+VERB=inspire
+OBJECT=people
+echo "Managers manage equipment" | awk -v whatever=$SUBJECT -v you=$VERB -s want=$OBJECT '{$1=whatever;$2=you;$3=want;print}'
+	-v allows you to import variables (have to import them before using them)
+head /etc/passwd | cat -n | awk 'NR==10{print}'
+	prints the 10th line in etc/passwd, NR is the total record number
+
+$NF is a predefined variable whose value is the number of fields in the current record. Will always be the last field in a record
+by default awk delimites by white space
+OFS (Output Field Seperator) = seperates the fields by whatever you set it equal too in the output of the command, ie OFS = "-" --> MAR-29-2023
+$0 prints the entire line (basically {print})
+NF (number fill) - prints only lines that have that many fills
+ie nmap localhost | awk 'NF == 3 {print}'
+FS = -F ({FS=}) ({FS=OFS="/"})
+
+
+
+
+[SED]
+
+sed - stream editer for filtering and transforming text
+Syntax
+sed (-i) 'expression' file
+sed 's/abc/123/'
+	replace first occurrence of abc in every line with 123
+	s = substituting
+sed 's/abc/123/g'
+	replace every occurrence of abc in every line with 123
+	g = global
+sed '/sus/d'
+	delete the sus lines. Output everything else
+sed -i '<expression>' file.txt
+	-i = "sed inplace", to make changes permanet in file.txt
+
+-examples-
+
+egrep "student" /etc/passwd | sed 's/student/instructor/'
+	replaces the first instance of student with instructor in the line
+egrep "student" /etc/passwd | sed 's/student/instructor/g'
+	replaces every instance of student with instructor in the line
+sed -i 's/student/instructor/g' passwd.bak
+	changes every instance of student to instructor permanately in the file
+egrep instructor password.bak | sed '-e s/student/instructor/g -e s/1001/1337/g'
+egrep instructor password.bak | sed 's/student/instructor/g' | sed 's/1001/1337/g'
+egrep instructor password.bak | sed 's/student/instructor/g;s/1001/1337/g'
+	change multiple things in a line
+egrep instructor password.bak | sed 's/\/bin\/bash/\/bin\/better/'
+egrep instructor password.bak | sed 's+/bin/bash+/bin/better+'
+only works with substitution operation (+ can be anything thats not apart of your pattern)
+	change paths value
+egrep "root|student" /etc/passwd | sed '/root/d'
+egrep "root|student" /etc/passwd | sed 's/\/bin\/bash/\/bin\/better/'
+	deleteing values
+head /etc/passwd | cat -n | sed -n 10p
+	prints the 10th line
+head /etc/passwd | cat -n | sed 10p
+	prints everything up to the 10th line
+head /etc/passwd | cat -n | sed -n '/root/,/sys/p'
+	prints everything between root line and sys line
+
+
+
+
+[CONDITIONALS]
+-e - file exists?
+-f - file exist and is a regular file?
+-d - file exists and is a directory?
+== - strings, is equal to strings
+!= - strings, is NOT equal to
+-eq - numbers, is equal to
+
+[If statments]
+if [[ condition ]]; then
+	command
+elif [[ condition ]]; then
+	commands
+else
+	commands
+fi
+
+if its letters use symbols (== or !=)
+if its numbers use letters (-eq, -ne)
+
+-examples-
+if [[ banana == apple ]]; then
+echo "banana IS an apple"
+else						<-- right
+echo "banana is NOT an apple";
+fi
+= banana is NOT an apple
+
+if [[ banana -eq apple ]]; then
+echo "banana IS an apple";
+else						<-- wrong
+echo "banana is NOT an apple";
+fi
+= banana IS an apple
+
+[SUBSTITUTING the output of a command to a variable or another command]
+
+basic syntax examples:
+VAR=$(commands) or VARS=$(command|command|command...)
+command $(command)
+VAR=`command` (Legacy way using backticks (`))
+
+-examples-
+proc=$(ps -elf) Assign the output of ps -elf to the variable $proc
+echo "Today is $(date)" Substitute output of date command into echo
+VARS=$(ls|wc -l)
+echo "There is `ls | wc -l` files in this directory"
+echo "$var" to keep format
+
+
+
+
+[FUNCTIONS]
+-Used to break down code into more managable blocks
+-Series of commands executed using a single command (calling the function)
+-Only runs of you call it
+-Can contain variables, loops, accept parameters, and return a value
+-There are a few different formats/styles for declaring a function:
+
+function start() {
+echo "Does this function work"
+}
+function mid {
+echo "middle"
+}
+hello_world() {
+echo Hello World!
+}
+
+start <-- the calling of the function
+
+
+example
+function getuserchoice() {
+echo "Make a choice [1,2,3]:"
+read userchoice                <-- allows user input
+case $userchoice in            <-- allow for a comparison
+(1) echo one ;;
+(2) echo two ;;
+(3) echo three ;;
+(*) echo other ;;
+esac				<-- exits the comparison
+}
+
+get userchoice			<-- calls the function
+
+
+folder() {
+if [ ! -s $1 ]; then 		<-- if $1 (whats being passed into it) does not exist then
+mkdir $			<-- make it
+else
+echo "STAHP"			<-- if it exist then say STAHP
+#This means it errored
+return 1			<-- return 1 means operation not permitted
+fi
+}
+
+folder $1
+
+
+sub1 () {
+name="John"
+echo $name			<-- will pass John
+}co
+sub2 () {
+name="john"
+echo "My name is $name" 	<-- since were using "" it will pass the value of $name instead
+}				    of $name
+
+sub3 () {
+name="John
+echo 'my name is $name'	<-- will pass my name is $name because were using ''
+}
+
+sub4 () {
+name="John"
+echo "My name is $nameny5"	<-- does pass anything because that variable was never assigned
+echo "My name is ${name}n5"	<-- variable was called properly with n5 outside, so it gets
+}				    added onto the variable (Johnn5)
+
+sub5 () {
+name="John"
+echo ${name:0:2}		<-- grab characters 0-2 (prints out the first 2 character)
+}
+
+sub6 () {
+name="John"
+echo 'The value of $name is '$name' :)' <-- prints out: The value of $name is John :)
+}
+
+
+
+
+[VARIABLES]
+
+$# - The number of arguments supplied in a script
+$0 - The filename of the current script
+$1-$9 - Stores the names of the first 9 arguments or can be used as the arguments positions
+$* - Stores al the command line arguments by joining them together
+$? - Specifies the exit status of the last command or the most recent execution process
+$! - Shows the id of the last background command
+$$ - PID of current shell
+$- - Shows the options set used in the current bash shell
+$@ - stores the list of arguments as an array
+
+
+
+
+[FOR LOOPS]
+
+for item in (list)
+do
+(commands)
+done
+
+for i in {1..10}
+do
+echo $i
+done
+
+for NAME in Jackman MacLean Rhodes
+do
+echo $NAME
+done
+
+names='Walker Vacca Rudnick'
+for NAME in $names			<-- variable substitution
+do
+echo $NAME
+done
+
+for USER in $(awk -F: '{print $1}' /etc/passwd)	<-- using a file (idkngl)
+do
+echo $USER
+done
+
+for NUMBER in {0..100..10} 		<-- {start..stop.step} can count up and down
+do
+echo $NUMBER
+done
+
+for ((x=0;x<=5;x++))			<-- ((set value;set condition;set change)) - counter
+do
+echo "\$x is equal to $x
+done
+
+start=1
+end=5
+for ((i=start;i<=end;i++))		<-- use variables for counter
+do
+echo $i
+done
+
+list - can be a series of strings separated by spaces, a range of numbers, and output of a 
+command, an array, and so on
+
+break - terminates the current loop and passes program  control to the statement that follows 
+the terminated statement. Usually terminates a loop when a certain conditions met
+
+if [[ <condition> ]];then
+break
+fi
+
+continue - exits the current iteration of a loop and passes program control to the next 
+iteration of a loop
+
+if [[ <condition> ]];then
+continue
+fi
+
+
+
+
+[WHILE AND UNTIL LOOPS]
+
+while loop - used to perform a given set of commands an unknown number of times as long as the 
+given condition is true
+
+counter=1
+while [[ $counter -le 10 ]]		<-- while counter is less than 10
+do
+echo $counter				<-- echo counter
+((counter++))				<-- counter + 1
+done
+echo "All done!"
+
+until loop - used to execute a given set of commands as long as the given condition is false
+
+counter=1
+until [[ $counter -gt 10 ]]		<-- until counter is greater than 10
+do
+echo $counter				<-- echo counter
+((counter++))				<-- counter + 1
+done
+echo "All done!"
+
+
+------------Base Commands------------
+mkdir - makes directory
+touch - creates a file
+ls - list the contents of a directory
+rmdir - removes a directory
+rm - removes a file
+cp - copy's a file
+mv - moves a file
+cat, more, less - allows you to read a file, one screen at a time
+find - finds what you are looking for in a directory
+grep - grabs what you are looking for
+brace expansion - makes multiple things using braces (see examples)
+top - displays system performance information
+ps - list running processes
+free - gives insight into the memory usage in human-readable format
+kill - kill command with number
+killall - kill all processes that you started
+cut - basically .split()
+-exec command chaining
+>, >> output redirection, append
+alias - view all aliases
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CHALLENGES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----[DAY 1]-----
+
+$ mkdir /var/log/{auth,syslog,dmesg}_log
+Results in:
+$ mkdir /var/log/auth_log /var/log/syslog_log /var/log/dmesg_log
+Activity: Using Brace-Expansion, create the following directories within the $HOME directory:
+
+	mkdir {1123,1134,1145,1156}
+
+
+Use Brace-Expansion to create the following files within the $HOME/1123 directory. You may 
+need to create the $HOME/1123 directory. Make the following files, but utilze Brace Expansion 
+to make all nine files with one touch command.
+
+	mkdir $HOME/1123
+	cd $HOME/1123
+	touch {1..5}.txt {6..9}~.txt
+or
+	touch $HOME/1123/{1..5}.txt {6..9}~.txt
+
+
+Using the find command, list all files in $HOME/1123 that end in .txt.
+
+	find $HOME/1123/*.txt
+
+
+List all files in $HOME/1123 that end in .txt. Omit the files containing a tilde (~) 
+character.
+
+	find -type f -iname "*.txt" -not -iname "*~.txt"
+
+
+Copy all files in the $HOME/1123 directory, that end in ".txt", and omit files containing a 
+tilde "~" character, to directory $HOME/CUT.
+
+	find -type f -iname "*.txt" -not -iname "*~.txt" -exec cp {} $HOME/CUT \;
+	
+
+Using ONLY the find command, find all empty files/directories in directory /var and print out 
+ONLY the filename (not absolute path), and the inode number, separated by newlines.
+
+	find /var -empty -printf '%i %f\n'
+	
+
+Using ONLY the find command, find all files on the system with inode 4026532575 and print 
+only the filename to the screen, not the absolute path to the file, separating each filename 
+with a newline. Ensure unneeded output is not visible.
+
+	find / -inum 4026532575 -printf '%f\n'
+
+
+Activity:
+
+1) Using only the ls -l and cut Commands, write a BASH script that shows all filenames with 
+extensions ie: 1.txt, etc., but no directories, in $HOME/CUT.
+2)Write those to a text file called names in $HOME/CUT directory.
+3)Omit the names filename from your output.
+
+	touch names
+	ls -l $HOME/CUT | cut -d . -f 1-2 -s | cut -d: -f2 -s | cut -d' ' -f2 -s > $HOME/CUT/
+	names
+or
+	ls -l $HOME/CUT | cut -d . -f 1-2 -s | cut -d: -f2 -s | cut -d' ' -f2 -s > $HOME/CUT/
+	names
+	
+
+-----[DAY 2]-----
+
+Write a basic bash script that greps ONLY the IP addresses in the text file provided (named 
+StoryHiddenIPs in the current directory); sort them uniquely by number of times they appear.
+
+	grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" StoryHiddenIPs | sort | uniq -c | sort -nr
+
+Using ONLY the awk command, write a BASH one-liner script that extracts ONLY the names of all 
+the system and user accounts that are not UIDs 0-3.
+Only display those that use /bin/bash as their default shell.
+The input file is named $HOME/passwd and is located in the current directory.
+Output the results to a file called $HOME/SED/names.txt
+
+	awk -F: '($3>3 && $7=="/bin/bash"){print $1}' passwd > $HOME/SED/names.txt
+
+Find all dmesg kernel messages that contain CPU or BIOS (uppercase) in the string, but not 
+usable or reserved (case-insensitive)
+Print only the msg itself, omitting the bracketed numerical expressions ie: [1.132775]
+
+	dmesg | egrep "CPU|BIOS" | egrep -v "usable|reserved" | cut -d"]" -f2- | cut -f1-
+
+Write a Bash script using "Command Substitution" to replace all passwords, using openssl, 
+from the file $HOME/PASS/shadow.txt with the MD5 encrypted password: Password1234, with salt: 
+bad4u
+Output of this command should go to the screen/standard output.
+You are not limited to a particular command, however you must use openssl. Type man openssl 
+passwd for more information
+
+	PASS=$(openssl passwd -salt bad4u -1 Password1234)
+	cat $HOME/PASS/shadow.txt | awk -F: -v "awk_var=$PASS" 'BEGIN {OFS=":"} {$2=awk_var} 	{print}'
+
+Using ONLY sed, write all lines from $HOME/passwd into $HOME/PASS/passwd.txt that do not end 
+with either /bin/sh or /bin/false.
+
+	sed '/\/bin\/sh/d;/\/bin\/false/d' $HOME/passwd > $HOME/PASS/passwd.txt
+
+
+-----[DAY 3]-----
+
+Using find, find all files under the $HOME directory with a .bin extension ONLY.
+Once the file(s) and their path(s) have been found, remove the file name from the absolute path 
+output.
+Ensure there is no trailing / at the end of the directory path when outputting to standard 
+output.
+You may need to sort the output depending on the command(s) you use. Have each path displayed 
+only once.
+
+	find $HOME -iname "*.bin" | rev | cut -d/ -f2- | rev | sort -u
+	find $HOME -iname "*.bin" -printf '%h/n' | sort -u
+	find $HOME -iname "*.bin" | awk 'BEGIN{FS=OFS="/"}{NF--;print}' | sort -u
+	find $HOME -iname "*.bin" | sed 
+
+Write a script which will copy the last entry/line in the passwd-like file specified by the $1 
+positional parameter
+Modify the copied line to change:
+User name to the value specified by $2 positional parameter
+Used id and group id to the value specified by $3 positional parameter
+Home directory to a directory matching the user name specified by $2 positional parameter under 
+the /home directory (i.e. if the $2 was 'Chris', the new line would have /home/Chris as its home 
+directory)
+The default shell to `/bin/bash'
+Append the modified line to the end of the file
+games:x:5:60::/usr/games:/usr/sbin/nologin
+devildog:x:9001:9001::/home/devildog:/bin/bash
+
+	erm=$2
+	um=$3
+
+	tail -1 $1 | awk -F: -v "name=$erm" -v "num=$um" 'OFS=":" {$1=name}{$3=num}{$4=num}{$6="/
+	home/"name""}{$7="/bin/bash"}{print}' >> $1
+
+Find all executable files under the following four directories:
+/bin
+/sbin
+/usr/bin
+/usr/sbin
+Sort the filenames with absolute path, and get the md5sum of the 10th file from the top of the list.
+
+	a=$(find /bin /sbin /usr/bin /usr/sbin -type f -executable | sort | sed -n '10p')
+	md5=($(md5sum $a))						      sed '10q;d'
+	echo $md5							      head | tail -1
+
+	a=$(find /bin /sbin /usr/bin /usr/sbin -type f -executable | sort | sed -n '10p')
+	md5=$(md5sum $a)
+	echo $md5 | awk '{print $1}'
+	
+	md5sum $(find /bin /sbin /usr/bin /usr/sbin -type f -executable | sort | sed -n '10p') | 
+	cut -d' ' -f1
+	
+Using any BASH command complete the following:
+
+Sort the /etc/passwd file numerically by the GID field.
+For the 10th entry in the sorted passwd file, get an md5 hash of that entry’s home directory.
+Output ONLY the MD5 hash of the directory's name to standard output.
+
+Note: Since we are dealing with a directory, which is both a string and an absolute path, it matters how we get the md5sum of our intended output.
+
+[chris@localhost ~]$ md5sum /home/chris
+md5sum: /home/chris: Is a directory
+In the above example, an error is returned because we are applying the directory /home/chris as the first argument of the above command. Since /home/chris is a directory, likely with additional files within it, we cannot assign this as an argument. However, we have the string /home/chris as STDIN for a command, as seen in the below example.
+
+[chris@localhost ~]$ echo "/home/chris" | md5sum
+fd1a05901ce7150f82abd7f7d76f2827  -
+
+	a=$(sort -t':' -k4n /etc/passwd | sed -n '10p' | awk -F: '{print $6}')
+	echo $a | md5sum | cut -d" " -f1
+	
+	a=$(sort -t':' -k4n /etc/passwd | sed -n '10p' | awk -F: '{print $6}')
+	echo $a | md5sum | awk '{print $1}'
+	
+Write a script which will find and hash the contents 3 levels deep from each of these 
+directories: /bin /etc /var
+Your script should:
+Exclude file type named pipes. These can break your script.
+Redirect STDOUT and STDERR to separate files.
+Determine the count of files hashed in the file with hashes.
+Determine the count of unsuccessfully hashed directories.
+Have both counts output to the screen with an appropriate title for each count.
+
+	a=$(find /bin /etc /var -maxdepth 3 ! -type p)
+
+	for i in $a
+	do
+	md5sum $i 2>> fileerr.txt 1>> fileout.txt
+	done
+
+	b=$(sed -n '$=' fileout.txt)
+	c=$(grep -i "directory" fileerr.txt|sed -n '$=')
+	echo "Successfully Hashed Files: $b"
+	echo "Unsuccessfully Hashed Directories: $c"
+
+
+-----[DAY 4]-----
+
+Design a script that detects the existence of directory: $HOME/.ssh
+
+Upon successful detection, copies any and all files from within the directory $HOME/.ssh to 
+directory $HOME/SSH and produce no output. You will need to create $HOME/SSH.
+Upon un-successful detection, displays the error message "Run ssh-keygen" to the user.
+
+	mkdir $HOME/SSH
+	if [[ -d $HOME/.ssh ]]
+	then
+	cp -r $HOME/.ssh/* $HOME/SSH
+	else
+	echo "Run ssh-keygen"
+	fi
+
+Write a script that determines your default gateway ip address. Assign that address to a 
+variable using command substitution.
+NOTE: Networking on the CTFd is limited for security reasons. ip route and route are emulated. 
+Use either of those with no arguments/switches.
+Have your script determine the absolute path of the ping application. Assign the absolute path 
+to a variable using command substitution. HINT: man which
+Have your script send six ping packets to your default gateway, utilizing the path discovered in 
+the previous step, and assign the response to a variable using command substitution.
+Evaluate the response as being either successful or failure, and print an appropriate message to 
+the screen.
+
+Pseudo Example:
+
+A=$(command_1)
+B=$(command_2)
+C=$($A command_3 $B)
+if [[ "$" <condition> "$" ]]; then
+   echo "successful";
+else
+   echo "failure";
+fi
+
+	IP=$(ip route | awk '/default/ { print $3 }')
+	PING=$(which ping)
+	RES=$($PING -c 6 $IP)
+	if [[ $RES =~ 100% ]]
+	then
+	echo "failure"
+	else
+	echo "successful"
+	fi
+
+Create the following files in a new directory you create $HOME/ZIP:
+file1 will contain the md5sum of the text 12345
+file2 will contain the md5sum of the text 6789
+file3 will contain the md5sum of the text abcdef
+Create a zip file containing the three files above, without being stored inside a directory in 
+the zip file. Name the zip file $HOME/ZIP/file.zip
+HINT: "Junk" the paths
+Utilize tar on $HOME/ZIP/file.zip to archive it into a file called $HOME/ZIP/file.tar.gz which 
+should not include directories. Use the gzip option in tar, DO NOT use a seperate gzip binary.
+
+	mkdir $HOME/ZIP
+	touch file{1..3}
+	cd $HOME/ZIP
+	echo 12345 | md5sum | cut -d" " -f1 > file1
+	echo 6789 | md5sum | cut -d" " -f1 > file2
+	echo abcdef | md5sum | cut -d" " -f1 > file3
+	zip file.zip file1 file2 file3
+	tar -czf file.tar.gz file.zip
+
+Utilize Bash looping to iteratively create each user account and their directories.
+
+Design a basic FOR Loop that iteratively alters the file system and user entries in a passwd-
+like file for new users: LARRY, CURLY, and MOE.
+Each user should have an entry in the $HOME/passwd file
+The userid and groupid will be the same and can be found as the sole contents of a file with the 
+user's name in the $HOME directory (i.e. $HOME/LARRY.txt might contain 123)
+The home directory will be a directory with the user's name located under the $HOME directory 
+(i.e. $HOME/LARRY)
+NOTE: Do NOT use shell expansion when specifying this in the $HOME/passwd file.
+The default shell will be /bin/bash
+The other fields in the new entries should match root's entry
+Users should be created in the order specified
+
+	users=("LARRY CURLY MOE")
+	for i in $users
+	do
+	    mkdir $HOME/$i
+	    id=$(cat $HOME/${i}.txt)
+	    bebo=$(head -1 $HOME/passwd | awk -F: -v name=$i -v num=$id 'OFS=":" {$1=name}
+	    {$3=num}{$4=num}{$6="$HOME/"name}{$7="/bin/bash"}{print}')
+	    echo $bebo >> $HOME/passwd
+	done
+
+Write a bash script that will find all the files in the /etc directory, and obtains the octal 
+permission of those files. The stat command will be useful for this task.
+Depending how you go about your script, you may find writing to the local directory useful. What 
+you must seperate out from the initial results are the octal permissions of 0-640 and those 
+equal to and greater than 642, ie 0-640 goes to low.txt, while 642 is sent to high.txt.
+Have your script uniquely sort the contents of the two files by count, numerically-reversed, and 
+output the results, with applicable titles, to the screen. An example of the desired output is 
+shown below.
+NOTE: There is a blank line being printed between the two sections of the output below.
+
+EXAMPLE OUTPUT:
+
+Files w/ OCTAL Perm Values 642+:
+    424 777
+    365 644
+     15 755
+  
+Files w/ OCTAL Perm Values 0-640:
+      4 640
+      3 440
+      2 600
+      1 444
+
+	for i in $(find /etc -type f)
+	do
+	stat -c '%a' $i >> file1.txt
+	done
+	for line in $(cat file1.txt)
+	do
+	if [[ $line -ge 642 ]]
+	then
+	echo $line >> high.txt
+	elif [[ $line -le 640 ]]
+	then
+	echo $line >> low.txt
+	fi
+	done
+	echo "Files w/ OCTAL Perm Values 642+:"
+	cat high.txt | sort | uniq -c | sort -nr
+	echo ""
+	echo "Files w/ OCTAL Perm Values 0-640:"
+	cat low.txt | sort | uniq -c | sort -nr
+
+
+-----[DAY 5]-----
+
+Create a script that will perform the following actions:
+
+Replace every instance of 'cat' in "infile" with 'dog'.
+Replace every instance of 'Navy' in "infile" with 'Army'.
+Replacements are case-sensitive.
+Write the output to the file specifed by the variable 'outfile'.
+
+	infile=$1
+	outfile=$2
+	sed 's/cat/dog/g' $infile > $outfile
+	sed -i 's/Navy/Army/g' $outfile
+
+
+Create a script that will print to standard output all user names from the /etc/passwd file.
+
+	cat /etc/passwd | awk -F: '{print $1}'
+
+
+Create a script that will perform the following actions:
+
+Print to standard output all usernames from the file path specified by the parameter filename sorted ascending numerically by user id.
+The file will be in the format of /etc/passwd
+
+	filename=$1
+	cat $filename | sort -t':' -k3n | awk -F: '{print $1}'
+	
+Create a script that will perform the following actions:
+
+Print to standard output the total number of files in the directory specified by dirname.
+If the directory does not exist, print 'Invalid Directory'
+The count excludes the '.' and '..' pseudo-directories.
+
+	dirname=$1
+	if [[ -d $dirname ]]; then
+	find . -maxdepth 1 -type f | wc -l
+	else
+	echo "Invalid Directory"
+	fi
+
+Create a script that will perform the following actions:
+
+Delete all files contained in the directory specified by dirdel
+Also delete the directory specified by dirdel
+
+	dirdel=$1
+	rm -rf $dirdel
+
+Create a script that will perform the following actions:
+
+Create a file specified by the name newfile.
+Set the file modified date to the value specified in filedate and time to '1730'. NOTE: filedate contains only a valid date in YYYYMMDD format, not a time.
+
+	newfile=$1
+	filedate=$2
+	touch $newfile
+	touch -t ${filedate}1730 $newfile
+
+Read the file specified by fname and perform an action based on the contents of the file:
+
+If contents are 0 to 9, print "single digit" to standard output.
+If contents are 10 to 99, print "double digit" to standard output.
+If contents are 100 to 999, print "triple digit" to standard output.
+Otherwise, print "Error" to standard output.
+
+	fname=$1
+	num=$(cat $fname)
+	if [ $num -ge 0 ] && [ $num -le 9 ]
+	then
+	echo "single digit"
+	elif [ $num -ge 10 ] && [ $num -le 99 ]
+	then
+	echo "double digit"
+	elif [ $num -ge 100 ] && [ $num -le 999 ]
+	then
+	echo "triple digit"
+	else
+	echo "Error"
+	fi	
+
+Copy all lines from the file specified by src variable to the file specified by dst variable which DO NOT contain the text specified by match variable.
+
+	grep -v "$match" $src > $dst
+	
+Terminate the process that has the randomly assigned name specified by procname variable. procname does not contain path information.
+
+	procname=$1
+	val=$(pgrep $procname)
+	kill $val
+	
+	pkill $procname
+	
+Create a sorted full-path list of all files in the directory dirpath that were modified within the previous day. Directories should not be included in the output. Print the list to the screen, one item per line.
+
+NOTE: The full paths to files should be in your output. (i.e. /etc/passwd would be included)
+
+NOTE: Directory entries should not be included. (i.e. /etc would NOT be included)
+
+	find $dirpath -type f -mtime -1 -ls | awk -F" " '{print $NF}' | sort
