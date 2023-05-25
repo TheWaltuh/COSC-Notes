@@ -1,0 +1,1401 @@
+---------------------------------------------[NOTES]---------------------------------------------
+
+power shell is case insensitive
+cmdlets - writen in C#
+functions - written in PS
+external commands - like ping, ipconfig
+
+order of ps:
+1 Alias
+2 functions
+3 cmdlets
+4 path enviroment variable
+
+-ExpandProperty - gives just the value as a string
+
+--------------------------------------------[COMMANDS]-------------------------------------------
+
+get-command - gets all available commands in powershell
+Get-Verb - shows all available verbs for powershell commands
+get-command -verb <verb> - displays all ps commands that have the verb <verb>
+get-command -noun <string> - displays all powershell commands that have the noun <string>
+get-process - displays all running processes (can also use tasklist)
+get-help - kinda like the man pages
+update-help -force -ErrorAction silentlycontinue - updates the documentation for powershell
+get-help <command> -examples - shows examples of command in use
+get-help <command> -Detailed - shows syntax,description,parameter info and examples of a command
+get-help <command> -full - full documentation for command
+get-help <string> - finds commands using documentation
+get-help about_* - list documentation for powershell concepts
+get-help <command> -online - opens documentation in web browser
+get-help <command> -showwindow - opens documents in a searchable window
+get-alias -name <alias> - gives command that the alias is linked to
+get-alias -definition <command> - gives aliases that are linked to a command
+get-childitem alias: - list contents of alias PSDrive
+$alias:<alias> - displays command links to alias
+set-alias <name> <definition> - creates new alias
+remove-item alias:<alias> - deletes alias
+get-member - get members of an objects
+<command string> | get-member - get the member of the output of the command string
+get-member -inputobject <object> get the member of the object
+<command string> | get-member -membertype <member type> displays just the specific member type 
+				for the object that is the output of the command string
+Get-Host | Select-Object version
+(Get-Host).Version
+pwsh
+
+
+-----[PIPELINE]-----
+
+
+
+--[FORMAT PIPELINE OUTPUT]--
+
+<command string> | Format-Table - output a table with default properties
+<command string> | Format-List - output a list with default properties
+<command string> | Format-Wide - output a wide table with default pproperties
+<command string> | Format-Custom - output a custom format with default properties
+<command string> | Format-Table -Property <property>,<property> - format output with chosen prop
+
+---[FUNCTIONS]---
+
+function <name> {
+	<code to execute> 			<-- Basic Syntax for a function
+}
+
+
+function fruit-host {
+	write-host "apple"
+	write-host "orange"
+	write-host "banana"
+	write-host "pear"
+}
+
+function fruit-output {
+	write-output "apple"
+	write-output "orange"
+	write-output "banana"
+	write-output "pear"
+}
+
+fruit-host | sort
+fruit-output | sort
+
+write-host - writes straight to terminal
+write-output - can be passed into pipe
+
+----
+
+function <name>(<arguments>) {
+	<code to execute>  			<-- Basic Syntax for function that takes arguments
+}
+
+
+function test-it($value) {
+	if($value){
+		write-host -Foregroundcolor cyan "True"
+	}
+	else{
+		write-host -foregroundcolor red "False"
+	}
+}
+
+test-it random
+True
+
+test-it 
+False
+
+----
+
+function <name> {
+	param(
+		<param variable>,<param variables>
+	)						<-- Basic Syntax for function with parameters
+	<code to execute>
+}
+
+function test-func {
+	param(
+		$param1='Default value 1', $param2='Default value 2'
+	)									<-- Function with parameters 
+	"you entered $param1 and $param2"					    that have default values
+}
+
+test-func
+you entered Default value 1 and Default value 2
+
+test-func hello world
+you entered hello and world
+
+----
+
+function <name> {
+	param(
+		[switch]
+		<param variable>	         <-- Basic Syntax for function with switch parameter
+	)
+	<code to execute>
+}
+
+function Do-Switch {
+	param(
+		[switch]
+		$DoSwitch
+	)
+	
+	if ($DoSwitch) {
+		"Switch is done"	      <-- Creates a function with a switch parameter called DoSwitch
+	}
+	else {
+		"Switch is off"
+	}
+}
+
+Do-Switch
+Switch is off
+
+Do-Switch -DoSwitch
+Switch is done
+
+----
+
+function <name> {
+	param(
+		[Parameter(Mandatory=$true)]
+		<param name>			     <-- Syntax to create function with mandatory parameter
+	)
+	<code to execute>
+}
+
+function test-mandatoryparam {
+	param(
+		[Parameter(Mandatory=$true)]
+		$name				      <-- Creates a function that has a mandatory parameter
+	)
+	"Your name is $name"
+}
+
+test-mandatoryparam
+cmdlet test-mandatoryparam at command pipeline position 1
+Supply values for the following parameters:
+name: Gavin
+Your name is Gavin
+
+test-mandatoryparam Gavin
+Your name is Gavin
+
+function test-mandatoryparam {
+	param(
+		[Parameter(Mandatory=$true, HelpMessage="what is your name?")]
+		$name				      <-- Creates a function that has a mandatory parameter
+	)
+	"Your name is $name"
+}
+
+
+PS C:\> test-mandatoryparam
+cmdlet test-mandatoryparam at command pipeline position 1
+Supply values for the following parameters:
+(Type !? for Help.)
+name: !?
+what is your name?
+name: Gavin
+Your name is Gavin
+
+test-mandatoryparam Gavin
+Your name is Gavin
+
+
+function convert-todollar {
+	param(
+		[Parameter(Mandatory, HelpMessage="Enter a number of Euros.")]
+		[Double]$euro
+	)
+	
+	$dollar = $euro * 1.09
+	"{0:n2}" -f $dollar
+}
+
+convert-todollar
+cmdlet convert-todollar at command pipeline position 1
+Supply values for the following parameters:
+(Type !? for Help.)
+euro: !?
+Enter a number of Euros.
+euro: 45
+49.05
+
+convert-todollar 10.45
+11.39
+
+
+-----[ADVANCED FUNCTION]-----
+
+function <name> {			<-- Basic Syntax for Advanced Functions
+Begin{
+	<code>				<-- Creat variables and set the enviroment for process block. If 
+}					    this one exists, the end block is required
+Process{				<-- Process block is functionally equivalent to a ForEach-Object 
+	<code>				    loop
+}
+End{					<-- Usually gives the output of the function after all pipeline 
+	<code>				    objects have been processed
+}
+}
+
+function add-nums {
+	param(
+		[Parameter(Mandatory=$true)]
+		$var1,
+		[Parameter(Mandatory=$true)]
+		$var2
+	)
+	Begin {
+		$sum = 0
+	}
+	Process {
+		$sum = $var1 + $var2
+	}
+	End {
+		$sum
+	}
+}
+
+add-nums 10 50
+60
+
+function show-args{
+	$args[0]
+	$args[1]
+	$args[2]
+}
+
+show-args "we" "wo" "wa"
+we
+wo
+wa
+
+
+function enum-input{
+	$input | ForEach-Object{$_ * 4}
+}
+
+$array | enum-input
+4
+12
+20
+28
+12
+20
+268
+12
+24
+12
+20
+
+1,2,3,5,7,2,6,8,3,4 | enum-input
+4
+8
+12
+20
+28
+8
+24
+32
+12
+16
+
+
+
+
+
+
+function process-input{
+Process{
+	$counter=0
+	$_ * 4
+	$counter++
+	$counter
+}
+}
+
+process-input
+1
+
+
+
+
+
+
+
+
+----[PARAMETERS]----
+
+get-childitem
+
+--[NAMED PARAMETERS]--
+
+-path <path> - comes in key/value pair
+
+--[SWITCHED]--
+
+-recurse - if parameter in there, switch is on
+
+--[POSITIONAL PARAMETERS]--
+
+c:\Windows - get-childitem expects -path first 
+	     cmdlets expect default parameter order, and parameter value can be given without 
+	     naming parameters or those
+
+
+-----[SCRIPTBLOCKS]-----
+
+$myscriptblock = { 1 + 1 }
+& $myscriptblock
+Invoke-Command -ScriptBlock $myscriptblock  <-- usually ran on remote computers
+output:
+2
+
+
+$myscriptblock = { param($String,$Number) 1 + $Number; $String }
+			(parameters)	      (code that runs)
+& $myscriptblock 'foo' 3      		<-- parameter are positional
+	(value for the parameters)
+output:
+4
+foo
+
+$variable = 'foo'
+$myscriptblock = { "$variable bar" }
+& $myscriptblock
+output:
+foo bar
+
+$i = 2
+$scriptblock = { "Value of i is $i" }
+$i = 3
+& $scriptblock
+output:
+3
+
+$i = 2
+$scriptblock = { "Value of i is $i" }.GetNewClosure <-- saves the value of $i
+$i = 3
+& $scriptblock
+output:
+2
+
+
+--[SORT]--
+
+Get-Process | Sort-Object -Property PM
+Get-Process | Sort-Object -Property PM -Descending 	<-- greatest to least
+Get-Service | Sort-Object -Property Status 
+Get-Service | Sort-Object -Property Status,Name
+
+--[SELECT]--
+
+Get-Process | Sort-Object -Property PM -Descending | Select-Object -First 10  <-- First 10 on the list in the table
+Get-Process | Sort-Object -Property PM -Descending | Select-Object -First 10 -Property ProcessName,PM <-- first 10 but only showing ProcessName and PM
+Get-Process | Sort-Object -Property PM -Descending | Select-Object -First 10 -Property ProcessName,PM,WS,CPU,ID <-- 4 properties allows for a table, 5 automatically makes it a list
+Get-Process | Sort-Object -Property PM -Descending | Select-Object -First 10 -Property ProcessName,PM,WS,CPU,ID | Format-Table <-- changes back to a table
+
+--[GROUP]--
+
+Get-Service | Group-Object -Property Status <-- gathers all the different statuses into their own groups and gives you a count of each
+
+--[WHERE]--
+
+Get-Service | Where-Object -FilterScript {$_.Status -eq 'running'} <-- case insensitive
+		($ means whatever is the output of the last command)(. mean accessing the specific property)
+Get-Service | Where-Object -Property Status -eq 'running' <-- does the same thing as above
+Get-Service | Where-Object -FilterScript {$_.Status -like 'r*'} <-- displays everything that starts with an r in the status property
+Get-Service | Where-Object -Property Status -like 'r*'
+-eq = equal too
+-ne = not equal too
+-gt = greater than
+-lt = less than
+-ge = greater than or equal too
+-le = less than or equal too
+-Like = takes wildcards, everything that meets the string requirements
+-NotLike = takes wildcards, everything that does meets the string requirements
+Get-Service | Where {$_.Status -eq 'running'}
+Get-Process | Where -Property ProcessName -like 'c*'
+
+--[MEASURE]--
+
+Get-Content "(File Path)" | Measure-Object -word <-- returns wordcount
+Get-Content "(File Path)" | Measure-Object -Property length -sum <-- gets the total bytes of a file
+
+--[Compare-Object]--
+
+Compare-Object -ReferenceObject $obj1 -DifferenceObject $obj2 <-- compares the 2 objs and returns the difference (weird format)
+Comapre-Object $obj1 $obj2 <-- same as above
+(Compare-Object -ReferenceObject $obj1 -DifferenceObject $obj2).InputObject <-- same as before but in a better format
+(Comapre-Object $obj1 $obj2).InputObject
+
+
+--[UNIQUE]--
+
+1,2,2,3,4,5,5,6,7,7 | Select-Object -Unique
+1,2,2,3,4,5,5,6,7,7 | Sort-Object | Get-Unique <-- have to supply it with a sorted list, use Sort-Object before unique command
+1,2,2,3,4,5,5,6,7,7 | Sort-Object -Unique
+[System.Collections.Generic.HashSet[int]] $set = 1,2,2,3,4,5,5,6,7,7 <-- stores the output in the variable (call the variable for the output)
+[linq.Enumerable]::Distinct([int[]](1,2,2,3,4,5,5,6,7,7)) <-- idk
+
+
+--[CREATING AN OBJECT]--
+
+$o=[PSCustomObject]@{
+	firstname = 'Gavin'
+	lastname = 'MacLean'
+}
+$o | Get-Member
+
+Select-Object @{n='Firstname';e={'Gavin'}},@{n='Lastname';e={'MacLean'}} -InputObject ''
+or
+'' | Select-Object @{n='Firstname';e={'Gavin'}},@{n='Lastname';e={'MacLean'}}
+
+$obj = New-Object -TypeName psobject
+$obj | Add-Member -MemberType NoteProperty -Name Firstname -Value 'Gavin'
+$obj | Add-Member -MemberType NoteProperty -Name Lastname -Value 'MacLean'
+$obj | Add-Member -MemberType ScriptMethod -Name "GetName" -Value {$this.firstname + ' ' + $this.lastname}
+
+$properties = @{
+firstname = 'Gavin'
+lastname = 'MacLean'
+}
+$o = New-Object psobject -Property $properties; $o
+
+$var = New-Object Method
+
+
+--[PSPROVIDERS AND PSDRIVES]--
+
+PSProviders - Define the logic that is used to access, navigate, and edit a data store
+PSDrives - specify an entry point to a data store
+
+New-Item -Name Example\ExampleFolder -ItemType Directory
+	creates C:\Example\ExampleFolder
+New-Item -Name test.txt -Path .\examples\
+	creates test.txt in C:\examples --> C:\examples\test.txt
+New-Item -Name -anothertest.txt -Path .\examples\ExampleFolder\
+	creates anothertest.txt on C:\examples\exampleFolder\ --> C:\examples\exampleFolder\anothertest.txt
+Get-ChildItem
+	like dir
+Get-ChildItem -Recurse
+	will search the current directory and each sub directory
+
+New-PSDrive -name u -PSProvider FileSystem -Root C:\example\
+	creates a new drive path
+	u: to access drive path
+
+
+--[IF ELSE AND SWITCHES]--
+
+if($a -eq $b){
+	#do something
+}
+Elseif ($a -eq $c){
+	#do something
+}
+Else{
+	#catch all
+}
+$a = 1
+$b = 2
+$c = 3
+if ($a -eq $b){write-host "Correct"} Elseif ($a -eq $c){write-host "WEWE"} Else{write-host "NONO"}
+output: NONO
+
+if ($a -eq $b){write-host "Correct"} Elseif ($a -eq $c){write-host "WEWE"} Else{write-host "NONO";write-host "WOW";write-host "Wonderwall"}
+NONO
+WOW
+Wonderwall
+
+$x = "valueB"
+Switch ($x) {
+ valueA { write-host "Value $x equals this." }			<-- If $x is equal to valueA then {command}
+ valueB { write-host "Value $x equals that." }			<-- If $x is equal to valueB then {command}
+ Default { write-host "Value $x doesnt match either." }		<-- If $x is equal to neither (else) then {command}
+}
+
+$x = 5
+switch ($x) { 5 { write-host "value $x is equal to 5" } 6 { write-host "value $x is equal to 6"} Default { write-host "neither" }}
+output: value 5 is equal to 5
+
+$x = 6
+switch ($x) { 5 { write-host "value $x is equal to 5" } 6 { write-host "value $x is equal to 6"} Default { write-host "neither" }}
+output: value 6 is equal to 6
+
+$x = 7
+switch ($x) { 5 { write-host "value $x is equal to 5" } 6 { write-host "value $x is equal to 6"} Default { write-host "neither" }}
+output: neither
+
+
+--[LOOPS]--
+
+breaks still work
+
+-- For Loops --
+
+for($i=0;$i -lt 10; $i++){
+(initialises variable);(set the conditions);(sets the change for the loop)
+	$i
+}
+
+$filepath="C:\Users\student\Desktop\test.txt"
+$Names=Get-Content -Path $filepath
+
+for($i=0;$i -lt $Names.Length; $i++){
+	$Names[$i]
+}
+output:
+Greenberg
+Vacca
+Beatty
+Walters
+Seltzer
+Burnham
+Rhodes
+Fandel
+Walker
+Jinapuck
+Potase
+Jessup
+Omans
+Jackman
+
+$filepath="C:\Users\student\Desktop\test.txt"
+$Names=Get-Content -Path $filepath
+
+for($i=0;$i -lt $Names.Length; $i++){
+	$Names[$i]="Test $i"
+}
+output:
+$Names>
+Test 0
+Test 1
+Test 2
+Test 3
+Test 4
+Test 5
+Test 6
+Test 7
+Test 8
+Test 9
+Test 10
+Test 11
+Test 12
+Test 13
+
+-- While --
+
+while((get-date).Minute -eq 32){
+	get-date
+}
+
+-- Do While --
+Do whats inside the code block first, then check the condition. Will run at least once
+do{
+
+}while(condition)
+
+do{
+Write-Output "Hi"
+}while($false)
+output: Hi
+
+-- Do Until --
+opposite of do while but will still execute once
+do{
+
+}until(condition)
+
+do{
+Write-Output "Hi"
+}until($true)
+output: Hi
+
+--FOR EACH--
+
+foreach($item in <variable>){<command>}
+foreach($line in get-content $filename){<command>}
+
+foreach($num in 1..23){$num * 2}
+foreach($item in gci -recurse c:\ 2>$null){$item.name}
+
+gci -recurse c:\ 2>$null | foreach-object {$_.name}
+
+
+foreach - displays once its done
+foreach-object - displays as its working
+
+--[ARRAY]--
+array = a list
+$array = @("WE","WO","WA","WS")
+
+$array += "WD"
+WE
+WO
+WA
+WS
+WD
+
+$array.Count
+output: 4
+
+$array.GetType()
+output:
+IsPublic IsSerial Name                                     BaseType                                          
+-------- -------- ----                                     ------------
+True     True     Object[]                                 System.Array   
+
+$array[0]
+output: WE
+
+$array[1]
+output: WO
+
+$array[0..2]
+WE
+WO
+WA
+
+Removing Duplicutes
+
+$array  <-- original list
+WE
+WO
+WA
+WS
+WD
+WE
+WO
+
+$array.Count <-- original count
+7
+
+$array | select -unique <-- removes duplicates
+WE
+WO
+WA
+WS
+WD
+
+$array <-- but doesnt save to the original variable
+WE
+WO
+WA
+WS
+WD
+WE
+WO
+
+$dedup = $array | select -unique <-- so you save it to a new one (no output because it goes into a variable)
+$array = $array | select -unique <-- or save it to the old one :)
+
+$dedup <-- and it saves
+WE
+WO
+WA
+WS
+WD
+
+
+$array
+1
+1
+4
+3
+6
+7
+4
+4
+6
+4
+[array]::Reverse($array)			<-- Reverses the array
+$array
+4
+6
+4
+4
+7
+6
+3
+4
+1
+1
+
+
+
+$array
+1
+1
+4
+3
+6
+7
+4
+4
+6
+4
+[array]::Sort($array)				<-- Sorts the array
+$array
+1
+1
+3
+4
+4
+4
+4
+6
+6
+7
+
+$array += (Get-Date)
+$array
+1
+1
+3
+4
+4
+4
+4						<-- Polymorphic array; contains more than one type of object
+6
+6
+7
+
+
+$array[0,2,4]					<-- Returns only those index values
+1
+3
+4
+
+
+Friday, April 7, 2023 8:46:36 AM
+
+
+$array1 = 1, "word", (1,2,3), "other word"	<-- Jagged array; array contains array
+array1[2]
+1
+2
+3
+$array1[2][2]					<-- Refers to index position 2 of internal array
+3
+
+
+$array1 = 1, "word", (1,2,("More stuff", "in here"),3), "other word"			<-- Can go deeper
+$array1[2][2]
+More stuff
+in here
+$array1[2][2][0]
+More stuff
+
+
+$array2 = $array1 + $array	 	<-- adds content of second array to first array, then stores in array2
+$array2
+1
+word
+1
+2
+
+
+Length         : 2
+LongLength     : 2
+Rank           : 1
+SyncRoot       : {More stuff, in here}
+IsReadOnly     : False
+IsFixedSize    : True
+IsSynchronized : False
+Count          : 2
+
+3
+other word
+1
+1
+3
+4
+4
+4
+4
+6
+6
+7
+DisplayHint : DateTime
+Date        : 4/7/2023 12:00:00 AM
+Day         : 7
+DayOfWeek   : Friday
+DayOfYear   : 97
+Hour        : 8
+Kind        : Local
+Millisecond : 92
+Minute      : 46
+Month       : 4
+Second      : 36
+Ticks       : 638164539960927589
+TimeOfDay   : 08:46:36.0927589
+Year        : 2023
+DateTime    : Friday, April 7, 2023 8:46:36 AM
+
+
+$array2 = $array1 + , $array 		    <-- adds intack second array to first array, then stores in array2
+
+
+
+
+--[HASHTABLES]--
+
+$HashTable = @{"WE" = "5";"WO" = "9";"WA" = "3";"WS" = "7"}
+
+$HashTable
+output:
+Name                           Value                                
+----                           -----          
+WE                             5                                               
+WS                             7                          
+WA                             3                               
+WO                             9     
+
+
+
+$HashTable.Keys
+WE
+WS
+WA
+WO
+
+$HashTable.Values
+5
+7
+3
+9
+
+$HashTable.Count
+4
+
+
+--[SPECIAL CHARACTERS]--
+
+`n - New Line
+`t - Tubulator (Tab)
+`b - Backspace
+`' - Single Quotation Mark
+`" - Double Quotation Mark
+`0 - Null
+`` - Backtick Character
+
+"{0:n3}" -f 123.456789
+123.457
+
+Get-Service | Select-Object -First 10 | ForEach-Object{"The Service {0} is call '{1}': {2}" -f $_.name, $_.DisplayName, $_.Status}
+
+Get-Process | Select-Object -First 5 | ForEach-Object{"Process {1} is {0}" -f $_.Name, $_.SessionId}
+
+
+--[-REPLACE]--
+
+"Hello John" -replace "John", "World"
+Hello World
+
+"Hello John" -replace "ohn", "World"
+Hello JWorld
+
+"Hello John john jOhN" -replace "john", "World"
+Hello World World World
+
+'Server1,Server2,Server3' -replace '[,]', ';'
+Server1;Server2;Server3
+
+'[         Jon            Bon                Doe             ]' -replace '\s+', ' '
+[ Jon Bon Doe ]
+
+(qprocess) -replace '\s{2,}', ', ' | Select -First 3
+ USERNAME, SESSIONNAME, ID, PID, IMAGE
+>student, rdp-tcp#16, 2, 4832, rdpclip.exe
+>student, rdp-tcp#16, 2, 1612, taskhostw.exe
+
+'192.168.0.1' -replace '\d{1,3}$', '255'
+192.168.0.255
+
+'192.168.0.1' -replace '\d{1,3}', '255'
+255.255.255.255
+
+
+--[-SPLIT]--
+
+$profile -split '\.'
+C:\Users\student\Documents\WindowsPowerShell\Microsoft
+PowerShellISE_profile
+ps1
+
+$profile -split '(?=\.)'
+C:\Users\student\Documents\WindowsPowerShell\Microsoft
+.PowerShellISE_profile
+.ps1
+
+$profile -split '\\'
+C:
+Users
+student
+Documents
+WindowsPowerShell
+Microsoft.PowerShellISE_profile.ps1
+
+$profile -split '(?=\\)'
+C:
+\Users
+\student
+\Documents
+\WindowsPowerShell
+\Microsoft.PowerShellISE_profile.ps1
+
+-CSPLIT-
+
+'GetHostByName' -csplit '(?<=[a-z])(?=[A-Z])'
+Get
+Host
+By
+Name
+
+
+--[JOIN]--
+
+'GetHostByName' -csplit '(?<=[a-z])(?=[A-Z])'
+Get
+Host
+By
+Name
+
+$env:username, '@', $env:computername, ".", $env:userdomain -join ""
+student@WIN-OPS.WIN-OPS
+
+
+
+--RANDOM REGEX STUFF--
+
+Get-Process | select name, description | where description -match '^s'
+
+Name      Description              
+----      -----------              
+SearchApp Search application       
+sihost    Shell Infrastructure Host
+spoolsv   Spooler SubSystem App 
+
+Get-Process | select name, description | where description -like 's*'
+
+Name      Description              
+----      -----------              
+SearchApp Search application       
+sihost    Shell Infrastructure Host
+spoolsv   Spooler SubSystem App  
+
+
+"10.12.14.300" -as [ipaddress]   <-- bad ip
+no output
+
+"10.12.14.214" -as [ipaddress]   <-- real ip
+
+
+Address            : 3591244810
+AddressFamily      : InterNetwork
+ScopeId            : 
+IsIPv6Multicast    : False
+IsIPv6LinkLocal    : False
+IsIPv6SiteLocal    : False
+IsIPv6Teredo       : False
+IsIPv4MappedToIPv6 : False
+IPAddressToString  : 10.12.14.214
+
+if("10.12.14.100" -as [ipaddress]){"this is an ip address"}
+this is an ip address
+
+if("10.12.14.300" -as [ipaddress]){"this is an ip address"}
+no output
+
+-MATCH-
+
+"PowerShell is Awesome!" -match "\w+(\?|!)"
+True
+
+"PowerShell is Awesome" -match "\w+(\?|!)"
+False
+
+"PowerShell is Awesome?" -match "\w+(\?|!)"
+True
+
+
+
+
+-------------------------------------------[EXAMPLES]--------------------------------------------
+
+$check=0
+
+$pattern = "[A-Z]{2}[0-9]{4}"
+
+switch($pattern) {
+	{$line1 -match $_ } {
+		$line1 -match $pattern | out-null
+		$model = $Matches[0]
+		"Yes the model number is $model" }
+	{$line2 -match $_ } {
+		$line2 -match $pattern | out-null
+		$model = $Matches[0]
+		"Yes the model number is $model" }
+	{$line1 -match $_ } {
+		"There is no model number in line1" }
+	{$line2 -match $_ } {
+		"There is no model number in line1" }
+}
+
+
+for($i=0;$i -lt $spl.Length; $i++){
+	if ($spl[i] -eq "MT5437"){
+		$check=1
+	}
+}
+if ($check -eq 1){
+	write-host "Model Number Found"
+}
+Else{
+	write-host "No Model Number"
+}
+
+
+$filepath="C:\Users\student\Desktop\test.txt"
+$Names=Get-Content -Path $filepath
+
+for($i=0;$i -lt $array.Length; $i++){
+Start-Process $array[$i]
+Get-Process | Where-Object -FilterScript {$_.ProcessName -eq $array[$i]} | Select-Object Id | Out-File -FilePath C:\Users\student\Desktop\test.txt -Append 
+Stop-Process -Name $array[$i]
+}
+
+for($i=0;$i -lt $array.Length; $i++){
+Start-Process $array[$i]
+Get-Process | Where-Object -FilterScript {$_.ProcessName -eq $array[$i]} | Select-Object Id,ProcessName,StartTime,TotalProcessorTime,PageMemorySize
+}
+
+
+$obj = [PSCustomObject]@{
+	'ComputerName' = (Get-Wmiobject win32_computersystem).name
+	'OperatingSystem' = (Get-WmiObject Win32_operatingsystem).Caption
+	'Version' = (Get-WmiObject Win32_BIOS).Version
+	'Manufacturer' = (Get-WmiObject Win32_BIOS).Manufacturer
+	'Disks' = (Get-WmiObject Win32_LogicalDisk)._path
+}
+
+$proc = "notepad", "msedge", "mspaint"
+$proc | ForEach-Object { Start-Process $_ }
+Start-Sleep -Seconds 3
+$proc | ForEach-Object { Stop-Process $_ }
+
+
+for($i=0;$i -lt $array.Length; $i++){
+Start-Process $array[$i]
+Get-Process | Where-Object -FilterScript {$_.ProcessName -eq $array[$i]}
+Stop-Process -Name $array[$i]
+}
+
+for($i=0;$i -lt $array.Length; $i++){
+Start-Process $array[$i]
+Get-Process | Where-Object -FilterScript {$_.ProcessName -eq $array[$i]} | Select-Object Id | Out-File -FilePath C:\Users\student\Desktop\test.txt -Append 
+Stop-Process -Name $array[$i]
+}
+use --> (Get-Process $array[$i]).Id | Out-File -FilePath C:\Users\student\Desktop\test.txt -Append
+(Get-Process notepad).Id
+8632
+
+for($i=0;$i -lt $array.Length; $i++){
+Start-Process $array[$i]
+Get-Process | Where-Object -FilterScript {$_.ProcessName -eq $array[$i]} | Select-Object Id,ProcessName,StartTime,TotalProcessorTime,PageMemorySize
+}
+
+
+
+function Get-OrdinalDate {
+    (Get-Date).ToString("yyyy") + '-' + (Get-Date).DayOfYear
+}
+
+Get-OrdinalDate
+2023-96
+
+
+function Get-SquareNum($n) {
+    $sum = $n * $n
+    write-output $sum
+}
+
+Get-SquareNum 10
+100
+
+
+function Get-Product {
+    param(
+        $param1=0,$param2=0,$param3=0
+    )
+    $sum = $param1 * $param2 * $param3
+    write-output $sum
+}
+
+Get-Product 5 5 5
+125
+
+
+function Get-Product {
+    param(
+        $param1=0,$param2=0
+    )
+    $a = $param1 * $param1
+    $b = $param2 * $param2
+    $c = $a + $b
+    $sum = [Math]::Sqrt($c)
+    write-output $sum
+}
+
+Get-Product 5 10
+11.1803398874989
+
+
+function Get-Product {
+    param(
+        $param1=0,$param2=0
+    )
+    $c = $param1 + $param2
+    $sum = 180 - $c
+    write-output $sum
+}
+
+Get-Product 35 65
+80
+
+
+function Get-Product {
+    param(
+        [Parameter(Mandatory=$true)]
+        $First="",
+        [Parameter(Mandatory=$true)]
+        $Last="",
+        [Parameter(Mandatory=$true)]
+        $Age=0,
+        [Parameter(Mandatory=$true)]
+        $W=0
+    )
+    $we = $w / 2.2
+    $weight = "{0:n0}" -f $we
+    $ans = @{"First Name" = $First;"Last Name" = $Last;"Age" = $Age;"Weight" = $weight}
+    write-output $ans
+}
+
+Get-Product
+cmdlet Get-Product at command pipeline position 1
+Supply values for the following parameters:
+First: Gavin
+Last: MacLean
+Age: 19
+W: 185
+
+Name                           Value
+----                           -----
+Last Name                      MacLean
+First Name                     Gavin
+Age                            19
+Weight                         84
+
+
+function Get-Product {
+    param(
+        [Parameter(Mandatory=$true)]
+        [ValidateCount(10,100)]
+        [Array]$array,
+        [Parameter(Mandatory=$true)]
+        [Int]$int
+    )
+    Begin {
+       $val = 0
+    }
+    Process {
+        foreach($item in $array){if($item -ne $int){$val += $item}}
+    }
+    End {
+        write-output $val
+    }
+}
+
+Get-Product
+cmdlet Get-Product at command pipeline position 1
+Supply values for the following parameters:
+array[0]: 1
+array[1]: 1
+array[2]: 2
+array[3]: 5
+array[4]: 4
+array[5]: 7
+array[6]: 4
+array[7]: 6
+array[8]: 5
+array[9]: 4
+array[10]: 
+int: 4
+27
+
+
+function Get-LongestName {
+    param(
+        [Parameter(Mandatory=$true)]
+        [String]$State1,
+        [Parameter(Mandatory=$true)]
+        [String]$State2,
+        [Parameter(Mandatory=$true)]
+        [String]$State3
+    )
+    Begin {
+        $a = @($State1, $State2, $State3)
+        $b
+    }
+    Process {
+        $b = $a | sort length -desc 
+
+    }
+    End {
+        write-output $b
+    }
+}
+
+Get-LongestName
+cmdlet Get-LongestName at command pipeline position 1
+Supply values for the following parameters:
+State1: Georgia
+State2: Kentucky
+State3: Ohio
+Kentucky
+Georgia
+Ohio
+
+
+function Get-LongestName {
+	Begin {
+		$count = 0
+		$states = @()
+	}
+	Process {
+		while($count -lt 3) {
+			$res = Read-Host "Enter a U.S. State"
+			$states += $res
+			$count += 1
+		}
+	}
+	end {
+		$list = $states | sort lenght -desc
+		ForEach($state in $list) {
+			"$state`: " + $state.length
+		}
+	}
+}
+
+
+
+
+
+
+<# 1 #>
+function q1($var1,$var2,$var3,$var4) {
+    <# Return the product of the arguments #>
+    $ans = $var1 * $var2 * $var3 * $var4
+    return $ans
+}
+function q2($arr,$rows,$cols,$key) {
+    <# Search the 2 dimensional array for the first occurance of key at column index 0
+       and return the value at column index 9 of the same row.
+       Return -1 if the key is not found.
+    #>
+    foreach($item in $arr){if($item[0] -eq $key){return $item[9]}}
+    return -1
+
+
+
+}
+function q3 {
+    <# In a loop, prompt the user to enter positive integers one at time.
+       Stop when the user enters a -1. Return the maximum positive
+       value that was entered."
+	#>
+    $num = 0
+    $collect = @()
+    $add = 0
+    while($num -ge 0) {
+        $num = Read-Host "Enter a number"
+        $collect += [int]$num
+        $add += 1
+        
+    }
+    $ans = $collect | Sort-Object
+    return $ans[-1]
+
+
+
+
+}
+function q4($filename,$whichline) {
+    <# Return the line of text from the file given by the `$filename
+	   argument that corresponds to the line number given by `$whichline.
+	   The first line in the file corresponds to line number 0."
+	#>
+    return Get-Content -Path $filename | Select-Object -Index $whichline
+}
+function q5($path) {
+    <# Return the child items from the given path sorted
+       ascending by their Name
+	#>
+    return Get-ChildItem -Path $paTH | Sort-Object -Property Name
+}
+function q6 {
+    $sum = 0
+    $input |  foreach { $sum += $_ }
+    $sum
+
+}
+function q7 {
+	<# Return only those commands whose noun is process #>
+    return Get-Command -Noun Process
+}
+function q8($adjective) {
+    <# Return the string 'PowerShell is ' followed by the adjective given
+	   by the `$adjective argument
+	#>  
+    return "PowerShell is $adjective"  
+}
+function q9($addr) {
+	<# Return `$true when the given argument is a valid IPv4 address,
+	   otherwise return `$false. For the purpose of this function, regard
+	   addresses where all octets are in the range 0-255 inclusive to
+	   be valid.
+	#>
+    if("$addr" -as [ipaddress] -ne $null){return $true}else{return $false}
+}
+function q10 ($filepath,$lasthash) {
+    <# Return `$true if the contents of the file given in the
+       `$filepath argument have changed since `$lasthash was
+       computed. `$lasthash is the previously computed SHA256
+       hash (as a string) of the contents of the file. #>
+       $newhash = Get-FileHash -Path $filepath | Select-Object -ExpandProperty hash 
+       if((Compare-Object $newhash $lasthash) -eq $null){return $false}else{return $true}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
