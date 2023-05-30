@@ -1,4 +1,4 @@
-xfreerdp /u:student /v:10.50.63.163 +glyph-cache +clipboard +dynamic-resolution #runs gui to be able to do powershell in student workstation
+xfreerdp /u:student /v:10.50.26.163 +glyph-cache +clipboard +dynamic-resolution #runs gui to be able to do powershell in student workstation
 
 ###############################################################################################################################################
 #get-help and other basic commands
