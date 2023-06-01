@@ -317,7 +317,7 @@ Your NC listener should now be connected to a remote shell on the exploited box.
 VULENERBALE FUNCTIONS
 strcpy
 strcat
-f
+printf
 get
 
 
