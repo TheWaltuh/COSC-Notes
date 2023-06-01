@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-01T12:39:40.732Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="GyOWg4nX4k3nDUZWjgoS" version="21.3.5" type="github">
+<mxfile host="app.diagrams.net" modified="2023-06-01T15:01:21.803Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="2o1vvlTeu6iatyW89mwU" version="21.3.5" type="github">
   <diagram name="Page-1" id="GBd0BXuGBd-nfM0JVYe7">
     <mxGraphModel dx="2452" dy="795" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -43,7 +43,7 @@
         <mxCell id="7IOt7IsW9sF5NG7Idb-Z-21" value="&lt;div&gt;80&lt;/div&gt;&lt;div&gt;2222(ssh)&lt;/div&gt;&lt;div&gt;8080(http)&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="520" y="760" width="80" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="7IOt7IsW9sF5NG7Idb-Z-22" value="&lt;div&gt;grep-site-donovia-05&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.28.120&lt;/div&gt;&lt;div&gt;ens3: 192.168.28.120/27&lt;/div&gt;&lt;div&gt;ssh-telnet-curl-wget-tcpdump&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:YourTempPassword&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+        <mxCell id="7IOt7IsW9sF5NG7Idb-Z-22" value="&lt;div&gt;grey-site-donovia-05&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.28.120&lt;/div&gt;&lt;div&gt;ens3: 192.168.28.120/27&lt;/div&gt;&lt;div&gt;ssh-telnet-curl-wget-tcpdump&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;student:YourTempPassword&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="320" y="1030" width="160" height="160" as="geometry" />
         </mxCell>
         <mxCell id="7IOt7IsW9sF5NG7Idb-Z-23" value="4242(ssh)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
@@ -72,9 +72,6 @@
         </mxCell>
         <mxCell id="7IOt7IsW9sF5NG7Idb-Z-31" value="192.168.150.245" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="320" y="1280" width="160" height="160" as="geometry" />
-        </mxCell>
-        <mxCell id="7IOt7IsW9sF5NG7Idb-Z-32" value="&lt;div&gt;135&lt;/div&gt;&lt;div&gt;139&lt;/div&gt;&lt;div&gt;445&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="280" y="1280" width="40" height="60" as="geometry" />
         </mxCell>
         <mxCell id="7IOt7IsW9sF5NG7Idb-Z-33" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="7IOt7IsW9sF5NG7Idb-Z-31" target="7IOt7IsW9sF5NG7Idb-Z-22" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -120,6 +117,9 @@
         </mxCell>
         <mxCell id="_pwzAAkmadzu1BI4Hcq6-7" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="590" y="479" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pCFhP2y6nSyrudx5ANRZ-1" value="9999" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="270" y="1280" width="50" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
