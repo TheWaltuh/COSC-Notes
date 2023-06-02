@@ -458,16 +458,33 @@ s.close()
 18. run secureserver then type exploit in msfconsole and then run your script
 
 
-
-
-
 #############################################
 Post exploitation :: Local Host Enumeration
 #############################################
-
-
-
-
+Schdeuled Tasks
+Register Keys Run and RunOnce
+Services
+Crontab
+.bashrc
+SSK-Keys
+/var/www
+/etc/hosts
+1. Enumerate the User information
+  net user :: net localgroup
+  cat /etc/passwd :: who :: groups    # groups are just the groups of the current user
+2. Runing Processes
+  tasklist /v :: task manager   # task manager is the gui version of tasklist
+  ps -elf :: pstree :: lsof
+3. Services
+  tasklist /svc
+  systemctl    # systemctl list-units --type service | grep running
+4. Check for connections
+  ipconfig /all :: netstat -anob :: arp -a :: route print  # the b in the netstat options can only be can as an administrator
+  ip a or ip n :: netstat -anopp :: arp -an :: ip route(route)(netstat -r)
+5. Obfuscation
+  SCP
+find / -iname <Search_Key> 2>/dev/null
+rsyslog is a remote logging system
 
 #############################################
 Privilege Escalation :: Maintaining Persistence :: Covering Tracks - Windows
