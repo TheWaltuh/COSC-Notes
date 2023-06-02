@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-06-02T12:31:00.714Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="ijrJG4vdv0t_4977hwhr" version="21.3.5" type="github" pages="5">
+<mxfile host="app.diagrams.net" modified="2023-06-02T12:31:31.156Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="a1ClINzv7SllcDPVN6aU" version="21.3.5" type="github" pages="5">
   <diagram name="Page-1" id="kOOMm8zKSmpwJIy81K7Q">
-    <mxGraphModel dx="1341" dy="860" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1960" dy="1257" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -38,10 +38,7 @@
           <mxGeometry x="250" y="60" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="7rxzncGhu5H5seyyBJXx-13" value="not all of the 192.168.28.96/27 network has the ability to communicate with the 192.168.150.224/27 network." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="1185" y="290" width="200" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="7rxzncGhu5H5seyyBJXx-14" value="&lt;p&gt;&lt;b&gt;&lt;u&gt;Target Section:&lt;/u&gt;&lt;/b&gt;&lt;/p&gt;Network scans:&lt;br&gt;&lt;br/&gt;Network: 192.168.28.96/27&lt;br&gt;&lt;br/&gt;Network:192.168.150.224/27&lt;br&gt;&lt;br/&gt;OSs: unknown&lt;br&gt;&lt;br/&gt;Creds: student :: &lt;br&gt;&lt;br/&gt;Known Ports: unknown&lt;br&gt;&lt;br/&gt;Known URL: consulting.site.donovia&lt;br&gt;&lt;br/&gt;Known URL: conference.site.donovia&lt;br&gt;&lt;br/&gt;Action: Reconnaissance to collect intelligence and identify possible avenues of approach in the network." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="1120" y="339" width="330" height="390" as="geometry" />
+          <mxGeometry x="780" y="540" width="200" height="80" as="geometry" />
         </mxCell>
         <mxCell id="7rxzncGhu5H5seyyBJXx-15" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" target="7rxzncGhu5H5seyyBJXx-4" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -106,7 +103,7 @@
         <mxCell id="3pL5cruVmipBJHujs6nN-1" value="192.168.150.224/27" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1230" y="750" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="ft-l_PQJDunFmw_037Gx-1" value="&lt;div&gt;192.168.150.245&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;9999&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="ft-l_PQJDunFmw_037Gx-1" value="&lt;div&gt;192.168.150.245&lt;/div&gt;&lt;div&gt;9999&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="1260" y="790" width="140" height="140" as="geometry" />
         </mxCell>
         <mxCell id="ft-l_PQJDunFmw_037Gx-3" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="7rxzncGhu5H5seyyBJXx-41" target="7rxzncGhu5H5seyyBJXx-23">
