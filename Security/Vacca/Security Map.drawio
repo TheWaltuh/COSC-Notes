@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-06-02T12:29:58.901Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="GivO8AHhpOCO5UKVOHp0" version="21.3.5" type="github" pages="5">
+<mxfile host="app.diagrams.net" modified="2023-06-02T12:31:00.714Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="ijrJG4vdv0t_4977hwhr" version="21.3.5" type="github" pages="5">
   <diagram name="Page-1" id="kOOMm8zKSmpwJIy81K7Q">
-    <mxGraphModel dx="1960" dy="1257" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1341" dy="860" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -64,10 +64,10 @@
         <mxCell id="7rxzncGhu5H5seyyBJXx-22" value="192.168.28.97" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="60" y="380" width="140" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="7rxzncGhu5H5seyyBJXx-23" value="&lt;div&gt;192.168.28.105&lt;/div&gt;21 23 2222" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+        <mxCell id="7rxzncGhu5H5seyyBJXx-23" value="&lt;div&gt;192.168.28.105&lt;/div&gt;&lt;div&gt;21 23 2222&lt;/div&gt;&lt;div&gt;comrade:&lt;/div&gt;&lt;div&gt;StudentReconPassword&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="660" y="380" width="140" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="7rxzncGhu5H5seyyBJXx-24" value="&lt;div&gt;192.168.28.111&lt;/div&gt;&amp;nbsp;80 2222 8080" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+        <mxCell id="7rxzncGhu5H5seyyBJXx-24" value="&lt;div&gt;192.168.28.111&lt;/div&gt;&lt;div&gt;&amp;nbsp;80 2222 8080&lt;/div&gt;&lt;div&gt;comrade:&lt;/div&gt;&lt;div&gt;StudentWebExploitPassword&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="810" y="380" width="140" height="140" as="geometry" />
         </mxCell>
         <mxCell id="7rxzncGhu5H5seyyBJXx-25" value="&lt;div&gt;192.168.28.120&lt;/div&gt;&lt;div&gt;4242&lt;/div&gt;&lt;div&gt;YourTempPassword&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
