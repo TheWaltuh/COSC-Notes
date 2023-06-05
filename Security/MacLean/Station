@@ -5,6 +5,7 @@ ssh student@10.50.39.84
 password: password
 
 win-ops
+xfreerdp /u:student /v:10.50.31.161 +glyph-cache +clipboard +dynamic-resolution
 10.50.31.161
 password: password
 
