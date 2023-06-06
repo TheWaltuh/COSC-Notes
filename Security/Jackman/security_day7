@@ -1,0 +1,159 @@
+
+
+================================== POST EXPLOITATION =========================================
+
+
+
+Types of persistance:
+Run Keys,
+RunOnce Keys,
+Scheduled tasks
+/etc/crontab
+
+If you see something in registry running powershell, check powershell profiles. Obviously, look for running processes or the script it executes first.
+
+C2  -- command and control
+
+look at users, user data, user information, password policy, reused passowrds.
+
+
+Host Enumeration:
+Linux:
+cat /etc/passwd
+cat /etc/shadow
+who (shows logged on users)
+groups (shows current user's groups)
+ps -elf --forest
+lsof
+systemctl list-units --type service
+ss -anob
+ip route
+ip neigh
+ifconfig -a
+
+Windows:
+net user
+net user <username>
+tasklist /v (or just use task manager)
+tasklist /svc (you can also use task manager for this.)
+net localgroup
+Run Powershell
+ipconfig /all
+netstat /anop
+net <use, view>
+arp -a
+route print
+
+look to see if the box has already been compromised.
+
+
+/etc/crontab IS PERSISTANCE IN LINUX
+/var/www/html is good to check for web servers.
+/etc/hosts for DNS name resolution
+
+use:
+  find -iname <name>
+  for finding files (case insensitive)
+
+sudo -l 
+***lists what you can sudo***
+
+rsyslogd  -  linux process for remote logging.
+
+
+---------------------------------------------------------------------------------------------------------------
+crontab         #/etc/crontab
+/var/www/html   #web server dir
+/etc/hosts      #dns (name resolution)                    
+find -iname *password*.txt #case insensitive search
+sudo -l
+look for syslog/rsyslog in running processes     
+
+
+
+
+Windows
+####################
+net user  #net user <username>
+net localgroup  #net localgroup <groupname>
+wmic useraccount get name,sid
+
+tasklist /v #GUI
+wmic /node:localhost /namespace:\\root\securitycenter2 path antivirusproduct get displayname /format:list 
+wmic process where (processid=#) get parentprocessid,commandline   
+                    
+tasklist /svc
+net start
+wmic service list status
+Get-Service \ | Where {$_.Status -eq "Running"}                    
+
+ipconfig /all
+netstat /anob
+wmic netuse list full       
+net use
+net view
+arp -a                    
+route print              
+                    
+systeminfo                    
+date /t && time /t                    
+                                
+####################
+Linux
+####################
+cat /etc/passwd(shadow)
+last
+who
+w
+groups
+id
+
+ps -elf
+ps auxf
+pstree
+lsof
+                    
+chkconfig
+systemctl list-units --type service
+service --status-all
+systemctl list-units --type=service \| grep running
+
+ip a                    
+ss -nltp                    
+arp -an                    
+route                    
+                    
+cat /proc/cpuinfo                    
+cat /etc/*rel*                    
+lsmod     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
