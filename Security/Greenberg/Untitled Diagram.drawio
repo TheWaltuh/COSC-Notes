@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-06T15:03:02.269Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="Oyb7am_jkJlrcfVEOib4" version="21.3.5" type="github">
+<mxfile host="app.diagrams.net" modified="2023-06-07T16:59:04.697Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="7q-rF4TQS-f7LExsyHl5" version="21.3.5" type="github">
   <diagram name="Page-1" id="GBd0BXuGBd-nfM0JVYe7">
     <mxGraphModel dx="2452" dy="795" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -156,6 +156,18 @@
             <mxPoint x="-500" y="1060" as="sourcePoint" />
             <mxPoint x="-450" y="1010" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="JJQe4_N6sT8ssxkk1QDW-6" value="&lt;div&gt;lin2.internal.donovia&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.28.27&lt;/div&gt;&lt;div&gt;ens3: 192.168.28.27/27&lt;/div&gt;&lt;div&gt;ssh-telnet-curl-wget-tcpdump&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;comrade:StudentPrivPassword&lt;/div&gt;&lt;div&gt;zeus:ghjcnbnenrf&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1040" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="JJQe4_N6sT8ssxkk1QDW-7" value="22" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="520" y="1040" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JJQe4_N6sT8ssxkk1QDW-9" value="&lt;div&gt;lin1.internal.donovia&lt;br&gt;&lt;/div&gt;&lt;div&gt;192.168.28.12&lt;/div&gt;&lt;div&gt;ens: 192.168.28.12/27&lt;/div&gt;&lt;div&gt;ssh-telnet-curl-wget-tcpdump&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;comrade:StudentPrivPassword&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="440" y="1240" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="JJQe4_N6sT8ssxkk1QDW-10" value="22" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1240" width="40" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
