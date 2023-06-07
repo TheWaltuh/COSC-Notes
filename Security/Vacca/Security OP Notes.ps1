@@ -47,6 +47,24 @@ UNION SELECT table_schema,table_name,column_name FROM information_schema.columns
   Figures out what column are in what table
 UNION SELECT 1,2,@@version
   Displays version #
+  
+  
+###################
+  Lin Exploitation
+###################
+  
+sudo -l               #GTFObins
+
+find / -type f -perm /4000 -ls 2>/dev/null #suid
+find / -type f -perm /2000 -ls 2>/dev/null #guid
+
+in cron:
+  run-parts     #runs directory referenced as root
+
+.: in $PATH
+
+john --wordlist=wordlist.txt shadowfile
+
 ###################
   Buffer Overflow
 ###################
