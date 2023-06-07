@@ -87,9 +87,10 @@ path=.:$path        #add dot to path if needed
 #Order to operate
 #Once on Box
 sudo -l
-find / -type f perm /4000 -ls 2>/dev/null               #find SUID (another possibility to priv escalate)
-find / -type f perm /2000 -ls 2>/dev/null               #find SGID 
-find / -type f perm /6000 -ls 2>/dev/null               #Find both
+find / -type f -:wq!
+perm /4000 -ls 2>/dev/null               #find SUID (another possibility to priv escalate)
+find / -type f -perm /2000 -ls 2>/dev/null               #find SGID 
+find / -type f -perm /6000 -ls 2>/dev/null               #Find both
 
 
 #Replacement for ls command to get /etc/shadow and a word list to john the ripper for passwords
