@@ -77,7 +77,18 @@ Web Stuff:
           ; cat /var/www/.ssh/authorized_keyss
     
     
-    
+###################
+Bin Replacement/DLL Hijacking
+###################   
+  service in the GUI
+  look for blank or obvious descriptions
+  GUI > File Explorer > view > file extensions/hidden items
+  if you can rename it then you can replace it with malware >:)
+  replace and reboot
+  
+  auditpol /get /category:* | findstr /i "success failure"    #need privs
+  
+  
 ###################
 Buffer Overflow:
 ###################
@@ -249,11 +260,12 @@ POST EXPLOITATION
   ls /var/tmp
   ls /tmp
 
-
-
-
-
-
-
-
+WINDOWS
+  services, look for blank or obvious descriptions
+  GUI > File Explorer > view > file extensions/hidden items
+  
+  
+  
+  
+  
 
