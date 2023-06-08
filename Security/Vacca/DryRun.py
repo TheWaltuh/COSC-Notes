@@ -7,7 +7,10 @@ methodology:
 Host Discovery
     for i in {1..254} ;do (ping -c 1 192.168.28.$i | grep "bytes from" &) ;done
     from the closest machine to the network
+    compare results to off limits
+    
 Port Discovery
+    (setup dynamic tunnel to the furthest ip)
     nmap -Pn (-sT) -T4 <ip> -p80,22,4444,2222,4242,9999,3389,8080
   
 Port Interrogation
