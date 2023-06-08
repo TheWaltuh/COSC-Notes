@@ -63,6 +63,7 @@ Array ( [0] => user2 [name] => user2 [1] => RntyrfVfNER78 [pass] => RntyrfVfNER7
                                                                           #NEED 116.5 POINTS TO PASS
                                                                     #SAVE LONG PARTS/QUESTIONS FOR THE END
                                                         #No need to go back to a box once completed all questions for it
+                                             #if you see a wall of test right click white space and view page source, and look at links
 #First Step is open up some sort of notes 
     #record given ip
 #Port Discovery
