@@ -11,8 +11,9 @@ Host Discovery
     
 Port Discovery
     (setup dynamic tunnel to the furthest ip)
-    nmap -Pn (-sT) -T4 <ip> -p80,22,4444,2222,4242,9999,3389,8080
-  
+    sudo nmap -Pn -sT -T4 <ip> -p80,22,4444,2222,4242,9999,3389,8080
+    sudo proxychains nmap -Pn -sT -T4 <ip> -p80,22,4444,2222,4242,9999,3389,8080
+      windows if 445 or 3389
 Port Interrogation
     nc <ip> <port>
   
@@ -47,14 +48,16 @@ POST EXPLOITATION
   whoami
   hostname
   which gdb
-  sudo -l
-  find / -type f -perm /4000 2>/dev/null 
-  find / -type f -perm /2000 2>/dev/null 
-  find / -type f -perm /6000 2>/dev/null 
+  sudo -l                                           #GTFO
+  find / -type f -perm /4000 2>/dev/null            #GTFO
+  find / -type f -perm /2000 2>/dev/null            #GTFO
+  find / -type f -perm /6000 2>/dev/null            #GTFO
   which gdb                       #if a box has gdb you will be doing a buffer overflow :(
- 
   cat /etc/hosts
-  
+  cat /etc/crontab
+  ls /etc/cron.d
+  ls /var/tmp
+  ls /tmp
 
 
 
