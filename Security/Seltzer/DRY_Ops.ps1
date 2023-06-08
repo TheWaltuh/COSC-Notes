@@ -60,7 +60,10 @@ Array ( [0] => user2 [name] => user2 [1] => RntyrfVfNER78 [pass] => RntyrfVfNER7
 #####################################################################################################################################################################################################
                                                               #(Idea can type out in op notes to have for later)
                                              #YOU NEED TO TAKE OPNOTES FOR THE TEST TO RECIEVE CREDIT (CAN BE MAP, OR DOC, NEED TO DO)
-#First Step is open up some sort of notes
+                                                                          #NEED 116.5 POINTS TO PASS
+                                                                    #SAVE LONG PARTS/QUESTIONS FOR THE END
+                                                        #No need to go back to a box once completed all questions for it
+#First Step is open up some sort of notes 
     #record given ip
 #Port Discovery
     nmap -Pn -sT -T4 <given ip> -p 80,22,2222,4444,4242,9999,3389
