@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-09T12:44:42.384Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="rgSuM0h4F935cgUyCRKO" version="21.3.6" type="github">
+<mxfile host="app.diagrams.net" modified="2023-06-09T13:12:20.001Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="wWp_SVzS7Ts3W5e-_k01" version="21.3.6" type="github">
   <diagram name="Page-1" id="PmOiHuo0T5l7wru5VKFK">
     <mxGraphModel dx="1362" dy="775" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -18,7 +18,7 @@
             <mxPoint x="369.4375" y="440" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="fXcX4MBUzGKfJCSOtUdT-12" value="10.50.42.95&lt;br&gt;22,80" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="fXcX4MBUzGKfJCSOtUdT-12" value="ministry-defense-15&lt;br&gt;10.50.42.95&lt;br&gt;22,80" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="280" y="450" width="180" height="180" as="geometry" />
         </mxCell>
         <mxCell id="fXcX4MBUzGKfJCSOtUdT-18" value="xfreerdp /u:student /v:10.50.26.163 +glyph-cache +clipboard +dynamic-resolution" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
@@ -27,8 +27,8 @@
         <mxCell id="fXcX4MBUzGKfJCSOtUdT-19" value="&lt;br&gt;CTF-D INFO&lt;br&gt;~~~~~~~~~~~&lt;br&gt;SEPA-503-M&lt;br&gt;BotMK69TsIv7kS7&lt;br&gt;&lt;br&gt;Stack 14" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry y="70" width="120" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="fXcX4MBUzGKfJCSOtUdT-20" value="robots.txt&lt;br&gt;&lt;div&gt;/images/: Directory indexing found.&lt;/div&gt;&lt;div&gt;/images/?pattern=/etc/*&amp;amp;sort=name&lt;/div&gt;&lt;div&gt;/icons/README&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="540" y="500" width="210" height="70" as="geometry" />
+        <mxCell id="fXcX4MBUzGKfJCSOtUdT-20" value="robots.txt (said had one file to check) --&amp;gt; /Onlinetools&lt;br&gt;&lt;br&gt;Onlinetools vuln to command injection&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;div&gt;/images/: Directory indexing found.&lt;/div&gt;&lt;div&gt;/images/?pattern=/etc/*&amp;amp;sort=name&lt;/div&gt;&lt;div&gt;/icons/README&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="495" y="470" width="300" height="130" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
