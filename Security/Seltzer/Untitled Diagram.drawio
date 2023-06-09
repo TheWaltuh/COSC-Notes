@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-09T18:28:32.668Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="aQJDUgIBG3e9ZFaadNDU" version="21.3.6" type="github">
+<mxfile host="app.diagrams.net" modified="2023-06-09T18:35:28.223Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="HTgmD2oMtjtIMT1OMXEI" version="21.3.6" type="github">
   <diagram name="Page-1" id="PmOiHuo0T5l7wru5VKFK">
     <mxGraphModel dx="2402" dy="912" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -65,14 +65,11 @@
         <mxCell id="fXcX4MBUzGKfJCSOtUdT-32" value="Defennse_Nix1&lt;br&gt;192.168.28.177&lt;br&gt;22, 21254&lt;br&gt;&lt;br&gt;Fpalic:Birdperson" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="150" y="1180" width="180" height="180" as="geometry" />
         </mxCell>
-        <mxCell id="fXcX4MBUzGKfJCSOtUdT-33" value="192.168.28.182&lt;br&gt;22,80&lt;br&gt;&lt;br&gt;&lt;i&gt;Msmith:Squanchy&lt;br&gt;&lt;/i&gt;Fpalic:Birdperson&lt;br&gt;&lt;i&gt;Kimchaw:MrMeeseeks&lt;br&gt;&lt;/i&gt;&lt;br&gt;&lt;i&gt;Rsanch:ScaryTerry&lt;/i&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="fXcX4MBUzGKfJCSOtUdT-33" value="192.168.28.182&lt;br&gt;22,80&lt;br&gt;&lt;br&gt;&lt;i&gt;Msmith:Squanchy&lt;br&gt;&lt;/i&gt;Fpalic:Birdperson&lt;br&gt;&lt;i&gt;Kimchae:MrMeeseeks&lt;br&gt;&lt;/i&gt;&lt;br&gt;&lt;i&gt;Rsanch:ScaryTerry&lt;/i&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="415" y="1180" width="180" height="180" as="geometry" />
         </mxCell>
         <mxCell id="fXcX4MBUzGKfJCSOtUdT-37" value="/icons/README&lt;br&gt;/images/&lt;br&gt;/login/: This might be interesting...&lt;br&gt;robots.txt has 2 to look at&lt;br&gt;/forces __&amp;gt; field 4,6&lt;br&gt;/Onlinetools --&amp;gt; lookup.php (can dir traverse)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="650" y="1205" width="260" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="fXcX4MBUzGKfJCSOtUdT-38" value="ALL UNAMES/PASSWDS FROM LOGIN.php NO IN /etc/passwd" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="710" y="1162" width="370" height="30" as="geometry" />
         </mxCell>
         <mxCell id="fXcX4MBUzGKfJCSOtUdT-39" value="Prov&lt;br&gt;Civ pop&lt;br&gt;Resid U&lt;br&gt;Troop Str" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="695" y="1498" width="70" height="70" as="geometry" />
