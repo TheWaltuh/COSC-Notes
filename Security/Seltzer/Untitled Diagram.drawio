@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-09T16:46:06.340Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="cZKZ4L6fpaQzRIqS9R6z" version="21.3.6" type="github">
+<mxfile host="app.diagrams.net" modified="2023-06-09T16:48:26.520Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="x5mI32kCHWUsR2gPJSw1" version="21.3.6" type="github">
   <diagram name="Page-1" id="PmOiHuo0T5l7wru5VKFK">
     <mxGraphModel dx="2402" dy="912" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -77,13 +77,13 @@
         <mxCell id="fXcX4MBUzGKfJCSOtUdT-39" value="Prov&lt;br&gt;Civ pop&lt;br&gt;Resid U&lt;br&gt;Troop Str" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="695" y="1498" width="70" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="fXcX4MBUzGKfJCSOtUdT-40" value="192.168.28.5&lt;br&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="fXcX4MBUzGKfJCSOtUdT-40" value="192.168.28.5&lt;br&gt;22,3389,9999" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="-510" y="770" width="180" height="180" as="geometry" />
         </mxCell>
-        <mxCell id="fXcX4MBUzGKfJCSOtUdT-41" value="&lt;br&gt;192.168.28.19&lt;br&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="fXcX4MBUzGKfJCSOtUdT-41" value="&lt;br&gt;192.168.28.19&lt;br&gt;22" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="-331" y="998" width="180" height="180" as="geometry" />
         </mxCell>
-        <mxCell id="fXcX4MBUzGKfJCSOtUdT-42" value="192.168.28.10&lt;br&gt;&lt;br&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="fXcX4MBUzGKfJCSOtUdT-42" value="192.168.28.10&lt;br&gt;22&lt;br&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
           <mxGeometry x="-140" y="770" width="180" height="180" as="geometry" />
         </mxCell>
       </root>
